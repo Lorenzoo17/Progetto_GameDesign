@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour {
 
     [SerializeField] private Transform weaponHolder;
+    [SerializeField] private Transform handPositionTransform;
     [SerializeField] private float distanceFromPlayer = 0.4f;
     [SerializeField] private float deadZoneRadius = 0.5f;
 
@@ -48,18 +49,14 @@ public class PlayerAttack : MonoBehaviour {
         Vector2 mousePos = InputManager.Instance.MousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        Vector2 direction = worldPos - (Vector2)transform.position;
+        Vector2 direction = worldPos - (Vector2)handPositionTransform.position;
 
-        // Al fine di evitare che la spada "si duplichi" quando passa sopra il player
         if (direction.magnitude > deadZoneRadius) {
             lastDirection = direction.normalized;
         }
-        weaponHolder.position = (Vector2)transform.position + lastDirection * distanceFromPlayer;
+
         float angle = Mathf.Atan2(lastDirection.y, lastDirection.x) * Mathf.Rad2Deg;
         weaponHolder.rotation = Quaternion.Euler(0, 0, angle);
-
-        // rotazione anche del player
-        transform.rotation = Quaternion.Euler(0, 0, angle + playerRotationZOffset);
     }
 
     // ----------- GESTIONE ARMI ------------

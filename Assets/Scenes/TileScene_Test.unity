@@ -364,22 +364,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1984292573195279233, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2345396852533137219, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2345396852533137219, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2345396852533137219, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.2
-      objectReference: {fileID: 0}
     - target: {fileID: 2345396852533137219, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.67664
@@ -418,14 +402,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2345396852533137219, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2345396852533137219, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5167934918775556686, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
