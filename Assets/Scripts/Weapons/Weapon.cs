@@ -23,9 +23,5 @@ public class Weapon : MonoBehaviour, IWeapon{
         }else {
             // spawn bullet
         }
-
-        if (anim != null) {
-            anim.SetTrigger("Attack"); // animazione di attacco dell'arma
-        }
     }
 }

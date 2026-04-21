@@ -23,7 +23,8 @@ public class PlayerAttack : MonoBehaviour {
     }
 
     private void Update() {
-        HandleWeaponRotation();
+        // HandleWeaponRotation();
+        ManageWeaponRender();
 
         if (!canAttack) {
             attackTimer -= Time.deltaTime;
@@ -41,8 +42,25 @@ public class PlayerAttack : MonoBehaviour {
 
         currentWeaponInstance.GetComponent<IWeapon>().Attack(lastDirection);
 
+        this.GetComponent<Animator>().SetTrigger("Attack");
+
         attackTimer = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();
         canAttack = false;
+    }
+
+    private void ManageWeaponRender() {
+        if(currentWeaponInstance != null) {
+            if(currentWeaponInstance.TryGetComponent<SpriteRenderer>(out SpriteRenderer sr)) {
+                Vector2 dir = Player.Instance.playerMovement.GetDirection();
+
+                if (dir.y > 0) {
+                    sr.sortingOrder = 0;
+                }
+                else {
+                    sr.sortingOrder = 2;
+                }
+            }
+        }
     }
 
     private void HandleWeaponRotation() {
