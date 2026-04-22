@@ -103,7 +103,7 @@ public class PlayerAttack : MonoBehaviour {
             weaponHolder.rotation = Quaternion.Euler(0, 0, finalAngle);
         }
 
-        HandleSorting(finalAngle);
+        //HandleSorting(finalAngle); // gestito in automatico con transparency sort axis
     }
 
     private void HandleSorting(float angle) {

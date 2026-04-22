@@ -108,9 +108,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: 2003960035
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 8793639957104055765, guid: a52c7155d4cb8524c8bd463e483082a1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -242,6 +242,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   lastLookingDirection: {x: 0, y: 0}
   deadZoneRadius: 0.3
+  feetTransform: {fileID: 5418774211042522467}
+  walkVisualEffectSpawnRate: 0.2
 --- !u!114 &4977418957196858382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,8 +338,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1667029123
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}

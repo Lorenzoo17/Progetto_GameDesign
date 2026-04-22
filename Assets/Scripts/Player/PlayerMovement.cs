@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour {
     private Animator anim;
     private SpriteRenderer sr;
 
+    [SerializeField] private Transform feetTransform;
+    [SerializeField] private float walkVisualEffectSpawnRate = 0.2f;
+    private float currentWalkVisualEffectTime;
+
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -31,6 +35,7 @@ public class PlayerMovement : MonoBehaviour {
     private void Update() {
         CalculateLookingDirection(); // in base a spostamento del mouse
         PlayerAnimation();
+        VisualEffectSpawning();
     }
 
     private void FixedUpdate() {
@@ -66,5 +71,23 @@ public class PlayerMovement : MonoBehaviour {
         sr.flipX = lastLookingDirection.x < 0;
 
         anim.SetBool("Moving", movement != Vector2.zero);
+    }
+
+    private void VisualEffectSpawning() {
+        if(movement != Vector2.zero) {
+            if (currentWalkVisualEffectTime <= 0) {
+
+                EffectManager.Instance.SpawnVisualEffect(VisualEffectType.Walk, feetTransform.position, Quaternion.identity);
+
+                currentWalkVisualEffectTime = walkVisualEffectSpawnRate;
+            }
+            else {
+                currentWalkVisualEffectTime -= Time.deltaTime;
+            }
+        }
+        else {
+            currentWalkVisualEffectTime = 0;
+        }
+
     }
 }
