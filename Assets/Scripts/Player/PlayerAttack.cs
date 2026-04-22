@@ -13,7 +13,7 @@ public class PlayerAttack : MonoBehaviour {
     private GameObject currentWeaponInstance;
 
     private bool isAttacking = false;
-    private float attackDuration = 0.1f;
+    private float attackDuration = 0.1f; // velocita' dell'animazione dell'attacco melee
     private float attackElapsed = 0f;
 
     private float startAngle;
@@ -50,7 +50,7 @@ public class PlayerAttack : MonoBehaviour {
         float currentAngle = baseAngle + weaponRotationOffsetZ;
 
         startAngle = currentAngle;
-        // salvo la direzione di QUESTO attacco
+        // salvo la direzione di questo attacco
         currentSwingRight = swingRight;
         // preparo il prossimo attacco
         swingRight = !swingRight;
@@ -61,14 +61,20 @@ public class PlayerAttack : MonoBehaviour {
         currentWeaponInstance.GetComponent<IWeapon>().Attack(dir);
 
         Quaternion meleeEffectRotation = Quaternion.Euler(0, 0, baseAngle);
-        GameObject effect = Instantiate(meleeAttackEffect, transform.position + (Vector3)attackCentre, meleeEffectRotation);
-        if(effect.TryGetComponent<MeleeEffect>(out MeleeEffect meleeEffect)) {
+
+        // istanzio slash effect
+        GameObject slashEffect = Instantiate(meleeAttackEffect, transform.position + (Vector3)attackCentre, meleeEffectRotation);
+        if(slashEffect.TryGetComponent<MeleeEffect>(out MeleeEffect meleeEffect)) {
             meleeEffect.SetDirection(dir);
         }
 
         attackTimer = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();
         canAttack = false;
     }
+    // rotazione dell'arma melee, basata su:
+    // arma posta a 90 gradi rispetto alla direzione di attacco (mouse)
+    // in questo modo a seguito dell'attacco compie una rotazione di 180 gradi in modo che
+    // lo slash sia centrato rispetto alla direzione di attacco
     private void HandleWeaponRotation() {
         if (currentWeaponInstance == null) return;
 
@@ -95,7 +101,8 @@ public class PlayerAttack : MonoBehaviour {
             if (t >= 1f) {
                 isAttacking = false;
 
-                weaponRotationOffsetZ += 180f;
+                weaponRotationOffsetZ += 180f; // dopo attacco sommo la rotazione in modo che poi l'arma rimanga nella
+                // posizione (e non ritorni a quella prima dell'attacco) pronta per l'attacco dopo
                 weaponRotationOffsetZ %= 360f;
             }
         }
