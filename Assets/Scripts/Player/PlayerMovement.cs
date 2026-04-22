@@ -6,21 +6,30 @@ public class PlayerMovement : MonoBehaviour {
     private Rigidbody2D rb;
     private Vector2 movement;
     private Vector2 lastMoveDirection;
+    [SerializeField] private Vector2 lastLookingDirection;
+    [SerializeField] private float deadZoneRadius = 0.3f; // dead zone per cambio di direzione con puntamento mouse
 
     private Animator anim;
+    private SpriteRenderer sr;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     public Vector2 GetDirection() {
         return lastMoveDirection;
     }
 
+    public Vector2 GetLookingDirection() {
+        return lastLookingDirection;
+    }
+
     // METHODS
 
     private void Update() {
+        CalculateLookingDirection(); // in base a spostamento del mouse
         PlayerAnimation();
     }
 
@@ -41,14 +50,20 @@ public class PlayerMovement : MonoBehaviour {
         rb.linearVelocity = movement.normalized * moveSpeed;
     }
 
-    private void PlayerAnimation() {
+    private void CalculateLookingDirection() {
         Vector2 mousePos = InputManager.Instance.MousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        Vector2 mouseDirection = (worldPos - (Vector2)transform.position).normalized;
+        Vector2 direction = worldPos - (Vector2)transform.position;
 
-        anim.SetFloat("MouseX", lastMoveDirection.x);
-        anim.SetFloat("MouseY", lastMoveDirection.y);
+        if (direction.magnitude > deadZoneRadius) {
+            lastLookingDirection = direction.normalized;
+        }
+    }
+
+    private void PlayerAnimation() {
+        // flip
+        sr.flipX = lastLookingDirection.x < 0;
 
         anim.SetBool("Moving", movement != Vector2.zero);
     }

@@ -15,7 +15,9 @@ public class Weapon : MonoBehaviour, IWeapon{
     private Animator anim;
     private void Awake() {
         anim = GetComponent<Animator>();
-    }   
+    }
+
+    public WeaponType GetWeaponType => weaponType;
 
     public void Attack(Vector2 attackDirection) {
         if(weaponType == WeaponType.Melee) {

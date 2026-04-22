@@ -1,19 +1,22 @@
 fileFormatVersion: 2
-guid: a52c7155d4cb8524c8bd463e483082a1
+guid: 26c9498328864fb448085e3aadbe1adb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8793639957104055765
-    second: idle_0
+      213: -466993739257667112
+    second: press_0
   - first:
-      213: 6084859605308855041
-    second: idle_1
+      213: 777706831141516168
+    second: press_1
   - first:
-      213: 8603369663158992956
-    second: idle_2
+      213: -7199176089362998314
+    second: press_2
   - first:
-      213: -5906421172241655209
-    second: idle_3
+      213: 3430870851346760406
+    second: press_3
+  - first:
+      213: -2715439387785434790
+    second: press_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,7 +112,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: idle_0
+      name: press_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +127,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5d55ed543f8490a70800000000000000
-      internalID: 8793639957104055765
+      spriteID: 8d1273b1ba7e489f0800000000000000
+      internalID: -466993739257667112
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle_1
+      name: press_1
       rect:
         serializedVersion: 2
         x: 16
@@ -146,14 +149,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 103de827293c17450800000000000000
-      internalID: 6084859605308855041
+      spriteID: 883b5911e38faca00800000000000000
+      internalID: 777706831141516168
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle_2
+      name: press_2
       rect:
         serializedVersion: 2
         x: 32
@@ -168,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c30c6f3402f456770800000000000000
-      internalID: 8603369663158992956
+      spriteID: 6db58065d73671c90800000000000000
+      internalID: -7199176089362998314
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle_3
+      name: press_3
       rect:
         serializedVersion: 2
         x: 48
@@ -190,8 +193,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 75a90b6cc3d280ea0800000000000000
-      internalID: -5906421172241655209
+      spriteID: 6d204cc9cd6ec9f20800000000000000
+      internalID: 3430870851346760406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: press_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a59e1f98342d05ad0800000000000000
+      internalID: -2715439387785434790
       vertices: []
       indices: 
       edges: []
@@ -200,7 +225,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: f9118191cb6c8ab4e8fee9c609d2b230
+    spriteID: a4bc1fe5423e75a4882f36b3b946980e
     internalID: 0
     vertices: []
     indices: 
@@ -212,10 +237,11 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":24.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      idle_0: 8793639957104055765
-      idle_1: 6084859605308855041
-      idle_2: 8603369663158992956
-      idle_3: -5906421172241655209
+      press_0: -466993739257667112
+      press_1: 777706831141516168
+      press_2: -7199176089362998314
+      press_3: 3430870851346760406
+      press_4: -2715439387785434790
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
