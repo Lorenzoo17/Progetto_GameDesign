@@ -6,6 +6,9 @@ public class PlayerAttack : MonoBehaviour {
     [SerializeField] private Transform weaponHolder;
     [SerializeField] private float deadZoneRadius;
 
+    [Header("Centro di attacco (offset rispetto alla direzione di attacco in melee)")]
+    public float attackCentreOffset = 1f; // richiamato in WeaponMelee
+
     private bool canAttack = true;
     private float attackTimer = 0f;
 

@@ -6,6 +6,11 @@ public class WeaponMelee : Weapon {
     [SerializeField] private float attackDuration = 0.1f; // velocita' dell'animazione di attacco
     [SerializeField] private GameObject meleeAttackEffect;
 
+    [SerializeField] private float weaponBaseRange = 1f;
+    [SerializeField] private float weaponBaseDamage = 2f;
+
+    private Vector2 attackCentrePosition;
+
     private bool isAttacking = false;
     private float attackElapsed = 0f;
 
@@ -18,6 +23,18 @@ public class WeaponMelee : Weapon {
         CalculateNewRotationAngle(baseAngle);
 
         // gestione attacco con overlapcircle
+        attackCentrePosition = Player.Instance.playerAttack.GetWeaponHolder().position + (Vector3)(dir.normalized * Player.Instance.playerAttack.attackCentreOffset);
+        float weaponDamage = weaponBaseDamage; // poi si somma danno del player
+        float weaponRange = weaponBaseRange; // poi si somma range del player
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCentrePosition, weaponRange);
+
+        foreach(Collider2D entity in colliders) {
+            if(entity.GetComponent<Player>() == null) { // se non e' il player stesso
+                if(entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable)) {
+                    entityDamageable.TakeDamage(weaponDamage, dir);
+                }
+            }
+        }
 
         // istanzio slash effect
         if (meleeAttackEffect == null) return;
@@ -74,5 +91,10 @@ public class WeaponMelee : Weapon {
         else {
             weaponHolder.rotation = Quaternion.Euler(0, 0, finalAngle);
         }
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackCentrePosition, weaponBaseRange);
     }
 }

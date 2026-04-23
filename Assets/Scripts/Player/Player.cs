@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public PlayerMovement playerMovement;
     public PlayerAttack playerAttack;
     public PlayerStats playerStats;
+    public PlayerHealth playerHealth;
     private void Awake() {
         if (Instance != null && Instance != this) {
             Destroy(gameObject);
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerAttack = GetComponent<PlayerAttack>();
         playerStats = GetComponent<PlayerStats>();
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     // Interazione per ora gestita in questo script direttamente

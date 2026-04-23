@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5167934918775556686}
   - component: {fileID: 2906518386278735242}
   - component: {fileID: 296506588103354641}
+  - component: {fileID: 5728342325613100494}
   - component: {fileID: 3277603306255936268}
   - component: {fileID: 7525827829384608064}
   - component: {fileID: 4977418957196858382}
@@ -213,6 +214,20 @@ MonoBehaviour:
     baseMoveSpeed: 0
     currentMoveSpeed: 0
     dodgeCooldown: 0
+--- !u!114 &5728342325613100494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303978041023684131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72728519ac2d4f345a044faca1ee02e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  backlashAfterTakingDamage: 0
+  backlashForce: 0
 --- !u!114 &3277603306255936268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +243,7 @@ MonoBehaviour:
   playerMovement: {fileID: 0}
   playerAttack: {fileID: 0}
   playerStats: {fileID: 0}
+  playerHealth: {fileID: 0}
 --- !u!114 &7525827829384608064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,7 +273,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   weaponHolder: {fileID: 86294725963273044}
-  weaponRotationOffsetZ: 0
   deadZoneRadius: 0.3
   currentWeapon: {fileID: 0}
   attackDirectionUI: {fileID: 0}
