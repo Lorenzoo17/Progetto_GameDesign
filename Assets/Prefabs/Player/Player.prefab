@@ -258,9 +258,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   weaponHolder: {fileID: 86294725963273044}
   weaponRotationOffsetZ: 0
+  deadZoneRadius: 0.3
   currentWeapon: {fileID: 0}
-  distanceFromPlayer: 0.5
-  meleeAttackEffect: {fileID: 8176667913236221772, guid: af45be17e1ea6d6499933814cdb67375, type: 3}
+  attackDirectionUI: {fileID: 0}
+  attackDirectionUIDistanceFromPlayer: 1
 --- !u!1 &2719412296750409366
 GameObject:
   m_ObjectHideFlags: 0

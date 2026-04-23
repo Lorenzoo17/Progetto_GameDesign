@@ -2,28 +2,38 @@ using UnityEngine;
 
 public interface IWeapon {
     void Attack(Vector2 attackDirection);
+    void HandleRotation(Transform weaponHolder, Vector2 dir);
 }
 
-public class Weapon : MonoBehaviour, IWeapon{
+public class Weapon : MonoBehaviour, IWeapon, ICollectible{
 
-    public enum WeaponType {
-        Melee,
-        Ranged
+    public bool pickedUp;
+
+    public virtual void Attack(Vector2 attackDirection) {
+        Debug.Log("Base weapon attack");
+    }
+    public virtual void HandleRotation(Transform weaponHolder, Vector2 dir) {
+        Debug.Log("Base weapon rotation");
     }
 
-    [SerializeField] private WeaponType weaponType;
-    private Animator anim;
-    private void Awake() {
-        anim = GetComponent<Animator>();
-    }
+    public void Collect(Player player) {
+        if (pickedUp) return;
 
-    public WeaponType GetWeaponType => weaponType;
-
-    public void Attack(Vector2 attackDirection) {
-        if(weaponType == WeaponType.Melee) {
-            // overlapCircle
-        }else {
-            // spawn bullet
+        player.playerAttack.SetCurrentWeapon(this.gameObject);
+        // Visual effect
+        
+        pickedUp = true;
+        if(GetComponent<Collider>() != null) {
+            GetComponent<Collider>().enabled = false; // disattivo collider
         }
     }
+
+    public void DropWeapon() {
+        pickedUp = false;
+
+        if (GetComponent<Collider>() != null) {
+            GetComponent<Collider>().enabled = true; // riattivo collider
+        }
+    }
+
 }

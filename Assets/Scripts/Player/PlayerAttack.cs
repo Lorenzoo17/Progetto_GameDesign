@@ -4,32 +4,34 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour {
 
     [SerializeField] private Transform weaponHolder;
-    [SerializeField] private float weaponRotationOffsetZ = 0f;
+    [SerializeField] private float deadZoneRadius;
 
     private bool canAttack = true;
     private float attackTimer = 0f;
 
     public GameObject currentWeapon;
-    private GameObject currentWeaponInstance;
 
-    private bool isAttacking = false;
-    private float attackDuration = 0.1f; // velocita' dell'animazione dell'attacco melee
-    private float attackElapsed = 0f;
+    [SerializeField] private Transform attackDirectionUI; // Componente per indicare direzione in cui il player
+    // sta guardando
+    [SerializeField] private float attackDirectionUIDistanceFromPlayer = 0.5f;
+    private Vector2 attackDirection;
 
-    private float startAngle;
-    private bool swingRight = true;
-    private bool currentSwingRight;
-
-    private Vector2 attackCentre;
-    [SerializeField] private float distanceFromPlayer;
-    [SerializeField] private GameObject meleeAttackEffect;
+    public Transform GetWeaponHolder() {
+        return weaponHolder;
+    }
 
     private void Start() {
         InputManager.Instance.OnAttackEvent += Attack;
     }
 
     private void Update() {
-        HandleWeaponRotation();
+        CalculateAttackDirection();
+
+        if (currentWeapon != null) {
+            if (currentWeapon.TryGetComponent<IWeapon>(out IWeapon weapon)) {
+                weapon.HandleRotation(weaponHolder, attackDirection);
+            }
+        }
 
         if (!canAttack) {
             attackTimer -= Time.deltaTime;
@@ -45,94 +47,57 @@ public class PlayerAttack : MonoBehaviour {
     private void Attack(object sender, EventArgs e) {
         if (!canAttack || currentWeapon == null) return;
 
-        Vector2 dir = Player.Instance.playerMovement.GetLookingDirection();
-        float baseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        float currentAngle = baseAngle + weaponRotationOffsetZ;
-
-        startAngle = currentAngle;
-        // salvo la direzione di questo attacco
-        currentSwingRight = swingRight;
-        // preparo il prossimo attacco
-        swingRight = !swingRight;
-
-        isAttacking = true;
-        attackElapsed = 0f;
-
-        currentWeaponInstance.GetComponent<IWeapon>().Attack(dir);
-
-        Quaternion meleeEffectRotation = Quaternion.Euler(0, 0, baseAngle);
-
-        // istanzio slash effect
-        GameObject slashEffect = Instantiate(meleeAttackEffect, transform.position + (Vector3)attackCentre, meleeEffectRotation);
-        if(slashEffect.TryGetComponent<MeleeEffect>(out MeleeEffect meleeEffect)) {
-            meleeEffect.SetDirection(dir);
-        }
+        currentWeapon.GetComponent<IWeapon>().Attack(attackDirection);
 
         attackTimer = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();
         canAttack = false;
     }
-    // rotazione dell'arma melee, basata su:
-    // arma posta a 90 gradi rispetto alla direzione di attacco (mouse)
-    // in questo modo a seguito dell'attacco compie una rotazione di 180 gradi in modo che
-    // lo slash sia centrato rispetto alla direzione di attacco
-    private void HandleWeaponRotation() {
-        if (currentWeaponInstance == null) return;
-
-        Vector2 lookingDirection = Player.Instance.playerMovement.GetLookingDirection();
-        float baseAngle = Mathf.Atan2(lookingDirection.y, lookingDirection.x) * Mathf.Rad2Deg;
-
-        attackCentre = lookingDirection * distanceFromPlayer; // centro di attacco
-
-        float finalAngle = baseAngle + weaponRotationOffsetZ;
-
-        if (isAttacking) {
-            attackElapsed += Time.deltaTime;
-            float t = attackElapsed / attackDuration;
-
-            float swingAmount = 180f * t;
-            float currentAngle;
-            if (currentSwingRight)
-                currentAngle = startAngle + swingAmount;
-            else
-                currentAngle = startAngle - swingAmount;
-
-            weaponHolder.rotation = Quaternion.Euler(0, 0, currentAngle);
-
-            if (t >= 1f) {
-                isAttacking = false;
-
-                weaponRotationOffsetZ += 180f; // dopo attacco sommo la rotazione in modo che poi l'arma rimanga nella
-                // posizione (e non ritorni a quella prima dell'attacco) pronta per l'attacco dopo
-                weaponRotationOffsetZ %= 360f;
-            }
-        }
-        else {
-            weaponHolder.rotation = Quaternion.Euler(0, 0, finalAngle);
-        }
-
-        //HandleSorting(finalAngle); // gestito in automatico con transparency sort axis
-    }
 
     private void HandleSorting(float angle) {
-        if (currentWeapon.GetComponent<Weapon>().GetWeaponType == Weapon.WeaponType.Melee) {
-            if (angle > -90f && angle < 90f)
-                currentWeaponInstance.GetComponent<SpriteRenderer>().sortingOrder = 2;
-            else
-                currentWeaponInstance.GetComponent<SpriteRenderer>().sortingOrder = 0;
+        if (angle > -90f && angle < 90f)
+            currentWeapon.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        else
+            currentWeapon.GetComponent<SpriteRenderer>().sortingOrder = 0;
+    }
+
+    // Attack direction centrata su weaponHolder e non su transform.position in modo da non avere incoerenze
+    // nella direzione dell'arma ranged
+    private void CalculateAttackDirection() {
+        Vector2 mousePos = InputManager.Instance.MousePosition;
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        Vector2 direction = worldPos - (Vector2)weaponHolder.position; // centrata su weaponHolder
+
+        if(direction.magnitude > deadZoneRadius) {
+            attackDirection = direction.normalized;
         }
+
+        if (attackDirectionUI == null) return;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rot = Quaternion.Euler(0, 0, angle);
+        attackDirectionUI.rotation = rot;
+        // centrato in weaponHolder
+        attackDirectionUI.position = weaponHolder.position + (Vector3)(direction.normalized * attackDirectionUIDistanceFromPlayer);
     }
 
     // ----------- GESTIONE ARMI ------------
     // al seguito del pick up si assegna nuova arma
     public void SetCurrentWeapon(GameObject newWeapon) {
-        // droppo arma attuale (da fare)
-        Destroy(currentWeaponInstance);
+        // droppo arma corrente se presente
+        if(currentWeapon != null) {
+            currentWeapon.transform.SetParent(null);
+            if (currentWeapon.TryGetComponent<Weapon>(out Weapon w)) {
+                w.DropWeapon();
+            }
+            // droppo in basso (momentaneo)
+            currentWeapon.transform.position = transform.position + (Vector3.down * 2f);
+        }
 
-        currentWeapon = newWeapon; // assegno nuova arma
-
-        // creo nuova istanza
-        currentWeaponInstance = Instantiate(currentWeapon, transform.position, currentWeapon.transform.rotation);
-        currentWeaponInstance.transform.SetParent(weaponHolder);
-        currentWeaponInstance.transform.localPosition = Vector2.zero;
+        // assegno nuova arma
+        currentWeapon = newWeapon;
+        currentWeapon.transform.SetParent(weaponHolder);
+        currentWeapon.transform.localPosition = Vector2.zero;
+        currentWeapon.transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 }

@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 3a1fcbe96e98178418d80e2f8e791ff3
+guid: 09a994f38556a3347bc965d4aed3b245
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3485184536122157715
-    second: syringe_0
-  - first:
-      213: -6233485404531800758
-    second: syringe_1
-  - first:
-      213: -1777302643419394515
-    second: syringe_2
-  - first:
-      213: 4011328039716288972
-    second: syringe_3
+      213: -6229205015822294638
+    second: arrow_ui_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -81,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 32
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -109,89 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: syringe_0
+      name: arrow_ui_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.485, y: 0.92}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 39aee3ccedcdd5030800000000000000
-      internalID: 3485184536122157715
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: syringe_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.485, y: 0.92}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a45cc4e0d063e79a0800000000000000
-      internalID: -6233485404531800758
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: syringe_2
-      rect:
-        serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.485, y: 0.92}
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d2ecf9099a0c557e0800000000000000
-      internalID: -1777302643419394515
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: syringe_3
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.485, y: 0.92}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cc97ad469991ba730800000000000000
-      internalID: 4011328039716288972
+      spriteID: 291a4d6ba0b6d89a0800000000000000
+      internalID: -6229205015822294638
       vertices: []
       indices: 
       edges: []
@@ -200,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 423565169d485964ea68bce84b023c8f
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -208,14 +133,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":1.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":2,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      syringe_0: 3485184536122157715
-      syringe_1: -6233485404531800758
-      syringe_2: -1777302643419394515
-      syringe_3: 4011328039716288972
+      arrow_ui_0: -6229205015822294638
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

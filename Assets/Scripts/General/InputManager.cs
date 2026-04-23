@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour
 
     private void Update() {
         MousePosition = playerInputActions.Player.Aim.ReadValue<Vector2>();
-        Debug.Log(MousePosition);
+        //Debug.Log(MousePosition);
     }
 
     private void Move_performed(InputAction.CallbackContext ctx) {
