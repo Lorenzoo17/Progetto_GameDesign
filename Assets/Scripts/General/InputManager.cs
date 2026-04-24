@@ -10,7 +10,8 @@ public class InputManager : MonoBehaviour
 
     public Vector2 PlayerMovement {  get; private set; }
     public Vector2 MousePosition { get; private set; }
-    public EventHandler OnAttackEvent; // richiamato in playerattack (con iscrizione all'evento)
+    public event EventHandler OnAttackEvent; // richiamato in playerattack (con iscrizione all'evento)
+    public event EventHandler OnDodgeEvent;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -27,8 +28,15 @@ public class InputManager : MonoBehaviour
         playerInputActions.Player.Move.performed += Move_performed;
         playerInputActions.Player.Move.canceled += Move_canceled;
 
-        // Player attacl
+        // Player attack
         playerInputActions.Player.Attack.performed += Attack_performed;
+
+        // Player dash
+        playerInputActions.Player.Dash.performed += Dash_performed;
+    }
+
+    private void Dash_performed(InputAction.CallbackContext obj) {
+        OnDodgeEvent?.Invoke(this, EventArgs.Empty);
     }
 
     private void Attack_performed(InputAction.CallbackContext obj) {

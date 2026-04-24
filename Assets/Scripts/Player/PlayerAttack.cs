@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
+using FirstGearGames.SmoothCameraShaker;
 
 public class PlayerAttack : MonoBehaviour {
 
     [SerializeField] private Transform weaponHolder;
     [SerializeField] private float deadZoneRadius;
+    [SerializeField] private ShakeData cameraShakeAttackData;
 
     [Header("Centro di attacco (offset rispetto alla direzione di attacco in melee)")]
     public float attackCentreOffset = 1f; // richiamato in WeaponMelee
@@ -18,6 +20,8 @@ public class PlayerAttack : MonoBehaviour {
     // sta guardando
     [SerializeField] private float attackDirectionUIDistanceFromPlayer = 0.5f;
     private Vector2 attackDirection;
+    [SerializeField] private bool knockBackWhileAttacking;
+    [SerializeField] private float knockBackForce;
 
     public Transform GetWeaponHolder() {
         return weaponHolder;
@@ -51,6 +55,13 @@ public class PlayerAttack : MonoBehaviour {
         if (!canAttack || currentWeapon == null) return;
 
         currentWeapon.GetComponent<IWeapon>().Attack(attackDirection);
+
+        // camera shake dopo attacco
+        CameraShakerHandler.Shake(cameraShakeAttackData);
+
+        if (knockBackWhileAttacking) {
+            Player.Instance.playerMovement.ApplyKnockback(-attackDirection, knockBackForce);
+        }
 
         attackTimer = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();
         canAttack = false;

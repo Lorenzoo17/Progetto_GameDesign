@@ -8,8 +8,8 @@ public interface IDamageable {
 public class PlayerHealth : MonoBehaviour, IDamageable {
 
     public event EventHandler OnHealthChanged;
-    [SerializeField] private bool backlashAfterTakingDamage;
-    [SerializeField] private float backlashForce;
+    [SerializeField] private bool knockbackAfterTakingDamage;
+    [SerializeField] private float knockbackForce;
 
     private Rigidbody2D rb;
     private void Awake() {
@@ -19,9 +19,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     public void TakeDamage(float damage, Vector2 attackDirection = default) {
         Player.Instance.playerStats.playerCurrentStats.TakeDamage(damage);
 
-        if (backlashAfterTakingDamage) {
+        if (knockbackAfterTakingDamage) {
             // rinculo player
-            rb.AddForce(attackDirection * backlashForce, ForceMode2D.Impulse);
+            Player.Instance.playerMovement.ApplyKnockback(attackDirection, knockbackForce);
         }
         // flash colore sprite player
 
