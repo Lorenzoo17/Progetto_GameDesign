@@ -228,6 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   knockbackAfterTakingDamage: 1
   knockbackForce: 5
+  blinkAfterDamageTime: 0.05
 --- !u!114 &3277603306255936268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,8 +262,8 @@ MonoBehaviour:
   feetTransform: {fileID: 5418774211042522467}
   walkVisualEffectSpawnRate: 0.2
   knockbackDuration: 0.15
-  dashDuration: 0.15
-  dashDistance: 2
+  dodgeDuration: 0.15
+  dodgeDistance: 2
 --- !u!114 &4977418957196858382
 MonoBehaviour:
   m_ObjectHideFlags: 0
