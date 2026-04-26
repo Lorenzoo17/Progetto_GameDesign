@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
 
     public Vector2 PlayerMovement {  get; private set; }
     public Vector2 MousePosition { get; private set; }
+    public Vector2 AimDirection { get; private set; }
     public event EventHandler OnAttackEvent; // richiamato in playerattack (con iscrizione all'evento)
     public event EventHandler OnDodgeEvent;
 
@@ -44,7 +45,32 @@ public class InputManager : MonoBehaviour
     }
 
     private void Update() {
-        MousePosition = playerInputActions.Player.Aim.ReadValue<Vector2>();
+        if (Player.Instance == null) return;
+
+        CalculateAimDirection(Player.Instance.transform.position);
+    }
+
+    public Vector2 CalculateAimDirection(Vector2 reference) {
+        Vector2 mousePos = playerInputActions.Player.Aim.ReadValue<Vector2>();
+        Vector2 stick = playerInputActions.Player.AimStick.ReadValue<Vector2>();
+
+        Vector2 finalDirection = Vector2.zero;
+
+        // controller
+        if (stick.magnitude > 0.2f) {
+            finalDirection = stick.normalized;
+        }
+        // mouse
+        else {
+            Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            Vector2 direction = worldPos - reference;
+
+            if (direction.magnitude > 0.2f) {
+                finalDirection = direction.normalized;
+            }
+        }
+
+        return finalDirection;
         //Debug.Log(MousePosition);
     }
 

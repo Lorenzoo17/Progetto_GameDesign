@@ -40,6 +40,11 @@ public class PlayerMovement : MonoBehaviour {
 
         InputManager.Instance.OnDodgeEvent += OnDodgeEvent_Performed;
     }
+
+    public bool IsDodging() {
+        return isDodging;
+    }
+
     public Vector2 GetDirection() {
         return lastMoveDirection;
     }
@@ -125,10 +130,7 @@ public class PlayerMovement : MonoBehaviour {
 
 
     private void CalculateLookingDirection() {
-        Vector2 mousePos = InputManager.Instance.MousePosition;
-        Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-        Vector2 direction = worldPos - (Vector2)transform.position;
+        Vector2 direction = InputManager.Instance.CalculateAimDirection(transform.position);
 
         if (direction.magnitude > deadZoneRadius) {
             lastLookingDirection = direction.normalized;

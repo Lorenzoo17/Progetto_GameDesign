@@ -180,4 +180,12 @@ public class Enemy : MonoBehaviour {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+
+    // a contatto con il player il player riceve danno
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.TryGetComponent<Player>(out Player player)) {
+            Vector2 attackDirection = (other.transform.position - transform.position).normalized;
+            player.gameObject.GetComponent<IDamageable>().TakeDamage(attackDamage, attackDirection);
+        }
+    }
 }

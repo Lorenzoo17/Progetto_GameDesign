@@ -77,10 +77,7 @@ public class PlayerAttack : MonoBehaviour {
     // Attack direction centrata su weaponHolder e non su transform.position in modo da non avere incoerenze
     // nella direzione dell'arma ranged
     private void CalculateAttackDirection() {
-        Vector2 mousePos = InputManager.Instance.MousePosition;
-        Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-        Vector2 direction = worldPos - (Vector2)weaponHolder.position; // centrata su weaponHolder
+        Vector2 direction = InputManager.Instance.CalculateAimDirection(weaponHolder.position);
 
         if(direction.magnitude > deadZoneRadius) {
             attackDirection = direction.normalized;

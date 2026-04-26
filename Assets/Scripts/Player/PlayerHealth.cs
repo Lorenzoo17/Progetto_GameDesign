@@ -17,6 +17,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     private SpriteRenderer sr;
     [SerializeField] private float blinkAfterDamageTime = 2f;
 
+    [SerializeField] private HealthBar healthBar;
+
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
@@ -29,6 +31,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     }
 
     public void TakeDamage(float damage, Vector2 attackDirection = default) {
+        if (Player.Instance.playerMovement.IsDodging()) return; // mentre sta schivando non prende danno
+          
         Player.Instance.playerStats.playerCurrentStats.TakeDamage(damage);
 
         if (knockbackAfterTakingDamage) {
@@ -48,5 +52,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
         Player.Instance.playerStats.playerCurrentStats.Heal(amount);
 
         OnHealthChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public float GetHealthPercentage() {
+        return Player.Instance.playerStats.playerCurrentStats.GetCurrentHealth() / Player.Instance.playerStats.playerCurrentStats.GetMaxHealth();
     }
 }
