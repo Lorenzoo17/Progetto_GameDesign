@@ -1253,6 +1253,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3004149916898694674, guid: 4d483097a37355940b5798ed17ba23e6, type: 3}
+      propertyPath: m_Size.x
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004149916898694674, guid: 4d483097a37355940b5798ed17ba23e6, type: 3}
+      propertyPath: m_Size.y
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3004149916898694674, guid: 4d483097a37355940b5798ed17ba23e6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 4150503144305731733, guid: b7e4433ab60c9fc4fb43566817920a90, type: 3}
+    - target: {fileID: 3004149916898694674, guid: 4d483097a37355940b5798ed17ba23e6, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3014361571421848766, guid: 4d483097a37355940b5798ed17ba23e6, type: 3}
       propertyPath: m_Name
       value: Attack_flat_perk
@@ -2320,13 +2336,13 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 5308067015395920222}
-  - {fileID: 5079951772151671587}
   - {fileID: 708381516}
-  - {fileID: 443939923}
-  - {fileID: 1015855829}
   - {fileID: 1606143610}
   - {fileID: 826802831}
+  - {fileID: 5308067015395920222}
+  - {fileID: 5079951772151671587}
+  - {fileID: 443939923}
+  - {fileID: 1015855829}
   - {fileID: 5017397110936771522}
   - {fileID: 1513229384}
   - {fileID: 56329343}
