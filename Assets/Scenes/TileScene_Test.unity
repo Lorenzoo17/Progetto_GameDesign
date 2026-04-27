@@ -703,14 +703,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63369dd79cb27c34c813b4119be36ec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonGenerator
-  size: {x: 5, y: 5}
-  startPos: 0
-  rooms:
+  size: {x: 4, y: 4}
+  offset: {x: 18, y: 10}
+  bossRoom: {fileID: 8532064170782905881, guid: de4ae9515b3e9ed4b97c683ffb884f76, type: 3}
+  powerUpRoom: {fileID: 8532064170782905881, guid: 3d2b78da71ccb6c41beb946b197d049a, type: 3}
+  vendorRoom: {fileID: 8532064170782905881, guid: 3d2b78da71ccb6c41beb946b197d049a, type: 3}
+  normalRooms:
   - room: {fileID: 8532064170782905881, guid: 604fe5ca18277ce45aafd7a1842c31ec, type: 3}
     minPosition: {x: -5, y: -5}
     maxPosition: {x: 5, y: 5}
-    obligatory: 1
-  offset: {x: 18, y: 10}
 --- !u!4 &1080929456
 Transform:
   m_ObjectHideFlags: 0
@@ -877,6 +878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be18e21f4e67c144b22b497ad309c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraDungeonBehaviour
+  cameraPositionInterpolationValue: 0.1
 --- !u!114 &1152267696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2955,7 +2957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1606358811
 MonoBehaviour:
   m_ObjectHideFlags: 0
