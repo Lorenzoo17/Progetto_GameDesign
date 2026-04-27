@@ -15,6 +15,11 @@ public class RoomBehaviour : MonoBehaviour {
 
     public int enemiesAlive = 0;
 
+    // Room generation parameters
+    [SerializeField] private Transform[] enemiesSpawnPoints;
+    [SerializeField] private Transform[] decorationSpawnPoints;
+    [SerializeField] private int minEnemiesToSpawn = 3;
+
     private void Awake() {
         // sicurezza
         // trova automaticamente tutte le porte nei figli
@@ -96,6 +101,14 @@ public class RoomBehaviour : MonoBehaviour {
     private void SpawnEnemies() {
         // Sostituire con spawn effettivo
         enemiesAlive = 3;
+
+        if (EnemySpawner.Instance == null) {
+            Debug.Log("Enemy spawner non trovato");
+            return;
+        }
+
+        EnemySpawner.Instance.SetSpawner(enemiesSpawnPoints, minEnemiesToSpawn);
+        EnemySpawner.Instance.SpawnEnemies();
     }
 
     // chiamato dai nemici

@@ -124,7 +124,7 @@ public class Enemy : MonoBehaviour {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
 
         foreach (Collider2D entity in hitColliders) {
-            if (entity != null && entity.gameObject != this.gameObject) {
+            if (entity != null && entity.gameObject.GetComponent<Enemy>() == null) { // se non e' esso stesso un nemico
                 if (entity.TryGetComponent<IDamageable>(out IDamageable entityDamageable)) {
                     Vector2 attackDirection = (entity.transform.position - transform.position).normalized;
                     entityDamageable.TakeDamage(attackDamage, attackDirection);
