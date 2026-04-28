@@ -228,7 +228,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   knockbackAfterTakingDamage: 1
   knockbackForce: 5
-  blinkAfterDamageTime: 0.05
+  healthBar: {fileID: 0}
+  invincibilityTime: 1
+  blinkAfterDamageRate: 0.1
 --- !u!114 &3277603306255936268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +247,7 @@ MonoBehaviour:
   playerAttack: {fileID: 0}
   playerStats: {fileID: 0}
   playerHealth: {fileID: 0}
+  cameraShakeData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
 --- !u!114 &7525827829384608064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,7 +281,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   weaponHolder: {fileID: 86294725963273044}
   deadZoneRadius: 0.3
-  cameraShakeAttackData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
   attackCentreOffset: 1
   currentWeapon: {fileID: 0}
   attackDirectionUI: {fileID: 0}

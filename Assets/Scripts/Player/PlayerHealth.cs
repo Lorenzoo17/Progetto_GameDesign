@@ -1,4 +1,6 @@
+using FirstGearGames.SmoothCameraShaker;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public interface IDamageable {
@@ -15,23 +17,30 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
-    [SerializeField] private float blinkAfterDamageTime = 2f;
 
     [SerializeField] private HealthBar healthBar;
+
+    [SerializeField] private float invincibilityTime = 1;
+    [SerializeField] private float blinkAfterDamageRate = 0.2f;
+    private int blinkAmount;
+    private bool invincible = false;
+    private Coroutine blinkCoroutine;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
 
+        blinkAmount = (int)(invincibilityTime / (blinkAfterDamageRate * 2));
+
         initialColor = sr.color;
     }
 
     private void Update() {
-        sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime);
+        // sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime);
     }
 
     public void TakeDamage(float damage, Vector2 attackDirection = default) {
-        if (Player.Instance.playerMovement.IsDodging()) return; // mentre sta schivando non prende danno
+        if (Player.Instance.playerMovement.IsDodging() || invincible) return; // mentre sta schivando non prende danno o mentre e' invincibile (perche appena stato colpito)
           
         Player.Instance.playerStats.playerCurrentStats.TakeDamage(damage);
 
@@ -40,12 +49,34 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
             Player.Instance.playerMovement.ApplyKnockback(attackDirection, knockbackForce);
         }
         // flash colore sprite player
-        sr.color = Color.white * 3f;
+        invincible = true; // diventa invincibile
+        // per sicurezza per evitare coroutine stacking
+        if(blinkCoroutine != null) {
+            StopCoroutine(blinkCoroutine);
+        }
+        blinkCoroutine = StartCoroutine(DamageBlink());
+
+        // screen shake
+        CameraShakerHandler.Shake(Player.Instance.cameraShakeData);
 
         OnHealthChanged?.Invoke(this, EventArgs.Empty);
 
         // check:
         // se currentHealth <= 0 -> schermata gameOver -> ritorno in hub
+    }
+
+    private IEnumerator DamageBlink() {
+        for(int i = 0; i < blinkAmount; i++) {
+            sr.color = Color.white * 3f;
+
+            yield return new WaitForSeconds(blinkAfterDamageRate);
+
+            sr.color = initialColor;
+
+            yield return new WaitForSeconds(blinkAfterDamageRate);
+        }
+        sr.color = initialColor; // per sicurezza
+        invincible = false;
     }
 
     public void Heal(float amount) {

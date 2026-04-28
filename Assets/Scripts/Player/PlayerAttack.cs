@@ -6,7 +6,6 @@ public class PlayerAttack : MonoBehaviour {
 
     [SerializeField] private Transform weaponHolder;
     [SerializeField] private float deadZoneRadius;
-    [SerializeField] private ShakeData cameraShakeAttackData;
 
     [Header("Centro di attacco (offset rispetto alla direzione di attacco in melee)")]
     public float attackCentreOffset = 1f; // richiamato in WeaponMelee
@@ -57,7 +56,7 @@ public class PlayerAttack : MonoBehaviour {
         currentWeapon.GetComponent<IWeapon>().Attack(attackDirection);
 
         // camera shake dopo attacco
-        CameraShakerHandler.Shake(cameraShakeAttackData);
+        CameraShakerHandler.Shake(Player.Instance.cameraShakeData);
 
         if (knockBackWhileAttacking) {
             Player.Instance.playerMovement.ApplyKnockback(-attackDirection, knockBackForce);
