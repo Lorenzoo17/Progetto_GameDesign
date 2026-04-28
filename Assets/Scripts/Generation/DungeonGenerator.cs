@@ -35,6 +35,9 @@ public class DungeonGenerator : MonoBehaviour {
     public GameObject bossRoom;
     public GameObject powerUpRoom;
     public GameObject vendorRoom;
+    public GameObject startRoom;
+
+    private int startCell;
 
     public Rule[] normalRooms;
 
@@ -64,6 +67,9 @@ public class DungeonGenerator : MonoBehaviour {
             }
         }
 
+        // first room
+        validCells.Remove(startCell);
+
         // Boss nella stanza più lontana
         int bossCell = GetFarthestCell();
 
@@ -87,7 +93,10 @@ public class DungeonGenerator : MonoBehaviour {
 
                 GameObject roomPrefab;
 
-                if (index == bossCell) {
+                if(index == startCell) {
+                    roomPrefab = startRoom;
+                }
+                else if (index == bossCell) {
                     roomPrefab = bossRoom;
                 }
                 else if (index == powerUpCell) {
@@ -181,6 +190,7 @@ public class DungeonGenerator : MonoBehaviour {
         }
 
         int currentCell = (size.x / 2) + (size.y / 2) * size.x;
+        startCell = currentCell;
 
         Stack<int> path = new Stack<int>();
 

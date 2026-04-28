@@ -20,6 +20,8 @@ public class RoomBehaviour : MonoBehaviour {
     [SerializeField] private Transform[] decorationSpawnPoints;
     [SerializeField] private int minEnemiesToSpawn = 3;
 
+    [SerializeField] private bool isStartRoom = false;
+
     private void Awake() {
         // sicurezza
         // trova automaticamente tutte le porte nei figli
@@ -69,12 +71,17 @@ public class RoomBehaviour : MonoBehaviour {
 
         if (!isVisited) {
             isVisited = true;
-            StartRoom();
+
+            if (!isStartRoom) {
+                StartRoom();
+            }
         }
     }
 
     // prima entrata
     private void StartRoom() {
+        if (isStartRoom) return;
+
         CloseDoors();
         SpawnEnemies();
     }

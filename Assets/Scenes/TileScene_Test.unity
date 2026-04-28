@@ -708,6 +708,7 @@ MonoBehaviour:
   bossRoom: {fileID: 8532064170782905881, guid: de4ae9515b3e9ed4b97c683ffb884f76, type: 3}
   powerUpRoom: {fileID: 8532064170782905881, guid: 3d2b78da71ccb6c41beb946b197d049a, type: 3}
   vendorRoom: {fileID: 8532064170782905881, guid: 3d2b78da71ccb6c41beb946b197d049a, type: 3}
+  startRoom: {fileID: 8532064170782905881, guid: 78b2c8ab648925c41b6ac79f001e3cb4, type: 3}
   normalRooms:
   - room: {fileID: 8532064170782905881, guid: 604fe5ca18277ce45aafd7a1842c31ec, type: 3}
     minPosition: {x: -5, y: -5}
