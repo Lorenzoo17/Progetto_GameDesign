@@ -80,4 +80,16 @@ public class InputManager : MonoBehaviour
     private void Move_canceled(InputAction.CallbackContext obj) {
         PlayerMovement = Vector2.zero;
     }
+
+    // utile per il cambio di scena
+    private void OnDestroy() {
+        if(playerInputActions != null) {
+            playerInputActions.Player.Move.performed -= Move_performed;
+            playerInputActions.Player.Move.canceled -= Move_canceled;
+            playerInputActions.Player.Attack.performed -= Attack_performed;
+            playerInputActions.Player.Dash.performed -= Dash_performed;
+
+            playerInputActions.Player.Disable();
+        }
+    }
 }

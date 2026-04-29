@@ -7,6 +7,7 @@ public interface IWeapon {
 
 public class Weapon : MonoBehaviour, IWeapon, ICollectible{
 
+    // aggiungere scriptableobject di riferimento!! (si fa il set di sprite, nome ecc)
     public bool pickedUp;
 
     public virtual void Attack(Vector2 attackDirection) {

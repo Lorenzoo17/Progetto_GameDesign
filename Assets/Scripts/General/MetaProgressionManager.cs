@@ -1,0 +1,117 @@
+using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class MetaProgressionManager : MonoBehaviour {
+    // script usato per la gestione delle risore che devono rimanere persistenti tra le scene (e salvate in locale)
+    // Queste risorse sono:
+    // monete mutagene
+    // mutageni equipaggiati e numero di mutageni che e' possibile equipaggiare
+    // perk sbloccati (che entrano nel pool di quelli che e' possibile trovare)
+    // armi sbloccate (che entrano nel pool di quelle che e' possibile trovare)
+
+    // MutagenCoin
+    public int MutagenCoin { get; private set; } // monete mutagene
+    public event EventHandler OnMutagenCoinChanged;
+
+    private int maxEquippedMutagens = 1; // numero massimo di mutageni che e' possibile equipaggiare (cambiano in base a 
+    // numero di boss sconfitti o comprati o altro da vedere) di default per ora 1
+
+    // Perk, armi, mutageni
+    private HashSet<string> unlockedPerks = new(); // lista dei perk sbloccati
+    private HashSet<string> unlockedWeapons = new(); // lista delle armi sbloccate
+    private HashSet<string> equippedMutagens = new(); // lista mutageni equipaggiati dal player nell'hub
+
+    public event EventHandler OnMetaProgressionChanged;
+
+    public static MetaProgressionManager Instance {  get; private set; }
+
+    private void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    // richiamato quando ad esempio si sconfigge un boss (si raccolgono mutagenCoin)
+    public void AddMutagenCoin(int amount) {
+        MutagenCoin += amount;
+
+        OnMutagenCoinChanged?.Invoke(this, EventArgs.Empty); // evento quando cambiano le mutagenCoin
+    }
+
+    // richiamato dal vendor dell'hub ad esempio
+    public bool SpendMutagenCoin(int amount) {
+        if(MutagenCoin < amount) return false;
+        MutagenCoin -= amount;
+
+        OnMutagenCoinChanged?.Invoke(this, EventArgs.Empty);
+        return true;
+    }
+
+    // quando si sblocca un nuovo perk (si compra dal vendor) bisogna richiamare questo metodo per
+    // far si che si possa poi trovare nel dungeon (in quanto viene messo in questa lista)
+    public void UnlockNewPerk(string perkNameId) {
+        if (unlockedPerks.Add(perkNameId)) {
+            OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);
+        }
+        else {
+            Debug.LogWarning($"Perk {perkNameId} già sbloccato");
+        }
+    }
+    public void UnlockNewWeapon(string weaponNameId) {
+        if (unlockedWeapons.Add(weaponNameId)) {
+            OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);
+        }
+        else {
+            Debug.LogWarning($"Arma {weaponNameId} già sbloccata");
+        }
+    }
+    public bool EquipMutagen(string mutagenNameId) {
+        if(equippedMutagens.Count >= maxEquippedMutagens || equippedMutagens.Contains(mutagenNameId)) {
+            Debug.Log("Non puoi equipaggiare altri mutageni o il mutagene e' gia' equipaggiato!");
+            // tipo di ritorno specifico poi per dare allarme anche a livello di UI
+            return false;
+        }
+        equippedMutagens.Add(mutagenNameId);
+        OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);
+
+        return true;
+    }
+    public void UnequipMutagen(string id) {
+        if (equippedMutagens.Remove(id)) {
+            OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public int GetMaxMutagenSlots() => maxEquippedMutagens;
+
+    public void SetMaxMutagenSlots(int amount) {
+        maxEquippedMutagens = amount;
+        OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool IsWeaponUnlocked(string id) => unlockedWeapons.Contains(id);
+    public bool IsPerkUnlocked(string id) => unlockedPerks.Contains(id);
+    public bool IsMutagenEquipped(string id) => equippedMutagens.Contains(id);
+    public List<string> GetUnlockedWeapons() => new(unlockedWeapons);
+    public List<string> GetUnlockedPerks() => new(unlockedPerks);
+    public List<string> GetEquippedMutagens() {
+        return new List<string>(equippedMutagens);
+    }
+
+    public void ResetAll() {
+        MutagenCoin = 0;
+
+        unlockedWeapons.Clear();
+        unlockedPerks.Clear();
+        equippedMutagens.Clear();
+
+        equippedMutagens.Clear();
+        maxEquippedMutagens = 1;
+    }
+}
