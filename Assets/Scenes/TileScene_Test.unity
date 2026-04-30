@@ -476,6 +476,8 @@ MonoBehaviour:
   attackCooldown: 1
   cameraShakeAttackData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
   attackHitDelay: 0.8
+  randomOffsetDistance: 1
+  changeRandomOffsetTime: 3
 --- !u!50 &508660428
 Rigidbody2D:
   serializedVersion: 5
@@ -4204,7 +4206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2055158700
 Transform:
   m_ObjectHideFlags: 0

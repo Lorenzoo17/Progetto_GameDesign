@@ -38,6 +38,12 @@ public class Enemy : MonoBehaviour {
 
     private Animator anim;
 
+    private Vector2 desiredPosition;
+    private Vector2 randomFollowOffset;
+    [SerializeField] private float randomOffsetDistance = 1f;
+    [SerializeField] private float changeRandomOffsetTime = 3f;
+    private float changeRandomOffsetCurrentTime;
+
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         enemyHealthSystem = GetComponent<HealthSystem>();
@@ -90,7 +96,28 @@ public class Enemy : MonoBehaviour {
             attackCooldownTimer -= Time.deltaTime;
         }
 
-        Vector2 direction = (Player.Instance.transform.position - transform.position).normalized;
+        FollowTarget();
+
+        anim.SetBool("Moving", rb.linearVelocity != Vector2.zero);
+    }
+
+    private void FollowTarget() {
+        Transform target = Player.Instance.transform;
+
+        // Invece di andare verso il player, il nemico va verso un punto casuale, che si aggiorna
+        // ogni changeRandomOffsetTime secondi, ad una distanza randomOffsetDistance dal player
+        // in questo modo si evita un po' lo stacking dei nemici
+        if (changeRandomOffsetCurrentTime <= 0) {
+            randomFollowOffset = Random.insideUnitCircle * randomOffsetDistance;
+            changeRandomOffsetCurrentTime = changeRandomOffsetTime;
+        }
+        else {
+            changeRandomOffsetCurrentTime -= Time.deltaTime;
+        }
+
+        desiredPosition = (Vector2)Player.Instance.transform.position + randomFollowOffset;
+        Vector2 direction = (desiredPosition - (Vector2)transform.position).normalized;
+
         float distance = Vector2.Distance(Player.Instance.transform.position, transform.position);
 
         if (distance <= attackDistance && attackCooldownTimer <= 0f) {
@@ -104,8 +131,6 @@ public class Enemy : MonoBehaviour {
         else {
             rb.linearVelocity = Vector2.zero;
         }
-
-        anim.SetBool("Moving", rb.linearVelocity != Vector2.zero);
     }
 
     private void Attack() {
@@ -179,6 +204,8 @@ public class Enemy : MonoBehaviour {
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, desiredPosition);
     }
 
     // a contatto con il player il player riceve danno

@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2901bdbc73c65e4cabdd13a06557124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 10
+  maxHealth: 2
 --- !u!114 &5151883782128186509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,3 +231,5 @@ MonoBehaviour:
   attackCooldown: 1
   cameraShakeAttackData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
   attackHitDelay: 0.5
+  randomOffsetDistance: 0
+  changeRandomOffsetTime: 3
