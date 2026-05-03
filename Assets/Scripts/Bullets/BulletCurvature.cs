@@ -1,6 +1,15 @@
+using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
 
 public class BulletCurvature : MonoBehaviour {
+
+    [SerializeField] private GameObject explosionEffect;
+    [SerializeField] private bool spawnStain;
+    [SerializeField] private float attackRange;
+    [SerializeField] private float damageToDeal;
+    [SerializeField] private bool hasBeenShotByPlayer;
+    private bool hasExploded = false;
+
     [SerializeField] private BulletCurvatureVisual projectileVisual;
 
     [SerializeField] private float mostlyVerticalCurveMultiplier = 0.05f;
@@ -30,17 +39,63 @@ public class BulletCurvature : MonoBehaviour {
 
     private bool initialized;
 
+    private float trajectoryProgress;
+
     private void Update() {
         if (!initialized)
             return;
 
         UpdateProjectilePosition();
 
-        float distanceFromStart = Vector3.Distance(transform.position, trajectoryStartPoint);
-
-        if (distanceFromStart >= projectileRange) {
-            Destroy(gameObject);
+        if (trajectoryProgress >= 1f) {
+            OnBulletExplosion();
         }
+    }
+
+    private void OnBulletExplosion() { // richiamato in UpdateProjectilePosition()
+        if (hasExploded || Player.Instance == null) return;
+
+        hasExploded = true;
+        // spawn di effetto
+        GameObject effect = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        // screen shake
+        if(EffectManager.Instance != null) {
+            ShakeData data = EffectManager.Instance.GetExplosionShakeData();
+            if (data != null) {
+                CameraShakerHandler.Shake(data);
+            }
+        }
+
+        // danno ad area
+        Collider2D[] entities = Physics2D.OverlapCircleAll(transform.position, attackRange);
+
+        foreach (Collider2D entity in entities) {
+            if (entity.TryGetComponent<IDamageable>(out IDamageable entityDamageable)) {
+                Vector2 attackDirection = (entity.transform.position - transform.position).normalized;
+                if (hasBeenShotByPlayer) { // se il proiettile e' stato sparato dal player
+                    if (entity.gameObject != Player.Instance.gameObject) {
+                        // il damageToDeal dipende anche dal valore di attacco del player
+                        damageToDeal += Player.Instance.playerStats.playerCurrentStats.GetAttack();
+                        entityDamageable.TakeDamage(damageToDeal, attackDirection);
+                    }
+                }
+                else {
+                    if (entity.gameObject == Player.Instance.gameObject) {
+                        entityDamageable.TakeDamage(damageToDeal, attackDirection);
+                    }
+                }
+            }
+        }
+
+        if (spawnStain) {
+            if(EffectManager.Instance != null) {
+                GameObject stain = EffectManager.Instance.SpawnVisualEffect(VisualEffectType.Attack, transform.position, Quaternion.identity);
+                stain.GetComponent<Stain>().SetUpStain(1, hasBeenShotByPlayer);
+            }
+        }
+
+        // distruzione del bullet
+        Destroy(gameObject);
     }
 
     private void UpdateProjectilePosition() {
@@ -66,6 +121,8 @@ public class BulletCurvature : MonoBehaviour {
 
         float nextPositionYNormalized =
             (nextPositionY - trajectoryStartPoint.y) / trajectoryRange.y;
+
+        trajectoryProgress = nextPositionYNormalized;
 
         nextPositionYNormalized = Mathf.Clamp01(nextPositionYNormalized);
 
@@ -101,6 +158,8 @@ public class BulletCurvature : MonoBehaviour {
         float nextPositionXNormalized =
             (nextPositionX - trajectoryStartPoint.x) / trajectoryRange.x;
 
+        trajectoryProgress = nextPositionXNormalized;
+
         nextPositionXNormalized = Mathf.Clamp01(nextPositionXNormalized);
 
         float nextPositionYNormalized = trajectoryAnimationCurve.Evaluate(nextPositionXNormalized);
@@ -128,7 +187,9 @@ public class BulletCurvature : MonoBehaviour {
         Vector2 shootDirection,
         float range,
         float maxMoveSpeed,
-        float trajectoryMaxHeight
+        float trajectoryMaxHeight,
+        bool isPlayer = false, // se il proiettile e' stato lanciato dal player (di default a false)
+        float damage = 0f
     ) {
         if (shootDirection.sqrMagnitude <= 0.01f) {
             shootDirection = Vector2.right;
@@ -150,6 +211,9 @@ public class BulletCurvature : MonoBehaviour {
         this.trajectoryMaxRelativeHeight = projectileRange * trajectoryMaxHeight * curveMultiplier;
 
         moveSpeed = maxMoveSpeed;
+
+        damageToDeal = damage;
+        hasBeenShotByPlayer = isPlayer;
 
         initialized = true;
 
@@ -188,5 +252,10 @@ public class BulletCurvature : MonoBehaviour {
 
     public float GetNextPositionXCorrectionAbsolute() {
         return nextPositionXCorrectionAbsolute;
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

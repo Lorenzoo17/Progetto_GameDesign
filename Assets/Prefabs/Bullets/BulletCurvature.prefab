@@ -247,6 +247,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6917962b545d42344834467155202395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BulletCurvature
+  explosionEffect: {fileID: 6232918333787745658, guid: 7f33f52e0608a2b42b5dbde4fdd70acb, type: 3}
+  spawnStain: 1
+  attackRange: 1
+  damageToDeal: 0
+  hasBeenShotByPlayer: 0
   projectileVisual: {fileID: 8985060131220077725}
   mostlyVerticalCurveMultiplier: 0.4
   verticalThreshold: 0.85

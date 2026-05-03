@@ -1,3 +1,4 @@
+using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
 
 public enum VisualEffectType {
@@ -18,6 +19,8 @@ public class EffectManager : MonoBehaviour {
     public static EffectManager Instance { get; private set; }
     [SerializeField] private VisualEffect[] visualEffects;
 
+    [SerializeField] private ShakeData explosionShakeData;
+
     private void Awake() {
         if (Instance != null) {
             Destroy(gameObject);
@@ -26,6 +29,15 @@ public class EffectManager : MonoBehaviour {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
+
+    public ShakeData GetExplosionShakeData() {
+        if (explosionShakeData == null) {
+            Debug.Log("No shake data in EffectManagaer!");
+            return null;
+        }
+
+        return explosionShakeData;
     }
 
     public GameObject SpawnVisualEffect(VisualEffectType effectType, Vector3 position, Quaternion rotation) {
