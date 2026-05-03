@@ -462,22 +462,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   knockBackForce: 10
-  speed: 2
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
   blinkAfterDamageTime: 0.1
   hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
   hitEffectSpawnPositionOffset: 1
   hitEffectRotationOffset: -90
-  attackDamage: 2
-  attackRange: 1.45
-  attackDistance: 1.3
-  attackDuration: 1
-  attackCooldown: 1
-  cameraShakeAttackData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
-  attackHitDelay: 0.8
-  randomOffsetDistance: 1
-  changeRandomOffsetTime: 3
+  enemyTouchDamage: 1
 --- !u!50 &508660428
 Rigidbody2D:
   serializedVersion: 5
@@ -4244,9 +4235,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   enemiesToSpawnPrefabs:
-  - {fileID: 2375325059639907942, guid: 2aeb6b387e93b634e9e53cfbc626099e, type: 3}
-  - {fileID: 2375325059639907942, guid: 6ed574aa548d8534a9c404d197567ca7, type: 3}
-  - {fileID: 2375325059639907942, guid: c11c2335f381f184e8b5b7c28fe8c5de, type: 3}
+  - {fileID: 2203211160702355930, guid: 5ea88266455100546a769e1ca5aca44a, type: 3}
+  - {fileID: 987627900996576541, guid: 3b615300562cf344e831c16672ae4ab6, type: 3}
 --- !u!1001 &2120021360
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -21,9 +21,9 @@ public class HealthSystem : MonoBehaviour, IDamageable {
         CurrentHealth = maxHealth;
     }
 
-    public void TakeDamage(float damage, Vector2 attackDirection = default) {
-        CurrentHealth -= damage;
-        OnDamageTaken?.Invoke(this, new DamageEventArgs(damage, attackDirection));
+    public void TakeDamage(DamageInfo damageInfo) {
+        CurrentHealth -= damageInfo.Damage;
+        OnDamageTaken?.Invoke(this, new DamageEventArgs(damageInfo.Damage, damageInfo.Direction));
 
         if (CurrentHealth <= 0) {
             Destroy(gameObject);

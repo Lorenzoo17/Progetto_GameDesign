@@ -29,9 +29,10 @@ public class WeaponMelee : Weapon {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCentrePosition, weaponRange);
 
         foreach(Collider2D entity in colliders) {
-            if(entity.GetComponent<Player>() == null) { // se non e' il player stesso
-                if(entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable)) {
-                    entityDamageable.TakeDamage(weaponDamage, dir);
+            if(Utils.CombatUtility.CanDamage(Player.Instance.gameObject, entity.gameObject)) {
+                if (entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable)) {
+                    DamageInfo damageInfo = new DamageInfo(weaponDamage, dir, Player.Instance.gameObject, EntityType.Player);
+                    entityDamageable.TakeDamage(damageInfo);
                 }
             }
         }

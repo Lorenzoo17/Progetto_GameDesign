@@ -1,18 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static Utils;
 
 public class Stain : MonoBehaviour {
 
     [SerializeField] private float damagePerTick = 1f;
     [SerializeField] private float tickRate = 0.5f;
+
+    private GameObject owner;
+    private EntityType ownerType;
+
+    [SerializeField] private Color pulseColor;
+    [SerializeField] private float pulseSpeed = 3f;
+
     private float tickTimer;
-    private List<IDamageable> entitiesInside = new();
+    private readonly List<IDamageable> entitiesInside = new();
 
     private SpriteRenderer sr;
     private Color initialColor;
-    [SerializeField] private bool isFromPlayer;
-    [SerializeField] private Color pulseColor;
-    [SerializeField] private float pulseSpeed = 3f;
 
     private void Awake() {
         sr = GetComponent<SpriteRenderer>();
@@ -24,36 +29,50 @@ public class Stain : MonoBehaviour {
         HandleVisual();
     }
 
+    public void SetUpStain(GameObject owner, float size = 1f) {
+        this.owner = owner;
+
+        EntityOwner combatOwner = owner.GetComponent<EntityOwner>();
+        ownerType = combatOwner != null ? combatOwner.GetEntityType : EntityType.Neutral;
+
+        transform.localScale *= size;
+    }
+
     private void HandleDamage() {
         tickTimer += Time.deltaTime;
 
         if (tickTimer < tickRate) return;
         tickTimer = 0f;
 
-        foreach (var entity in entitiesInside) {
-            if (entity == null) continue;
+        for (int i = entitiesInside.Count - 1; i >= 0; i--) {
+            IDamageable entity = entitiesInside[i];
 
-            if (entity is MonoBehaviour mb) {
-                GameObject go = mb.gameObject;
-
-                if (Player.Instance == null) continue;
-
-                if (isFromPlayer) {
-                    if (go != Player.Instance.gameObject) {
-                        entity.TakeDamage(damagePerTick);
-                    }
-                }
-                else {
-                    if (go == Player.Instance.gameObject) {
-                        entity.TakeDamage(damagePerTick);
-                    }
-                }
+            if (entity == null) {
+                entitiesInside.RemoveAt(i);
+                continue;
             }
+
+            if (entity is not MonoBehaviour mb) continue;
+
+            GameObject target = mb.gameObject;
+
+            if (!CombatUtility.CanDamage(owner, target)) continue;
+
+            Vector2 direction = ((Vector2)target.transform.position - (Vector2)transform.position).normalized;
+
+            DamageInfo damageInfo = new DamageInfo(
+                damagePerTick,
+                direction,
+                owner,
+                ownerType
+            );
+
+            entity.TakeDamage(damageInfo);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.TryGetComponent<IDamageable>(out var damageable)) {
+        if (collision.TryGetComponent<IDamageable>(out IDamageable damageable)) {
             if (!entitiesInside.Contains(damageable)) {
                 entitiesInside.Add(damageable);
             }
@@ -61,20 +80,15 @@ public class Stain : MonoBehaviour {
     }
 
     private void OnTriggerExit2D(Collider2D collision) {
-        if (collision.TryGetComponent<IDamageable>(out var damageable)) {
+        if (collision.TryGetComponent<IDamageable>(out IDamageable damageable)) {
             entitiesInside.Remove(damageable);
         }
     }
 
     private void HandleVisual() {
+        if (sr == null) return;
+
         float t = Mathf.PingPong(Time.time * pulseSpeed, 1f);
-
-        Color finalColor = Color.Lerp(initialColor, pulseColor, t);
-        sr.color = finalColor;
-    }
-
-    public void SetUpStain(float size = 1f, bool isPlayer = false) {
-        transform.localScale *= size;
-        isFromPlayer = isPlayer;
+        sr.color = Color.Lerp(initialColor, pulseColor, t);
     }
 }

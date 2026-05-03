@@ -197,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BulletCurvatureVisual
   projectileVisual: {fileID: 6589060556459816306}
   projectileShadow: {fileID: 1900947208726583810}
-  projectile: {fileID: 4653355430973128460}
+  projectile: {fileID: 2719324888742437191}
   shadowPositionDivider: 6
   minShadowOffset: 0.25
   shadowHeightCurveMultiplier: 1
@@ -210,7 +210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3949224532137384709}
-  - component: {fileID: 4653355430973128460}
+  - component: {fileID: 2719324888742437191}
   m_Layer: 0
   m_Name: BulletCurvature
   m_TagString: Untagged
@@ -235,7 +235,7 @@ Transform:
   - {fileID: 1900947208726583810}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4653355430973128460
+--- !u!114 &2719324888742437191
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,15 +244,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5887688937532165023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6917962b545d42344834467155202395, type: 3}
+  m_Script: {fileID: 11500000, guid: 42704bef11df5b74a9e3f7d66681006f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BulletCurvature
+  m_EditorClassIdentifier: Assembly-CSharp::CurvedProjectile
   explosionEffect: {fileID: 6232918333787745658, guid: 7f33f52e0608a2b42b5dbde4fdd70acb, type: 3}
   spawnStain: 1
   attackRange: 1
-  damageToDeal: 0
-  hasBeenShotByPlayer: 0
+  damageToDeal: 2
   projectileVisual: {fileID: 8985060131220077725}
-  mostlyVerticalCurveMultiplier: 0.4
+  mostlyVerticalCurveMultiplier: 0.05
   verticalThreshold: 0.85
   horizontalThreshold: 0.35

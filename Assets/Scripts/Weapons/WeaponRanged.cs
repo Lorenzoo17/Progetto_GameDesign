@@ -3,30 +3,28 @@ using UnityEngine;
 public class WeaponRanged : Weapon
 {
     [SerializeField] private float weaponRotationOffsetZ;
-    private SpriteRenderer sr;
+    [SerializeField] private ProjectileShooter projectileShooter;
 
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private Transform attackPoint;
-    [SerializeField] private float bulletSpeed;
-    [SerializeField] private float weaponBaseDamage;
+    [SerializeField] private bool curvedProjectile;
+    [SerializeField] private float curvedProjectileRange;
 
     private void Awake() {
-        sr = GetComponent<SpriteRenderer>();    
-        if(attackPoint == null) {
-            attackPoint = transform;
+        if (projectileShooter == null) {
+            projectileShooter = GetComponentInChildren<ProjectileShooter>();
         }
     }
 
     public override void Attack(Vector2 dir) {
-        // gestione attacco con spawn di proiettili
-        if(bulletPrefab == null) {
-            Debug.Log($"Bullet non assegnato all'arma {gameObject.name}");
-            return; 
+        if (projectileShooter == null) {
+            Debug.LogWarning($"ProjectileShooter non assegnato su {gameObject.name}");
+            return;
         }
 
-        GameObject bullet = Instantiate(bulletPrefab, attackPoint.position, Quaternion.identity);
-        if(bullet.TryGetComponent<BulletBehaviour>(out BulletBehaviour b)) {
-            b.SetBullet(dir, bulletSpeed, weaponBaseDamage);
+        if (curvedProjectile) {
+            projectileShooter.ShootCurved(Player.Instance.gameObject, dir, curvedProjectileRange);
+        }
+        else {
+            projectileShooter.ShootLinear(Player.Instance.gameObject, dir);
         }
     }
 

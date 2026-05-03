@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 
 public interface IDamageable {
-    void TakeDamage(float damage, Vector2 attackDirection = default);
+    void TakeDamage(DamageInfo damageInfo);
 }
 
 public class PlayerHealth : MonoBehaviour, IDamageable {
@@ -39,14 +39,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
         // sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime);
     }
 
-    public void TakeDamage(float damage, Vector2 attackDirection = default) {
+    public void TakeDamage(DamageInfo damageInfo) {
         if (Player.Instance.playerMovement.IsDodging() || invincible) return; // mentre sta schivando non prende danno o mentre e' invincibile (perche appena stato colpito)
           
-        Player.Instance.playerStats.playerCurrentStats.TakeDamage(damage);
+        Player.Instance.playerStats.playerCurrentStats.TakeDamage(damageInfo.Damage);
 
         if (knockbackAfterTakingDamage) {
             // rinculo player
-            Player.Instance.playerMovement.ApplyKnockback(attackDirection, knockbackForce);
+            Player.Instance.playerMovement.ApplyKnockback(damageInfo.Direction, knockbackForce);
         }
         // flash colore sprite player
         invincible = true; // diventa invincibile

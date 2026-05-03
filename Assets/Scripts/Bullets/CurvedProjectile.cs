@@ -1,13 +1,10 @@
 using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
 
-public class BulletCurvature : MonoBehaviour {
-
+public class CurvedProjectile : ProjectileBase {
     [SerializeField] private GameObject explosionEffect;
     [SerializeField] private bool spawnStain;
     [SerializeField] private float attackRange;
-    [SerializeField] private float damageToDeal;
-    [SerializeField] private bool hasBeenShotByPlayer;
     private bool hasExploded = false;
 
     [SerializeField] private BulletCurvatureVisual projectileVisual;
@@ -16,7 +13,6 @@ public class BulletCurvature : MonoBehaviour {
     [SerializeField] private float verticalThreshold = 0.85f;
     [SerializeField] private float horizontalThreshold = 0.35f;
 
-    private Vector3 direction;
     private Vector3 trajectoryStartPoint;
     private Vector3 trajectoryEndPoint;
     private Vector3 trajectoryRange;
@@ -37,8 +33,6 @@ public class BulletCurvature : MonoBehaviour {
     private float nextPositionYCorrectionAbsolute;
     private float nextPositionXCorrectionAbsolute;
 
-    private bool initialized;
-
     private float trajectoryProgress;
 
     private void Update() {
@@ -57,9 +51,11 @@ public class BulletCurvature : MonoBehaviour {
 
         hasExploded = true;
         // spawn di effetto
-        GameObject effect = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        if (explosionEffect != null) {
+            GameObject effect = Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        }
         // screen shake
-        if(EffectManager.Instance != null) {
+        if (EffectManager.Instance != null) {
             ShakeData data = EffectManager.Instance.GetExplosionShakeData();
             if (data != null) {
                 CameraShakerHandler.Shake(data);
@@ -70,27 +66,22 @@ public class BulletCurvature : MonoBehaviour {
         Collider2D[] entities = Physics2D.OverlapCircleAll(transform.position, attackRange);
 
         foreach (Collider2D entity in entities) {
-            if (entity.TryGetComponent<IDamageable>(out IDamageable entityDamageable)) {
-                Vector2 attackDirection = (entity.transform.position - transform.position).normalized;
-                if (hasBeenShotByPlayer) { // se il proiettile e' stato sparato dal player
-                    if (entity.gameObject != Player.Instance.gameObject) {
-                        // il damageToDeal dipende anche dal valore di attacco del player
-                        damageToDeal += Player.Instance.playerStats.playerCurrentStats.GetAttack();
-                        entityDamageable.TakeDamage(damageToDeal, attackDirection);
-                    }
-                }
-                else {
-                    if (entity.gameObject == Player.Instance.gameObject) {
-                        entityDamageable.TakeDamage(damageToDeal, attackDirection);
-                    }
-                }
-            }
+            if (!Utils.CombatUtility.CanDamage(base.owner, entity.gameObject)) continue;
+
+            Vector2 attackDirection = ((Vector2)entity.transform.position - (Vector2)transform.position).normalized;
+            TryDealDamage(entity, attackDirection);
         }
 
-        if (spawnStain) {
-            if(EffectManager.Instance != null) {
-                GameObject stain = EffectManager.Instance.SpawnVisualEffect(VisualEffectType.Attack, transform.position, Quaternion.identity);
-                stain.GetComponent<Stain>().SetUpStain(1, hasBeenShotByPlayer);
+
+        if (spawnStain && EffectManager.Instance != null) {
+            GameObject stain = EffectManager.Instance.SpawnVisualEffect(
+                VisualEffectType.Attack,
+                transform.position,
+                Quaternion.identity
+            );
+
+            if (stain.TryGetComponent<Stain>(out Stain stainComponent)) {
+                stainComponent.SetUpStain(owner, 1);
             }
         }
 
@@ -184,13 +175,15 @@ public class BulletCurvature : MonoBehaviour {
     }
 
     public void InitializeProjectile(
+        GameObject owner,
         Vector2 shootDirection,
         float range,
         float maxMoveSpeed,
         float trajectoryMaxHeight,
-        bool isPlayer = false, // se il proiettile e' stato lanciato dal player (di default a false)
-        float damage = 0f
+        float damage
     ) {
+        InitializeProjectile(owner, shootDirection, damage);
+
         if (shootDirection.sqrMagnitude <= 0.01f) {
             shootDirection = Vector2.right;
         }
@@ -200,7 +193,7 @@ public class BulletCurvature : MonoBehaviour {
         this.maxMoveSpeed = maxMoveSpeed;
 
         trajectoryStartPoint = transform.position;
-        trajectoryEndPoint = trajectoryStartPoint + direction * projectileRange;
+        trajectoryEndPoint = trajectoryStartPoint + (Vector3)direction * projectileRange;
 
         trajectoryRange = trajectoryEndPoint - trajectoryStartPoint;
 
@@ -211,9 +204,6 @@ public class BulletCurvature : MonoBehaviour {
         this.trajectoryMaxRelativeHeight = projectileRange * trajectoryMaxHeight * curveMultiplier;
 
         moveSpeed = maxMoveSpeed;
-
-        damageToDeal = damage;
-        hasBeenShotByPlayer = isPlayer;
 
         initialized = true;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 public class BulletCurvatureVisual : MonoBehaviour {
     [SerializeField] private Transform projectileVisual;
     [SerializeField] private Transform projectileShadow;
-    [SerializeField] private BulletCurvature projectile;
+    [SerializeField] private CurvedProjectile projectile;
 
     [SerializeField] private float shadowPositionDivider = 6f;
     [SerializeField] private float minShadowOffset = 0.25f;
