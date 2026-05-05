@@ -8,10 +8,22 @@ public enum VisualEffectType {
     Die
 }
 
+public enum ShakeDataType {
+    Explosion,
+    RangedAttack,
+    MeleeAttack
+}
+
 [System.Serializable]
 public struct VisualEffect {
     public VisualEffectType groupType;
     public GameObject[] visualEffectPrefabs;
+}
+
+[System.Serializable]
+public struct ShakeCollection {
+    public ShakeDataType groupType;
+    public ShakeData[] shakeDatas;
 }
 
 public class EffectManager : MonoBehaviour {
@@ -19,7 +31,7 @@ public class EffectManager : MonoBehaviour {
     public static EffectManager Instance { get; private set; }
     [SerializeField] private VisualEffect[] visualEffects;
 
-    [SerializeField] private ShakeData explosionShakeData;
+    [SerializeField] private ShakeCollection[] shakeCollection;
 
     private void Awake() {
         if (Instance != null) {
@@ -31,13 +43,13 @@ public class EffectManager : MonoBehaviour {
         }
     }
 
-    public ShakeData GetExplosionShakeData() {
-        if (explosionShakeData == null) {
-            Debug.Log("No shake data in EffectManagaer!");
-            return null;
+    public ShakeData GetShakeDataByType(ShakeDataType type) {
+        foreach (var shakeElement in shakeCollection) {
+            if(shakeElement.groupType == type) {
+                return shakeElement.shakeDatas[Random.Range(0, shakeElement.shakeDatas.Length)];
+            }
         }
-
-        return explosionShakeData;
+        return null;
     }
 
     public GameObject SpawnVisualEffect(VisualEffectType effectType, Vector3 position, Quaternion rotation) {

@@ -23,7 +23,7 @@ public class EnemyMeleeAttack : EnemyAttackBase {
                 ));
 
                 if (EffectManager.Instance != null) {
-                    ShakeData cameraShakeAttackData = EffectManager.Instance.GetExplosionShakeData();
+                    ShakeData cameraShakeAttackData = EffectManager.Instance.GetShakeDataByType(ShakeDataType.MeleeAttack);
 
                     if (cameraShakeAttackData != null) {
                         CameraShakerHandler.Shake(cameraShakeAttackData);

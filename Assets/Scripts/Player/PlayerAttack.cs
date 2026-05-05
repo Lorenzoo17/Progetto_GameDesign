@@ -55,14 +55,19 @@ public class PlayerAttack : MonoBehaviour {
 
         currentWeapon.GetComponent<IWeapon>().Attack(attackDirection);
 
-        // camera shake e knockback dopo attacco solo se l'arma e' melee
-        if (currentWeapon.GetComponent<Weapon>() is WeaponMelee) {
-
-            CameraShakerHandler.Shake(Player.Instance.cameraShakeData);
-
-            if (knockBackWhileAttacking) {
-                Player.Instance.playerMovement.ApplyKnockback(-attackDirection, knockBackForce);
+        // camera shake e knockback dopo attacco anche per arma ranged
+        if(EffectManager.Instance != null) {
+            if (currentWeapon.GetComponent<Weapon>() is WeaponMelee) {
+                CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.MeleeAttack));
             }
+            else {
+                CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.RangedAttack));
+            }
+        }
+
+        // knockback solamente se l'arma e' melee
+        if (knockBackWhileAttacking && currentWeapon.GetComponent<Weapon>() is WeaponMelee) {
+            Player.Instance.playerMovement.ApplyKnockback(-attackDirection, knockBackForce);
         }
 
         attackTimer = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();

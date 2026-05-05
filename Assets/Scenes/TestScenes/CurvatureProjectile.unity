@@ -5530,7 +5530,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1771740914817530386, guid: 3b2b847428ee6e943966c83c467c605f, type: 3}
   firePoint: {fileID: 1117635481}
   damage: 1
-  projectileSpeed: 4
+  projectileSpeed: 10
   projectileRange: 3
   projectileMaxHeight: 1
   trajectoryAnimationCurve:
@@ -8455,6 +8455,63 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1001 &2026930954
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.09337
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.42857
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440760680909680636, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_Name
+      value: bone
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
 --- !u!4 &86294725589770556
 Transform:
   m_ObjectHideFlags: 0
@@ -8486,7 +8543,7 @@ MonoBehaviour:
     maxHealth: 10
     currentHealth: 0
     attack: 5
-    attackRate: 0.7
+    attackRate: 0.2
     baseMoveSpeed: 5
     currentMoveSpeed: 0
     dodgeCooldown: 1
@@ -9011,3 +9068,4 @@ SceneRoots:
   - {fileID: 188303037}
   - {fileID: 1379208764}
   - {fileID: 1148968159109180894}
+  - {fileID: 2026930954}

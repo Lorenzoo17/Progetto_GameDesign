@@ -11,6 +11,9 @@ public class InputManager : MonoBehaviour
     public Vector2 PlayerMovement {  get; private set; }
     public Vector2 MousePosition { get; private set; }
     public Vector2 AimDirection { get; private set; }
+
+    private InputAction attackAction;
+
     public event EventHandler OnAttackEvent; // richiamato in playerattack (con iscrizione all'evento)
     public event EventHandler OnDodgeEvent;
 
@@ -30,7 +33,8 @@ public class InputManager : MonoBehaviour
         playerInputActions.Player.Move.canceled += Move_canceled;
 
         // Player attack
-        playerInputActions.Player.Attack.performed += Attack_performed;
+        // playerInputActions.Player.Attack.performed += Attack_performed;
+        attackAction = playerInputActions.Player.Attack;
 
         // Player dash
         playerInputActions.Player.Dash.performed += Dash_performed;
@@ -40,12 +44,16 @@ public class InputManager : MonoBehaviour
         OnDodgeEvent?.Invoke(this, EventArgs.Empty);
     }
 
-    private void Attack_performed(InputAction.CallbackContext obj) {
-        OnAttackEvent?.Invoke(this, EventArgs.Empty);
-    }
+    // private void Attack_performed(InputAction.CallbackContext obj) {
+    //     OnAttackEvent?.Invoke(this, EventArgs.Empty);
+    // }
 
     private void Update() {
         if (Player.Instance == null) return;
+
+        if (attackAction.IsPressed()) {
+            OnAttackEvent?.Invoke(this, EventArgs.Empty);
+        }
 
         CalculateAimDirection(Player.Instance.transform.position);
     }
@@ -86,7 +94,7 @@ public class InputManager : MonoBehaviour
         if(playerInputActions != null) {
             playerInputActions.Player.Move.performed -= Move_performed;
             playerInputActions.Player.Move.canceled -= Move_canceled;
-            playerInputActions.Player.Attack.performed -= Attack_performed;
+            // playerInputActions.Player.Attack.performed -= Attack_performed;
             playerInputActions.Player.Dash.performed -= Dash_performed;
 
             playerInputActions.Player.Disable();
