@@ -9,8 +9,9 @@ public class Player : MonoBehaviour
     public PlayerAttack playerAttack;
     public PlayerStats playerStats;
     public PlayerHealth playerHealth;
-
+    public PerkController perkController;
     public ShakeData cameraShakeData;
+    
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
         playerAttack = GetComponent<PlayerAttack>();
         playerStats = GetComponent<PlayerStats>();
         playerHealth = GetComponent<PlayerHealth>();
+        perkController = GetComponent<PerkController>();
     }
 
     // Interazione per ora gestita in questo script direttamente

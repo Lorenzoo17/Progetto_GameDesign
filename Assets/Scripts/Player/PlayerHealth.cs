@@ -18,7 +18,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     private Rigidbody2D rb;
     private SpriteRenderer sr;
 
-    [SerializeField] private HealthBar healthBar;
+    [SerializeField] private int maxHealthUnits = 6; // 3 hearts
+    private int currentHealthUnits;
+
+    private void Awake() {
+        currentHealthUnits = maxHealthUnits;
+        rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+        
+
+        blinkAmount = (int)(invincibilityTime / (blinkAfterDamageRate * 2));
+
+        initialColor = sr.color;
+    }
 
     [SerializeField] private float invincibilityTime = 1;
     [SerializeField] private float blinkAfterDamageRate = 0.2f;
@@ -26,44 +38,38 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     private bool invincible = false;
     private Coroutine blinkCoroutine;
 
-    private void Awake() {
-        rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-
-        blinkAmount = (int)(invincibilityTime / (blinkAfterDamageRate * 2));
-
-        initialColor = sr.color;
-    }
 
     private void Update() {
         // sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime);
     }
 
     public void TakeDamage(DamageInfo damageInfo) {
-        if (Player.Instance.playerMovement.IsDodging() || invincible) return; // mentre sta schivando non prende danno o mentre e' invincibile (perche appena stato colpito)
-          
-        Player.Instance.playerStats.playerCurrentStats.TakeDamage(damageInfo.Damage);
+    if (Player.Instance.playerMovement.IsDodging() || invincible) return;
 
-        if (knockbackAfterTakingDamage) {
-            // rinculo player
-            Player.Instance.playerMovement.ApplyKnockback(damageInfo.Direction, knockbackForce);
-        }
-        // flash colore sprite player
-        invincible = true; // diventa invincibile
-        // per sicurezza per evitare coroutine stacking
-        if(blinkCoroutine != null) {
-            StopCoroutine(blinkCoroutine);
-        }
-        blinkCoroutine = StartCoroutine(DamageBlink());
+    // Convert to half-hearts
+    int damageUnits = Mathf.Max(1, Mathf.RoundToInt(damageInfo.Damage * 2));
 
-        // screen shake
-        CameraShakerHandler.Shake(Player.Instance.cameraShakeData);
+    // PERK MODIFIER
+    damageUnits = Player.Instance.perkController.ModifyIncomingDamage(damageUnits);
 
-        OnHealthChanged?.Invoke(this, EventArgs.Empty);
+    currentHealthUnits -= damageUnits;
+    currentHealthUnits = Mathf.Max(0, currentHealthUnits);
 
-        // check:
-        // se currentHealth <= 0 -> schermata gameOver -> ritorno in hub
+    if (knockbackAfterTakingDamage) {
+        Player.Instance.playerMovement.ApplyKnockback(damageInfo.Direction, knockbackForce);
     }
+
+    invincible = true;
+
+    if (blinkCoroutine != null)
+        StopCoroutine(blinkCoroutine);
+
+    blinkCoroutine = StartCoroutine(DamageBlink());
+
+    CameraShakerHandler.Shake(Player.Instance.cameraShakeData);
+
+    OnHealthChanged?.Invoke(this, EventArgs.Empty);
+}
 
     private IEnumerator DamageBlink() {
         for(int i = 0; i < blinkAmount; i++) {
@@ -79,13 +85,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
         invincible = false;
     }
 
-    public void Heal(float amount) {
-        Player.Instance.playerStats.playerCurrentStats.Heal(amount);
-
-        OnHealthChanged?.Invoke(this, EventArgs.Empty);
+    public void Heal(int units) {
+        currentHealthUnits += units;
+        currentHealthUnits = Mathf.Min(currentHealthUnits, maxHealthUnits);
     }
 
     public float GetHealthPercentage() {
-        return Player.Instance.playerStats.playerCurrentStats.GetCurrentHealth() / Player.Instance.playerStats.playerCurrentStats.GetMaxHealth();
+        return (float)currentHealthUnits / maxHealthUnits;
     }
 }

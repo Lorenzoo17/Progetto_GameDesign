@@ -1,0 +1,13 @@
+using UnityEngine;
+
+public abstract class PerkBase : ScriptableObject {
+
+    public string perkName;
+    public bool isPositive;
+
+    [Header("Optional: link to a pair")]
+    public PerkPair pair;
+
+    public virtual void OnApply(Player player) {}
+    public virtual void OnRemove(Player player) {}
+}
