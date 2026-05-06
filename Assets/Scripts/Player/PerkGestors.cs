@@ -4,17 +4,22 @@ using UnityEngine;
 public class PerkGestors : MonoBehaviour
 {
     [SerializeField] private List<StatPerkSO> initialPerks = new List<StatPerkSO>(); // Perk iniziali da Inspector
-    private List<string> activePerks = new List<string>();
+    private HashSet<string> activePerks = new HashSet<string>();
 
     private void Start()
     {
-        // Aggiungi perk iniziali dall'Inspector
+        // Applico i perk iniziali del player e li aggiungo alle statistiche
         foreach (var perk in initialPerks)
         {
-            activePerks.Add(perk.perkName);
+            if (perk == null) continue;
+
+            if (!activePerks.Contains(perk.perkName))
+            {
+                Player.Instance.playerStats.AddPerk(perk);
+            }
         }
 
-        // Aggiungi perk attivi dal PlayerStats (raccolti durante il gioco)
+        // Aggiungi eventuali perk raccolti durante il gioco
         foreach (var perk in Player.Instance.playerStats.GetActivePerks())
         {
             if (!activePerks.Contains(perk.perkName))
@@ -26,17 +31,26 @@ public class PerkGestors : MonoBehaviour
 
     public void AddPerk(string perkName)
     {
-        if (!activePerks.Contains(perkName))
-        {
-            activePerks.Add(perkName);
-        }
+        activePerks.Add(perkName);
     }
 
     public void ApplyAttackEffects(GameObject target)
     {
-        if (activePerks.Contains("Poison"))
+        foreach (var perkName in activePerks)
         {
-           Player.PlayerStats.updateStatsEvent.Invoke();
+            switch (perkName)
+            {
+                case "Poison":
+                    if (target.CompareTag("Enemy") && target.GetComponent<PoisonEffect>() == null)
+                    {
+                        target.AddComponent<PoisonEffect>();
+                    }
+                    break;
+                // Aggiungi qui altri perk con i loro effetti
+                // case "AltroPerk":
+                //     // effetto
+                //     break;
+            }
         }
     }
 }

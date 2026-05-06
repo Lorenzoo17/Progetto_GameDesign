@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HealthBuff",menuName = "ScriptableObject/Buff/HealthBuff")]
+/*[CreateAssetMenu(fileName = "HealthBuff",menuName = "ScriptableObject/Buff/HealthBuff")]
 public class HealthBuff : iBuff, ScriptableObject {
 
     public string name { get; private set; }
@@ -18,4 +18,4 @@ public class HealthBuff : iBuff, ScriptableObject {
     public void RemoveBuff(Player player) {
         player.playerHealth.DecreaseHealth(healthIncrease);
     }
-}
+}*/
