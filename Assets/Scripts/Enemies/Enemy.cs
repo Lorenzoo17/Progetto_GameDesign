@@ -48,6 +48,15 @@ public class Enemy : MonoBehaviour {
                 knockbackDuration
             );
         }
+        else {
+            if(TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav)) {
+                nav.ApplyKnockback(
+                    e.AttackDirection,
+                    knockBackForce,
+                    knockbackDuration
+                );
+            }
+        }
 
         if (anim != null) {
             anim.SetTrigger("Hurt");
