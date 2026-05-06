@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     public PlayerAttack playerAttack;
     public PlayerStats playerStats;
     public PlayerHealth playerHealth;
+    public PerkGestors perkGestors;
+
     public PerkController perkController;
     public ShakeData cameraShakeData;
     
@@ -25,6 +27,7 @@ public class Player : MonoBehaviour
         playerAttack = GetComponent<PlayerAttack>();
         playerStats = GetComponent<PlayerStats>();
         playerHealth = GetComponent<PlayerHealth>();
+        perkGestors = GetComponent<PerkGestors>();
         perkController = GetComponent<PerkController>();
     }
 

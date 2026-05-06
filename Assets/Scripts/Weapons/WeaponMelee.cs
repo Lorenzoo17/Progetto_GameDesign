@@ -33,6 +33,12 @@ public class WeaponMelee : Weapon {
                 if (entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable)) {
                     DamageInfo damageInfo = new DamageInfo(weaponDamage, dir, Player.Instance.gameObject, EntityType.Player);
                     entityDamageable.TakeDamage(damageInfo);
+
+                    // Applica effetti dei perk
+                    if (Player.Instance.perkGestors != null)
+                    {
+                        Player.Instance.perkGestors.ApplyAttackEffects(entity.gameObject);
+                    }
                 }
             }
         }

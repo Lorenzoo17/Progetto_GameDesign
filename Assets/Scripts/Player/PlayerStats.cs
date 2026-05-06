@@ -23,6 +23,12 @@ public class PlayerStats : MonoBehaviour {
         activePerks.Add(perk);
 
         UpdateStats(); // Aggiornamento statistiche
+
+        // Aggiorna PerkGestors
+        if (Player.Instance.perkGestors != null)
+        {
+            Player.Instance.perkGestors.AddPerk(perk.perkName);
+        }
     }
 
     private void UpdateStats() {
