@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 public class PerkController : MonoBehaviour {
 
     private List<PerkBase> activePerks = new();
