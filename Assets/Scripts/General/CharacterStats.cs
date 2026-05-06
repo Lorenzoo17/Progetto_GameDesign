@@ -1,10 +1,12 @@
+using System;
 using UnityEngine;
 
 public enum StatType {
     Attack,
     AttackRate,
     Speed,
-    DodgeCoolDown
+    DodgeCoolDown,
+    Poison
 }
 
 public enum ModifierType {
@@ -22,8 +24,10 @@ public class CharacterStats {
     [SerializeField] private float baseMoveSpeed;
     [SerializeField] private float currentMoveSpeed;
     [SerializeField] private float dodgeCooldown;
+    [SerializeField] private float poisonDamage;  
 
-    public CharacterStats(float maxHealth, float attack, float attackRate, float moveSpeed, float dodgeCooldown) {
+
+    public CharacterStats(float maxHealth, float attack, float attackRate, float moveSpeed, float dodgeCooldown, float poisonDamage) {
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
         this.attack = attack;
@@ -31,6 +35,7 @@ public class CharacterStats {
         this.baseMoveSpeed = moveSpeed;
         this.currentMoveSpeed = moveSpeed;
         this.dodgeCooldown = dodgeCooldown;
+        this.poisonDamage = poisonDamage;
     }
 
     public CharacterStats(CharacterStats stats) {
@@ -41,6 +46,18 @@ public class CharacterStats {
         this.baseMoveSpeed = stats.baseMoveSpeed;
         this.currentMoveSpeed = stats.baseMoveSpeed;
         this.dodgeCooldown = stats.dodgeCooldown;
+        this.poisonDamage = stats.poisonDamage;
+    }
+
+
+    public float getAttack()
+    {
+        return this.attack;
+    }
+
+    public float getPoisonDamage() 
+    {  
+        return this.poisonDamage; 
     }
 
     public float GetMaxHealth() => maxHealth;
@@ -72,6 +89,9 @@ public class CharacterStats {
     // Modifiche addittive alle statistiche
     public void AddAttack(float value) => attack += value;
     public void AddAttackRate(float value) => attackRate += value;
+
+    public void addPoisonDamage(float value) => poisonDamage += value;
+
     public void AddBaseMoveSpeed(float value) {
         baseMoveSpeed += value;
         RecalculateMoveSpeed();

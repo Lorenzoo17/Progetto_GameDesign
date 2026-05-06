@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class PerkGestors : MonoBehaviour
 {
-    [SerializeField] private List<StatPerkSO> initialPerks = new List<StatPerkSO>(); // Perk iniziali da Inspector
+    [SerializeField] private List<StatPerkSO> initialPerks = new List<StatPerkSO>();
     private HashSet<string> activePerks = new HashSet<string>();
+
+    public HashSet<string> getActivePerks()
+    {
+        return activePerks;
+    }
 
     private void Start()
     {

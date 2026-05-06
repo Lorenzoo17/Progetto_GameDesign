@@ -44,32 +44,33 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     }
 
     public void TakeDamage(DamageInfo damageInfo) {
-    if (Player.Instance.playerMovement.IsDodging() || invincible) return;
+        if (Player.Instance.playerMovement.IsDodging() || invincible) return;
 
-    // Convert to half-hearts
-    int damageUnits = Mathf.Max(1, Mathf.RoundToInt(damageInfo.Damage * 2));
+        // Convert to half-hearts
+        int damageUnits = Mathf.Max(1, Mathf.RoundToInt(damageInfo.Damage * 2));
 
-    // PERK MODIFIER
-    damageUnits = Player.Instance.perkController.ModifyIncomingDamage(damageUnits);
+        // PERK MODIFIER
+        damageUnits = Player.Instance.perkController.ModifyIncomingDamage(damageUnits);
 
-    currentHealthUnits -= damageUnits;
-    currentHealthUnits = Mathf.Max(0, currentHealthUnits);
+        currentHealthUnits -= damageUnits;
+        currentHealthUnits = Mathf.Max(0, currentHealthUnits);
 
-    if (knockbackAfterTakingDamage) {
-        Player.Instance.playerMovement.ApplyKnockback(damageInfo.Direction, knockbackForce);
+        if (knockbackAfterTakingDamage) {
+            Player.Instance.playerMovement.ApplyKnockback(damageInfo.Direction, knockbackForce);
+        }
+
+        invincible = true;
+
+        if (blinkCoroutine != null)
+            StopCoroutine(blinkCoroutine);
+
+        blinkCoroutine = StartCoroutine(DamageBlink());
+
+        CameraShakerHandler.Shake(Player.Instance.cameraShakeData);
+
+        OnHealthChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    invincible = true;
-
-    if (blinkCoroutine != null)
-        StopCoroutine(blinkCoroutine);
-
-    blinkCoroutine = StartCoroutine(DamageBlink());
-
-    CameraShakerHandler.Shake(Player.Instance.cameraShakeData);
-
-    OnHealthChanged?.Invoke(this, EventArgs.Empty);
-}
 
     private IEnumerator DamageBlink() {
         for(int i = 0; i < blinkAmount; i++) {
