@@ -93,4 +93,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     public float GetHealthPercentage() {
         return (float)currentHealthUnits / maxHealthUnits;
     }
+
+    public void IncreaseHealth(int units) {
+        maxHealthUnits += units;
+        Heal(units); // opzionale, dipende se si vuole che l'aumento di salute massima curi anche quella attuale
+    }
+
+    public void DecreaseHealth(int units) {
+        maxHealthUnits = Mathf.Max(1, maxHealthUnits - units); // assicurati di non scendere sotto 1
+        currentHealthUnits = Mathf.Min(currentHealthUnits, maxHealthUnits); // se la salute attuale è maggiore della nuova massima, riducila
+    }
 }
