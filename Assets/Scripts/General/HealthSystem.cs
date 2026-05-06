@@ -33,22 +33,41 @@ public class HealthSystem : MonoBehaviour, IDamageable {
         }
     }
 
+    public void TakePoisonDamage(DamageInfo damageInfo)
+    {
+        CurrentHealth -= damageInfo.Damage;
+        OnDamageTaken?.Invoke(this, new DamageEventArgs(damageInfo.Damage, damageInfo.Direction));
+
+        if (CurrentHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private DamageInfo TakeDamageLol(DamageInfo damageInfo) {
+        float defensePerc = (100f / (100f + defense));
+
         DamageInfo modifiedDamageInfo = new DamageInfo(
-            damageInfo.Damage * (100/(100 + defense)), // formula danno ridotto da armor
+            damageInfo.Damage * defensePerc,
             damageInfo.Direction,
             damageInfo.Source,
             damageInfo.SourceFaction
         );
         return modifiedDamageInfo;
     }
-    private DamageInfo TakeDamageOther(DamageInfo damageInfo) {
+    private DamageInfo TakeDamageOther(DamageInfo damageInfo)
+    {
+        float defensePerc = (100f / (100f + defense));
+        float damage = damageInfo.Damage;
+
+       
         DamageInfo modifiedDamageInfo = new DamageInfo(
-            Math.Log2(damageInfo.Damage) * (100/(100 + defense)), // formula danno ridotto da armor
+            MathF.Log(damage, 2) * defensePerc * MathF.Sqrt(damage),
             damageInfo.Direction,
             damageInfo.Source,
             damageInfo.SourceFaction
         );
-        return damageInfo;
+
+        return modifiedDamageInfo;
     }
 }

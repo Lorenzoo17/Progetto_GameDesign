@@ -5,6 +5,7 @@ using UnityEngine;
 
 public interface IDamageable {
     void TakeDamage(DamageInfo damageInfo);
+    void TakePoisonDamage(DamageInfo damageInfo);
 }
 
 public class PlayerHealth : MonoBehaviour, IDamageable {
@@ -104,4 +105,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
         maxHealthUnits = Mathf.Max(1, maxHealthUnits - units); // assicurati di non scendere sotto 1
         currentHealthUnits = Mathf.Min(currentHealthUnits, maxHealthUnits); // se la salute attuale è maggiore della nuova massima, riducila
     }
+
+    public void TakePoisonDamage(DamageInfo damageInfo) { }
 }
