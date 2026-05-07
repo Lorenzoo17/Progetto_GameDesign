@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-public class PerkController : MonoBehaviour {
+public class PerkController : MonoBehaviour
+{
 
     public List<PerkBase> activePerks = new();
 
@@ -10,13 +11,15 @@ public class PerkController : MonoBehaviour {
 
     public Player player;
 
-    public  void Awake() {
+    public void Awake()
+    {
         player = GetComponent<Player>();
     }
 
     // ---------------- ADD / REMOVE ----------------
 
-    public void AddPerk(PerkBase perk) {
+    public void AddPerk(PerkBase perk)
+    {
         activePerks.Add(perk);
         perk.OnApply(player);
 
@@ -28,7 +31,8 @@ public class PerkController : MonoBehaviour {
             onDealDamageEffects.Add(dealDmg);
     }
 
-    public void RemovePerk(PerkBase perk) {
+    public void RemovePerk(PerkBase perk)
+    {
         if (!activePerks.Contains(perk)) return;
 
         activePerks.Remove(perk);
@@ -43,28 +47,36 @@ public class PerkController : MonoBehaviour {
 
     // ---------------- HOOKS ----------------
 
-    public int ModifyIncomingDamage(int damage) {
-        foreach (var mod in incomingDamageModifiers) {
+    public int ModifyIncomingDamage(int damage)
+    {
+        foreach (var mod in incomingDamageModifiers)
+        {
             damage = mod.ModifyIncomingDamage(damage);
         }
         return damage;
     }
 
-    public void OnDealDamage(ref DamageInfo damage) {
-        foreach (var effect in onDealDamageEffects) {
-            effect.OnDealDamage(ref damage);
+    public DamageInfo OnDealDamage(ref DamageInfo damage)
+    {
+        foreach (var effect in onDealDamageEffects)
+        {
+            damage = effect.OnDealDamage(ref damage);
         }
+        return damage;
     }
 
-    public List<PerkBase> GetActivePerks() {
+    public List<PerkBase> GetActivePerks()
+    {
         return activePerks;
     }
 }
 
 /// INTERFACES FOR PERKS
-public interface IModifyIncomingDamage {
+public interface IModifyIncomingDamage
+{
     int ModifyIncomingDamage(int damage);
 }
-public interface IOnDealDamage {
-    void OnDealDamage(ref DamageInfo damage);
+public interface IOnDealDamage
+{
+    public DamageInfo OnDealDamage(ref DamageInfo damage);
 }

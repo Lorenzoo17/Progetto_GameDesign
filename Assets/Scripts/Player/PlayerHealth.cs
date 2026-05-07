@@ -3,12 +3,14 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public interface IDamageable {
+public interface IDamageable
+{
     void TakeDamage(DamageInfo damageInfo);
     void TakePoisonDamage(DamageInfo damageInfo);
 }
 
-public class PlayerHealth : MonoBehaviour, IDamageable {
+public class PlayerHealth : MonoBehaviour, IDamageable
+{
 
     public event EventHandler OnHealthChanged;
     [SerializeField] private bool knockbackAfterTakingDamage;
@@ -22,11 +24,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     [SerializeField] private int maxHealthUnits = 6; // 3 hearts
     private int currentHealthUnits;
 
-    private void Awake() {
+    private void Awake()
+    {
         currentHealthUnits = maxHealthUnits;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        
+
 
         blinkAmount = (int)(invincibilityTime / (blinkAfterDamageRate * 2));
 
@@ -40,15 +43,17 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     private Coroutine blinkCoroutine;
 
 
-    private void Update() {
+    private void Update()
+    {
         // sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime);
     }
 
-    public void TakeDamage(DamageInfo damageInfo) {
+    public void TakeDamage(DamageInfo damageInfo)
+    {
         if (Player.Instance.playerMovement.IsDodging() || invincible) return;
 
         // Convert to half-hearts
-        int damageUnits = Mathf.Max(1, Mathf.RoundToInt(damageInfo.Damage * 2));
+        int damageUnits = Mathf.Max(1, Mathf.RoundToInt(damageInfo.Damage[DamageType.Physical] * 2));
 
         // PERK MODIFIER
         damageUnits = Player.Instance.perkController.ModifyIncomingDamage(damageUnits);
@@ -56,7 +61,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
         currentHealthUnits -= damageUnits;
         currentHealthUnits = Mathf.Max(0, currentHealthUnits);
 
-        if (knockbackAfterTakingDamage) {
+        if (knockbackAfterTakingDamage)
+        {
             Player.Instance.playerMovement.ApplyKnockback(damageInfo.Direction, knockbackForce);
         }
 
@@ -73,8 +79,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     }
 
 
-    private IEnumerator DamageBlink() {
-        for(int i = 0; i < blinkAmount; i++) {
+    private IEnumerator DamageBlink()
+    {
+        for (int i = 0; i < blinkAmount; i++)
+        {
             sr.color = Color.white * 3f;
 
             yield return new WaitForSeconds(blinkAfterDamageRate);
@@ -87,32 +95,41 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
         invincible = false;
     }
 
-    public void Heal(int units) {
+    public void Heal(int units)
+    {
         currentHealthUnits += units;
         currentHealthUnits = Mathf.Min(currentHealthUnits, maxHealthUnits);
     }
 
-    public float GetHealthPercentage() {
+    public float GetHealthPercentage()
+    {
         return (float)currentHealthUnits / maxHealthUnits;
     }
 
-    public void IncreaseHealth(int units) {
+    public void IncreaseHealth(int units)
+    {
         maxHealthUnits += units;
         Heal(units); // opzionale, dipende se si vuole che l'aumento di salute massima curi anche quella attuale
     }
 
-    public void DecreaseHealth(int units) {
+    public void DecreaseHealth(int units)
+    {
         maxHealthUnits = Mathf.Max(1, maxHealthUnits - units); // assicurati di non scendere sotto 1
         currentHealthUnits = Mathf.Min(currentHealthUnits, maxHealthUnits); // se la salute attuale è maggiore della nuova massima, riducila
     }
 
-    public void TakePoisonDamage(DamageInfo damageInfo) { }
+    public void TakePoisonDamage(DamageInfo damageInfo)
+    {
+        // Implementation for taking poison damage
+    }
 
-    public int GetCurrentHealthUnits() {
+    public int GetCurrentHealthUnits()
+    {
         return currentHealthUnits;
     }
 
-    public bool IsDead() {
+    public bool IsDead()
+    {
         return currentHealthUnits <= 0;
     }
 

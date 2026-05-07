@@ -49,6 +49,7 @@ public class StatusSO : ScriptableObject
     public string description;
     public StatusEffectCategory category = StatusEffectCategory.Debuff;
     public StatusEffectType effectType = StatusEffectType.None;
+    public bool isVisible = true;
 
     [Header("Damage / healing")]
     public DamageType damageType = DamageType.None;
