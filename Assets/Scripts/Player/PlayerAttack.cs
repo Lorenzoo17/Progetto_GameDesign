@@ -108,14 +108,12 @@ public class PlayerAttack : MonoBehaviour {
             if (currentWeapon.TryGetComponent<Weapon>(out Weapon w)) {
                 w.DropWeapon();
             }
-            // droppo in basso (momentaneo)
-            currentWeapon.transform.position = transform.position + (Vector3.down * 2f);
         }
 
         // assegno nuova arma
         currentWeapon = newWeapon;
         currentWeapon.transform.SetParent(weaponHolder);
         currentWeapon.transform.localPosition = Vector2.zero;
-        currentWeapon.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        currentWeapon.transform.localRotation = Quaternion.Euler(currentWeapon.GetComponent<Weapon>().xRotationOffset, 0, 0);
     }
 }
