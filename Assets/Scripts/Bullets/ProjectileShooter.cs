@@ -54,4 +54,22 @@ public class ProjectileShooter : MonoBehaviour {
             );
         }
     }
+
+    public void ShootMultipleProjectile(GameObject owner, int projectileNumber) {
+        if (projectileNumber <= 1) return;
+
+        float angleStep = 360f / projectileNumber;
+
+        for (int i = 0; i < projectileNumber; i++) {
+            float angle = angleStep * i * Mathf.Deg2Rad;
+
+            GameObject projectileObj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+            Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+
+            if (projectileObj.TryGetComponent<LinearProjectile>(out LinearProjectile projectile)) {
+                projectile.InitializeLinearProjectile(owner, direction, projectileSpeed, damage);
+            }
+        }
+    }
 }

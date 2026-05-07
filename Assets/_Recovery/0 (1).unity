@@ -24170,7 +24170,7 @@ MonoBehaviour:
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkAfterDamageTime: 5
+  blinkAfterDamageTime: 2
   hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
   hitEffectSpawnPositionOffset: 1
   hitEffectRotationOffset: -90

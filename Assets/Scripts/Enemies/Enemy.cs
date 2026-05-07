@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour {
 
     private void Update() {
         if (sr != null && sr.color != initialColor) {
-            sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime);
+            sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime * Time.deltaTime);
         }
     }
 
