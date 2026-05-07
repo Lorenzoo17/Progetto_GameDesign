@@ -8,14 +8,17 @@ public class Player : MonoBehaviour
     public PlayerMovement playerMovement;
     public PlayerAttack playerAttack;
     public PlayerStats playerStats;
-    public PlayerHealth playerHealth;   
+    public PlayerHealth playerHealth;
 
     public PerkController perkController;
+    public StatusController statusController;
     public ShakeData cameraShakeData;
-    
 
-    private void Awake() {
-        if (Instance != null && Instance != this) {
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
             Destroy(gameObject);
             return;
         }
@@ -27,14 +30,17 @@ public class Player : MonoBehaviour
         playerStats = GetComponent<PlayerStats>();
         playerHealth = GetComponent<PlayerHealth>();
         perkController = GetComponent<PerkController>();
+        statusController = GetComponent<StatusController>();
 
         Debug.Log(perkController);
     }
 
     // Interazione per ora gestita in questo script direttamente
     // Per ora gestito con ontriggerenter
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.GetComponent<ICollectible>() != null) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.GetComponent<ICollectible>() != null)
+        {
             other.gameObject.GetComponent<ICollectible>().Collect(this);
         }
     }

@@ -1,7 +1,7 @@
 using UnityEngine;
-
 public abstract class PerkBase : ScriptableObject
 {
+
     public string perkName;
 
     [Header("Optional: link to a pair")]

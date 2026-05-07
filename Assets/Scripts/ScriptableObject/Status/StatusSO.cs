@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public enum StatusEffectType {
+public enum StatusEffectType
+{
     None,
     InstantDamage,
     DamageOverTime,
@@ -18,7 +19,8 @@ public enum StatusEffectType {
     Shield
 }
 
-public enum StatusEffectCategory {
+public enum StatusEffectCategory
+{
     None,
     Damage,
     Debuff,
@@ -26,7 +28,8 @@ public enum StatusEffectCategory {
     Control
 }
 
-public enum DamageType {
+public enum DamageType
+{
     None,
     Physical,
     Magical,
@@ -37,7 +40,8 @@ public enum DamageType {
 }
 
 [CreateAssetMenu(fileName = "New Status", menuName = "ScriptableObject/Status/StatusSO")]
-public class StatusSO : ScriptableObject {
+public class StatusSO : ScriptableObject
+{
 
     [Header("Base info")]
     public string statusName = "New Status";
@@ -61,26 +65,33 @@ public class StatusSO : ScriptableObject {
     public bool HasDamage => effectType == StatusEffectType.InstantDamage || effectType == StatusEffectType.DamageOverTime || effectType == StatusEffectType.Burn || effectType == StatusEffectType.Poison || effectType == StatusEffectType.Freeze;
     public bool HasAbstractEffect => effectType == StatusEffectType.Blind || effectType == StatusEffectType.Slow || effectType == StatusEffectType.Stun || effectType == StatusEffectType.Silence || effectType == StatusEffectType.Root || effectType == StatusEffectType.Confuse || effectType == StatusEffectType.Shield || effectType == StatusEffectType.Regeneration;
 
-    public StatusInstance CreateInstance() {
+    public StatusInstance CreateInstance()
+    {
         return new StatusInstance(this);
     }
 
-    public string GetTooltip() {
+    public string GetTooltip()
+    {
         string tooltip = statusName;
-        if (!string.IsNullOrWhiteSpace(description)) {
+        if (!string.IsNullOrWhiteSpace(description))
+        {
             tooltip += " - " + description;
         }
         tooltip += $"\nTipo: {effectType}";
-        if (HasDamage) {
+        if (HasDamage)
+        {
             tooltip += $"\nDanno: {baseValue} ({damageType})";
         }
-        if (duration > 0f && !isPermanent) {
+        if (duration > 0f && !isPermanent)
+        {
             tooltip += $"\nDurata: {duration}s";
         }
-        if (tickInterval > 0f && effectType == StatusEffectType.DamageOverTime) {
+        if (tickInterval > 0f && effectType == StatusEffectType.DamageOverTime)
+        {
             tooltip += $"\nTick ogni {tickInterval}s";
         }
-        if (stackable) {
+        if (stackable)
+        {
             tooltip += $"\nStackable fino a {maxStacks}";
         }
         return tooltip;
@@ -88,13 +99,15 @@ public class StatusSO : ScriptableObject {
 }
 
 [System.Serializable]
-public class StatusInstance {
+public class StatusInstance
+{
     public StatusSO source;
     public float remainingDuration;
     public int stacks;
     public float tickTimer;
 
-    public StatusInstance(StatusSO source) {
+    public StatusInstance(StatusSO source)
+    {
         this.source = source;
         this.remainingDuration = source == null || source.isPermanent ? Mathf.Infinity : source.duration;
         this.stacks = source != null && source.stackable ? 1 : 1;
@@ -103,37 +116,43 @@ public class StatusInstance {
 
     public bool IsExpired => source != null && !source.isPermanent && remainingDuration <= 0f;
 
-    public void Refresh() {
+    public void Refresh()
+    {
         if (source == null) return;
         remainingDuration = source.isPermanent ? Mathf.Infinity : source.duration;
         tickTimer = 0f;
         stacks = Mathf.Clamp(stacks, 1, source.maxStacks);
     }
 
-    public void AddStack() {
+    public void AddStack()
+    {
         if (source == null || !source.stackable) return;
         stacks = Mathf.Min(stacks + 1, source.maxStacks);
         Refresh();
     }
 
-    public float GetEffectiveValue() {
+    public float GetEffectiveValue()
+    {
         if (source == null) return 0f;
         return source.baseValue * stacks;
     }
 
-    public float UpdateTick(float deltaTime) {
+    public float UpdateTick(float deltaTime)
+    {
         if (source == null || !source.HasDamage || source.tickInterval <= 0f) return 0f;
 
         tickTimer += deltaTime;
         float damage = 0f;
-        while (tickTimer >= source.tickInterval) {
+        while (tickTimer >= source.tickInterval)
+        {
             damage += GetEffectiveValue();
             tickTimer -= source.tickInterval;
         }
         return damage;
     }
 
-    public void UpdateTime(float deltaTime) {
+    public void UpdateTime(float deltaTime)
+    {
         if (source == null || source.isPermanent) return;
         remainingDuration -= deltaTime;
     }

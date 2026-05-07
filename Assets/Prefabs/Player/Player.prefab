@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 3277603306255936268}
   - component: {fileID: 7525827829384608064}
   - component: {fileID: 4977418957196858382}
+  - component: {fileID: 8166256736827275483}
+  - component: {fileID: -2533598983264280887}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -206,6 +208,7 @@ MonoBehaviour:
     baseMoveSpeed: 5
     currentMoveSpeed: 0
     dodgeCooldown: 1
+    poisonDamage: 0
   playerCurrentStats:
     maxHealth: 0
     currentHealth: 0
@@ -214,6 +217,7 @@ MonoBehaviour:
     baseMoveSpeed: 0
     currentMoveSpeed: 0
     dodgeCooldown: 0
+    poisonDamage: 0
 --- !u!114 &5728342325613100494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   knockbackAfterTakingDamage: 1
   knockbackForce: 5
-  healthBar: {fileID: 0}
+  maxHealthUnits: 6
   invincibilityTime: 1
   blinkAfterDamageRate: 0.1
 --- !u!114 &3277603306255936268
@@ -247,6 +251,8 @@ MonoBehaviour:
   playerAttack: {fileID: 0}
   playerStats: {fileID: 0}
   playerHealth: {fileID: 0}
+  perkController: {fileID: 0}
+  statusController: {fileID: 0}
   cameraShakeData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
 --- !u!114 &7525827829384608064
 MonoBehaviour:
@@ -287,6 +293,33 @@ MonoBehaviour:
   attackDirectionUIDistanceFromPlayer: 1
   knockBackWhileAttacking: 1
   knockBackForce: 5
+--- !u!114 &8166256736827275483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303978041023684131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d160049de5ed14aac093c422a2b818, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusController
+  activeStatuses: []
+--- !u!114 &-2533598983264280887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303978041023684131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d81661412ed714bbf5deb88e60900d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PerkController
+  activePerks: []
+  player: {fileID: 0}
 --- !u!1 &2719412296750409366
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,8 +7,10 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private float transitionTime = 1f;
 
-    private void Awake() {
-        if (Instance != null) {
+    private void Awake()
+    {
+        if (Instance != null)
+        {
             Destroy(gameObject);
             return;
         }
@@ -16,13 +18,16 @@ public class LevelLoader : MonoBehaviour
         Instance = this;
     }
 
-    public void LoadNextScene(string sceneName) {
+    public void LoadNextScene(string sceneName)
+    {
         StartCoroutine(LoadLevel(sceneName));
     }
 
-    private System.Collections.IEnumerator LoadLevel(string sceneName) {
+    private System.Collections.IEnumerator LoadLevel(string sceneName)
+    {
         anim.SetTrigger("Start");
         yield return new WaitForSeconds(transitionTime);
+        Debug.Log($"Loading scene: {sceneName}");
 
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
