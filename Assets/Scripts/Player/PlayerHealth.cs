@@ -107,4 +107,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
     }
 
     public void TakePoisonDamage(DamageInfo damageInfo) { }
+
+    public int GetCurrentHealthUnits() {
+        return currentHealthUnits;
+    }
+
+    public bool IsDead() {
+        return currentHealthUnits <= 0;
+    }
+
 }
+
