@@ -50,7 +50,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageInfo damageInfo)
     {
-        if (Player.Instance.playerMovement.IsDodging() || invincible) return;
+        if (Player.Instance.playerMovement.IsDodging() || invincible || IsDead()) return;
 
         // Convert to half-hearts
         int damageUnits = Mathf.Max(1, Mathf.RoundToInt(damageInfo.Damage[DamageType.Physical] * 2));
@@ -76,6 +76,11 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         CameraShakerHandler.Shake(Player.Instance.cameraShakeData);
 
         OnHealthChanged?.Invoke(this, EventArgs.Empty);
+
+        //controllo morte del player
+        if (IsDead()) {
+            Die();
+        }
     }
 
 
@@ -131,6 +136,16 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public bool IsDead()
     {
         return currentHealthUnits <= 0;
+    }
+
+    private void Die() {
+        Debug.Log("Che sega, sei morto!");
+    
+        // Disabilitiamo le collisioni per evitare ulteriori danni o interazioni
+        GetComponent<Collider2D>().enabled = false;
+    
+        // Notifichiamo il controller principale del Player
+        Player.Instance.OnPlayerDeath();
     }
 
 }

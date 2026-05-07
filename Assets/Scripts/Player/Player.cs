@@ -1,3 +1,4 @@
+using System.Collections;
 using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
 
@@ -43,5 +44,33 @@ public class Player : MonoBehaviour
         {
             other.gameObject.GetComponent<ICollectible>().Collect(this);
         }
+    }
+
+    public void OnPlayerDeath() {
+        //inibisco le azioni del player (movimento + attacco)
+        playerMovement.enabled = false;
+        playerAttack.enabled = false;
+
+        //Fermo il rigidbody del player
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null) {
+            rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Static; // Blocca fisicamente il corpo
+        }
+
+        //Se si volessero aggiungere animazioni di morte
+        /*Animator anim = GetComponent<Animator>();
+        if (anim != null) {
+            anim.SetTrigger("Die"); // Assicurati di avere un trigger "Die" nell'Animator
+        }*/
+
+        //Esegui il reload della scena TODO: sostituire con schermata di game over
+        StartCoroutine(GameOverSequence());
+    }
+
+    private IEnumerator GameOverSequence() 
+    {
+        yield return new WaitForSeconds(1.5f); // Aspetta un attimo per enfasi drammatica
+        LevelLoader.Instance.RestartLevel();   // Fa tutto lui (animazione + caricamento)
     }
 }
