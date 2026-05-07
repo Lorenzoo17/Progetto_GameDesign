@@ -19,18 +19,6 @@ public class PlayerStats : MonoBehaviour {
         return activePerks;
     }
 
-    public void AddPerk(StatPerkSO perk) {
-        activePerks.Add(perk);
-
-        UpdateStats(); // Aggiornamento statistiche
-
-        // Aggiorna PerkGestors
-        if (Player.Instance.perkGestors != null)
-        {
-            Player.Instance.perkGestors.AddPerk(perk.perkName);
-        }
-    }
-
     private void UpdateStats() {
         // reset
         playerCurrentStats = new CharacterStats(baseStats);
@@ -81,5 +69,10 @@ public class PlayerStats : MonoBehaviour {
                 flatAction(stats);
             else
                 percentAction(stats);
+    }
+
+    public void AddPerk(StatPerkSO perk) {
+        activePerks.Add(perk);
+        UpdateStats();
     }
 }

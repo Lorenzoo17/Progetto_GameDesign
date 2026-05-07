@@ -31,9 +31,7 @@ public class WeaponMelee : Weapon {
 
         Player player = Player.Instance;
 
-        HashSet<string> playerActivePerks = player.perkGestors.getActivePerks();
-
-        if (playerActivePerks.Contains("Poison")) { 
+        if (Player.Instance.playerStats.GetActivePerks().Exists(p => p.perkName == "Poison")) { 
             hasPoison = true;
         }
         
@@ -61,11 +59,6 @@ public class WeaponMelee : Weapon {
                         entityDamageable.TakeDamage(poisonDamage);
                     }
 
-                    // Applica effetti dei perk
-                    if (Player.Instance.perkGestors != null)
-                    {
-                        Player.Instance.perkGestors.ApplyAttackEffects(entity.gameObject);
-                    }
                 }
             }
         }

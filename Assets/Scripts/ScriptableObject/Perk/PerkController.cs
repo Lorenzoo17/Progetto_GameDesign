@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 public class PerkController : MonoBehaviour {
 
-    private List<PerkBase> activePerks = new();
+    public List<PerkBase> activePerks = new();
 
     // Filtered lists (performance + clarity)
-    private List<IModifyIncomingDamage> incomingDamageModifiers = new();
-    private List<IOnDealDamage> onDealDamageEffects = new();
+    public List<IModifyIncomingDamage> incomingDamageModifiers = new();
+    public List<IOnDealDamage> onDealDamageEffects = new();
 
-    private Player player;
+    public Player player;
 
-    private void Awake() {
+    public  void Awake() {
         player = GetComponent<Player>();
     }
 
