@@ -24113,7 +24113,8 @@ MonoBehaviour:
   attackStartDistance: 4
   moveDistance: 20
   meleeAttackRange: 0
-  projectileNumberToShoot: 10
+  projectileNumberToShootMin: 5
+  projectileNumberToShootMax: 15
   startSmashDuration: 0.5
   smashFallSpeed: 8
   smashFallDistance: 0.1
@@ -33855,7 +33856,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!195 &1810845040
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -33941,7 +33942,7 @@ MonoBehaviour:
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkAfterDamageTime: 2
+  blinkAfterDamageTime: 4
   hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
   hitEffectSpawnPositionOffset: 1
   hitEffectRotationOffset: -90
@@ -36749,7 +36750,7 @@ MonoBehaviour:
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkAfterDamageTime: 2
+  blinkAfterDamageTime: 4
   hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
   hitEffectSpawnPositionOffset: 1
   hitEffectRotationOffset: -90
@@ -37375,7 +37376,7 @@ MonoBehaviour:
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkAfterDamageTime: 2
+  blinkAfterDamageTime: 4
   hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
   hitEffectSpawnPositionOffset: 1
   hitEffectRotationOffset: -90
