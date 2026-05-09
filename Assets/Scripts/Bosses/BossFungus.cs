@@ -9,7 +9,8 @@ public class BossFungus : MonoBehaviour {
         StartSmash,
         SmashFall,
         SmashEnd,
-        Reposition
+        Reposition,
+        ChaseBurst
     }
 
     [Header("General data")]
@@ -34,6 +35,22 @@ public class BossFungus : MonoBehaviour {
     [SerializeField] private float repositionStoppingDistance = 0.2f;
     [SerializeField] private float[] repositionDistances = { 3f, 5f, 7f };
     private Vector3 repositionTarget;
+
+    [Header("Chase Burst data")]
+    [SerializeField] private float chaseBurstSpeed = 8f;
+    [SerializeField] private float chaseBurstDuration = 0.45f;
+    [SerializeField] private float chaseBurstMinDistance = 6f;
+    [SerializeField] private float chaseBurstStopDistanceFromPlayer = 2f;
+    [SerializeField] private float chaseBurstCooldown = 3f;
+    [SerializeField] private float chaseBurstChance = 0.5f;
+    private float chaseBurstCooldownTimer;
+
+    [Header("Fly shooting data")]
+    [SerializeField] private float flyShootCooldown = 1.5f;
+    [SerializeField] private float flyShootMinDistance = 3.5f;
+    [SerializeField] private float flyShootMaxDistance = 10f;
+    [SerializeField] private int flyShootChanceDenominator = 3;
+    private float flyShootCooldownTimer;
 
     private float distanceFromPlayer;
     private float stateTimer;
@@ -64,6 +81,14 @@ public class BossFungus : MonoBehaviour {
     private void Update() {
         if (Player.Instance == null) return;
 
+        if (chaseBurstCooldownTimer > 0f) {
+            chaseBurstCooldownTimer -= Time.deltaTime;
+        }
+
+        if (flyShootCooldownTimer > 0f) {
+            flyShootCooldownTimer -= Time.deltaTime;
+        }
+
         distanceFromPlayer = Vector2.Distance(
             Player.Instance.transform.position,
             transform.position
@@ -93,6 +118,10 @@ public class BossFungus : MonoBehaviour {
             case BossFungusFSM.Reposition:
                 Reposition();
                 break;
+
+            case BossFungusFSM.ChaseBurst:
+                ChaseBurst();
+                break;
         }
     }
 
@@ -107,6 +136,9 @@ public class BossFungus : MonoBehaviour {
                 break;
 
             case BossFungusFSM.Fly:
+                if (agent != null) {
+                    agent.speed = speed;
+                }
                 if (anim != null) anim.Play("Fly");
                 break;
 
@@ -145,6 +177,17 @@ public class BossFungus : MonoBehaviour {
 
                 ChooseRandomRepositionTarget();
                 break;
+
+            case BossFungusFSM.ChaseBurst:
+                stateTimer = 0f;
+
+                if (anim != null) anim.Play("Fly");
+
+                if (agent != null && agent.enabled && agent.isOnNavMesh) {
+                    agent.speed = chaseBurstSpeed;
+                }
+
+                break;
         }
     }
 
@@ -162,6 +205,14 @@ public class BossFungus : MonoBehaviour {
             ChangeState(BossFungusFSM.Idle); // torno in stato idle
             return;
         }
+
+        TryShootWhileFlying();
+
+        if (ShouldDoChaseBurst()) {
+            ChangeState(BossFungusFSM.ChaseBurst);
+            return;
+        }
+
 
         if (distanceFromPlayer > attackStartDistance) { // mi sposto verso il giocatore
             desiredPosition = Player.Instance.transform.position;
@@ -258,6 +309,51 @@ public class BossFungus : MonoBehaviour {
         }
     }
 
+    private bool ShouldDoChaseBurst() {
+        if (chaseBurstCooldownTimer > 0f) return false;
+
+        if (distanceFromPlayer < chaseBurstMinDistance) return false;
+
+        return Random.value <= chaseBurstChance;
+    }
+
+    private void ChaseBurst() {
+        stateTimer += Time.deltaTime;
+
+        if (Player.Instance == null) {
+            ChangeState(BossFungusFSM.Idle);
+            return;
+        }
+
+        Vector3 targetPosition = Player.Instance.transform.position;
+
+        Vector2 directionToBoss =
+            ((Vector2)transform.position - (Vector2)Player.Instance.transform.position).normalized;
+
+        Vector3 stopPosition = targetPosition + (Vector3)(directionToBoss * chaseBurstStopDistanceFromPlayer);
+        stopPosition.z = transform.position.z;
+
+        if (agent != null && agent.enabled && agent.isOnNavMesh) {
+            agent.speed = chaseBurstSpeed;
+            agent.SetDestination(stopPosition);
+        }
+
+        bool burstFinished = stateTimer >= chaseBurstDuration;
+
+        bool closeEnough = distanceFromPlayer <= attackStartDistance;
+
+        if (burstFinished || closeEnough) {
+            chaseBurstCooldownTimer = chaseBurstCooldown;
+
+            if (distanceFromPlayer <= attackStartDistance) {
+                ChangeState(BossFungusFSM.StartSmash);
+            }
+            else {
+                ChangeState(BossFungusFSM.Fly);
+            }
+        }
+    }
+
     private void ChooseRandomRepositionTarget() {
         if (agent == null || !agent.enabled || !agent.isOnNavMesh) return;
 
@@ -311,20 +407,60 @@ public class BossFungus : MonoBehaviour {
         }
     }
 
+    private void TryShootWhileFlying() {
+        if (shooter == null) return;
+        if (Player.Instance == null) return;
+
+        if (flyShootCooldownTimer > 0f) return;
+
+        // if (distanceFromPlayer < flyShootMinDistance) return;
+        // if (distanceFromPlayer > flyShootMaxDistance) return;
+
+        bool shouldShoot = Random.Range(0, flyShootChanceDenominator) == 0;
+
+        flyShootCooldownTimer = flyShootCooldown;
+
+        if (!shouldShoot) return;
+
+        Shoot();
+    }
+
     private void Shoot() {
         if (shooter == null) return;
 
         int projectileNumber = Random.Range(projectileNumberToShootMin, projectileNumberToShootMax);
+
+        if (distanceFromPlayer >= chaseBurstMinDistance) {
+            // Se il player è lontano, uso più spesso rosa stretta
+            shooter.ShootFocusedSpread(
+                gameObject,
+                Mathf.Min(projectileNumber, 7),
+                Player.Instance.transform,
+                45f
+            );
+
+            return;
+        }
+
         int shootingType = Random.Range(0, 2);
+
         switch (shootingType) {
             case 0:
-                shooter.ShootMultipleProjectile(gameObject, projectileNumber, Player.Instance.transform, true);
+                shooter.ShootMultipleProjectile(
+                    gameObject,
+                    projectileNumber,
+                    Player.Instance.transform,
+                    true
+                );
                 return;
+
             case 1:
-                shooter.ShootMultipleProjectile(gameObject, projectileNumber, Player.Instance.transform, false);
-                return;
-            default:
-                shooter.ShootMultipleProjectile(gameObject, projectileNumber, Player.Instance.transform, true);
+                shooter.ShootMultipleProjectile(
+                    gameObject,
+                    projectileNumber,
+                    Player.Instance.transform,
+                    false
+                );
                 return;
         }
     }
