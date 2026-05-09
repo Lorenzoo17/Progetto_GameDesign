@@ -25,6 +25,10 @@ public class HealthSystem : MonoBehaviour, IDamageable {
         CurrentHealth -= damageInfo.Damage;
         OnDamageTaken?.Invoke(this, new DamageEventArgs(damageInfo.Damage, damageInfo.Direction));
 
+        if (SoundManager.Instance != null) {
+            SoundManager.Instance.PlaySound2D(SoundID.EnemyHit, .25f);
+        }
+
         if (CurrentHealth <= 0) {
             Destroy(gameObject);
         }

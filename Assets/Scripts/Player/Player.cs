@@ -31,6 +31,9 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.GetComponent<ICollectible>() != null) {
             other.gameObject.GetComponent<ICollectible>().Collect(this);
+            if (SoundManager.Instance != null) {
+                SoundManager.Instance.PlaySound2D(SoundID.PickUp, .15f);
+            }
         }
     }
 }

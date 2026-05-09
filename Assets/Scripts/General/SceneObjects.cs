@@ -13,6 +13,10 @@ public class SceneObjects : MonoBehaviour, IDamageable {
 
     private void DestroyAnimation() {
         anim.SetTrigger("Destroy");
+
+        if(SoundManager.Instance != null) {
+            SoundManager.Instance.PlaySound2D(SoundID.WoodCrack, .15f);
+        }
     }
 
 }

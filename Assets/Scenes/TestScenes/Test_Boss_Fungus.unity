@@ -32700,7 +32700,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e4c714a52cd754ab48a857eac4daa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundLibrary
-  soundEffects: []
+  soundEffects:
+  - soundID: 0
+    clips:
+    - {fileID: 8300000, guid: 2910a6fe9c680c14d9969bd1606eb0c9, type: 3}
+    - {fileID: 8300000, guid: fe90f369a0c628d4b9513592e3fa846d, type: 3}
+    - {fileID: 8300000, guid: b662cc7f096612b45a62e371f5e6df0a, type: 3}
+  - soundID: 1
+    clips:
+    - {fileID: 8300000, guid: 2b9252de19ac3f447a148316b3dcb6f0, type: 3}
+  - soundID: 8
+    clips:
+    - {fileID: 8300000, guid: 2ed2da92978c0f7489a56f019afff6db, type: 3}
+  - soundID: 9
+    clips:
+    - {fileID: 8300000, guid: 3ddaeb2c81be42e4b8355d9ff1154c92, type: 3}
+  - soundID: 2
+    clips:
+    - {fileID: 8300000, guid: 9ec37cf4c33e6db4a8c19b9514896638, type: 3}
+  - soundID: 3
+    clips:
+    - {fileID: 8300000, guid: 9ec37cf4c33e6db4a8c19b9514896638, type: 3}
+  - soundID: 5
+    clips:
+    - {fileID: 8300000, guid: 2b9252de19ac3f447a148316b3dcb6f0, type: 3}
 --- !u!114 &1606143613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32727,7 +32750,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fef5d603c657a5439a0456db70f8be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicLibrary
-  tracks: []
+  tracks:
+  - musicID: 2
+    clip: {fileID: 8300000, guid: a22a99941a55f14418610025f8cbd9fa, type: 3}
 --- !u!1 &1624542017
 GameObject:
   m_ObjectHideFlags: 0

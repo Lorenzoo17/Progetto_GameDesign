@@ -76,6 +76,10 @@ public class BossFungus : MonoBehaviour {
             repositionSpeed = speed;
         }
         ChangeState(BossFungusFSM.Idle);
+
+        if(MusicManager.Instance != null) {
+            MusicManager.Instance.PlayMusic(MusicID.BossFungus, .5f, 1f);
+        }
     }
 
     private void Update() {
@@ -427,6 +431,10 @@ public class BossFungus : MonoBehaviour {
 
     private void Shoot() {
         if (shooter == null) return;
+
+        if (SoundManager.Instance != null) {
+            SoundManager.Instance.PlaySound2D(SoundID.EnemyShoot, .25f);
+        }
 
         int projectileNumber = Random.Range(projectileNumberToShootMin, projectileNumberToShootMax);
 

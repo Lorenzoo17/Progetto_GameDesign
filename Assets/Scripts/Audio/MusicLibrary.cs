@@ -1,20 +1,30 @@
 using UnityEngine;
+public enum MusicID {
+    MainMenu,
+    SewerDungeon,
+    BossFungus,
+    GameOver,
+    Victory
+}
 
 [System.Serializable]
 public struct MusicTrack {
-    public string trackName;
+    public MusicID musicID;
     public AudioClip clip;
 }
 
 public class MusicLibrary : MonoBehaviour {
-    public MusicTrack[] tracks;
 
-    public AudioClip GetClipFromName(string trackName) {
-        foreach (var track in tracks) {
-            if (track.trackName == trackName) {
+    [SerializeField] private MusicTrack[] tracks;
+
+    public AudioClip GetClip(MusicID musicID) {
+        foreach (MusicTrack track in tracks) {
+            if (track.musicID == musicID) {
                 return track.clip;
             }
         }
+
+        Debug.LogWarning($"Music track not found: {musicID}");
         return null;
     }
 }

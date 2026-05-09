@@ -59,6 +59,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable {
         // screen shake
         CameraShakerHandler.Shake(Player.Instance.cameraShakeData);
 
+        if (SoundManager.Instance != null) {
+            SoundManager.Instance.PlaySound2D(SoundID.PlayerHit, .25f);
+        }
+
         OnHealthChanged?.Invoke(this, EventArgs.Empty);
 
         // check:

@@ -149,6 +149,9 @@ public class PlayerMovement : MonoBehaviour {
             if (currentWalkVisualEffectTime <= 0) {
 
                 EffectManager.Instance.SpawnVisualEffect(VisualEffectType.Walk, feetTransform.position, Quaternion.identity);
+                if(SoundManager.Instance != null) {
+                    SoundManager.Instance.PlaySound2D(SoundID.Footstep, .05f); // riproduco suono footstep
+                }
 
                 currentWalkVisualEffectTime = walkVisualEffectSpawnRate;
             }

@@ -263,7 +263,7 @@ MonoBehaviour:
   lastLookingDirection: {x: 0, y: 0}
   deadZoneRadius: 0.3
   feetTransform: {fileID: 5418774211042522467}
-  walkVisualEffectSpawnRate: 0.2
+  walkVisualEffectSpawnRate: 0.35
   knockbackDuration: 0.15
   dodgeDuration: 0.15
   dodgeDistance: 2

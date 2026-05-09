@@ -70,6 +70,11 @@ public class PlayerAttack : MonoBehaviour {
             Player.Instance.playerMovement.ApplyKnockback(-attackDirection, knockBackForce);
         }
 
+        // per ora suono generico e non dipendente dall'arma
+        if(SoundManager.Instance != null) {
+            SoundManager.Instance.PlaySound2D(SoundID.PlayerAttack, .15f);
+        }
+
         attackTimer = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();
         canAttack = false;
     }
