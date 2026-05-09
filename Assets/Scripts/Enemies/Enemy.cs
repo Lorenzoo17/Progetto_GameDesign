@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour {
         if (sr != null && sr.color != initialColor) {
             sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime * Time.deltaTime);
         }
+
+        FlipBasedOnPlayer();
     }
 
     private void EnemyHealthSystem_OnDamageTaken(object sender, DamageEventArgs e) {
@@ -84,6 +86,17 @@ public class Enemy : MonoBehaviour {
         if (other.TryGetComponent<Player>(out Player player)) {
             Vector2 attackDirection = (other.transform.position - transform.position).normalized;
             player.gameObject.GetComponent<IDamageable>().TakeDamage(new DamageInfo(enemyTouchDamage, attackDirection, this.gameObject, EntityType.Enemy));
+        }
+    }
+
+    private void FlipBasedOnPlayer() {
+        if (Player.Instance == null) return;
+
+        if(Player.Instance.transform.position.x > transform.position.x) {
+            sr.flipX = true;
+        }
+        else {
+            sr.flipX = false;
         }
     }
 

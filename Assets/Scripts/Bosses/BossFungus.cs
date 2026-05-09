@@ -8,7 +8,8 @@ public class BossFungus : MonoBehaviour {
         Fly,
         StartSmash,
         SmashFall,
-        SmashEnd
+        SmashEnd,
+        Reposition
     }
 
     [Header("General data")]
@@ -27,6 +28,12 @@ public class BossFungus : MonoBehaviour {
     [SerializeField] private float smashFallDistance = 2f;
     [SerializeField] private float smashFallDuration = 0.25f;
     [SerializeField] private float smashEndDuration = 0.6f;
+
+    [Header("Reposition data")]
+    [SerializeField] private float repositionSpeed = 0f;
+    [SerializeField] private float repositionStoppingDistance = 0.2f;
+    [SerializeField] private float[] repositionDistances = { 3f, 5f, 7f };
+    private Vector3 repositionTarget;
 
     private float distanceFromPlayer;
     private float stateTimer;
@@ -48,6 +55,9 @@ public class BossFungus : MonoBehaviour {
     }
 
     private void Start() {
+        if(repositionSpeed == 0f) {
+            repositionSpeed = speed;
+        }
         ChangeState(BossFungusFSM.Idle);
     }
 
@@ -78,6 +88,10 @@ public class BossFungus : MonoBehaviour {
 
             case BossFungusFSM.SmashEnd:
                 SmashEnd();
+                break;
+
+            case BossFungusFSM.Reposition:
+                Reposition();
                 break;
         }
     }
@@ -120,6 +134,16 @@ public class BossFungus : MonoBehaviour {
 
                 // - spawn effetto impatto
                 // - attivazione hitbox
+                break;
+
+            case BossFungusFSM.Reposition:
+                if (anim != null) anim.Play("Fly");
+
+                if (agent != null) {
+                    agent.speed = repositionSpeed;
+                }
+
+                ChooseRandomRepositionTarget();
                 break;
         }
     }
@@ -185,7 +209,14 @@ public class BossFungus : MonoBehaviour {
         StopMovement();
 
         if (stateTimer >= smashEndDuration) {
-            if(distanceFromPlayer <= attackStartDistance)
+            bool shouldReposition = Random.Range(0, 3) == 0;
+
+            if (shouldReposition) {
+                ChangeState(BossFungusFSM.Reposition);
+                return;
+            }
+
+            if (distanceFromPlayer <= attackStartDistance)
                 ChangeState(BossFungusFSM.StartSmash);
             else
                 ChangeState(BossFungusFSM.Idle);
@@ -209,6 +240,47 @@ public class BossFungus : MonoBehaviour {
 
         agent.ResetPath();
         agent.velocity = Vector3.zero;
+    }
+
+    private void Reposition() {
+        if (agent == null || !agent.enabled || !agent.isOnNavMesh) {
+            ChangeState(BossFungusFSM.Idle);
+            return;
+        }
+
+        if (agent.pathPending) return;
+
+        if (agent.remainingDistance <= repositionStoppingDistance) {
+            if (distanceFromPlayer <= attackStartDistance)
+                ChangeState(BossFungusFSM.StartSmash);
+            else
+                ChangeState(BossFungusFSM.Idle);
+        }
+    }
+
+    private void ChooseRandomRepositionTarget() {
+        if (agent == null || !agent.enabled || !agent.isOnNavMesh) return;
+
+        Vector2 randomDirection = Random.insideUnitCircle.normalized;
+
+        float randomDistance = repositionDistances[
+            Random.Range(0, repositionDistances.Length)
+        ];
+
+        Vector3 rawTarget = transform.position + (Vector3)(randomDirection * randomDistance);
+        rawTarget.z = transform.position.z;
+
+        NavMeshHit hit;
+
+        if (NavMesh.SamplePosition(rawTarget, out hit, 2f, NavMesh.AllAreas)) {
+            repositionTarget = hit.position;
+            repositionTarget.z = transform.position.z;
+
+            agent.SetDestination(repositionTarget);
+        }
+        else {
+            ChangeState(BossFungusFSM.Idle);
+        }
     }
 
     private void MeleeDamage() {
@@ -243,7 +315,18 @@ public class BossFungus : MonoBehaviour {
         if (shooter == null) return;
 
         int projectileNumber = Random.Range(projectileNumberToShootMin, projectileNumberToShootMax);
-        shooter.ShootMultipleProjectile(gameObject, projectileNumber);
+        int shootingType = Random.Range(0, 2);
+        switch (shootingType) {
+            case 0:
+                shooter.ShootMultipleProjectile(gameObject, projectileNumber, Player.Instance.transform, true);
+                return;
+            case 1:
+                shooter.ShootMultipleProjectile(gameObject, projectileNumber, Player.Instance.transform, false);
+                return;
+            default:
+                shooter.ShootMultipleProjectile(gameObject, projectileNumber, Player.Instance.transform, true);
+                return;
+        }
     }
 
     private void OnDrawGizmos() {

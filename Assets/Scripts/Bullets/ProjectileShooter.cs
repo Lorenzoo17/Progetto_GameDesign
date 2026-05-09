@@ -55,13 +55,28 @@ public class ProjectileShooter : MonoBehaviour {
         }
     }
 
-    public void ShootMultipleProjectile(GameObject owner, int projectileNumber) {
+    public void ShootMultipleProjectile(GameObject owner, int projectileNumber, Transform target = null, bool circle = true) {
         if (projectileNumber <= 1) return;
 
-        float angleStep = 360f / projectileNumber;
+        float targetAngle = 0f;
+        
+        if(target != null) {
+            Vector2 targetDirection = ((Vector2)(target.position - firePoint.position).normalized);
+            targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+        }
+
+
+        float arcAngle = circle ? 360f : 120f;
+        float angleStep = circle ? 
+            arcAngle / projectileNumber 
+            : projectileNumber > 1 ? arcAngle / (projectileNumber - 1) : 0f;
+
+        float startAngle = circle
+            ? targetAngle
+            : targetAngle - arcAngle / 2f;
 
         for (int i = 0; i < projectileNumber; i++) {
-            float angle = angleStep * i * Mathf.Deg2Rad;
+            float angle = (startAngle + angleStep * i) * Mathf.Deg2Rad;
 
             GameObject projectileObj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
 
@@ -72,4 +87,6 @@ public class ProjectileShooter : MonoBehaviour {
             }
         }
     }
+
+
 }
