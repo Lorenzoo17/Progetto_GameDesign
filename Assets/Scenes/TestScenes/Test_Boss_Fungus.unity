@@ -21956,7 +21956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04976799df50f54ba128eff723155a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshSurface
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_CollectObjects: 0
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
@@ -21974,7 +21974,7 @@ MonoBehaviour:
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 23800000, guid: f9c7b0d2d59b9e443a4154fc74de4768, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 65a2f684515bb874889145bf67411204, type: 2}
 --- !u!114 &587983816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23986,7 +23986,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991784738}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -32753,6 +32753,8 @@ MonoBehaviour:
   tracks:
   - musicID: 2
     clip: {fileID: 8300000, guid: a22a99941a55f14418610025f8cbd9fa, type: 3}
+  - musicID: 1
+    clip: {fileID: 8300000, guid: 8267e1ab28f71694fb89132928e0efa5, type: 3}
 --- !u!1 &1624542017
 GameObject:
   m_ObjectHideFlags: 0

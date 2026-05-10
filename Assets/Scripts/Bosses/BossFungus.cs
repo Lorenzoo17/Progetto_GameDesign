@@ -62,13 +62,28 @@ public class BossFungus : MonoBehaviour {
     private NavMeshAgent agent;
     private Animator anim;
     private ProjectileShooter shooter;
+    private HealthSystem hs;
 
     private void Awake() {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         shooter = GetComponent<ProjectileShooter>();
+        hs = GetComponent<HealthSystem>();
+
+        if(hs != null) {
+            hs.OnDamageTaken += Hs_OnDamageTaken;
+        }
 
         SetupNavMeshAgent();
+    }
+
+    // quando muore si torna alla musica del dungeon
+    private void Hs_OnDamageTaken(object sender, DamageEventArgs e) {
+        if(hs.CurrentHealth <= 0) {
+            if(MusicManager.Instance != null) {
+                MusicManager.Instance.PlayMusic(MusicID.SewerDungeon, 0.5f, 1f);
+            }
+        }
     }
 
     private void Start() {
@@ -77,7 +92,8 @@ public class BossFungus : MonoBehaviour {
         }
         ChangeState(BossFungusFSM.Idle);
 
-        if(MusicManager.Instance != null) {
+        if(MusicManager.Instance != null) { // allo start (quindi allo spawn) o eventualmente ad uno specifico
+            // trigger enter
             MusicManager.Instance.PlayMusic(MusicID.BossFungus, .5f, 1f);
         }
     }
@@ -403,7 +419,7 @@ public class BossFungus : MonoBehaviour {
         }
 
         if (EffectManager.Instance != null) {
-            ShakeData cameraShakeAttackData = EffectManager.Instance.GetShakeDataByType(ShakeDataType.MeleeAttack);
+            ShakeData cameraShakeAttackData = EffectManager.Instance.GetShakeDataByType(ShakeDataType.SmashAttack);
 
             if (cameraShakeAttackData != null) {
                 CameraShakerHandler.Shake(cameraShakeAttackData);
@@ -425,6 +441,15 @@ public class BossFungus : MonoBehaviour {
         flyShootCooldownTimer = flyShootCooldown;
 
         if (!shouldShoot) return;
+
+        // camera shake quando attacca ed e' in volo
+        if (EffectManager.Instance != null) {
+            ShakeData cameraShakeAttackData = EffectManager.Instance.GetShakeDataByType(ShakeDataType.RangedAttack);
+
+            if (cameraShakeAttackData != null) {
+                CameraShakerHandler.Shake(cameraShakeAttackData);
+            }
+        }
 
         Shoot();
     }

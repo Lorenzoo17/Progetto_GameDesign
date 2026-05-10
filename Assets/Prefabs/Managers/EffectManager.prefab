@@ -61,3 +61,6 @@ MonoBehaviour:
   - groupType: 2
     shakeDatas:
     - {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
+  - groupType: 3
+    shakeDatas:
+    - {fileID: 11400000, guid: 09cdce071ca6df84e87f19362020cacf, type: 2}
