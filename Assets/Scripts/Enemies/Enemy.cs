@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour {
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private float hitEffectSpawnPositionOffset = 0.5f;
     [SerializeField] private float hitEffectRotationOffset = -90f;
+    [SerializeField] private bool invertFlipDirection;
 
     [SerializeField] private float enemyTouchDamage = 1f; // danno a contatto fatto al player
 
@@ -92,12 +93,18 @@ public class Enemy : MonoBehaviour {
     private void FlipBasedOnPlayer() {
         if (Player.Instance == null) return;
 
-        if(Player.Instance.transform.position.x > transform.position.x) {
-            sr.flipX = true;
+        // flip basato su scale su asse y
+        Vector3 scale = transform.localScale;
+        int flipDirection = invertFlipDirection ? -1 : 1;
+
+        if (Player.Instance.transform.position.x > transform.position.x) {
+            scale.x = -Mathf.Abs(scale.x) * flipDirection;
         }
         else {
-            sr.flipX = false;
+            scale.x = Mathf.Abs(scale.x) * flipDirection;
         }
+
+        transform.localScale = scale;
     }
 
     private void DeadManagement() {

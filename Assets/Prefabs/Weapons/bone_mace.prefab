@@ -220,7 +220,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0022118092, y: -0.42099845}
+  m_Offset: {x: 0, y: 0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.49926278, y: 0.05}
@@ -257,7 +257,7 @@ MonoBehaviour:
   attackDuration: 0.1
   meleeAttackEffect: {fileID: 8176667913236221772, guid: af45be17e1ea6d6499933814cdb67375, type: 3}
   weaponBaseRange: 1
-  weaponBaseDamage: 2
+  weaponBaseDamage: 10
 --- !u!1 &7350762406063032451
 GameObject:
   m_ObjectHideFlags: 0

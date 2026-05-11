@@ -23964,6 +23964,7 @@ MonoBehaviour:
   hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
   hitEffectSpawnPositionOffset: 0.5
   hitEffectRotationOffset: -90
+  invertFlipDirection: 0
   enemyTouchDamage: 1
 --- !u!114 &991784743
 MonoBehaviour:
@@ -24610,6 +24611,7 @@ MonoBehaviour:
   hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
   hitEffectSpawnPositionOffset: 1
   hitEffectRotationOffset: -90
+  invertFlipDirection: 0
   enemyTouchDamage: 1
 --- !u!114 &1119631043
 MonoBehaviour:
@@ -32152,10 +32154,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5681690135529362285, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
-      propertyPath: weaponBaseDamage
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6440760680909680636, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
       propertyPath: m_Name
       value: bone_mace
@@ -33993,6 +33991,7 @@ MonoBehaviour:
   hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
   hitEffectSpawnPositionOffset: 1
   hitEffectRotationOffset: -90
+  invertFlipDirection: 0
   enemyTouchDamage: 1
 --- !u!114 &1810845045
 MonoBehaviour:
@@ -36801,6 +36800,7 @@ MonoBehaviour:
   hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
   hitEffectSpawnPositionOffset: 1
   hitEffectRotationOffset: -90
+  invertFlipDirection: 0
   enemyTouchDamage: 1
 --- !u!1001 &3726173537706520642
 PrefabInstance:
@@ -37431,6 +37431,7 @@ MonoBehaviour:
   hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
   hitEffectSpawnPositionOffset: 1
   hitEffectRotationOffset: -90
+  invertFlipDirection: 0
   enemyTouchDamage: 1
 --- !u!114 &7160013803544201973
 MonoBehaviour:
