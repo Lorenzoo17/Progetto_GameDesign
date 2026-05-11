@@ -326,6 +326,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 6905458675921271353, guid: f8217868afcc3da449f02903a096dcc1, type: 3}
 --- !u!114 &48011443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2901bdbc73c65e4cabdd13a06557124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 6
+  maxHealth: 30
 --- !u!61 &48011444
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -24442,7 +24443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!195 &1119631037
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -24570,6 +24571,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 6905458675921271353, guid: f8217868afcc3da449f02903a096dcc1, type: 3}
 --- !u!114 &1119631043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24582,7 +24584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2901bdbc73c65e4cabdd13a06557124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 6
+  maxHealth: 20
 --- !u!61 &1119631044
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -25684,7 +25686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!195 &1355217183
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -25776,6 +25778,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 6905458675921271353, guid: f8217868afcc3da449f02903a096dcc1, type: 3}
 --- !u!114 &1355217188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25788,7 +25791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2901bdbc73c65e4cabdd13a06557124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 6
+  maxHealth: 20
 --- !u!61 &1355217189
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -32599,7 +32602,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!195 &1525385510
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -32727,6 +32730,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 6905458675921271353, guid: f8217868afcc3da449f02903a096dcc1, type: 3}
 --- !u!114 &1525385516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32739,7 +32743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2901bdbc73c65e4cabdd13a06557124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 6
+  maxHealth: 20
 --- !u!61 &1525385517
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -34587,6 +34591,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 0}
 --- !u!114 &1810845045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37391,6 +37396,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 0}
 --- !u!1001 &3726173537706520642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38011,6 +38017,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 0}
 --- !u!114 &7160013803544201973
 MonoBehaviour:
   m_ObjectHideFlags: 0

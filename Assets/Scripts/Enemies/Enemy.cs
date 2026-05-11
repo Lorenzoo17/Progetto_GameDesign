@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour {
     [SerializeField] private bool invertFlipDirection;
 
     [SerializeField] private float enemyTouchDamage = 1f; // danno a contatto fatto al player
+    [SerializeField] private GameObject deadBodyPlaceholder;
 
     private HealthSystem enemyHealthSystem;
     private EnemyMovement enemyMovement;
@@ -78,7 +79,7 @@ public class Enemy : MonoBehaviour {
         }
 
         if (enemyHealthSystem.CurrentHealth <= 0) {
-            DeadManagement();
+            DeadManagement(e.AttackDirection);
         }
     }
 
@@ -107,7 +108,16 @@ public class Enemy : MonoBehaviour {
         transform.localScale = scale;
     }
 
-    private void DeadManagement() {
+    private void DeadManagement(Vector2 attackDirection) {
+        if (deadBodyPlaceholder != null) {
+            GameObject deadBody = Instantiate(deadBodyPlaceholder, transform.position, Quaternion.identity);
+            if(deadBody.TryGetComponent<DeadBodyBehaviour>(out DeadBodyBehaviour db)) {
+                db.SetUpDeadBody(attackDirection, sr.sprite, sr.sortingLayerName, sr.sortingOrder);
+            }
+            else {
+                Destroy(deadBody);
+            }
+        }
         Destroy(gameObject);
     }
 }
