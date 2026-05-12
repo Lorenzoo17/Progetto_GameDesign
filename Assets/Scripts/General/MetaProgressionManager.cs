@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MetaProgressionManager : MonoBehaviour {
@@ -21,6 +20,7 @@ public class MetaProgressionManager : MonoBehaviour {
     // Perk, armi, mutageni
     private HashSet<string> unlockedPerks = new(); // lista dei perk sbloccati
     private HashSet<string> unlockedWeapons = new(); // lista delle armi sbloccate
+    private HashSet<string> unlockedMutagens = new(); // lista mutageni sbloccati
     private HashSet<string> equippedMutagens = new(); // lista mutageni equipaggiati dal player nell'hub
 
     public event EventHandler OnMetaProgressionChanged;
@@ -71,8 +71,23 @@ public class MetaProgressionManager : MonoBehaviour {
             Debug.LogWarning($"Arma {weaponNameId} già sbloccata");
         }
     }
+
+    public void UnlockNewMutagen(string mutagenId) {
+        if (unlockedMutagens.Add(mutagenId)) {
+            OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);
+        }
+        else {
+            Debug.LogWarning($"Mutagene {mutagenId} già sbloccato");
+        }
+    }
+
     public bool EquipMutagen(string mutagenNameId) {
-        if(equippedMutagens.Count >= maxEquippedMutagens || equippedMutagens.Contains(mutagenNameId)) {
+        if (!unlockedMutagens.Contains(mutagenNameId)) {
+            Debug.LogWarning($"Mutagene {mutagenNameId} non ancora sbloccato!");
+            return false;
+        }
+
+        if (equippedMutagens.Count >= maxEquippedMutagens || equippedMutagens.Contains(mutagenNameId)) {
             Debug.Log("Non puoi equipaggiare altri mutageni o il mutagene e' gia' equipaggiato!");
             // tipo di ritorno specifico poi per dare allarme anche a livello di UI
             return false;
@@ -98,8 +113,10 @@ public class MetaProgressionManager : MonoBehaviour {
     public bool IsWeaponUnlocked(string id) => unlockedWeapons.Contains(id);
     public bool IsPerkUnlocked(string id) => unlockedPerks.Contains(id);
     public bool IsMutagenEquipped(string id) => equippedMutagens.Contains(id);
+    public bool IsMutagenUnlocked(string id) => unlockedMutagens.Contains(id);
     public List<string> GetUnlockedWeapons() => new(unlockedWeapons);
     public List<string> GetUnlockedPerks() => new(unlockedPerks);
+    public List<string> GetUnlockedMutagens() => new(unlockedMutagens);
     public List<string> GetEquippedMutagens() {
         return new List<string>(equippedMutagens);
     }
@@ -109,9 +126,12 @@ public class MetaProgressionManager : MonoBehaviour {
 
         unlockedWeapons.Clear();
         unlockedPerks.Clear();
+        unlockedMutagens.Clear();
         equippedMutagens.Clear();
 
-        equippedMutagens.Clear();
         maxEquippedMutagens = 1;
+
+        OnMutagenCoinChanged?.Invoke(this, EventArgs.Empty);
+        OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);
     }
 }
