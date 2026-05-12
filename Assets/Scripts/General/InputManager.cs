@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
 
     public event EventHandler OnAttackEvent; // richiamato in playerattack (con iscrizione all'evento)
     public event EventHandler OnDodgeEvent;
+    public event EventHandler OnInteractEvent; // richiamato in PlayerInteract.cs (con iscrizione all'evento)
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -38,6 +39,13 @@ public class InputManager : MonoBehaviour
 
         // Player dash
         playerInputActions.Player.Dash.performed += Dash_performed;
+
+        // player interact
+        playerInputActions.Player.Interact.performed += Interact_performed;
+    }
+
+    private void Interact_performed(InputAction.CallbackContext obj) {
+        OnInteractEvent?.Invoke(this, EventArgs.Empty);
     }
 
     private void Dash_performed(InputAction.CallbackContext obj) {
@@ -96,6 +104,7 @@ public class InputManager : MonoBehaviour
             playerInputActions.Player.Move.canceled -= Move_canceled;
             // playerInputActions.Player.Attack.performed -= Attack_performed;
             playerInputActions.Player.Dash.performed -= Dash_performed;
+            playerInputActions.Player.Interact.performed -= Interact_performed;
 
             playerInputActions.Player.Disable();
         }

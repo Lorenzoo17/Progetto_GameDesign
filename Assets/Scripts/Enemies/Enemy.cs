@@ -94,7 +94,7 @@ public class Enemy : MonoBehaviour {
     private void FlipBasedOnPlayer() {
         if (Player.Instance == null) return;
 
-        // flip basato su scale su asse y
+        // flip basato su scale su asse x
         Vector3 scale = transform.localScale;
         int flipDirection = invertFlipDirection ? -1 : 1;
 

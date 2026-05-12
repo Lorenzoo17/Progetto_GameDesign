@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public PlayerAttack playerAttack;
     public PlayerStats playerStats;
     public PlayerHealth playerHealth;
+    public PlayerInteract playerInteract;
 
     public ShakeData cameraShakeData;
 
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
         playerAttack = GetComponent<PlayerAttack>();
         playerStats = GetComponent<PlayerStats>();
         playerHealth = GetComponent<PlayerHealth>();
+        playerInteract = GetComponent<PlayerInteract>();
     }
 
     // Interazione per ora gestita in questo script direttamente
@@ -35,5 +37,6 @@ public class Player : MonoBehaviour
                 SoundManager.Instance.PlaySound2D(SoundID.PickUp, .15f);
             }
         }
+
     }
 }

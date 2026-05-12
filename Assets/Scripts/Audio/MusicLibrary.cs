@@ -1,5 +1,6 @@
 using UnityEngine;
 public enum MusicID {
+    Hub,
     MainMenu,
     SewerDungeon,
     BossFungus,
