@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ProjectileBase : MonoBehaviour {
@@ -5,8 +6,10 @@ public class ProjectileBase : MonoBehaviour {
     protected EntityType ownerType;
     protected Vector2 direction;
     protected float damage;
+    [SerializeField] private GameObject destructionEffect;
 
     protected bool initialized;
+    public event EventHandler OnBulletDestruction;
 
     public virtual void InitializeProjectile(
         GameObject owner,
@@ -44,5 +47,16 @@ public class ProjectileBase : MonoBehaviour {
         }
 
         return false;
+    }
+
+    // comportamento di base di distruzione, se si vogliono fare multiple bullets, questo viene sovrascritto
+    protected virtual void ProjectileDestruction() {
+        if (destructionEffect != null) {
+            GameObject effect = Instantiate(destructionEffect, transform.position, Quaternion.identity);
+        }
+
+        OnBulletDestruction?.Invoke(this, EventArgs.Empty);
+
+        Destroy(gameObject);
     }
 }

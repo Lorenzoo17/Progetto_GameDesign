@@ -11,8 +11,10 @@ public class Enemy : MonoBehaviour {
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private float hitEffectSpawnPositionOffset = 0.5f;
     [SerializeField] private float hitEffectRotationOffset = -90f;
+    [SerializeField] private bool invertFlipDirection;
 
     [SerializeField] private float enemyTouchDamage = 1f; // danno a contatto fatto al player
+    [SerializeField] private GameObject deadBodyPlaceholder;
 
     private HealthSystem enemyHealthSystem;
     private EnemyMovement enemyMovement;
@@ -36,8 +38,10 @@ public class Enemy : MonoBehaviour {
 
     private void Update() {
         if (sr != null && sr.color != initialColor) {
-            sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime);
+            sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime * Time.deltaTime);
         }
+
+        FlipBasedOnPlayer();
     }
 
     private void EnemyHealthSystem_OnDamageTaken(object sender, DamageEventArgs e) {
@@ -47,6 +51,15 @@ public class Enemy : MonoBehaviour {
                 knockBackForce,
                 knockbackDuration
             );
+        }
+        else {
+            if(TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav)) {
+                nav.ApplyKnockback(
+                    e.AttackDirection,
+                    knockBackForce,
+                    knockbackDuration
+                );
+            }
         }
 
         if (anim != null) {
@@ -66,7 +79,7 @@ public class Enemy : MonoBehaviour {
         }
 
         if (enemyHealthSystem.CurrentHealth <= 0) {
-            DeadManagement();
+            DeadManagement(e.AttackDirection);
         }
     }
 
@@ -78,7 +91,33 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    private void DeadManagement() {
+    private void FlipBasedOnPlayer() {
+        if (Player.Instance == null) return;
+
+        // flip basato su scale su asse x
+        Vector3 scale = transform.localScale;
+        int flipDirection = invertFlipDirection ? -1 : 1;
+
+        if (Player.Instance.transform.position.x > transform.position.x) {
+            scale.x = -Mathf.Abs(scale.x) * flipDirection;
+        }
+        else {
+            scale.x = Mathf.Abs(scale.x) * flipDirection;
+        }
+
+        transform.localScale = scale;
+    }
+
+    private void DeadManagement(Vector2 attackDirection) {
+        if (deadBodyPlaceholder != null) {
+            GameObject deadBody = Instantiate(deadBodyPlaceholder, transform.position, Quaternion.identity);
+            if(deadBody.TryGetComponent<DeadBodyBehaviour>(out DeadBodyBehaviour db)) {
+                db.SetUpDeadBody(attackDirection, sr.sprite, sr.sortingLayerName, sr.sortingOrder);
+            }
+            else {
+                Destroy(deadBody);
+            }
+        }
         Destroy(gameObject);
     }
 }

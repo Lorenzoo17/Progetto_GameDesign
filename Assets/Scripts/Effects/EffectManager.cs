@@ -11,7 +11,8 @@ public enum VisualEffectType {
 public enum ShakeDataType {
     Explosion,
     RangedAttack,
-    MeleeAttack
+    MeleeAttack,
+    SmashAttack
 }
 
 [System.Serializable]

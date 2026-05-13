@@ -32,6 +32,15 @@ public class HealthSystem : MonoBehaviour, IDamageable
         DamageInfo modifiedDamageInfo = TakeDamageLol(damageInfo);
         CurrentHealth -= modifiedDamageInfo.Damage[DamageType.Physical];
         OnDamageTaken?.Invoke(this, new DamageEventArgs(modifiedDamageInfo.Damage[DamageType.Physical], modifiedDamageInfo.Direction));
+    public void TakeDamage(DamageInfo damageInfo)
+    {
+        CurrentHealth -= damageInfo.Damage;
+        OnDamageTaken?.Invoke(this, new DamageEventArgs(damageInfo.Damage, damageInfo.Direction));
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.EnemyHit, .25f);
+        }
 
         if (CurrentHealth <= 0)
         {

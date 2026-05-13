@@ -21,7 +21,7 @@ MonoBehaviour:
   _totalDuration: 0.1
   _fadeInDuration: 0.05
   _fadeOutDuration: 0.05
-  _magnitude: 0.5
+  _magnitude: 0.75
   _magnitudeNoise: 0.05
   _magnitudeCurve:
     serializedVersion: 2

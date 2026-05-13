@@ -43,7 +43,7 @@ public class LinearProjectile : ProjectileBase {
         if (other.GetComponent<ICollectible>() != null) return;
 
         if (((1 << other.gameObject.layer) & destroyOnContactLayers) != 0) {
-            Destroy(gameObject);
+            ProjectileDestruction();
             return;
         }
 
@@ -51,7 +51,7 @@ public class LinearProjectile : ProjectileBase {
         bool hasHitSomething = TryDealDamage(other, direction);
 
         if (hasHitSomething) {
-            Destroy(gameObject);
+            ProjectileDestruction();
         }
     }
 

@@ -1,0 +1,33 @@
+using UnityEngine;
+
+public class PlayerInteract : MonoBehaviour {
+    public IInteractable currentInteractableEntity;
+
+    private void Start() {
+        if(InputManager.Instance != null) {
+            InputManager.Instance.OnInteractEvent += Instance_OnInteractEvent;
+        }
+    }
+
+    private void Instance_OnInteractEvent(object sender, System.EventArgs e) {
+        if (currentInteractableEntity != null) {
+            currentInteractableEntity.Interact();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.GetComponent<IInteractable>() != null) {
+            currentInteractableEntity = other.GetComponent<IInteractable>();
+            currentInteractableEntity.ShowPrompt();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) {
+        if (other.TryGetComponent<IInteractable>(out IInteractable interactableEntity)) {
+            if (interactableEntity == currentInteractableEntity) {
+                currentInteractableEntity.HidePrompt();
+                currentInteractableEntity = null;
+            }
+        }
+    }
+}

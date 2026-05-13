@@ -5,8 +5,17 @@ public class EnemyMeleeAttack : EnemyAttackBase {
     [SerializeField] private float attackDamage = 1f;
     [SerializeField] private float attackRange = 1f;
 
+    private Vector2 attackPoint;
     protected override void ExecuteAttack() {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, attackRange);
+        // al momento si pone il punto di attacco tra il nemico e il player (in quella direzione)
+        attackPoint = transform.position;
+
+        if (Player.Instance != null) {
+            Vector2 directionToPlayer = (Player.Instance.transform.position - transform.position).normalized;
+            attackPoint = (Vector2)transform.position + directionToPlayer * (attackRange * 0.5f);
+        }
+
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPoint, attackRange);
 
         foreach (Collider2D entity in hitColliders) {
             if (entity == null) continue;
@@ -35,6 +44,6 @@ public class EnemyMeleeAttack : EnemyAttackBase {
 
     private void OnDrawGizmos() {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(attackPoint, attackRange);
     }
 }
