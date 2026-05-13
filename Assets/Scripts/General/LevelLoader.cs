@@ -23,6 +23,12 @@ public class LevelLoader : MonoBehaviour
         StartCoroutine(LoadLevel(sceneName));
     }
 
+    public void RestartLevel()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        StartCoroutine(LoadLevel(currentSceneName));
+    }
+
     private System.Collections.IEnumerator LoadLevel(string sceneName)
     {
         anim.SetTrigger("Start");
