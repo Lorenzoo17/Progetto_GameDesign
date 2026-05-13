@@ -51,4 +51,13 @@ MonoBehaviour:
   - groupType: 1
     visualEffectPrefabs:
     - {fileID: 5079158443587615786, guid: 90af12bb474754746a89bc7a16a4643a, type: 3}
-  explosionShakeData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
+  shakeCollection:
+  - groupType: 0
+    shakeDatas:
+    - {fileID: 11400000, guid: 8ab2ccb2ae048284891b7ef404a57f6f, type: 2}
+  - groupType: 1
+    shakeDatas:
+    - {fileID: 11400000, guid: 54b273117353afd4481783ceae6ad2b9, type: 2}
+  - groupType: 2
+    shakeDatas:
+    - {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}

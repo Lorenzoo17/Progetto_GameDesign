@@ -56,7 +56,7 @@ public class CurvedProjectile : ProjectileBase {
         }
         // screen shake
         if (EffectManager.Instance != null) {
-            ShakeData data = EffectManager.Instance.GetExplosionShakeData();
+            ShakeData data = EffectManager.Instance.GetShakeDataByType(ShakeDataType.Explosion);
             if (data != null) {
                 CameraShakerHandler.Shake(data);
             }

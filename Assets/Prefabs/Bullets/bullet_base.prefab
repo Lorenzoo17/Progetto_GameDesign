@@ -171,6 +171,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc34144a45de5d40ae5718e5a8a67e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LinearProjectile
+  shadow: {fileID: 8991040507999655102}
+  initialShadownOffset: {x: 0, y: -2}
+  shadowInterpolationValue: 3
+  destroyOnContactLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &-4217246391283922152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,7 +216,7 @@ Transform:
   m_GameObject: {fileID: 6698473007726507383}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.728, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -4,8 +4,19 @@ public class LinearProjectile : ProjectileBase {
     private Rigidbody2D rb;
     private float speed;
 
+    [SerializeField] private Transform shadow;
+    [SerializeField] private Vector2 initialShadownOffset;
+    [SerializeField] private float shadowInterpolationValue;
+
+    [SerializeField] private LayerMask destroyOnContactLayers;
+
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start() {
+        if(shadow != null)
+            shadow.localPosition = (Vector3)initialShadownOffset;
     }
 
     public void InitializeLinearProjectile(
@@ -23,8 +34,18 @@ public class LinearProjectile : ProjectileBase {
         }
     }
 
+    private void Update() {
+        if(shadow != null)
+            shadow.localPosition = Vector3.Lerp(shadow.localPosition, Vector3.zero, shadowInterpolationValue * Time.deltaTime);
+    }
+
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.GetComponent<ICollectible>() != null) return;
+
+        if (((1 << other.gameObject.layer) & destroyOnContactLayers) != 0) {
+            Destroy(gameObject);
+            return;
+        }
 
         Vector2 hitDirection = direction;
         bool hasHitSomething = TryDealDamage(other, direction);

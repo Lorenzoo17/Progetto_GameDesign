@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: Ground_animated
+  m_EditorClassIdentifier: Unity.2D.Tilemap.Extras::UnityEngine.Tilemaps.AnimatedTile
+  m_AnimatedSprites:
+  - {fileID: 1447096808756296554, guid: b43ff7b18e8a5b04682cb57ba022ea9f, type: 3}
+  - {fileID: 827333867, guid: b43ff7b18e8a5b04682cb57ba022ea9f, type: 3}
+  - {fileID: 62467368, guid: b43ff7b18e8a5b04682cb57ba022ea9f, type: 3}
+  - {fileID: -2034145710, guid: b43ff7b18e8a5b04682cb57ba022ea9f, type: 3}
+  - {fileID: -714859641, guid: b43ff7b18e8a5b04682cb57ba022ea9f, type: 3}
+  - {fileID: -362331332, guid: b43ff7b18e8a5b04682cb57ba022ea9f, type: 3}
+  - {fileID: 1634243491, guid: b43ff7b18e8a5b04682cb57ba022ea9f, type: 3}
+  m_MinSpeed: 1
+  m_MaxSpeed: 5
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 0
