@@ -23846,7 +23846,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &991784739
 Animator:
   serializedVersion: 7
@@ -23966,6 +23966,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 0}
 --- !u!114 &991784743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23978,7 +23979,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2901bdbc73c65e4cabdd13a06557124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 200
+  maxHealth: 100
+  defense: 0
 --- !u!195 &991784744
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -24028,7 +24030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileShooter
   projectilePrefab: {fileID: 1771740914817530386, guid: 3b2b847428ee6e943966c83c467c605f, type: 3}
   firePoint: {fileID: 472935461}
-  damage: 2
+  damage: 1
   projectileSpeed: 8
   projectileRange: 8
   projectileMaxHeight: 1
@@ -24110,7 +24112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossFungus
   CurrentState: 0
   speed: 3
-  attackDamage: 2
+  attackDamage: 0
   attackStartDistance: 3
   moveDistance: 20
   meleeAttackRange: 0
@@ -24613,6 +24615,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 0}
 --- !u!114 &1119631043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24626,6 +24629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 6
+  defense: 0
 --- !u!61 &1119631044
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -25099,6 +25103,67 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1001 &1250209348
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 534988263351872472, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: damage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6452691135951933731, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_Name
+      value: straw
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541816751877834648, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.0622396
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541816751877834648, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.3613694
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541816751877834648, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541816751877834648, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541816751877834648, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541816751877834648, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541816751877834648, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541816751877834648, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541816751877834648, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541816751877834648, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
 --- !u!1 &1264672394
 GameObject:
   m_ObjectHideFlags: 0
@@ -33993,6 +34058,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 0}
 --- !u!114 &1810845045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34006,6 +34072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 6
+  defense: 0
 --- !u!61 &1810845046
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -36598,6 +36665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 6
+  defense: 0
 --- !u!114 &208148593440912106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36802,6 +36870,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 0}
 --- !u!1001 &3726173537706520642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36876,6 +36945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 6
+  defense: 0
 --- !u!212 &4119886382445931462
 SpriteRenderer:
   serializedVersion: 2
@@ -37041,6 +37111,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 296506588103354641, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
+      propertyPath: baseStats.maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 296506588103354641, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
+      propertyPath: baseStats.currentHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 296506588103354641, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
+      propertyPath: playerCurrentStats.maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 296506588103354641, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
+      propertyPath: playerCurrentStats.currentHealth
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1303978041023684131, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
       propertyPath: m_Name
       value: Player
@@ -37089,6 +37175,10 @@ PrefabInstance:
       propertyPath: attackDirectionUI
       value: 
       objectReference: {fileID: 1852448163}
+    - target: {fileID: 5728342325613100494, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
+      propertyPath: maxHealthUnits
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5728342325613100494, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
       propertyPath: blinkAfterDamageTime
       value: 0.01
@@ -37433,6 +37523,7 @@ MonoBehaviour:
   hitEffectRotationOffset: -90
   invertFlipDirection: 0
   enemyTouchDamage: 1
+  deadBodyPlaceholder: {fileID: 0}
 --- !u!114 &7160013803544201973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37699,3 +37790,4 @@ SceneRoots:
   - {fileID: 989155371}
   - {fileID: 173823713}
   - {fileID: 991784741}
+  - {fileID: 1250209348}

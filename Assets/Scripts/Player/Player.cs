@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public PlayerStats playerStats;
     public PlayerHealth playerHealth;
     public PlayerInteract playerInteract;
+    public PlayerMana playerMana;
+    public MutagenController mutagenController;
 
     public PerkController perkController;
     public StatusController statusController;
@@ -32,6 +34,8 @@ public class Player : MonoBehaviour
         playerStats = GetComponent<PlayerStats>();
         playerHealth = GetComponent<PlayerHealth>();
         playerInteract = GetComponent<PlayerInteract>();
+        playerMana = GetComponent<PlayerMana>();
+        mutagenController = GetComponent<MutagenController>();
         perkController = GetComponent<PerkController>();
         statusController = GetComponent<StatusController>();
 

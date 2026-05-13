@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
 
     private Rigidbody2D rb;
     private Vector2 movement;
@@ -29,59 +30,86 @@ public class PlayerMovement : MonoBehaviour {
     private float dodgeTimer;
     private float dodgeCooldownTimer;
 
-    private void Awake() {
+    // Mutagen STUFF
+    private bool isBouncing;
+    private float bounceTimer;
+    private float externalSpeedMultiplier = 1f;
+
+    private void Awake()
+    {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
     }
 
-    private void Start() {
+    private void Start()
+    {
         if (InputManager.Instance == null) return;
 
         InputManager.Instance.OnDodgeEvent += OnDodgeEvent_Performed;
     }
 
-    public bool IsDodging() {
+    public bool IsDodging()
+    {
         return isDodging;
     }
 
-    public Vector2 GetDirection() {
+    public Vector2 GetDirection()
+    {
         return lastMoveDirection;
     }
 
-    public Vector2 GetLookingDirection() {
+    public Vector2 GetLookingDirection()
+    {
         return lastLookingDirection;
     }
 
     // METHODS
 
-    private void Update() {
+    private void Update()
+    {
         CalculateLookingDirection(); // in base a spostamento del mouse
         PlayerAnimation();
         VisualEffectSpawning();
 
-        if (dodgeCooldownTimer > 0f) {
+        if (dodgeCooldownTimer > 0f)
+        {
             dodgeCooldownTimer -= Time.deltaTime;
         }
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         if (rb == null) return;
 
-        if (isDodging) {
+        if (isDodging)
+        {
             dodgeTimer -= Time.fixedDeltaTime;
 
-            if (dodgeTimer <= 0f) {
+            if (dodgeTimer <= 0f)
+            {
                 isDodging = false;
             }
 
             return;
         }
+        if (isBouncing)
+        {
+            bounceTimer -= Time.fixedDeltaTime;
 
-        if (isKnockedBack) {
+            if (bounceTimer <= 0f)
+            {
+                isBouncing = false;
+            }
+
+            return;
+        }
+        if (isKnockedBack)
+        {
             knockbackTimer -= Time.fixedDeltaTime;
 
-            if (knockbackTimer <= 0f) {
+            if (knockbackTimer <= 0f)
+            {
                 isKnockedBack = false;
             }
 
@@ -92,23 +120,28 @@ public class PlayerMovement : MonoBehaviour {
 
         movement = InputManager.Instance.PlayerMovement;
 
-        if (movement != Vector2.zero) {
+        if (movement != Vector2.zero)
+        {
             lastMoveDirection = movement.normalized;
         }
 
         // prendo moveSpeed dalle statistiche del player
-        float moveSpeed = Player.Instance.playerStats.playerCurrentStats.GetMoveSpeed();
+        float moveSpeed =
+            Player.Instance.playerStats.playerCurrentStats.GetMoveSpeed()
+            * externalSpeedMultiplier;
         rb.linearVelocity = movement.normalized * moveSpeed;
     }
 
-    private void OnDodgeEvent_Performed(object sender, EventArgs e) {
+    private void OnDodgeEvent_Performed(object sender, EventArgs e)
+    {
         // cooldown
         if (dodgeCooldownTimer > 0f || isDodging) return;
 
         Vector2 dashDir = lastMoveDirection; // direzione di base di dodge corrisponde a quella di movimento
 
         // se il player e' fermo, la direzione di dodge corrisponde a quella in cui sta guardando (coincide attack direction)
-        if (movement == Vector2.zero) {
+        if (movement == Vector2.zero)
+        {
             dashDir = lastLookingDirection;
         }
 
@@ -129,48 +162,81 @@ public class PlayerMovement : MonoBehaviour {
     }
 
 
-    private void CalculateLookingDirection() {
+    private void CalculateLookingDirection()
+    {
         Vector2 direction = InputManager.Instance.CalculateAimDirection(transform.position);
 
-        if (direction.magnitude > deadZoneRadius) {
+        if (direction.magnitude > deadZoneRadius)
+        {
             lastLookingDirection = direction.normalized;
         }
     }
 
-    private void PlayerAnimation() {
+    private void PlayerAnimation()
+    {
         // flip
         sr.flipX = lastLookingDirection.x < 0;
 
         anim.SetBool("Moving", movement != Vector2.zero);
     }
 
-    private void VisualEffectSpawning() {
-        if(movement != Vector2.zero) {
-            if (currentWalkVisualEffectTime <= 0) {
+    private void VisualEffectSpawning()
+    {
+        if (movement != Vector2.zero)
+        {
+            if (currentWalkVisualEffectTime <= 0)
+            {
 
                 EffectManager.Instance.SpawnVisualEffect(VisualEffectType.Walk, feetTransform.position, Quaternion.identity);
-                if(SoundManager.Instance != null) {
+                if (SoundManager.Instance != null)
+                {
                     SoundManager.Instance.PlaySound2D(SoundID.Footstep, .05f); // riproduco suono footstep
                 }
 
                 currentWalkVisualEffectTime = walkVisualEffectSpawnRate;
             }
-            else {
+            else
+            {
                 currentWalkVisualEffectTime -= Time.deltaTime;
             }
         }
-        else {
+        else
+        {
             currentWalkVisualEffectTime = 0;
         }
 
     }
 
     // per applicare knockback
-    public void ApplyKnockback(Vector2 direction, float force) {
+    public void ApplyKnockback(Vector2 direction, float force)
+    {
         rb.linearVelocity = Vector2.zero;
         rb.AddForce(direction.normalized * force, ForceMode2D.Impulse);
 
         isKnockedBack = true;
         knockbackTimer = knockbackDuration;
+    }
+    //MUTAGEN Methods
+
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        externalSpeedMultiplier = multiplier;
+    }
+
+    public void ResetSpeedMultiplier()
+    {
+        externalSpeedMultiplier = 1f;
+    }
+    public void ApplyBounce(Vector2 direction, float distance, float duration)
+    {
+        if (isDodging) return;
+
+        isBouncing = true;
+
+        bounceTimer = duration;
+
+        float bounceSpeed = distance / duration;
+
+        rb.linearVelocity = direction.normalized * bounceSpeed;
     }
 }

@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    public static InputManager Instance {  get; private set; }
+    public static InputManager Instance { get; private set; }
 
     private InputSystem_Actions playerInputActions;
 
-    public Vector2 PlayerMovement {  get; private set; }
+    public Vector2 PlayerMovement { get; private set; }
     public Vector2 MousePosition { get; private set; }
     public Vector2 AimDirection { get; private set; }
 
@@ -17,9 +17,12 @@ public class InputManager : MonoBehaviour
     public event EventHandler OnAttackEvent; // richiamato in playerattack (con iscrizione all'evento)
     public event EventHandler OnDodgeEvent;
     public event EventHandler OnInteractEvent; // richiamato in PlayerInteract.cs (con iscrizione all'evento)
+    public event System.Action<int> OnMutagenPressed;
 
-    private void Awake() {
-        if (Instance != null && Instance != this) {
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
             Destroy(gameObject);
             return;
         }
@@ -42,13 +45,30 @@ public class InputManager : MonoBehaviour
 
         // player interact
         playerInputActions.Player.Interact.performed += Interact_performed;
+
+        playerInputActions.Player.Mutagen1.performed += _ =>
+        {
+            OnMutagenPressed?.Invoke(0);
+        };
+
+        playerInputActions.Player.Mutagen2.performed += _ =>
+        {
+            OnMutagenPressed?.Invoke(1);
+        };
+
+        playerInputActions.Player.Mutagen3.performed += _ =>
+        {
+            OnMutagenPressed?.Invoke(2);
+        };
     }
 
-    private void Interact_performed(InputAction.CallbackContext obj) {
+    private void Interact_performed(InputAction.CallbackContext obj)
+    {
         OnInteractEvent?.Invoke(this, EventArgs.Empty);
     }
 
-    private void Dash_performed(InputAction.CallbackContext obj) {
+    private void Dash_performed(InputAction.CallbackContext obj)
+    {
         OnDodgeEvent?.Invoke(this, EventArgs.Empty);
     }
 
@@ -56,32 +76,38 @@ public class InputManager : MonoBehaviour
     //     OnAttackEvent?.Invoke(this, EventArgs.Empty);
     // }
 
-    private void Update() {
+    private void Update()
+    {
         if (Player.Instance == null) return;
 
-        if (attackAction.IsPressed()) {
+        if (attackAction.IsPressed())
+        {
             OnAttackEvent?.Invoke(this, EventArgs.Empty);
         }
 
         CalculateAimDirection(Player.Instance.transform.position);
     }
 
-    public Vector2 CalculateAimDirection(Vector2 reference) {
+    public Vector2 CalculateAimDirection(Vector2 reference)
+    {
         Vector2 mousePos = playerInputActions.Player.Aim.ReadValue<Vector2>();
         Vector2 stick = playerInputActions.Player.AimStick.ReadValue<Vector2>();
 
         Vector2 finalDirection = Vector2.zero;
 
         // controller
-        if (stick.magnitude > 0.2f) {
+        if (stick.magnitude > 0.2f)
+        {
             finalDirection = stick.normalized;
         }
         // mouse
-        else {
+        else
+        {
             Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
             Vector2 direction = worldPos - reference;
 
-            if (direction.magnitude > 0.2f) {
+            if (direction.magnitude > 0.2f)
+            {
                 finalDirection = direction.normalized;
             }
         }
@@ -90,21 +116,39 @@ public class InputManager : MonoBehaviour
         //Debug.Log(MousePosition);
     }
 
-    private void Move_performed(InputAction.CallbackContext ctx) {
+    private void Move_performed(InputAction.CallbackContext ctx)
+    {
         PlayerMovement = ctx.ReadValue<Vector2>();
     }
-    private void Move_canceled(InputAction.CallbackContext obj) {
+    private void Move_canceled(InputAction.CallbackContext obj)
+    {
         PlayerMovement = Vector2.zero;
     }
 
     // utile per il cambio di scena
-    private void OnDestroy() {
-        if(playerInputActions != null) {
+    private void OnDestroy()
+    {
+        if (playerInputActions != null)
+        {
             playerInputActions.Player.Move.performed -= Move_performed;
             playerInputActions.Player.Move.canceled -= Move_canceled;
             // playerInputActions.Player.Attack.performed -= Attack_performed;
             playerInputActions.Player.Dash.performed -= Dash_performed;
             playerInputActions.Player.Interact.performed -= Interact_performed;
+            playerInputActions.Player.Mutagen1.performed -= _ =>
+            {
+                OnMutagenPressed?.Invoke(0);
+            };
+
+            playerInputActions.Player.Mutagen2.performed -= _ =>
+            {
+                OnMutagenPressed?.Invoke(1);
+            };
+
+            playerInputActions.Player.Mutagen3.performed -= _ =>
+            {
+                OnMutagenPressed?.Invoke(2);
+            };
 
             playerInputActions.Player.Disable();
         }

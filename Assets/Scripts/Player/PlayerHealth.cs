@@ -21,8 +21,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private Rigidbody2D rb;
     private SpriteRenderer sr;
 
-    [SerializeField] private int maxHealthUnits = 6; // 3 hearts
-    private int currentHealthUnits;
+    [SerializeField] public int maxHealthUnits = 6; // 3 hearts
+    public int currentHealthUnits;
 
     private void Awake()
     {
@@ -40,6 +40,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     [SerializeField] private float blinkAfterDamageRate = 0.2f;
     private int blinkAmount;
     private bool invincible = false;
+    [SerializeField] private bool forceInvincible; //this is to force the player to be invincible,
+                                                   //useful for testing and for certain perks that grant invincibility
     private Coroutine blinkCoroutine;
 
 
@@ -50,7 +52,9 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageInfo damageInfo)
     {
-        if (Player.Instance.playerMovement.IsDodging() || invincible || IsDead()) return;
+        if (Player.Instance.playerMovement.IsDodging() || invincible || forceInvincible || IsDead()) return;
+
+        UnityEngine.Debug.Log($"Player takes {damageInfo.Damage[DamageType.Physical]} damage from Enemy"); // Debug log per verificare i danni
 
         // Convert to half-hearts
         int damageUnits = Mathf.Max(1, Mathf.RoundToInt(damageInfo.Damage[DamageType.Physical] * 2));
@@ -75,14 +79,16 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
         CameraShakerHandler.Shake(Player.Instance.cameraShakeData);
 
-        if (SoundManager.Instance != null) {
+        if (SoundManager.Instance != null)
+        {
             SoundManager.Instance.PlaySound2D(SoundID.PlayerHit, .25f);
         }
 
         OnHealthChanged?.Invoke(this, EventArgs.Empty);
 
         //controllo morte del player
-        if (IsDead()) {
+        if (IsDead())
+        {
             Die();
         }
     }
@@ -142,15 +148,20 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         return currentHealthUnits <= 0;
     }
 
-    private void Die() {
+    private void Die()
+    {
         Debug.Log("Che sega, sei morto!");
-    
+
         // Disabilitiamo le collisioni per evitare ulteriori danni o interazioni
         GetComponent<Collider2D>().enabled = false;
-    
+
         // Notifichiamo il controller principale del Player
         Player.Instance.OnPlayerDeath();
     }
 
+    public void SetInvincible(bool value)
+    {
+        forceInvincible = value;
+    }
 }
 

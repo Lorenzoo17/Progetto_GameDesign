@@ -190,6 +190,33 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mutagen1"",
+                    ""type"": ""Button"",
+                    ""id"": ""74f84835-1701-404d-bc4b-1c7c031a9c7d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mutagen2"",
+                    ""type"": ""Button"",
+                    ""id"": ""3a2ac95b-f053-44da-ae9c-bfbdabbbc12c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mutagen3"",
+                    ""type"": ""Button"",
+                    ""id"": ""183e6d1e-f286-4361-bd2c-d352a74a38c7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -471,7 +498,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b3f66d0b-7751-423f-908b-a11c5bd95930"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -520,6 +547,72 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""AimStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ebe7e71-70d0-4a27-9d5d-41726c537667"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Mutagen1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""69aba7df-871f-4a9f-baff-cd8acebd13ea"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Mutagen1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7338888-6b2e-42f2-99a0-77c266878ff4"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Mutagen2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b83f67bf-6906-4f45-8b78-cbc07810466a"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mutagen2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""15f40902-b7b2-4f7b-aca8-3363d3a19a79"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mutagen3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0c99805e-ffb9-4cb3-89cd-13883fa83b78"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mutagen3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1118,6 +1211,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Previous = m_Player.FindAction("Previous", throwIfNotFound: true);
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_Mutagen1 = m_Player.FindAction("Mutagen1", throwIfNotFound: true);
+        m_Player_Mutagen2 = m_Player.FindAction("Mutagen2", throwIfNotFound: true);
+        m_Player_Mutagen3 = m_Player.FindAction("Mutagen3", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1222,6 +1318,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Previous;
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_Mutagen1;
+    private readonly InputAction m_Player_Mutagen2;
+    private readonly InputAction m_Player_Mutagen3;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1277,6 +1376,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Sprint".
         /// </summary>
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Mutagen1".
+        /// </summary>
+        public InputAction @Mutagen1 => m_Wrapper.m_Player_Mutagen1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Mutagen2".
+        /// </summary>
+        public InputAction @Mutagen2 => m_Wrapper.m_Player_Mutagen2;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Mutagen3".
+        /// </summary>
+        public InputAction @Mutagen3 => m_Wrapper.m_Player_Mutagen3;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1336,6 +1447,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @Mutagen1.started += instance.OnMutagen1;
+            @Mutagen1.performed += instance.OnMutagen1;
+            @Mutagen1.canceled += instance.OnMutagen1;
+            @Mutagen2.started += instance.OnMutagen2;
+            @Mutagen2.performed += instance.OnMutagen2;
+            @Mutagen2.canceled += instance.OnMutagen2;
+            @Mutagen3.started += instance.OnMutagen3;
+            @Mutagen3.performed += instance.OnMutagen3;
+            @Mutagen3.canceled += instance.OnMutagen3;
         }
 
         /// <summary>
@@ -1380,6 +1500,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @Mutagen1.started -= instance.OnMutagen1;
+            @Mutagen1.performed -= instance.OnMutagen1;
+            @Mutagen1.canceled -= instance.OnMutagen1;
+            @Mutagen2.started -= instance.OnMutagen2;
+            @Mutagen2.performed -= instance.OnMutagen2;
+            @Mutagen2.canceled -= instance.OnMutagen2;
+            @Mutagen3.started -= instance.OnMutagen3;
+            @Mutagen3.performed -= instance.OnMutagen3;
+            @Mutagen3.canceled -= instance.OnMutagen3;
         }
 
         /// <summary>
@@ -1757,6 +1886,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSprint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Mutagen1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMutagen1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Mutagen2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMutagen2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Mutagen3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMutagen3(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

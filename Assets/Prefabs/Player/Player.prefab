@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
   m_ComponentVersion: 2
   m_LightType: 2
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acc01ad33e9a7af4dae32341f1367dbb, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightBehaviour
   minIntensity: 0.35
   maxIntensity: 1
@@ -117,10 +117,12 @@ GameObject:
   - component: {fileID: 5728342325613100494}
   - component: {fileID: 3277603306255936268}
   - component: {fileID: 7525827829384608064}
+  - component: {fileID: 8383370384364451087}
   - component: {fileID: 4977418957196858382}
   - component: {fileID: 3871625790322029012}
   - component: {fileID: 8166256736827275483}
   - component: {fileID: -2533598983264280887}
+  - component: {fileID: 2970967343369291785}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -163,7 +165,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage:
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -310,11 +312,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b958023bde3766438975e747da36cf3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   baseStats:
-    maxHealth: 10
-    currentHealth: 0
     attack: 5
     attackRate: 0.7
     baseMoveSpeed: 5
@@ -322,8 +322,6 @@ MonoBehaviour:
     dodgeCooldown: 1
     poisonDamage: 0
   playerCurrentStats:
-    maxHealth: 0
-    currentHealth: 0
     attack: 0
     attackRate: 0
     baseMoveSpeed: 0
@@ -340,13 +338,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72728519ac2d4f345a044faca1ee02e3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   knockbackAfterTakingDamage: 1
   knockbackForce: 5
   maxHealthUnits: 6
+  currentHealthUnits: 0
   invincibilityTime: 1
   blinkAfterDamageRate: 0.1
+  forceInvincible: 0
 --- !u!114 &3277603306255936268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,13 +357,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2b85081d00575fa40a2da35604de7f04, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   playerMovement: {fileID: 0}
   playerAttack: {fileID: 0}
   playerStats: {fileID: 0}
   playerHealth: {fileID: 0}
   playerInteract: {fileID: 0}
+  playerMana: {fileID: 0}
+  mutagenController: {fileID: 0}
   perkController: {fileID: 0}
   statusController: {fileID: 0}
   cameraShakeData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
@@ -377,7 +379,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce29a4115c4aecc4f8f2f9d0ca326f31, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   lastLookingDirection: {x: 0, y: 0}
   deadZoneRadius: 0.3
@@ -386,6 +388,19 @@ MonoBehaviour:
   knockbackDuration: 0.15
   dodgeDuration: 0.15
   dodgeDistance: 2
+--- !u!114 &8383370384364451087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303978041023684131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf36f0fac7c85ca4ab43a32cdabcea0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMana
+  maxMana: 3
 --- !u!114 &4977418957196858382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,7 +411,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11f76695de8daac4497a49e004411e5f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   weaponHolder: {fileID: 86294725963273044}
   deadZoneRadius: 0.3
@@ -416,7 +431,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb0b685d751781e48aae72740b020af7, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
 --- !u!114 &8166256736827275483
 MonoBehaviour:
@@ -427,10 +442,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1303978041023684131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d160049de5ed14aac093c422a2b818, type: 3}
-  m_Name:
+  m_Script: {fileID: 11500000, guid: d2bd1479cad9e7c488214bd76f21114e, type: 3}
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusController
-  activeStatuses: []
+  activePerks: []
+  player: {fileID: 0}
 --- !u!114 &-2533598983264280887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,11 +456,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1303978041023684131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11d81661412ed714bbf5deb88e60900d, type: 3}
-  m_Name:
+  m_Script: {fileID: 11500000, guid: 92deb413ef858554da85eb807e7146aa, type: 3}
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PerkController
-  activePerks: []
-  player: {fileID: 0}
+  activeStatuses: []
+--- !u!114 &2970967343369291785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303978041023684131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec940a9d92104384995bafe4d3635466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MutagenController
+  equippedMutagens: []
+  activeMutagens: []
+  maxActiveMutagens: 3
 --- !u!1 &2719412296750409366
 GameObject:
   m_ObjectHideFlags: 0
