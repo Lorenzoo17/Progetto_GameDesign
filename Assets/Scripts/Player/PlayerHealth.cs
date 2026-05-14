@@ -57,7 +57,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         UnityEngine.Debug.Log($"Player takes {damageInfo.Damage[DamageType.Physical]} damage from Enemy"); // Debug log per verificare i danni
 
         // Convert to half-hearts
-        int damageUnits = Mathf.Max(1, Mathf.RoundToInt(damageInfo.Damage[DamageType.Physical] * 2));
+        int damageUnits = Mathf.Max(1, Mathf.RoundToInt(damageInfo.Damage[DamageType.Physical]));
 
         // PERK MODIFIER
         damageUnits = Player.Instance.perkController.ModifyIncomingDamage(damageUnits);
@@ -114,6 +114,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         currentHealthUnits += units;
         currentHealthUnits = Mathf.Min(currentHealthUnits, maxHealthUnits);
+
+        OnHealthChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public float GetHealthPercentage()
@@ -131,6 +133,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         maxHealthUnits = Mathf.Max(1, maxHealthUnits - units); // assicurati di non scendere sotto 1
         currentHealthUnits = Mathf.Min(currentHealthUnits, maxHealthUnits); // se la salute attuale è maggiore della nuova massima, riducila
+        OnHealthChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void TakePoisonDamage(DamageInfo damageInfo)
