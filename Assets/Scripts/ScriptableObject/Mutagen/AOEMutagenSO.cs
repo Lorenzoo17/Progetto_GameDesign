@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewAOEData", menuName = "Combat/AOE Data")]
@@ -6,6 +7,7 @@ public class AOEMutagenSO : MutagenSO
     [Header("Visual & Sound")]
     public ShakeDataType shakeType = ShakeDataType.MeleeAttack;
     public SoundID soundEffect = SoundID.PlayerAttack;
+    public GameObject effectPrefab;
 
     [Header("Stats")]
     public float radius = 3f;            // Raggio dell'esplosione
@@ -15,7 +17,7 @@ public class AOEMutagenSO : MutagenSO
 
     public override void Activate(Player player, MutagenInstance instance)
     {
-        // player.playerAttack.triggerAOE(player);
+        player.playerAttack.TriggerAOE(this);
     }
 
     public override void Tick(

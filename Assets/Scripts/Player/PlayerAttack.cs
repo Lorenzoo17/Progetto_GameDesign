@@ -9,9 +9,13 @@ public class PlayerAttack : MonoBehaviour {
 
     [Header("Centro di attacco (offset rispetto alla direzione di attacco in melee)")]
     public float attackCentreOffset = 1f; // richiamato in WeaponMelee
-
+    
     private bool canAttack = true;
     private float attackTimer = 0f;
+
+    [Header("AOE Attack")]
+    [SerializeField] private AOEMutagenSO aoeData;
+    private float aoeLastUsedTime = -999f;
 
     public GameObject currentWeapon;
 
@@ -78,12 +82,82 @@ public class PlayerAttack : MonoBehaviour {
         attackTimer = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();
         canAttack = false;
     }
+    
+    //AOE methods
+    public void TriggerAOE(object sender, EventArgs e) {
+        if (!CanActivateAOE()) return;
 
+        ActivateAOE(aoeData, attackDirection);
+        aoeLastUsedTime = Time.time;
+    }
+
+    public void TriggerAOE(AOEMutagenSO data) {
+        if (!CanActivateAOE(data)) return;
+
+        ActivateAOE(data, attackDirection);
+        aoeLastUsedTime = Time.time;
+    }
+
+    private bool CanActivateAOE() {
+        return CanActivateAOE(aoeData);
+    }
+
+    private bool CanActivateAOE(AOEMutagenSO data) {
+        if (data == null) return false;
+        if (data.cooldown <= 0f) return true;
+        return Time.time >= aoeLastUsedTime + data.cooldown;
+    }
+
+    private void ActivateAOE(AOEMutagenSO data, Vector2 direction) {
+        if (data == null) return;
+
+        Vector2 aoeCenter = transform.position;
+
+        // Trovare tutti i nemici nel raggio AOE
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(aoeCenter, data.radius);
+
+        foreach(Collider2D entity in colliders) {
+            if(Utils.CombatUtility.CanDamage(Player.Instance.gameObject, entity.gameObject)) {
+                if (entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable)) {
+                    // Calcolo danno: danno base del player * moltiplicatore AOE
+                    float aoeDamage = Player.Instance.playerStats.playerCurrentStats.GetAttack() * data.damageMultiplier;
+                    // Direzione verso il bersaglio per il knockback
+                    Vector2 directionToTarget = (entity.transform.position - transform.position).normalized;
+                    DamageInfo damageInfo = new DamageInfo(aoeDamage, directionToTarget, Player.Instance.gameObject, EntityType.Player);
+                    entityDamageable.TakeDamage(damageInfo);
+                }
+            }
+        }
+
+        // Istanzia effetto visivo AOE
+        if (data.effectPrefab != null) {
+            Instantiate(data.effectPrefab, aoeCenter, Quaternion.identity);
+        }
+
+        // Camera shake
+        if(EffectManager.Instance != null) {
+            CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(data.shakeType));
+        }
+
+        // Suono effetto AOE
+        if(SoundManager.Instance != null) {
+            SoundManager.Instance.PlaySound2D(data.soundEffect, 0.25f);
+        }
+    }
+    //End AOE methods
     private void HandleSorting(float angle) {
         if (angle > -90f && angle < 90f)
             currentWeapon.GetComponent<SpriteRenderer>().sortingOrder = 2;
         else
             currentWeapon.GetComponent<SpriteRenderer>().sortingOrder = 0;
+    }
+
+    private void OnDrawGizmos() {
+        if (aoeData == null) return;
+        
+        // Disegna il raggio AOE in giallo
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, aoeData.radius);
     }
 
     // Attack direction centrata su weaponHolder e non su transform.position in modo da non avere incoerenze
