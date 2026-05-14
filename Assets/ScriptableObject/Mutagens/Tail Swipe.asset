@@ -17,6 +17,7 @@ MonoBehaviour:
   manaCost: 1
   isToggle: 0
   duration: 0
+  animationEffect: {fileID: 6232918333787745658, guid: b407bab266ed45a4cb29a00f72c8ccb4, type: 3}
   bounceDistance: 8
   bounceDuration: 0.25
   speedMultiplier: 3

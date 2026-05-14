@@ -15,7 +15,7 @@ public class AOEMutagenSO : MutagenSO
 
     public override void Activate(Player player, MutagenInstance instance)
     {
-        player.playerAttack.triggerAOE(player);
+        // player.playerAttack.triggerAOE(player);
     }
 
     public override void Tick(

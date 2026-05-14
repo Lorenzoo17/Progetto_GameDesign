@@ -12,6 +12,7 @@ public abstract class MutagenSO : ScriptableObject
     [Header("Behaviour")]
     public bool isToggle;
     public float duration;
+    public GameObject animationEffect;
 
     public abstract void Activate(Player player, MutagenInstance instance);
 

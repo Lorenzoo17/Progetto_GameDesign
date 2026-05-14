@@ -25,7 +25,7 @@ public class BounceMutagenSO : MutagenSO
         player.playerMovement.SetSpeedMultiplier(speedMultiplier);
 
         player.playerHealth.SetInvincible(true);
-
+        Instantiate(animationEffect, player.transform.position, Quaternion.identity);
         Debug.Log("Bounce mutagen activated");
     }
 

@@ -5016,6 +5016,10 @@ PrefabInstance:
       propertyPath: blinkAfterDamageTime
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 8383370384364451087, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
+      propertyPath: maxMana
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5044,11 +5048,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d160049de5ed14aac093c422a2b818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusController
-  activeStatuses:
-  - source: {fileID: 11400000, guid: 9a29b1e7feb3c41478a5721f671de5d2, type: 2}
-    remainingDuration: 10
-    stacks: 1
-    tickTimer: 1
 --- !u!114 &1713039227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5061,8 +5060,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d81661412ed714bbf5deb88e60900d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PerkController
-  activePerks: []
-  player: {fileID: 0}
 --- !u!1 &1729209188
 GameObject:
   m_ObjectHideFlags: 0
