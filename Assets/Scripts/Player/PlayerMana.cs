@@ -46,4 +46,20 @@ public class PlayerMana : MonoBehaviour
     {
         return maxMana;
     }
+    public void IncreaseMaxMana(int amount)
+    {
+        maxMana += amount;
+
+        currentMana = Mathf.Min(currentMana + amount, maxMana);
+
+        OnManaChanged?.Invoke(this, EventArgs.Empty);
+    }
+    public void DecreaseMaxMana(int amount)
+    {
+        maxMana = Mathf.Max(0, maxMana - amount);
+
+        currentMana = Mathf.Min(currentMana, maxMana);
+
+        OnManaChanged?.Invoke(this, EventArgs.Empty);
+    }
 }
