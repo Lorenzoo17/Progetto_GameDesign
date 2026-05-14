@@ -17,6 +17,9 @@ public class HealthSystem : MonoBehaviour, IDamageable
 
     [SerializeField] private float maxHealth;
     public float CurrentHealth { get; private set; }
+    public bool resetsSceneOnDeath = false;
+
+    public LevelLoader levelLoader;
 
     [SerializeField] private float defense;
     public event EventHandler<DamageEventArgs> OnDamageTaken;
@@ -41,6 +44,10 @@ public class HealthSystem : MonoBehaviour, IDamageable
         if (CurrentHealth <= 0)
         {
             Destroy(gameObject);
+            if (resetsSceneOnDeath)
+            {
+                levelLoader.LoadNextScene("CombatHub");
+            }
         }
     }
 
@@ -52,12 +59,16 @@ public class HealthSystem : MonoBehaviour, IDamageable
         if (CurrentHealth <= 0)
         {
             Destroy(gameObject);
+            if (resetsSceneOnDeath)
+            {
+                levelLoader.LoadNextScene("CombatHub");
+            }
         }
     }
 
     private DamageInfo TakeDamageLol(DamageInfo damageInfo)
     {
-        float defensePerc = (100f / (100f + defense));
+        float defensePerc = 100f / (100f + defense);
 
         DamageInfo modifiedDamageInfo = new DamageInfo(
             damageInfo.Damage[DamageType.Physical] * defensePerc,

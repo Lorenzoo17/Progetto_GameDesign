@@ -5,7 +5,7 @@ public class LevelLoader : MonoBehaviour
 {
     public static LevelLoader Instance;
     [SerializeField] private Animator anim;
-    [SerializeField] private float transitionTime = 1f;
+    [SerializeField] private float transitionTime = 0.2f;
 
     private void Awake()
     {

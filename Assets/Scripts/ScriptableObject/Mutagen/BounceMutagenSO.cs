@@ -6,7 +6,7 @@ public class BounceMutagenSO : MutagenSO
     [Header("Bounce")]
     public float bounceDistance = 8f;
 
-    public float bounceDuration = 0.25f;
+    public float bounceDuration = 1f;
 
     [Header("Movement")]
     public float speedMultiplier = 2f;
