@@ -11,7 +11,7 @@ public class BounceMutagenSO : MutagenSO
     [Header("Movement")]
     public float speedMultiplier = 2f;
 
-    public override void Activate(Player player, MutagenInstance instance)
+    public override bool Activate(Player player, MutagenInstance instance)
     {
         Vector2 bounceDirection =
             player.playerMovement.GetLookingDirection();
@@ -27,6 +27,8 @@ public class BounceMutagenSO : MutagenSO
         player.playerHealth.SetInvincible(true);
         Instantiate(animationEffect, player.transform.position, Quaternion.identity);
         Debug.Log("Bounce mutagen activated");
+
+        return true;
     }
 
     public override void Tick(

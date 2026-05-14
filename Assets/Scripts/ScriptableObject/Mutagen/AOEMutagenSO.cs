@@ -15,9 +15,9 @@ public class AOEMutagenSO : MutagenSO
     public float cooldown = 5f;          // Tempo di attesa tra un attacco e l'altro
 
 
-    public override void Activate(Player player, MutagenInstance instance)
+    public override bool Activate(Player player, MutagenInstance instance)
     {
-        player.playerAttack.TriggerAOE(this);
+        return player.playerAttack.TriggerAOE(this);
     }
 
     public override void Tick(

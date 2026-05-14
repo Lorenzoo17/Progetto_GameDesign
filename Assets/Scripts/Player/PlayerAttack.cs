@@ -84,22 +84,12 @@ public class PlayerAttack : MonoBehaviour {
     }
     
     //AOE methods
-    public void TriggerAOE(object sender, EventArgs e) {
-        if (!CanActivateAOE()) return;
-
-        ActivateAOE(aoeData, attackDirection);
-        aoeLastUsedTime = Time.time;
-    }
-
-    public void TriggerAOE(AOEMutagenSO data) {
-        if (!CanActivateAOE(data)) return;
-
+    public bool TriggerAOE(AOEMutagenSO data) {
+        if (!CanActivateAOE(data)) return false;
+        
         ActivateAOE(data, attackDirection);
         aoeLastUsedTime = Time.time;
-    }
-
-    private bool CanActivateAOE() {
-        return CanActivateAOE(aoeData);
+        return true;
     }
 
     private bool CanActivateAOE(AOEMutagenSO data) {

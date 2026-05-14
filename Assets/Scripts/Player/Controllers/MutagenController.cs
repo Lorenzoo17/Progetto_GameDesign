@@ -126,6 +126,8 @@ public class MutagenController : MonoBehaviour
                 return false;
             }
         }
+        
+
 
         // mana check
         if (!playerMana.HasEnoughMana(mutagen.manaCost))
@@ -133,6 +135,13 @@ public class MutagenController : MonoBehaviour
             Debug.Log("Not enough mana.");
             return false;
         }
+
+        // activation check
+        MutagenInstance activationCheck = new MutagenInstance(mutagen);
+        bool hasActivated = mutagen.Activate(player, activationCheck);
+
+        if (!hasActivated)
+            return false;
 
         // consume mana
         playerMana.UseMana(mutagen.manaCost);
