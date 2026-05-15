@@ -19,12 +19,6 @@ public class PlayerStats : MonoBehaviour {
         return activePerks;
     }
 
-    public void AddPerk(StatPerkSO perk) {
-        activePerks.Add(perk);
-
-        UpdateStats(); // Aggiornamento statistiche
-    }
-
     private void UpdateStats() {
         // reset
         playerCurrentStats = new CharacterStats(baseStats);
@@ -56,6 +50,12 @@ public class PlayerStats : MonoBehaviour {
                         s => s.AddAttackRate(perk.value),
                         s => s.MultiplyAttackRate(1 + perk.value));
                     break;
+                case StatType.Poison:
+                    ApplyModifier(ref playerCurrentStats, perk,
+                      s => s.addPoisonDamage(perk.value),
+                      s => s.MultiplyAttackRate(1 + perk.value));
+                    break;
+
             }
         }
     }
@@ -69,5 +69,10 @@ public class PlayerStats : MonoBehaviour {
                 flatAction(stats);
             else
                 percentAction(stats);
+    }
+
+    public void AddPerk(StatPerkSO perk) {
+        activePerks.Add(perk);
+        UpdateStats();
     }
 }

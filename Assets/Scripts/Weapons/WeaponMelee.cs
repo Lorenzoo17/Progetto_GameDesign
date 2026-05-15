@@ -1,4 +1,7 @@
+using NUnit.Framework;
+using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class WeaponMelee : Weapon {
     
@@ -8,6 +11,10 @@ public class WeaponMelee : Weapon {
 
     [SerializeField] private float weaponBaseRange = 1f;
     [SerializeField] private float weaponBaseDamage = 2f;
+
+    [SerializeField] private Boolean hasPoison = false;
+    [SerializeField] private float poisonDamage = 0f;
+
 
     private Vector2 attackCentrePosition;
 
@@ -22,6 +29,15 @@ public class WeaponMelee : Weapon {
         float baseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         CalculateNewRotationAngle(baseAngle);
 
+        Player player = Player.Instance;
+
+        if (Player.Instance.playerStats.GetActivePerks().Exists(p => p.perkName == "Poison")) { 
+            hasPoison = true;
+        }
+        
+        float poisonDamegeValue = Player.Instance.playerStats.playerCurrentStats.getPoisonDamage();
+        
+
         // gestione attacco con overlapcircle
         attackCentrePosition = Player.Instance.playerAttack.GetWeaponHolder().position + (Vector3)(dir.normalized * Player.Instance.playerAttack.attackCentreOffset);
         float weaponDamage = weaponBaseDamage; // poi si somma danno del player
@@ -31,8 +47,18 @@ public class WeaponMelee : Weapon {
         foreach(Collider2D entity in colliders) {
             if(Utils.CombatUtility.CanDamage(Player.Instance.gameObject, entity.gameObject)) {
                 if (entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable)) {
-                    DamageInfo damageInfo = new DamageInfo(weaponDamage, dir, Player.Instance.gameObject, EntityType.Player);
-                    entityDamageable.TakeDamage(damageInfo);
+
+                    //danno normale
+                    DamageInfo normalDamage = new DamageInfo(weaponDamage, dir, Player.Instance.gameObject, EntityType.Player);
+                    entityDamageable.TakeDamage(normalDamage);
+
+
+                    if (hasPoison)
+                    {
+                        DamageInfo poisonDamage = new DamageInfo(poisonDamegeValue, dir, Player.Instance.gameObject, EntityType.Player);
+                        entityDamageable.TakeDamage(poisonDamage);
+                    }
+
                 }
             }
         }

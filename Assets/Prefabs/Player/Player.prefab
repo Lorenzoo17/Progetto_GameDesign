@@ -117,8 +117,12 @@ GameObject:
   - component: {fileID: 5728342325613100494}
   - component: {fileID: 3277603306255936268}
   - component: {fileID: 7525827829384608064}
+  - component: {fileID: 8383370384364451087}
   - component: {fileID: 4977418957196858382}
   - component: {fileID: 3871625790322029012}
+  - component: {fileID: 8166256736827275483}
+  - component: {fileID: -2533598983264280887}
+  - component: {fileID: 2970967343369291785}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -311,21 +315,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   baseStats:
-    maxHealth: 10
-    currentHealth: 0
     attack: 5
     attackRate: 0.7
     baseMoveSpeed: 5
     currentMoveSpeed: 0
     dodgeCooldown: 1
+    poisonDamage: 0
   playerCurrentStats:
-    maxHealth: 0
-    currentHealth: 0
     attack: 0
     attackRate: 0
     baseMoveSpeed: 0
     currentMoveSpeed: 0
     dodgeCooldown: 0
+    poisonDamage: 0
 --- !u!114 &5728342325613100494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,9 +342,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   knockbackAfterTakingDamage: 1
   knockbackForce: 5
-  healthBar: {fileID: 0}
+  maxHealthUnits: 6
+  currentHealthUnits: 0
   invincibilityTime: 1
   blinkAfterDamageRate: 0.1
+  forceInvincible: 0
 --- !u!114 &3277603306255936268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,6 +364,10 @@ MonoBehaviour:
   playerStats: {fileID: 0}
   playerHealth: {fileID: 0}
   playerInteract: {fileID: 0}
+  playerMana: {fileID: 0}
+  mutagenController: {fileID: 0}
+  perkController: {fileID: 0}
+  statusController: {fileID: 0}
   cameraShakeData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
 --- !u!114 &7525827829384608064
 MonoBehaviour:
@@ -380,6 +388,19 @@ MonoBehaviour:
   knockbackDuration: 0.15
   dodgeDuration: 0.15
   dodgeDistance: 2
+--- !u!114 &8383370384364451087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303978041023684131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf36f0fac7c85ca4ab43a32cdabcea0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMana
+  maxMana: 3
 --- !u!114 &4977418957196858382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +416,7 @@ MonoBehaviour:
   weaponHolder: {fileID: 86294725963273044}
   deadZoneRadius: 0.3
   attackCentreOffset: 1
+  aoeData: {fileID: 0}
   currentWeapon: {fileID: 0}
   attackDirectionUI: {fileID: 0}
   attackDirectionUIDistanceFromPlayer: 1
@@ -412,6 +434,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0b685d751781e48aae72740b020af7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteract
+--- !u!114 &8166256736827275483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303978041023684131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2bd1479cad9e7c488214bd76f21114e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusController
+  activePerks: []
+  player: {fileID: 0}
+--- !u!114 &-2533598983264280887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303978041023684131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92deb413ef858554da85eb807e7146aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PerkController
+  activeStatuses: []
+--- !u!114 &2970967343369291785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303978041023684131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec940a9d92104384995bafe4d3635466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MutagenController
+  equippedMutagens: []
+  activeMutagens: []
+  maxActiveMutagens: 3
 --- !u!1 &2719412296750409366
 GameObject:
   m_ObjectHideFlags: 0

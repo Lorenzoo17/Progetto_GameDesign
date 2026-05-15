@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f06f1ca0917ac4c88f89f3aa09e95b, type: 3}
+  m_Name: AOE Effect
+  m_EditorClassIdentifier: Assembly-CSharp::AOEMutagenSO
+  mutagenName: Gas
+  description: 'Quando i nemici ti assalgono...
+
+    quando tutto sembra perduto...
+
+    sfrutta
+    la tua forza interiore e abbatti tutti intorno a te '
+  manaCost: 1
+  isToggle: 0
+  duration: 0
+  animationEffect: {fileID: 5086786982675458212, guid: 55355a6e9cc9d9e4791531fee20aa4ec, type: 3}
+  shakeType: 2
+  soundEffect: 1
+  effectPrefab: {fileID: 5086786982675458212, guid: 55355a6e9cc9d9e4791531fee20aa4ec, type: 3}
+  radius: 3
+  damageMultiplier: 2
+  cooldown: 5
