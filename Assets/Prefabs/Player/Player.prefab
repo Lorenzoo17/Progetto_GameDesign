@@ -473,9 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec940a9d92104384995bafe4d3635466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MutagenController
-  equippedMutagens:
-  - {fileID: 11400000, guid: fc6eaa3f20e40864aac9113282696e0f, type: 2}
-  - {fileID: 11400000, guid: 19f6e2efd2e51f84f93f86b9f7fe164f, type: 2}
+  equippedMutagens: []
   activeMutagens: []
   maxActiveMutagens: 3
 --- !u!1 &2719412296750409366

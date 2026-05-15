@@ -1,10 +1,14 @@
 using UnityEngine;
 
+public enum MutagenBodyPart { Head, Body, Paws }
+
 public abstract class MutagenSO : ScriptableObject
 {
     [Header("Base Info")]
     public string mutagenName;
     [TextArea] public string description;
+
+    public MutagenBodyPart bodyPart;
 
     [Header("Cost")]
     public int manaCost = 1;
@@ -14,7 +18,7 @@ public abstract class MutagenSO : ScriptableObject
     public float duration;
     public GameObject animationEffect;
 
-    public abstract void Activate(Player player, MutagenInstance instance);
+    public abstract bool Activate(Player player, MutagenInstance instance);
 
     public abstract void Tick(Player player, MutagenInstance instance, float deltaTime);
 
