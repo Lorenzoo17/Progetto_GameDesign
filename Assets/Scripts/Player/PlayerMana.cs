@@ -5,13 +5,20 @@ public class PlayerMana : MonoBehaviour
 {
     public event EventHandler OnManaChanged;
 
-    [SerializeField] private int maxMana = 3;
+    [SerializeField] private int baseMaxMana = 3;
+    private int maxMana;
 
     private int currentMana;
 
     private void Awake()
     {
+        maxMana = baseMaxMana;
+    }
+
+    public void InitializeMana()
+    {
         currentMana = maxMana;
+        OnManaChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public bool HasEnoughMana(int amount)

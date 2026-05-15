@@ -1,6 +1,7 @@
 using System.Collections;
 using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class Player : MonoBehaviour
 
         Instance = this;
 
+        DontDestroyOnLoad(gameObject);
+
         playerMovement = GetComponent<PlayerMovement>();
         playerAttack = GetComponent<PlayerAttack>();
         playerStats = GetComponent<PlayerStats>();
@@ -51,6 +54,36 @@ public class Player : MonoBehaviour
             other.gameObject.GetComponent<ICollectible>().Collect(this);
         }
 
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ReinitializeSceneReferences();
+    }
+
+    //Metodo per trasportare oggetti tra scene
+    private void ReinitializeSceneReferences()
+    {
+        // Input
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnMutagenPressed -= mutagenController.TryUseMutagen;
+            InputManager.Instance.OnMutagenPressed += mutagenController.TryUseMutagen;
+        }
+
+        mutagenController.RegisterInput();
+        playerAttack.Reinitialize();
+        playerMana.InitializeMana();
     }
 
     public void OnPlayerDeath()
@@ -80,6 +113,17 @@ public class Player : MonoBehaviour
     private IEnumerator GameOverSequence()
     {
         yield return new WaitForSeconds(1.5f); // Aspetta un attimo per enfasi drammatica
+        Player.DestroyPlayer(); //Distruggi il prefab   
         LevelLoader.Instance.RestartLevel();   // Fa tutto lui (animazione + caricamento)
+    }
+
+    //Distruzione player per cambio scena, da chiamare dal level loader
+    public static void DestroyPlayer()
+    {
+        if (Instance != null)
+        {
+            Destroy(Instance.gameObject);
+            Instance = null;
+        }
     }
 }
