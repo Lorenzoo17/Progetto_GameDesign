@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour {
+public class EnemyMovement : MonoBehaviour
+{
     [SerializeField] private float speed = 2f;
 
     [Header("Random Follow Offset")]
@@ -10,6 +11,7 @@ public class EnemyMovement : MonoBehaviour {
     private Rigidbody2D rb;
     private Animator anim;
     private EnemyAttackBase enemyAttack;
+    private Enemy enemy; // 🔥 FIX MANCANTE
 
     private Vector2 desiredPosition;
     private Vector2 randomFollowOffset;
@@ -18,21 +20,34 @@ public class EnemyMovement : MonoBehaviour {
     private bool isKnockedBack;
     private float knockbackTimer;
 
-    private void Awake() {
+    private void Awake()
+    {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         enemyAttack = GetComponent<EnemyAttackBase>();
+        enemy = GetComponent<Enemy>(); // 🔥 FIX IMPORTANTE
     }
 
-    private void Update() {
+    private void Update()
+    {
+        // 🔥 STUN CHECK CORRETTO
+        if (enemy != null && enemy.IsStunned)
+        {
+            rb.linearVelocity = Vector2.zero;
+            SetMoving(false);
+            return;
+        }
+
         if (rb == null || Player.Instance == null) return;
 
-        if (isKnockedBack) {
+        if (isKnockedBack)
+        {
             HandleKnockback();
             return;
         }
 
-        if (enemyAttack != null && enemyAttack.IsAttacking) {
+        if (enemyAttack != null && enemyAttack.IsAttacking)
+        {
             rb.linearVelocity = Vector2.zero;
             SetMoving(false);
             return;
@@ -42,7 +57,19 @@ public class EnemyMovement : MonoBehaviour {
         SetMoving(rb.linearVelocity != Vector2.zero);
     }
 
-    private void FollowTarget() {
+    public void ForceStop()
+    {
+        if (rb != null)
+            rb.linearVelocity = Vector2.zero;
+
+        SetMoving(false);
+
+        isKnockedBack = false;
+        knockbackTimer = 0f;
+    }
+
+    private void FollowTarget()
+    {
         UpdateRandomOffset();
 
         desiredPosition = (Vector2)Player.Instance.transform.position + randomFollowOffset;
@@ -50,7 +77,8 @@ public class EnemyMovement : MonoBehaviour {
 
         float distance = Vector2.Distance(Player.Instance.transform.position, transform.position);
 
-        if (enemyAttack != null && distance <= enemyAttack.AttackDistance) {
+        if (enemyAttack != null && distance <= enemyAttack.AttackDistance)
+        {
             rb.linearVelocity = Vector2.zero;
             enemyAttack.TryAttack();
             return;
@@ -59,25 +87,31 @@ public class EnemyMovement : MonoBehaviour {
         rb.linearVelocity = direction * speed;
     }
 
-    private void UpdateRandomOffset() {
-        if (changeRandomOffsetCurrentTime <= 0f) {
+    private void UpdateRandomOffset()
+    {
+        if (changeRandomOffsetCurrentTime <= 0f)
+        {
             randomFollowOffset = Random.insideUnitCircle * randomOffsetDistance;
             changeRandomOffsetCurrentTime = changeRandomOffsetTime;
         }
-        else {
+        else
+        {
             changeRandomOffsetCurrentTime -= Time.deltaTime;
         }
     }
 
-    private void HandleKnockback() {
+    private void HandleKnockback()
+    {
         knockbackTimer -= Time.deltaTime;
 
-        if (knockbackTimer <= 0f) {
+        if (knockbackTimer <= 0f)
+        {
             isKnockedBack = false;
         }
     }
 
-    public void ApplyKnockback(Vector2 direction, float force, float duration) {
+    public void ApplyKnockback(Vector2 direction, float force, float duration)
+    {
         if (rb == null) return;
 
         rb.linearVelocity = Vector2.zero;
@@ -87,13 +121,16 @@ public class EnemyMovement : MonoBehaviour {
         knockbackTimer = duration;
     }
 
-    private void SetMoving(bool value) {
-        if (anim != null) {
+    private void SetMoving(bool value)
+    {
+        if (anim != null)
+        {
             anim.SetBool("Moving", value);
         }
     }
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmos()
+    {
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, desiredPosition);
     }
