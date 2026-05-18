@@ -6,7 +6,7 @@ public class RoomBehaviour : MonoBehaviour {
     [SerializeField] private GameObject[] blocks; // muri
     [SerializeField] private GameObject[] doors;
 
-    [SerializeField] private Transform cameraPoint; // punto centrale della stanza nella quale la camera si deve settare
+    // [SerializeField] private Transform cameraPoint; // punto centrale della stanza nella quale la camera si deve settare
 
     private bool[] doorExists = new bool[4]; // per indicare quale porta esiste effettivamente (settato durantte DungeonGenerator)
 
@@ -21,12 +21,14 @@ public class RoomBehaviour : MonoBehaviour {
     [SerializeField] private int minEnemiesToSpawn = 3;
 
     [SerializeField] private bool isStartRoom = false;
+    [SerializeField] private BoxCollider2D roomBounds;
 
     private void Awake() {
         // sicurezza
         // trova automaticamente tutte le porte nei figli
 
         Door[] foundDoors = GetComponentsInChildren<Door>(true);
+        roomBounds = roomBounds == null ? GetComponent<BoxCollider2D>() : roomBounds;
     }
 
     private void Update() {
@@ -64,10 +66,9 @@ public class RoomBehaviour : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (!other.GetComponent<Player>()) return;
 
-        Debug.Log($"{other.gameObject.name} triggered");
-
-        // camera
-        Camera.main.GetComponent<CameraDungeonBehaviour>().MoveToRoom(cameraPoint);
+        if (Camera.main.TryGetComponent<CameraDungeonBehaviour>(out CameraDungeonBehaviour cdb)) {
+            cdb.SetRoomBounds(roomBounds);
+        }
 
         if (!isVisited) {
             isVisited = true;
@@ -76,6 +77,10 @@ public class RoomBehaviour : MonoBehaviour {
                 StartRoom();
             }
         }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) {
+        if (!other.GetComponent<Player>()) return;
     }
 
     // prima entrata

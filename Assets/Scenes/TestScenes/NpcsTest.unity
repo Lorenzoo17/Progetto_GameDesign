@@ -3363,13 +3363,13 @@ MonoBehaviour:
     - character:
         name: Franco
         icon: {fileID: -4348277106678931353, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
-      line: "Non dirmi che un essere cos\xEC piccolo ed insignificante come te vuole
-        avventurarsi nelle profondit\xE0..."
+      line: "Don\u2019t tell me a tiny little thing like you is planning to crawl
+        into the depths\u2026"
     - character:
         name: Franco
         icon: {fileID: -4348277106678931353, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
-      line: Se proprio vuoi morire quanto meno fallo bene. Compra qualcosa da me,
-        voglio solo un po' di mutagene in cambio piccoletto.
+      line: "If you\u2019re so eager to die, at least do it properly. Buy something
+        from me. Just a little mutagen in return, tiny thing."
   promptInterface: {fileID: 1063161076}
   promptAnimationDuration: 0.15
   promptStartScale: 0.6
