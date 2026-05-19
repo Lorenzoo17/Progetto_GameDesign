@@ -1,19 +1,16 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MutagenController : MonoBehaviour
 {
     [Header("Equipped Mutagens")]
-    [SerializeField]
-    private List<MutagenSO> equippedMutagens = new();
+    [SerializeField] private MutagenSO equippedHead;
+    [SerializeField] private MutagenSO equippedBody;
+    [SerializeField] private MutagenSO equippedPaws;
 
     [Header("Active Mutagens")]
-    [SerializeField]
-    private List<MutagenInstance> activeMutagens = new();
-
-    [Header("Settings")]
-    [SerializeField]
-    private int maxActiveMutagens = 3;
+    [SerializeField] private MutagenInstance activeHead;
+    [SerializeField] private MutagenInstance activeBody;
+    [SerializeField] private MutagenInstance activePaws;
 
     private Player player;
     private PlayerMana playerMana;
@@ -24,15 +21,16 @@ public class MutagenController : MonoBehaviour
         playerMana = GetComponent<PlayerMana>();
     }
 
-    private void Start()
+    public void RegisterInput()
     {
         if (InputManager.Instance != null)
         {
+            InputManager.Instance.OnMutagenPressed -= UseMutagenSlot;
             InputManager.Instance.OnMutagenPressed += UseMutagenSlot;
         }
     }
 
-    private void OnDestroy()
+    public void UnregisterInput()
     {
         if (InputManager.Instance != null)
         {
@@ -55,18 +53,12 @@ public class MutagenController : MonoBehaviour
     }
 
     // ======================================================
-    // EQUIPPED MUTAGENS
+    // EQUIPPED
     // ======================================================
 
     public void TryUseMutagen(int slotIndex)
     {
-        if (slotIndex < 0 || slotIndex >= equippedMutagens.Count)
-        {
-            Debug.Log("Invalid mutagen slot.");
-            return;
-        }
-
-        MutagenSO mutagen = equippedMutagens[slotIndex];
+        MutagenSO mutagen = GetEquippedMutagen(slotIndex);
 
         if (mutagen == null)
         {
@@ -79,26 +71,52 @@ public class MutagenController : MonoBehaviour
 
     public void EquipMutagen(MutagenSO mutagen)
     {
-        if (equippedMutagens.Count >= 3)
+        if (mutagen == null)
+            return;
+
+        switch (mutagen.bodyPart)
         {
-            Debug.Log("Maximum equipped mutagens reached.");
-            return;
+            case MutagenBodyPart.Head:
+                equippedHead = mutagen;
+                break;
+
+            case MutagenBodyPart.Body:
+                equippedBody = mutagen;
+                break;
+
+            case MutagenBodyPart.Paws:
+                equippedPaws = mutagen;
+                break;
         }
-
-        equippedMutagens.Add(mutagen);
     }
 
-    public void UnequipMutagen(int slotIndex)
+    public void UnequipMutagen(MutagenBodyPart bodyPart)
     {
-        if (slotIndex < 0 || slotIndex >= equippedMutagens.Count)
-            return;
+        switch (bodyPart)
+        {
+            case MutagenBodyPart.Head:
+                equippedHead = null;
+                break;
 
-        equippedMutagens.RemoveAt(slotIndex);
+            case MutagenBodyPart.Body:
+                equippedBody = null;
+                break;
+
+            case MutagenBodyPart.Paws:
+                equippedPaws = null;
+                break;
+        }
     }
 
-    public List<MutagenSO> GetEquippedMutagens()
+    private MutagenSO GetEquippedMutagen(int slotIndex)
     {
-        return equippedMutagens;
+        return slotIndex switch
+        {
+            0 => equippedHead,
+            1 => equippedBody,
+            2 => equippedPaws,
+            _ => null
+        };
     }
 
     // ======================================================
@@ -110,24 +128,12 @@ public class MutagenController : MonoBehaviour
         if (mutagen == null)
             return false;
 
-        // max active mutagens
-        if (activeMutagens.Count >= maxActiveMutagens)
+        // already active check
+        if (IsMutagenActive(mutagen))
         {
-            Debug.Log("Maximum active mutagens reached.");
+            Debug.Log($"Mutagen already active: {mutagen.mutagenName}");
             return false;
         }
-
-        // already active check
-        foreach (var active in activeMutagens)
-        {
-            if (active.source == mutagen)
-            {
-                Debug.Log($"Mutagen already active: {mutagen.mutagenName}");
-                return false;
-            }
-        }
-        
-
 
         // mana check
         if (!playerMana.HasEnoughMana(mutagen.manaCost))
@@ -136,9 +142,11 @@ public class MutagenController : MonoBehaviour
             return false;
         }
 
-        // activation check
+        // activation validation
         MutagenInstance activationCheck = new MutagenInstance(mutagen);
-        bool hasActivated = mutagen.Activate(player, activationCheck);
+
+        bool hasActivated =
+            mutagen.Activate(player, activationCheck);
 
         if (!hasActivated)
             return false;
@@ -146,12 +154,13 @@ public class MutagenController : MonoBehaviour
         // consume mana
         playerMana.UseMana(mutagen.manaCost);
 
-        // create runtime instance
-        MutagenInstance instance = new MutagenInstance(mutagen);
+        // runtime instance
+        MutagenInstance instance =
+            new MutagenInstance(mutagen);
 
-        activeMutagens.Add(instance);
+        SetActiveMutagen(mutagen.bodyPart, instance);
 
-        // activate logic
+        // activate
         mutagen.Activate(player, instance);
 
         Debug.Log($"Activated mutagen: {mutagen.mutagenName}");
@@ -165,14 +174,14 @@ public class MutagenController : MonoBehaviour
             return;
 
         MutagenInstance instance =
-            activeMutagens.Find(m => m.source == mutagen);
+            GetActiveMutagen(mutagen.bodyPart);
 
         if (instance == null)
             return;
 
         mutagen.Deactivate(player, instance);
 
-        activeMutagens.Remove(instance);
+        SetActiveMutagen(mutagen.bodyPart, null);
 
         Debug.Log($"Deactivated mutagen: {mutagen.mutagenName}");
     }
@@ -183,50 +192,79 @@ public class MutagenController : MonoBehaviour
 
     private void UpdateMutagens(float deltaTime)
     {
-        for (int i = activeMutagens.Count - 1; i >= 0; i--)
+        UpdateMutagen(activeHead, MutagenBodyPart.Head, deltaTime);
+        UpdateMutagen(activeBody, MutagenBodyPart.Body, deltaTime);
+        UpdateMutagen(activePaws, MutagenBodyPart.Paws, deltaTime);
+    }
+
+    private void UpdateMutagen(
+        MutagenInstance mutagen,
+        MutagenBodyPart bodyPart,
+        float deltaTime)
+    {
+        if (mutagen == null || mutagen.source == null)
+            return;
+
+        // tick
+        mutagen.source.Tick(player, mutagen, deltaTime);
+
+        // duration
+        mutagen.UpdateTime(deltaTime);
+
+        // expiration
+        if (mutagen.IsExpired)
         {
-            MutagenInstance mutagen = activeMutagens[i];
+            mutagen.source.Deactivate(player, mutagen);
 
-            if (mutagen == null || mutagen.source == null)
-                continue;
+            Debug.Log($"Expired mutagen: {mutagen.source.mutagenName}");
 
-            // tick update
-            mutagen.source.Tick(player, mutagen, deltaTime);
-
-            // duration update
-            mutagen.UpdateTime(deltaTime);
-
-            // expiration
-            if (mutagen.IsExpired)
-            {
-                mutagen.source.Deactivate(player, mutagen);
-
-                Debug.Log($"Expired mutagen: {mutagen.source.mutagenName}");
-
-                activeMutagens.RemoveAt(i);
-            }
+            SetActiveMutagen(bodyPart, null);
         }
     }
 
     // ======================================================
-    // GETTERS
+    // HELPERS
     // ======================================================
 
-    public List<MutagenInstance> GetActiveMutagens()
+    private MutagenInstance GetActiveMutagen(MutagenBodyPart bodyPart)
     {
-        return activeMutagens;
+        return bodyPart switch
+        {
+            MutagenBodyPart.Head => activeHead,
+            MutagenBodyPart.Body => activeBody,
+            MutagenBodyPart.Paws => activePaws,
+            _ => null
+        };
+    }
+
+    private void SetActiveMutagen(
+        MutagenBodyPart bodyPart,
+        MutagenInstance instance)
+    {
+        switch (bodyPart)
+        {
+            case MutagenBodyPart.Head:
+                activeHead = instance;
+                break;
+
+            case MutagenBodyPart.Body:
+                activeBody = instance;
+                break;
+
+            case MutagenBodyPart.Paws:
+                activePaws = instance;
+                break;
+        }
     }
 
     public bool IsMutagenActive(MutagenSO mutagen)
     {
-        foreach (var active in activeMutagens)
-        {
-            if (active.source == mutagen)
-            {
-                return true;
-            }
-        }
+        if (mutagen == null)
+            return false;
 
-        return false;
+        MutagenInstance active =
+            GetActiveMutagen(mutagen.bodyPart);
+
+        return active != null && active.source == mutagen;
     }
 }

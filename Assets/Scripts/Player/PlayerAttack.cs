@@ -28,10 +28,27 @@ public class PlayerAttack : MonoBehaviour {
 
     public Transform GetWeaponHolder() {
         return weaponHolder;
-    }
+    }  
 
-    private void Start() {
-        InputManager.Instance.OnAttackEvent += Attack;
+    public void RegisterInput()
+    {
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnAttackEvent -= Attack;
+            InputManager.Instance.OnAttackEvent += Attack;
+        }
+    } 
+
+    public void Reinitialize()
+    {
+        RegisterInput();
+
+        if (weaponHolder == null)
+        {
+            GameObject holder = GameObject.Find("WeaponHolder");
+            if (holder != null)
+                weaponHolder = holder.transform;
+        }
     }
 
     private void Update() {
