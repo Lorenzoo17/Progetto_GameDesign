@@ -6704,6 +6704,7 @@ GameObject:
   - component: {fileID: 3159381830866388074}
   - component: {fileID: 4456709943258281981}
   - component: {fileID: 4784119704304888244}
+  - component: {fileID: 7893800072999557535}
   m_Layer: 0
   m_Name: Treasure_room
   m_TagString: Untagged
@@ -6756,12 +6757,13 @@ MonoBehaviour:
   - {fileID: 2963118795481221467}
   - {fileID: 3515920195056237895}
   - {fileID: 1218517539202200424}
-  enemiesAlive: 0
   enemiesSpawnPoints: []
   decorationSpawnPoints: []
   minEnemiesToSpawn: 0
   isStartRoom: 0
   roomBounds: {fileID: 1774340089859842052}
+  roomCentre: {fileID: 0}
+  navSurface: {fileID: 8369484045065776491}
 --- !u!61 &4784119704304888244
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6808,6 +6810,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 21.353233, y: 19.064405}
   m_EdgeRadius: 0
+--- !u!114 &7893800072999557535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995667458416466138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9cfb18d9b36d694ab60ce3ac69ad6dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreasureRoomSpawner
+  lootDatabase: {fileID: 11400000, guid: d697afad0c60e864b9888998b0abc8fb, type: 2}
+  spawnPoint: {fileID: 8185671112524148832}
 --- !u!1 &1218517539202200424
 GameObject:
   m_ObjectHideFlags: 0

@@ -5543,6 +5543,7 @@ GameObject:
   - component: {fileID: 5522912710900181748}
   - component: {fileID: 2001539086743667406}
   - component: {fileID: 438838551484064808}
+  - component: {fileID: -7046228207467992514}
   m_Layer: 0
   m_Name: Room boss
   m_TagString: Untagged
@@ -5589,8 +5590,13 @@ MonoBehaviour:
   - {fileID: 3882194689802957178}
   - {fileID: 4740847049681666843}
   - {fileID: 2373993987044340063}
-  cameraPoint: {fileID: 9217952791738742713}
-  enemiesAlive: 0
+  enemiesSpawnPoints: []
+  decorationSpawnPoints: []
+  minEnemiesToSpawn: 3
+  isStartRoom: 0
+  roomBounds: {fileID: 0}
+  roomCentre: {fileID: 0}
+  navSurface: {fileID: 0}
 --- !u!61 &438838551484064808
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5637,6 +5643,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 15, y: 6.5}
   m_EdgeRadius: 0
+--- !u!114 &-7046228207467992514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532064170782905881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1eadfd2dd97d3b4e94de35ae1a64d8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossRoom
+  bossesToSpawn:
+  - {fileID: 4378181008594232565, guid: 10e38570536879e45ba3e079286643a1, type: 3}
+  bossSpawnTransform: {fileID: 0}
 --- !u!1 &8746162374492447500
 GameObject:
   m_ObjectHideFlags: 0

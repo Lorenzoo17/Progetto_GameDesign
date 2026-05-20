@@ -11,7 +11,8 @@ public class MetaProgressionManager : MonoBehaviour {
     // armi sbloccate (che entrano nel pool di quelle che e' possibile trovare)
 
     // MutagenCoin
-    public int MutagenCoin { get; private set; } // monete mutagene
+    public int MutagenCoin;// monete mutagene
+    [SerializeField] private LootDatabase lootDatabase; // database di tutte le armi e mutageni e perk
     public event EventHandler OnMutagenCoinChanged;
 
     private int maxEquippedMutagens = 1; // numero massimo di mutageni che e' possibile equipaggiare (cambiano in base a 
@@ -35,6 +36,8 @@ public class MetaProgressionManager : MonoBehaviour {
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        UnlockDefaultItems();
     }
 
     // richiamato quando ad esempio si sconfigge un boss (si raccolgono mutagenCoin)
@@ -121,6 +124,29 @@ public class MetaProgressionManager : MonoBehaviour {
         return new List<string>(equippedMutagens);
     }
 
+    // richiamato in awake e resetAll per sbloccare di default le armi iniziali
+    private void UnlockDefaultItems() {
+        if(lootDatabase == null) {
+            Debug.LogWarning("LootDatabase non assegnato");
+            return;
+        }
+
+        foreach (WeaponLootData weapon in lootDatabase.weapons) {
+            if (weapon.unlockedByDefault)
+                unlockedWeapons.Add(weapon.id);
+        }
+
+        foreach (PerkLootData perk in lootDatabase.perks) {
+            if (perk.unlockedByDefault)
+                unlockedPerks.Add(perk.id);
+        }
+
+        foreach (MutagenLootData mutagen in lootDatabase.mutagens) {
+            if (mutagen.unlockedByDefault)
+                unlockedMutagens.Add(mutagen.id);
+        }
+    }
+
     public void ResetAll() {
         MutagenCoin = 0;
 
@@ -130,6 +156,8 @@ public class MetaProgressionManager : MonoBehaviour {
         equippedMutagens.Clear();
 
         maxEquippedMutagens = 1;
+
+        UnlockDefaultItems();
 
         OnMutagenCoinChanged?.Invoke(this, EventArgs.Empty);
         OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);

@@ -24,6 +24,8 @@ public class Enemy : MonoBehaviour
 
     private Animator anim;
 
+    private EnemySpawner enemySpawner;
+
     // 🔥 STUN STATE
     private bool isStun = false;
     public bool IsStunned => isStun;
@@ -141,7 +143,15 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        if(enemySpawner != null) {
+            enemySpawner.OnEnemyDeath(); // aggiorno contatore numero corrente di nemici per l'enemy spawner
+        }
+
         Destroy(gameObject);
+    }
+
+    public void SetEnemySpawner(EnemySpawner es) {
+        enemySpawner = es;
     }
 
     // ======================================================

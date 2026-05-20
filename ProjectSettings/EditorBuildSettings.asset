@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScenes/Combat tests/Combat_classic.unity
     guid: 00aca4c991882124a8418aeb63442374
+  - enabled: 1
+    path: Assets/Scenes/MapLayouts/TestGeneration.unity
+    guid: 70565e52a57896644b5c41be48b2297c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

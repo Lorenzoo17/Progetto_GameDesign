@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16cd49813c4168b4c89ffd65596767ea, type: 3}
+  m_Name: LootDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::LootDatabase
+  weapons:
+  - {fileID: 11400000, guid: cde68d4ac594aa84da8a56e888ad666c, type: 2}
+  - {fileID: 11400000, guid: 842af747d991cc140ac4dcaffbf1ba30, type: 2}
+  - {fileID: 11400000, guid: 573a3dfc634a0bd45ba24af9a8c027d3, type: 2}
+  - {fileID: 11400000, guid: 2bca6f8841134104dbacacd85d789a5d, type: 2}
+  perks: []
+  mutagens:
+  - {fileID: 11400000, guid: 0805923d27e93ba4c89cda6ccb5046de, type: 2}
+  - {fileID: 11400000, guid: c0d982f500686814db3792179b3af844, type: 2}
+  - {fileID: 11400000, guid: 5f2545a743ecc7e44a1400fad4cd2c63, type: 2}

@@ -956,6 +956,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1303978041023684131, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2345396852533137219, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.6
@@ -1032,6 +1036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d160049de5ed14aac093c422a2b818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusController
+  activeStatuses: []
 --- !u!114 &1313769007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1044,6 +1049,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d81661412ed714bbf5deb88e60900d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PerkController
+  activePerks: []
+  player: {fileID: 0}
 --- !u!1 &1330269846
 GameObject:
   m_ObjectHideFlags: 0
@@ -1526,6 +1533,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: bone
       objectReference: {fileID: 0}
+    - target: {fileID: 6440760680909680636, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1581,8 +1592,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   enemiesToSpawnPrefabs:
-  - {fileID: 2203211160702355930, guid: 5ea88266455100546a769e1ca5aca44a, type: 3}
-  - {fileID: 987627900996576541, guid: 3b615300562cf344e831c16672ae4ab6, type: 3}
+  - {fileID: 2324147677086342410, guid: 2b0910f6c09accf4c94a293a4d822433, type: 3}
+  - {fileID: 152330003139174477, guid: 7902e8dbf319f3c46840104a9534da69, type: 3}
+  - {fileID: 5642179399350267750, guid: 49661e854c018924fbfe0c1dc057dea9, type: 3}
+  - {fileID: 5350465888886524393, guid: 4402add9a8d44e14eb00e07efacc31c4, type: 3}
 --- !u!1001 &2120021360
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2040,9 +2040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e183a4f14345f91408dfb6b6cccbadbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SellingStation
-  itemsToSell:
-  - {fileID: 6440760680909680636, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
-  - {fileID: 1893026166742864668, guid: 4ba0243dd0e7ef5478495569565ed9de, type: 3}
+  lootDatabase: {fileID: 11400000, guid: d697afad0c60e864b9888998b0abc8fb, type: 2}
   slots:
   - {fileID: 380489851}
   - {fileID: 569697773}
@@ -23181,7 +23179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460d4b6f77620fc49bf8a296badfc869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChangeScene
-  nextSceneName: TileScene_Test
+  nextSceneName: TestGeneration
 --- !u!61 &844086466
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -25420,6 +25418,63 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1001 &1574413702
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.6124417
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.0186987
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2162202722926875417, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440760680909680636, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_Name
+      value: bone_mace
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
 --- !u!1001 &1587132437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31844,6 +31899,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1865569013}
   - component: {fileID: 1865569012}
+  - component: {fileID: 1865569014}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -31878,6 +31934,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1865569014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865569011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8385be43feef0e044aa06a7d8e60d368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MetaProgressionManager
+  MutagenCoin: 250
+  lootDatabase: {fileID: 11400000, guid: d697afad0c60e864b9888998b0abc8fb, type: 2}
 --- !u!4 &1866644125 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 302056574263449251, guid: da68586be7fa00a428c35efcb563c949, type: 3}
@@ -35461,3 +35531,4 @@ SceneRoots:
   - {fileID: 1959301129}
   - {fileID: 1484898375}
   - {fileID: 82024665}
+  - {fileID: 1574413702}

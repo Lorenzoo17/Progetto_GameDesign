@@ -1,3 +1,4 @@
+using NavMeshPlus.Components;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,13 +44,31 @@ public class DungeonGenerator : MonoBehaviour {
 
     private List<Cell> board;
 
+    public static DungeonGenerator Instance { get; private set; }
+    public bool IsDungeonReady { get; private set; }
+    private RoomBehaviour startRoomBehaviour;
+
+    private void Awake() {
+        Instance = this;
+    }
+
     void Start() {
-        if (bossRoom == null || powerUpRoom == null || vendorRoom == null || normalRooms.Length == 0) {
+        IsDungeonReady = false;
+
+        if (bossRoom == null || powerUpRoom == null || vendorRoom == null || startRoom == null || normalRooms.Length == 0) {
             Debug.Log("Stanze non assegnate correttamente!");
             return;
-        }          
+        }
 
         MazeGenerator();
+
+        MovePlayerToStartRoom();
+
+        if (startRoomBehaviour != null) {
+            startRoomBehaviour.MarkAsVisited();
+        }
+
+        IsDungeonReady = true;
     }
 
     // GENERAZIONE DUNGEON
@@ -117,7 +136,12 @@ public class DungeonGenerator : MonoBehaviour {
                 ).GetComponent<RoomBehaviour>();
 
                 newRoom.UpdateRoom(currentCell.status);
+
                 newRoom.name += $" {i}-{j}";
+
+                if (index == startCell) {
+                    startRoomBehaviour = newRoom;
+                }
             }
         }
     }
@@ -261,5 +285,35 @@ public class DungeonGenerator : MonoBehaviour {
             neighbors.Add(cell - 1);
 
         return neighbors;
+    }
+
+    private void MovePlayerToStartRoom() {
+        if (Player.Instance == null) {
+            Debug.LogWarning("Player non trovato");
+            return;
+        }
+
+        if (startRoomBehaviour == null) {
+            Debug.LogWarning("Start room non trovata");
+            return;
+        }
+
+        Transform spawnPoint = startRoomBehaviour.roomCentre;
+
+        if (spawnPoint == null) {
+            spawnPoint = startRoomBehaviour.transform;
+        }
+
+        Collider2D playerCollider = Player.Instance.GetComponent<Collider2D>();
+
+        if (playerCollider != null) {
+            playerCollider.enabled = false;
+        }
+
+        Player.Instance.transform.position = spawnPoint.position;
+
+        if (playerCollider != null) {
+            playerCollider.enabled = true;
+        }
     }
 }

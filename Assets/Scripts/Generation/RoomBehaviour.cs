@@ -1,3 +1,4 @@
+using NavMeshPlus.Components;
 using UnityEngine;
 
 public class RoomBehaviour : MonoBehaviour {
@@ -13,8 +14,6 @@ public class RoomBehaviour : MonoBehaviour {
     private bool isVisited = false;
     private bool isCleared = false;
 
-    public int enemiesAlive = 0;
-
     // Room generation parameters
     [SerializeField] private Transform[] enemiesSpawnPoints;
     [SerializeField] private Transform[] decorationSpawnPoints;
@@ -22,6 +21,9 @@ public class RoomBehaviour : MonoBehaviour {
 
     [SerializeField] private bool isStartRoom = false;
     [SerializeField] private BoxCollider2D roomBounds;
+    public Transform roomCentre;
+
+    [SerializeField] private NavMeshSurface navSurface;
 
     private void Awake() {
         // sicurezza
@@ -31,15 +33,16 @@ public class RoomBehaviour : MonoBehaviour {
         roomBounds = roomBounds == null ? GetComponent<BoxCollider2D>() : roomBounds;
     }
 
-    private void Update() {
-        // test
-        if(enemiesAlive == 0) {
-            RoomCleared();
+    private void Start() {
+        if (roomCentre == null) {
+            roomCentre = transform;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            enemiesAlive = 0;
-        }
+        BakeRoomNavMesh();
+    }
+
+    public void MarkAsVisited() {
+        isVisited = true;
     }
 
     // chiamato dal DungeonGenerator
@@ -66,6 +69,10 @@ public class RoomBehaviour : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (!other.GetComponent<Player>()) return;
 
+        if (DungeonGenerator.Instance != null && !DungeonGenerator.Instance.IsDungeonReady) {
+            return;
+        }
+
         if (Camera.main.TryGetComponent<CameraDungeonBehaviour>(out CameraDungeonBehaviour cdb)) {
             cdb.SetRoomBounds(roomBounds);
         }
@@ -87,7 +94,13 @@ public class RoomBehaviour : MonoBehaviour {
     private void StartRoom() {
         if (isStartRoom) return;
 
-        CloseDoors();
+        if(EnemySpawner.Instance != null) {
+            EnemySpawner.Instance.SetCurrentRoom(this);
+        }
+
+        if(this.GetComponent<TreasureRoomSpawner>() == null) // non chiudo le porte se e' una treasure room
+            CloseDoors();
+
         SpawnEnemies();
     }
 
@@ -111,9 +124,6 @@ public class RoomBehaviour : MonoBehaviour {
 
     // spawn nemici (placeholder)
     private void SpawnEnemies() {
-        // Sostituire con spawn effettivo
-        enemiesAlive = 3;
-
         if (EnemySpawner.Instance == null) {
             Debug.Log("Enemy spawner non trovato");
             return;
@@ -123,18 +133,22 @@ public class RoomBehaviour : MonoBehaviour {
         EnemySpawner.Instance.SpawnEnemies();
     }
 
-    // chiamato dai nemici
-    public void OnEnemyDeath() {
-        enemiesAlive--;
-
-        if (enemiesAlive <= 0 && !isCleared) {
-            RoomCleared();
-        }
-    }
-
     // stanza completata
-    private void RoomCleared() {
+    public void RoomCleared() { // richiamato in enemyspawner (se la stanza ha nemici)
         isCleared = true;
         OpenDoors();
+    }
+
+    public void BakeRoomNavMesh() {
+        if (navSurface == null) {
+            navSurface = GetComponentInChildren<NavMeshSurface>();
+        }
+
+        if (navSurface != null) {
+            navSurface.BuildNavMesh();
+        }
+        else {
+            Debug.LogWarning($"NavMeshSurface non trovata nella stanza {name}");
+        }
     }
 }
