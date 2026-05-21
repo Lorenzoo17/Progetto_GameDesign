@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
-    public static Transform hubSpawn;
-    
+    public static Transform currentSpawn;
+
     private void Awake()
     {
-        hubSpawn = transform;
+        currentSpawn = transform;
     }
 }

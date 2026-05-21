@@ -68,11 +68,9 @@ public class Player : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {   
-        if (scene.name == "HubScene")
-        {
-            RespawnAtHub();
-        }
         ReinitializeSceneReferences();
+        MoveToSpawn();
+
     }
 
     //Metodo per trasportare oggetti tra scene
@@ -132,22 +130,21 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        RespawnAtHub();
-    }
-
-    public void RespawnAtHub()
-    {
-        if (SpawnPoint.hubSpawn != null)
-        {
-            transform.position = SpawnPoint.hubSpawn.position;
-        }
-    }
-
     public void DestroySelf()
     {
         Instance = null;
         Destroy(gameObject);
+    }
+
+    private void MoveToSpawn()
+    {
+        if (SpawnPoint.currentSpawn != null)
+        {
+            transform.position = SpawnPoint.currentSpawn.position;
+        }
+        else
+        {
+            Debug.LogWarning("NO SPAWN POINT FOUND IN SCENE");
+        }
     }
 }
