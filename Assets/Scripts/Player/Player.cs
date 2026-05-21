@@ -67,7 +67,11 @@ public class Player : MonoBehaviour
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
+    {   
+        if (scene.name == "HubScene")
+        {
+            RespawnAtHub();
+        }
         ReinitializeSceneReferences();
     }
 
@@ -99,7 +103,15 @@ public class Player : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Static; // Blocca fisicamente il corpo
         }
-
+        if (GameOverManager.Instance == null)
+        {
+            Debug.LogError("GameOverManager INSTANCE NULL");
+        }
+        else
+        {
+            Debug.Log("Calling GameOver UI");
+            GameOverManager.Instance.ShowGameOver();
+        }
         //Se si volessero aggiungere animazioni di morte
         /*Animator anim = GetComponent<Animator>();
         if (anim != null) {
@@ -107,14 +119,7 @@ public class Player : MonoBehaviour
         }*/
 
         //Esegui il reload della scena TODO: sostituire con schermata di game over
-        StartCoroutine(GameOverSequence());
-    }
-
-    private IEnumerator GameOverSequence()
-    {
-        yield return new WaitForSeconds(1.5f); // Aspetta un attimo per enfasi drammatica
-        Player.DestroyPlayer(); //Distruggi il prefab   
-        LevelLoader.Instance.RestartLevel();   // Fa tutto lui (animazione + caricamento)
+        GameOverManager.Instance.ShowGameOver();
     }
 
     //Distruzione player per cambio scena, da chiamare dal level loader
@@ -125,5 +130,24 @@ public class Player : MonoBehaviour
             Destroy(Instance.gameObject);
             Instance = null;
         }
+    }
+
+    private void Start()
+    {
+        RespawnAtHub();
+    }
+
+    public void RespawnAtHub()
+    {
+        if (SpawnPoint.hubSpawn != null)
+        {
+            transform.position = SpawnPoint.hubSpawn.position;
+        }
+    }
+
+    public void DestroySelf()
+    {
+        Instance = null;
+        Destroy(gameObject);
     }
 }
