@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class PersistentEventSystem : MonoBehaviour
+public class PersistentObject : MonoBehaviour
 {
-    private static PersistentEventSystem instance;
+    private static PersistentObject instance;
 
     private void Awake()
     {

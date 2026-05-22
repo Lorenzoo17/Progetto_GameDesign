@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScreamSO
   mutagenName: 
   description: 
+  icon: {fileID: -45653508336638033, guid: c1686957ad594a94bbbe1319986904b7, type: 3}
   bodyPart: 0
   manaCost: 1
   isToggle: 0

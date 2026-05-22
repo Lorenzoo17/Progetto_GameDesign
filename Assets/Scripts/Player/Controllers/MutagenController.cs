@@ -88,6 +88,13 @@ public class MutagenController : MonoBehaviour
                 equippedPaws = mutagen;
                 break;
         }
+
+        MutagenUIController ui =FindFirstObjectByType<MutagenUIController>();
+
+        if (ui != null)
+        {
+            ui.RefreshUI();
+        }
     }
 
     public void UnequipMutagen(MutagenBodyPart bodyPart)
@@ -165,6 +172,13 @@ public class MutagenController : MonoBehaviour
 
         Debug.Log($"Activated mutagen: {mutagen.mutagenName}");
 
+        MutagenUIController ui =FindFirstObjectByType<MutagenUIController>();
+
+        if (ui != null)
+        {
+            ui.RefreshUI();
+        }
+
         return true;
     }
 
@@ -182,6 +196,13 @@ public class MutagenController : MonoBehaviour
         mutagen.Deactivate(player, instance);
 
         SetActiveMutagen(mutagen.bodyPart, null);
+
+        MutagenUIController ui =FindFirstObjectByType<MutagenUIController>();
+
+        if (ui != null)
+        {
+            ui.RefreshUI();
+        }
 
         Debug.Log($"Deactivated mutagen: {mutagen.mutagenName}");
     }
@@ -266,5 +287,19 @@ public class MutagenController : MonoBehaviour
             GetActiveMutagen(mutagen.bodyPart);
 
         return active != null && active.source == mutagen;
+    }
+
+    public MutagenSO GetEquippedMutagenByPart(MutagenBodyPart bodyPart)
+    {
+        return bodyPart switch
+        {
+            MutagenBodyPart.Head => equippedHead,
+
+            MutagenBodyPart.Body => equippedBody,
+
+            MutagenBodyPart.Paws => equippedPaws,
+
+            _ => null
+        };
     }
 }
