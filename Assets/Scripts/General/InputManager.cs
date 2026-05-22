@@ -14,10 +14,14 @@ public class InputManager : MonoBehaviour
 
     private InputAction attackAction;
 
-    public event EventHandler OnAttackEvent; // richiamato in playerattack (con iscrizione all'evento)
+    public bool inputEnabled = true;
+
+    public event EventHandler OnAttackEvent;
     public event EventHandler OnDodgeEvent;
-    public event EventHandler OnInteractEvent; // richiamato in PlayerInteract.cs (con iscrizione all'evento)
-    public event System.Action<int> OnMutagenPressed;
+    public event EventHandler OnInteractEvent;
+    public event Action<int> OnMutagenPressed;
+
+    private Camera cam;
 
     private void Awake()
     {
@@ -29,67 +33,55 @@ public class InputManager : MonoBehaviour
 
         Instance = this;
 
-        playerInputActions = new InputSystem_Actions(); // input action definito in editor
-        playerInputActions.Player.Enable(); // Abilito input action relativo al player
+        playerInputActions = new InputSystem_Actions();
+        playerInputActions.Player.Enable();
 
-        // Player movement
+        // Movement
         playerInputActions.Player.Move.performed += Move_performed;
         playerInputActions.Player.Move.canceled += Move_canceled;
 
-        // Player attack
-        // playerInputActions.Player.Attack.performed += Attack_performed;
+        // Attack
         attackAction = playerInputActions.Player.Attack;
 
-        // Player dash
+        // Dash
         playerInputActions.Player.Dash.performed += Dash_performed;
 
-        // player interact
+        // Interact
         playerInputActions.Player.Interact.performed += Interact_performed;
 
-        playerInputActions.Player.Mutagen1.performed += _ =>
-        {
-            OnMutagenPressed?.Invoke(0);
-        };
-
-        playerInputActions.Player.Mutagen2.performed += _ =>
-        {
-            OnMutagenPressed?.Invoke(1);
-        };
-
-        playerInputActions.Player.Mutagen3.performed += _ =>
-        {
-            OnMutagenPressed?.Invoke(2);
-        };
+        // Mutagen (FIX: no lambda)
+        playerInputActions.Player.Mutagen1.performed += Mutagen1;
+        playerInputActions.Player.Mutagen2.performed += Mutagen2;
+        playerInputActions.Player.Mutagen3.performed += Mutagen3;
     }
 
-    private void Interact_performed(InputAction.CallbackContext obj)
+    private void Start()
     {
-        OnInteractEvent?.Invoke(this, EventArgs.Empty);
+        cam = Camera.main;
     }
-
-    private void Dash_performed(InputAction.CallbackContext obj)
-    {
-        OnDodgeEvent?.Invoke(this, EventArgs.Empty);
-    }
-
-    // private void Attack_performed(InputAction.CallbackContext obj) {
-    //     OnAttackEvent?.Invoke(this, EventArgs.Empty);
-    // }
 
     private void Update()
     {
+        if (!inputEnabled) return;
         if (Player.Instance == null) return;
+        if (Player.Instance.isDead) return;
 
         if (attackAction.IsPressed())
         {
             OnAttackEvent?.Invoke(this, EventArgs.Empty);
         }
 
-        CalculateAimDirection(Player.Instance.transform.position);
+        AimDirection = CalculateAimDirection(Player.Instance.transform.position);
     }
 
     public Vector2 CalculateAimDirection(Vector2 reference)
     {
+        if (cam == null)
+        {
+            cam = Camera.main;
+            if (cam == null) return Vector2.zero;
+        }
+
         Vector2 mousePos = playerInputActions.Player.Aim.ReadValue<Vector2>();
         Vector2 stick = playerInputActions.Player.AimStick.ReadValue<Vector2>();
 
@@ -103,7 +95,10 @@ public class InputManager : MonoBehaviour
         // mouse
         else
         {
-            Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            if (cam == null)
+                return Vector2.zero;
+
+            Vector2 worldPos = cam.ScreenToWorldPoint(mousePos);
             Vector2 direction = worldPos - reference;
 
             if (direction.magnitude > 0.2f)
@@ -113,44 +108,57 @@ public class InputManager : MonoBehaviour
         }
 
         return finalDirection;
-        //Debug.Log(MousePosition);
     }
 
     private void Move_performed(InputAction.CallbackContext ctx)
     {
         PlayerMovement = ctx.ReadValue<Vector2>();
     }
-    private void Move_canceled(InputAction.CallbackContext obj)
+
+    private void Move_canceled(InputAction.CallbackContext ctx)
     {
         PlayerMovement = Vector2.zero;
     }
 
-    // utile per il cambio di scena
+    private void Dash_performed(InputAction.CallbackContext obj)
+    {
+        OnDodgeEvent?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void Interact_performed(InputAction.CallbackContext obj)
+    {
+        OnInteractEvent?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void Mutagen1(InputAction.CallbackContext ctx)
+    {
+        OnMutagenPressed?.Invoke(0);
+    }
+
+    private void Mutagen2(InputAction.CallbackContext ctx)
+    {
+        OnMutagenPressed?.Invoke(1);
+    }
+
+    private void Mutagen3(InputAction.CallbackContext ctx)
+    {
+        OnMutagenPressed?.Invoke(2);
+    }
+
     private void OnDestroy()
     {
-        if (playerInputActions != null)
-        {
-            playerInputActions.Player.Move.performed -= Move_performed;
-            playerInputActions.Player.Move.canceled -= Move_canceled;
-            // playerInputActions.Player.Attack.performed -= Attack_performed;
-            playerInputActions.Player.Dash.performed -= Dash_performed;
-            playerInputActions.Player.Interact.performed -= Interact_performed;
-            playerInputActions.Player.Mutagen1.performed -= _ =>
-            {
-                OnMutagenPressed?.Invoke(0);
-            };
+        if (playerInputActions == null) return;
 
-            playerInputActions.Player.Mutagen2.performed -= _ =>
-            {
-                OnMutagenPressed?.Invoke(1);
-            };
+        playerInputActions.Player.Move.performed -= Move_performed;
+        playerInputActions.Player.Move.canceled -= Move_canceled;
 
-            playerInputActions.Player.Mutagen3.performed -= _ =>
-            {
-                OnMutagenPressed?.Invoke(2);
-            };
+        playerInputActions.Player.Dash.performed -= Dash_performed;
+        playerInputActions.Player.Interact.performed -= Interact_performed;
 
-            playerInputActions.Player.Disable();
-        }
+        playerInputActions.Player.Mutagen1.performed -= Mutagen1;
+        playerInputActions.Player.Mutagen2.performed -= Mutagen2;
+        playerInputActions.Player.Mutagen3.performed -= Mutagen3;
+
+        playerInputActions.Player.Disable();
     }
 }

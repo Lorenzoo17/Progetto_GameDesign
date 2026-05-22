@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     public StatusController statusController;
     public ShakeData cameraShakeData;
 
+    public bool isDead = false;
+
 
     private void Awake()
     {
@@ -89,10 +91,12 @@ public class Player : MonoBehaviour
     }
 
     public void OnPlayerDeath()
-    {
+    {   
+        isDead = true;
         //inibisco le azioni del player (movimento + attacco)
         playerMovement.enabled = false;
         playerAttack.enabled = false;
+        InputManager.Instance.inputEnabled = false;
 
         //Fermo il rigidbody del player
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -101,15 +105,7 @@ public class Player : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Static; // Blocca fisicamente il corpo
         }
-        if (GameOverManager.Instance == null)
-        {
-            Debug.LogError("GameOverManager INSTANCE NULL");
-        }
-        else
-        {
-            Debug.Log("Calling GameOver UI");
-            GameOverManager.Instance.ShowGameOver();
-        }
+        
         //Se si volessero aggiungere animazioni di morte
         /*Animator anim = GetComponent<Animator>();
         if (anim != null) {

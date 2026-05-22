@@ -8,9 +8,7 @@ public class MutagenUIController : MonoBehaviour
 
     [Header("Slots")]
     [SerializeField] private MutagenSlotUI headSlot;
-
     [SerializeField] private MutagenSlotUI bodySlot;
-
     [SerializeField] private MutagenSlotUI pawsSlot;
 
     private MutagenController mutagenController;
@@ -23,6 +21,7 @@ public class MutagenUIController : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        Unsubscribe();
     }
 
     private void Start()
@@ -32,35 +31,45 @@ public class MutagenUIController : MonoBehaviour
         RefreshUI();
     }
 
-    private void OnSceneLoaded(
-        Scene scene,
-        LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshVisibility();
-
         FindPlayer();
-
         RefreshUI();
     }
 
     private void FindPlayer()
     {
-        Player player =
-            FindFirstObjectByType<Player>();
+        Unsubscribe();
+
+        Player player = FindFirstObjectByType<Player>();
 
         if (player != null)
         {
-            mutagenController =
-                player.GetComponent<MutagenController>();
+            mutagenController = player.GetComponent<MutagenController>();
+            Subscribe();
+        }
+    }
+
+    private void Subscribe()
+    {
+        if (mutagenController != null)
+        {
+            mutagenController.OnMutagenStateChanged += RefreshUI;
+        }
+    }
+
+    private void Unsubscribe()
+    {
+        if (mutagenController != null)
+        {
+            mutagenController.OnMutagenStateChanged -= RefreshUI;
         }
     }
 
     private void RefreshVisibility()
     {
-        bool showUI =
-            SceneManager.GetActiveScene().name
-            != "HubScene";
-
+        bool showUI = SceneManager.GetActiveScene().name != "HubScene";
         gameplayUI.SetActive(showUI);
     }
 
@@ -69,31 +78,23 @@ public class MutagenUIController : MonoBehaviour
         if (mutagenController == null)
             return;
 
-        MutagenSO head =
-            mutagenController.GetEquippedMutagenByPart(
-                MutagenBodyPart.Head);
-
-        MutagenSO body =
-            mutagenController.GetEquippedMutagenByPart(
-                MutagenBodyPart.Body);
-
-        MutagenSO paws =
-            mutagenController.GetEquippedMutagenByPart(
-                MutagenBodyPart.Paws);
+        MutagenSO head = mutagenController.GetEquippedMutagenByPart(MutagenBodyPart.Head);
+        MutagenSO body = mutagenController.GetEquippedMutagenByPart(MutagenBodyPart.Body);
+        MutagenSO paws = mutagenController.GetEquippedMutagenByPart(MutagenBodyPart.Paws);
 
         headSlot.SetSlot(
             head,
-            head != null &&
-            mutagenController.IsMutagenActive(head));
+            head != null && mutagenController.IsMutagenActive(head)
+        );
 
         bodySlot.SetSlot(
             body,
-            body != null &&
-            mutagenController.IsMutagenActive(body));
+            body != null && mutagenController.IsMutagenActive(body)
+        );
 
         pawsSlot.SetSlot(
             paws,
-            paws != null &&
-            mutagenController.IsMutagenActive(paws));
+            paws != null && mutagenController.IsMutagenActive(paws)
+        );
     }
-}
+}   

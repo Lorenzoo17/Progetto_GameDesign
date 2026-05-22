@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class GameOverManager : MonoBehaviour
 {
     public static GameOverManager Instance;
-
+    
     [SerializeField] private GameObject gameOverPrefab;
 
     private GameObject currentUI;
@@ -39,27 +39,35 @@ public class GameOverManager : MonoBehaviour
 
         Button btn = currentUI.GetComponentInChildren<Button>();
 
-        if (btn == null)
-        {
-            Debug.LogError("NO BUTTON");
-        }
-        else
+        if (btn != null)
         {
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(GoToHub);
         }
 
         Time.timeScale = 0f;
+
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.inputEnabled = false;
+        }
     }
 
     public void GoToHub()
     {
         Time.timeScale = 1f;
         isGameOver = false;
+
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.inputEnabled = true;
+        }
+
         if (Player.Instance != null)
         {
             Player.Instance.DestroySelf();
         }
+
         SceneManager.LoadScene("HubScene");
     }
 }

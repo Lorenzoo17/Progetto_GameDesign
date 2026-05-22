@@ -26,9 +26,4 @@ public class MutagenSlotUI : MonoBehaviour
 
         activeBorder.SetActive(active);
     }
-
-    public void DeactivateBorder()
-    {
-        activeBorder.SetActive(false);
-    }
 }

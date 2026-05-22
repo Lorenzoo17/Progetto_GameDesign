@@ -4698,7 +4698,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 653420679}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e67f55148ccad4b880df3cc8d64514, type: 3}
+  m_Script: {fileID: 11500000, guid: 44dea6aee60a4fe4d957776032b07f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PersistentEventSystem
 --- !u!1 &681532971
@@ -4882,7 +4882,7 @@ GameObject:
   - component: {fileID: 814127290}
   - component: {fileID: 814127289}
   m_Layer: 5
-  m_Name: PersistentCanva
+  m_Name: MutagenUICanva
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6972,6 +6972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6a8751ed0767b4bbe9649086588146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  inputEnabled: 1
 --- !u!4 &1865569013
 Transform:
   m_ObjectHideFlags: 0

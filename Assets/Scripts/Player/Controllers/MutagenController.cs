@@ -1,7 +1,9 @@
 using UnityEngine;
+using System;
 
 public class MutagenController : MonoBehaviour
 {
+    public event Action OnMutagenStateChanged;
     [Header("Equipped Mutagens")]
     [SerializeField] private MutagenSO equippedHead;
     [SerializeField] private MutagenSO equippedBody;
@@ -89,12 +91,7 @@ public class MutagenController : MonoBehaviour
                 break;
         }
 
-        MutagenUIController ui =FindFirstObjectByType<MutagenUIController>();
-
-        if (ui != null)
-        {
-            ui.RefreshUI();
-        }
+        NotifyUI();
     }
 
     public void UnequipMutagen(MutagenBodyPart bodyPart)
@@ -172,12 +169,7 @@ public class MutagenController : MonoBehaviour
 
         Debug.Log($"Activated mutagen: {mutagen.mutagenName}");
 
-        MutagenUIController ui =FindFirstObjectByType<MutagenUIController>();
-
-        if (ui != null)
-        {
-            ui.RefreshUI();
-        }
+        NotifyUI();
 
         return true;
     }
@@ -197,12 +189,7 @@ public class MutagenController : MonoBehaviour
 
         SetActiveMutagen(mutagen.bodyPart, null);
 
-        MutagenUIController ui =FindFirstObjectByType<MutagenUIController>();
-
-        if (ui != null)
-        {
-            ui.RefreshUI();
-        }
+        NotifyUI();
 
         Debug.Log($"Deactivated mutagen: {mutagen.mutagenName}");
     }
@@ -240,6 +227,8 @@ public class MutagenController : MonoBehaviour
             Debug.Log($"Expired mutagen: {mutagen.source.mutagenName}");
 
             SetActiveMutagen(bodyPart, null);
+
+            NotifyUI();
         }
     }
 
@@ -301,5 +290,11 @@ public class MutagenController : MonoBehaviour
 
             _ => null
         };
+    }
+
+    //Eventi
+    private void NotifyUI()
+    {
+        OnMutagenStateChanged?.Invoke();
     }
 }
