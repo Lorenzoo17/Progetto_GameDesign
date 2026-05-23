@@ -220,8 +220,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyRangedAttack
   attackDistance: 4
-  attackCooldown: 1
-  attackDuration: 0.8
+  attackCooldown: 0.8
+  attackDuration: 0.6
   attackHitDelay: 0.5
   projectileShooter: {fileID: 0}
   shooterType: 0
@@ -288,6 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementNav
   speed: 2
   stopDistance: 1.2
+  minTargetDistance: 10
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10

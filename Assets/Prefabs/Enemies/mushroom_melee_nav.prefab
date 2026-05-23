@@ -342,6 +342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementNav
   speed: 2
   stopDistance: 1.2
+  minTargetDistance: 10
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10

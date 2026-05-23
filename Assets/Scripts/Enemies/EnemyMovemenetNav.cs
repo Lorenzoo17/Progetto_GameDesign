@@ -8,6 +8,7 @@ public class EnemyMovementNav : MonoBehaviour {
     [Header("Movement")]
     [SerializeField] private float speed = 2f;
     [SerializeField] private float stopDistance = 1.2f;
+    [SerializeField] private float minTargetDistance = 20f; // distanza minima dalla quale inizia a inseguire il player
 
     [Header("Random Follow Offset")]
     [SerializeField] private float randomOffsetDistance = 1f;
@@ -91,11 +92,16 @@ public class EnemyMovementNav : MonoBehaviour {
             playerPosition
         );
 
-        if (isRangedEnemy) {
-            HandleRangedEnemy(distance, playerPosition);
+        if(distance <= minTargetDistance) {
+            if (isRangedEnemy) {
+                HandleRangedEnemy(distance, playerPosition);
+            }
+            else {
+                HandleMeleeEnemy(distance);
+            }
         }
         else {
-            HandleMeleeEnemy(distance);
+            StopMovement();
         }
     }
 

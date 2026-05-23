@@ -23179,7 +23179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460d4b6f77620fc49bf8a296badfc869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChangeScene
-  nextSceneName: TestGeneration
+  nextSceneName: Basement1_generation
 --- !u!61 &844086466
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -25614,11 +25614,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 383666e826fda744c89af23e2312ea4c, type: 3}
---- !u!4 &1589159758 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3952510019174896889, guid: 383666e826fda744c89af23e2312ea4c, type: 3}
-  m_PrefabInstance: {fileID: 1589159757}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1589655907
 GameObject:
   m_ObjectHideFlags: 0
@@ -26147,22 +26142,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 296506588103354641, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: baseStats.attack
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 296506588103354641, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: baseStats.attackRate
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 296506588103354641, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: baseStats.baseMoveSpeed
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 296506588103354641, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: baseStats.dodgeCooldown
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 1303978041023684131, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
       propertyPath: m_Name
       value: Player
@@ -26207,10 +26186,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4977418957196858382, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: attackDirectionUI
-      value: 
-      objectReference: {fileID: 1589159758}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

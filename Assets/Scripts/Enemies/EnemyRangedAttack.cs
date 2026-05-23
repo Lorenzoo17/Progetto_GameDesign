@@ -30,11 +30,11 @@ public class EnemyRangedAttack : EnemyAttackBase {
                 projectileShooter.ShootCurved(gameObject, direction, range);
                 break;
             case ShooterType.Circle:
-                projectileNumber = Random.Range(5, 10);
+                projectileNumber = Random.Range(3, 5);
                 projectileShooter.ShootMultipleProjectile(gameObject, projectileNumber);
                 break;
             case ShooterType.Spread:
-                projectileNumber = Random.Range(3, 7);
+                projectileNumber = Random.Range(2, 4);
                 projectileShooter.ShootFocusedSpread(gameObject, projectileNumber, Player.Instance.transform);
                 break;
             default:
