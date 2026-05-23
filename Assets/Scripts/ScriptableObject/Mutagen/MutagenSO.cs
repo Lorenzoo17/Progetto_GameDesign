@@ -7,7 +7,7 @@ public abstract class MutagenSO : ScriptableObject
     [Header("Base Info")]
     public string mutagenName;
     [TextArea] public string description;
-
+    public Sprite icon;
     public MutagenBodyPart bodyPart;
 
     [Header("Cost")]

@@ -19,6 +19,7 @@ MonoBehaviour:
 
     sfrutta
     la tua forza interiore e abbatti tutti intorno a te '
+  icon: {fileID: 1208040086343421634, guid: 953c354ee998c7b41b4b8bbcbc0a16aa, type: 3}
   bodyPart: 1
   manaCost: 1
   isToggle: 0

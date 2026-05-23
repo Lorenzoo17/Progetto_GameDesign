@@ -1,7 +1,9 @@
 using UnityEngine;
+using System;
 
 public class MutagenController : MonoBehaviour
 {
+    public event Action OnMutagenStateChanged;
     [Header("Equipped Mutagens")]
     [SerializeField] private MutagenSO equippedHead;
     [SerializeField] private MutagenSO equippedBody;
@@ -88,6 +90,8 @@ public class MutagenController : MonoBehaviour
                 equippedPaws = mutagen;
                 break;
         }
+
+        NotifyUI();
     }
 
     public void UnequipMutagen(MutagenBodyPart bodyPart)
@@ -165,6 +169,8 @@ public class MutagenController : MonoBehaviour
 
         Debug.Log($"Activated mutagen: {mutagen.mutagenName}");
 
+        NotifyUI();
+
         return true;
     }
 
@@ -182,6 +188,8 @@ public class MutagenController : MonoBehaviour
         mutagen.Deactivate(player, instance);
 
         SetActiveMutagen(mutagen.bodyPart, null);
+
+        NotifyUI();
 
         Debug.Log($"Deactivated mutagen: {mutagen.mutagenName}");
     }
@@ -219,6 +227,8 @@ public class MutagenController : MonoBehaviour
             Debug.Log($"Expired mutagen: {mutagen.source.mutagenName}");
 
             SetActiveMutagen(bodyPart, null);
+
+            NotifyUI();
         }
     }
 
@@ -266,5 +276,25 @@ public class MutagenController : MonoBehaviour
             GetActiveMutagen(mutagen.bodyPart);
 
         return active != null && active.source == mutagen;
+    }
+
+    public MutagenSO GetEquippedMutagenByPart(MutagenBodyPart bodyPart)
+    {
+        return bodyPart switch
+        {
+            MutagenBodyPart.Head => equippedHead,
+
+            MutagenBodyPart.Body => equippedBody,
+
+            MutagenBodyPart.Paws => equippedPaws,
+
+            _ => null
+        };
+    }
+
+    //Eventi
+    private void NotifyUI()
+    {
+        OnMutagenStateChanged?.Invoke();
     }
 }

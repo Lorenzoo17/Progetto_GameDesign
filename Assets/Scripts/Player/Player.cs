@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     public StatusController statusController;
     public ShakeData cameraShakeData;
 
+    public bool isDead = false;
+
 
     private void Awake()
     {
@@ -67,8 +69,10 @@ public class Player : MonoBehaviour
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
+    {   
         ReinitializeSceneReferences();
+        MoveToSpawn();
+
     }
 
     //Metodo per trasportare oggetti tra scene
@@ -87,10 +91,12 @@ public class Player : MonoBehaviour
     }
 
     public void OnPlayerDeath()
-    {
+    {   
+        isDead = true;
         //inibisco le azioni del player (movimento + attacco)
         playerMovement.enabled = false;
         playerAttack.enabled = false;
+        InputManager.Instance.inputEnabled = false;
 
         //Fermo il rigidbody del player
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
@@ -99,7 +105,7 @@ public class Player : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             rb.bodyType = RigidbodyType2D.Static; // Blocca fisicamente il corpo
         }
-
+        
         //Se si volessero aggiungere animazioni di morte
         /*Animator anim = GetComponent<Animator>();
         if (anim != null) {
@@ -107,14 +113,7 @@ public class Player : MonoBehaviour
         }*/
 
         //Esegui il reload della scena TODO: sostituire con schermata di game over
-        StartCoroutine(GameOverSequence());
-    }
-
-    private IEnumerator GameOverSequence()
-    {
-        yield return new WaitForSeconds(1.5f); // Aspetta un attimo per enfasi drammatica
-        Player.DestroyPlayer(); //Distruggi il prefab   
-        LevelLoader.Instance.RestartLevel();   // Fa tutto lui (animazione + caricamento)
+        GameOverManager.Instance.ShowGameOver();
     }
 
     //Distruzione player per cambio scena, da chiamare dal level loader
@@ -124,6 +123,24 @@ public class Player : MonoBehaviour
         {
             Destroy(Instance.gameObject);
             Instance = null;
+        }
+    }
+
+    public void DestroySelf()
+    {
+        Instance = null;
+        Destroy(gameObject);
+    }
+
+    private void MoveToSpawn()
+    {
+        if (SpawnPoint.currentSpawn != null)
+        {
+            transform.position = SpawnPoint.currentSpawn.position;
+        }
+        else
+        {
+            Debug.LogWarning("NO SPAWN POINT FOUND IN SCENE");
         }
     }
 }
