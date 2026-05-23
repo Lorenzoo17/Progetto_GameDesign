@@ -238,7 +238,7 @@ MonoBehaviour:
   attackDuration: 0.8
   attackHitDelay: 0.5
   projectileShooter: {fileID: 0}
-  useCurvedProjectile: 0
+  shooterType: 0
 --- !u!114 &4713988132325656548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a71c415b39f00c249af60be65d2724e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileShooter
-  projectilePrefab: {fileID: 1771740914817530386, guid: 3b2b847428ee6e943966c83c467c605f, type: 3}
+  projectilePrefab: {fileID: 1771740914817530386, guid: 6ff7c4b3989e1ab4fb157be9f109e362, type: 3}
   firePoint: {fileID: 5611914970080369481}
   damage: 1
   projectileSpeed: 8
@@ -292,6 +292,12 @@ MonoBehaviour:
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  lineOfSightCheckInterval: 0.1
+  debugLineOfSight: 1
+  lineOfSightRadius: 0.15
 --- !u!195 &6666826066591312943
 NavMeshAgent:
   m_ObjectHideFlags: 0

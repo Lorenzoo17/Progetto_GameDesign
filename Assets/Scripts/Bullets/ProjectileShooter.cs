@@ -1,9 +1,15 @@
 using UnityEngine;
 
+public enum ShooterType {
+    Linear,
+    Curved,
+    Spread,
+    Circle
+}
 public class ProjectileShooter : MonoBehaviour {
     
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private Transform firePoint;
+    public Transform firePoint;
     
     [SerializeField] private float damage = 1f;
     [SerializeField] private float projectileSpeed = 8f;

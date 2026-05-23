@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyRangedAttack : EnemyAttackBase {
     [SerializeField] private ProjectileShooter projectileShooter;
-    [SerializeField] private bool useCurvedProjectile = true;
+    [SerializeField] private ShooterType shooterType;
 
     protected override void Awake() {
         base.Awake();
@@ -21,11 +21,25 @@ public class EnemyRangedAttack : EnemyAttackBase {
         Vector2 direction = ((Vector2)Player.Instance.transform.position - (Vector2)transform.position).normalized;
         float range = Vector2.Distance(transform.position, Player.Instance.transform.position);
 
-        if (useCurvedProjectile) {
-            projectileShooter.ShootCurved(gameObject, direction, range);
-        }
-        else {
-            projectileShooter.ShootLinear(gameObject, direction);
+        int projectileNumber = 0;
+        switch (shooterType) {
+            case ShooterType.Linear:
+                projectileShooter.ShootLinear(gameObject, direction);
+                break;
+            case ShooterType.Curved:
+                projectileShooter.ShootCurved(gameObject, direction, range);
+                break;
+            case ShooterType.Circle:
+                projectileNumber = Random.Range(5, 10);
+                projectileShooter.ShootMultipleProjectile(gameObject, projectileNumber);
+                break;
+            case ShooterType.Spread:
+                projectileNumber = Random.Range(3, 7);
+                projectileShooter.ShootFocusedSpread(gameObject, projectileNumber, Player.Instance.transform);
+                break;
+            default:
+                projectileShooter.ShootLinear(gameObject, direction);
+                break;
         }
     }
 }

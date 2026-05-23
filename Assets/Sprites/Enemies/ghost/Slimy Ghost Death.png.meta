@@ -1,0 +1,1495 @@
+fileFormatVersion: 2
+guid: 0ee14637f0c29ee4bab2ed1911152ba4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6460779691644571323
+    second: Slimy Ghost Death_0
+  - first:
+      213: -6308458995112184954
+    second: Slimy Ghost Death_1
+  - first:
+      213: -6881462599511120939
+    second: Slimy Ghost Death_2
+  - first:
+      213: -4265601135772757101
+    second: Slimy Ghost Death_3
+  - first:
+      213: 5012484978822415802
+    second: Slimy Ghost Death_4
+  - first:
+      213: 1668858175817400896
+    second: Slimy Ghost Death_5
+  - first:
+      213: 6638254456908850651
+    second: Slimy Ghost Death_6
+  - first:
+      213: -7017280660441467827
+    second: Slimy Ghost Death_7
+  - first:
+      213: 6865971875710288759
+    second: Slimy Ghost Death_8
+  - first:
+      213: -996523411046855828
+    second: Slimy Ghost Death_9
+  - first:
+      213: 9138520681671510993
+    second: Slimy Ghost Death_10
+  - first:
+      213: -7173776412904862788
+    second: Slimy Ghost Death_11
+  - first:
+      213: -610653261871738465
+    second: Slimy Ghost Death_12
+  - first:
+      213: -4761084819299533254
+    second: Slimy Ghost Death_13
+  - first:
+      213: 4108648480994026155
+    second: Slimy Ghost Death_14
+  - first:
+      213: 2248872924547380279
+    second: Slimy Ghost Death_15
+  - first:
+      213: -1806504101990517450
+    second: Slimy Ghost Death_16
+  - first:
+      213: -4015649772267586509
+    second: Slimy Ghost Death_17
+  - first:
+      213: 6020335602341070630
+    second: Slimy Ghost Death_18
+  - first:
+      213: -7461568497293604761
+    second: Slimy Ghost Death_19
+  - first:
+      213: -6039023931116695509
+    second: Slimy Ghost Death_20
+  - first:
+      213: -6627156703497625194
+    second: Slimy Ghost Death_21
+  - first:
+      213: -7483055457038410809
+    second: Slimy Ghost Death_22
+  - first:
+      213: -6162041721883174141
+    second: Slimy Ghost Death_23
+  - first:
+      213: 2215612094594885269
+    second: Slimy Ghost Death_24
+  - first:
+      213: -7534914717927255502
+    second: Slimy Ghost Death_25
+  - first:
+      213: 6629330076108503950
+    second: Slimy Ghost Death_26
+  - first:
+      213: 8364861498009770727
+    second: Slimy Ghost Death_27
+  - first:
+      213: -6792749966716650887
+    second: Slimy Ghost Death_28
+  - first:
+      213: 7634678901920368759
+    second: Slimy Ghost Death_29
+  - first:
+      213: -8890995766336401345
+    second: Slimy Ghost Death_30
+  - first:
+      213: 8488711249580935686
+    second: Slimy Ghost Death_31
+  - first:
+      213: 8411654169025508643
+    second: Slimy Ghost Death_32
+  - first:
+      213: 244568014676846562
+    second: Slimy Ghost Death_33
+  - first:
+      213: 8390514880417946655
+    second: Slimy Ghost Death_34
+  - first:
+      213: -8165268831023259667
+    second: Slimy Ghost Death_35
+  - first:
+      213: 8094630843779495603
+    second: Slimy Ghost Death_36
+  - first:
+      213: 3442395521071873903
+    second: Slimy Ghost Death_37
+  - first:
+      213: 2719549818702883519
+    second: Slimy Ghost Death_38
+  - first:
+      213: -2921325329514231793
+    second: Slimy Ghost Death_39
+  - first:
+      213: -2427026047578154641
+    second: Slimy Ghost Death_40
+  - first:
+      213: 8177414834706218245
+    second: Slimy Ghost Death_41
+  - first:
+      213: 7917364615590030952
+    second: Slimy Ghost Death_42
+  - first:
+      213: -6753676968715460458
+    second: Slimy Ghost Death_43
+  - first:
+      213: 2804699001214777283
+    second: Slimy Ghost Death_44
+  - first:
+      213: 5386149699744535667
+    second: Slimy Ghost Death_45
+  - first:
+      213: -8558593158616332453
+    second: Slimy Ghost Death_46
+  - first:
+      213: -2990261212282374961
+    second: Slimy Ghost Death_47
+  - first:
+      213: -3023497956568015449
+    second: Slimy Ghost Death_48
+  - first:
+      213: -6504473966353881123
+    second: Slimy Ghost Death_49
+  - first:
+      213: -1178682656616881700
+    second: Slimy Ghost Death_50
+  - first:
+      213: -766521471684417723
+    second: Slimy Ghost Death_51
+  - first:
+      213: 4374731961132054389
+    second: Slimy Ghost Death_52
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Slimy Ghost Death_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 199
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbe488c16ec49a950800000000000000
+      internalID: 6460779691644571323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_1
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 199
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6837834b7f9d378a0800000000000000
+      internalID: -6308458995112184954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_2
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 199
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d3e00da9322080a0800000000000000
+      internalID: -6881462599511120939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_3
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 199
+        width: 21
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39313ccfd5a8dc4c0800000000000000
+      internalID: -4265601135772757101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_4
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 199
+        width: 21
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab501bce78cef8540800000000000000
+      internalID: 5012484978822415802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_5
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 199
+        width: 21
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0424a1e3ba9f82710800000000000000
+      internalID: 1668858175817400896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_6
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 199
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd5a4b0f141df1c50800000000000000
+      internalID: 6638254456908850651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_7
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 199
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d44fa212b6c9d9e90800000000000000
+      internalID: -7017280660441467827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_8
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 167
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 773c8812b05d84f50800000000000000
+      internalID: 6865971875710288759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_9
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 167
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6b013acc33ab22f0800000000000000
+      internalID: -996523411046855828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_10
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 167
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1db479b542c82de70800000000000000
+      internalID: 9138520681671510993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_11
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 167
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbbcaba5c50a17c90800000000000000
+      internalID: -7173776412904862788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_12
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 167
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f91933df7168687f0800000000000000
+      internalID: -610653261871738465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_13
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 167
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3e7528059a3dedb0800000000000000
+      internalID: -4761084819299533254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_14
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 167
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba2e890660ad40930800000000000000
+      internalID: 4108648480994026155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_15
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 167
+        width: 21
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 734f3a4820a953f10800000000000000
+      internalID: 2248872924547380279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_16
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 135
+        width: 21
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 635b19b27120ee6e0800000000000000
+      internalID: -1806504101990517450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_17
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 135
+        width: 21
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33cbc95decb8548c0800000000000000
+      internalID: -4015649772267586509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_18
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 135
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6274d2e45578c8350800000000000000
+      internalID: 6020335602341070630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_19
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 135
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 768c19b1cfe237890800000000000000
+      internalID: -7461568497293604761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_20
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 135
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b20d4b31bb3113ca0800000000000000
+      internalID: -6039023931116695509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_21
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 135
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 691ec21271c9704a0800000000000000
+      internalID: -6627156703497625194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_22
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 135
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cb5da075b8d62890800000000000000
+      internalID: -7483055457038410809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_23
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 135
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30b540ca3b70c7aa0800000000000000
+      internalID: -6162041721883174141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_24
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 102
+        width: 22
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5962362167f6fbe10800000000000000
+      internalID: 2215612094594885269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_25
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 102
+        width: 22
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23255195cfa9e6790800000000000000
+      internalID: -7534914717927255502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_26
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 102
+        width: 22
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8bb24d949c100c50800000000000000
+      internalID: 6629330076108503950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_27
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 102
+        width: 22
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ead638a635f51470800000000000000
+      internalID: 8364861498009770727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_28
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 102
+        width: 22
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97abec115ed4bb1a0800000000000000
+      internalID: -6792749966716650887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_29
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 102
+        width: 22
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7780223d204d3f960800000000000000
+      internalID: 7634678901920368759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_30
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 102
+        width: 22
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3054000576dc9480800000000000000
+      internalID: -8890995766336401345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_31
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 102
+        width: 22
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60a422808e5fdc570800000000000000
+      internalID: 8488711249580935686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_32
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 70
+        width: 22
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 325f23e56e23cb470800000000000000
+      internalID: 8411654169025508643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_33
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 70
+        width: 22
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e76c364051e46300800000000000000
+      internalID: 244568014676846562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_34
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 70
+        width: 22
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1cd0f134d8117470800000000000000
+      internalID: 8390514880417946655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_35
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 70
+        width: 22
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: def1a4772432fae80800000000000000
+      internalID: -8165268831023259667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_36
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 70
+        width: 22
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b6b56f7dd7e55070800000000000000
+      internalID: 8094630843779495603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_37
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 70
+        width: 22
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6f72e1ec78d5cf20800000000000000
+      internalID: 3442395521071873903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_38
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 71
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fba63ccb628cdb520800000000000000
+      internalID: 2719549818702883519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_39
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 71
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0804f4371e5577d0800000000000000
+      internalID: -2921325329514231793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_40
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 39
+        width: 22
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f69db7d2ba8715ed0800000000000000
+      internalID: -2427026047578154641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_41
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 39
+        width: 22
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50d7ca367730c7170800000000000000
+      internalID: 8177414834706218245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_42
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 39
+        width: 22
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86ead7d7b2120ed60800000000000000
+      internalID: 7917364615590030952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_43
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 39
+        width: 22
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6906af7549e1642a0800000000000000
+      internalID: -6753676968715460458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_44
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 39
+        width: 22
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c7bc45b1ea4ce620800000000000000
+      internalID: 2804699001214777283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_45
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 39
+        width: 22
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37499586d927fba40800000000000000
+      internalID: 5386149699744535667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_46
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 39
+        width: 22
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b57c59b1ed4c93980800000000000000
+      internalID: -8558593158616332453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_47
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 39
+        width: 22
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc4b74045457086d0800000000000000
+      internalID: -2990261212282374961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_48
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 7
+        width: 22
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7add4afa0a06a06d0800000000000000
+      internalID: -3023497956568015449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_49
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 7
+        width: 22
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd763b8c3677bb5a0800000000000000
+      internalID: -6504473966353881123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_50
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 7
+        width: 22
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd1ef656e5a74afe0800000000000000
+      internalID: -1178682656616881700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_51
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 7
+        width: 22
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5476a8f58c4cc55f0800000000000000
+      internalID: -766521471684417723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slimy Ghost Death_52
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 7
+        width: 22
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 577f2d25a8b26bc30800000000000000
+      internalID: 4374731961132054389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Slimy Ghost Death_0: 6460779691644571323
+      Slimy Ghost Death_1: -6308458995112184954
+      Slimy Ghost Death_10: 9138520681671510993
+      Slimy Ghost Death_11: -7173776412904862788
+      Slimy Ghost Death_12: -610653261871738465
+      Slimy Ghost Death_13: -4761084819299533254
+      Slimy Ghost Death_14: 4108648480994026155
+      Slimy Ghost Death_15: 2248872924547380279
+      Slimy Ghost Death_16: -1806504101990517450
+      Slimy Ghost Death_17: -4015649772267586509
+      Slimy Ghost Death_18: 6020335602341070630
+      Slimy Ghost Death_19: -7461568497293604761
+      Slimy Ghost Death_2: -6881462599511120939
+      Slimy Ghost Death_20: -6039023931116695509
+      Slimy Ghost Death_21: -6627156703497625194
+      Slimy Ghost Death_22: -7483055457038410809
+      Slimy Ghost Death_23: -6162041721883174141
+      Slimy Ghost Death_24: 2215612094594885269
+      Slimy Ghost Death_25: -7534914717927255502
+      Slimy Ghost Death_26: 6629330076108503950
+      Slimy Ghost Death_27: 8364861498009770727
+      Slimy Ghost Death_28: -6792749966716650887
+      Slimy Ghost Death_29: 7634678901920368759
+      Slimy Ghost Death_3: -4265601135772757101
+      Slimy Ghost Death_30: -8890995766336401345
+      Slimy Ghost Death_31: 8488711249580935686
+      Slimy Ghost Death_32: 8411654169025508643
+      Slimy Ghost Death_33: 244568014676846562
+      Slimy Ghost Death_34: 8390514880417946655
+      Slimy Ghost Death_35: -8165268831023259667
+      Slimy Ghost Death_36: 8094630843779495603
+      Slimy Ghost Death_37: 3442395521071873903
+      Slimy Ghost Death_38: 2719549818702883519
+      Slimy Ghost Death_39: -2921325329514231793
+      Slimy Ghost Death_4: 5012484978822415802
+      Slimy Ghost Death_40: -2427026047578154641
+      Slimy Ghost Death_41: 8177414834706218245
+      Slimy Ghost Death_42: 7917364615590030952
+      Slimy Ghost Death_43: -6753676968715460458
+      Slimy Ghost Death_44: 2804699001214777283
+      Slimy Ghost Death_45: 5386149699744535667
+      Slimy Ghost Death_46: -8558593158616332453
+      Slimy Ghost Death_47: -2990261212282374961
+      Slimy Ghost Death_48: -3023497956568015449
+      Slimy Ghost Death_49: -6504473966353881123
+      Slimy Ghost Death_5: 1668858175817400896
+      Slimy Ghost Death_50: -1178682656616881700
+      Slimy Ghost Death_51: -766521471684417723
+      Slimy Ghost Death_52: 4374731961132054389
+      Slimy Ghost Death_6: 6638254456908850651
+      Slimy Ghost Death_7: -7017280660441467827
+      Slimy Ghost Death_8: 6865971875710288759
+      Slimy Ghost Death_9: -996523411046855828
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

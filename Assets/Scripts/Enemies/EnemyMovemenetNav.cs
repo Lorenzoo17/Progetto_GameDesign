@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,6 +16,15 @@ public class EnemyMovementNav : MonoBehaviour {
     [Header("Knockback")]
     [SerializeField] private float knockbackResistance = 1f;
 
+    [Header("Line of sight")]
+    [SerializeField] private LayerMask obstacleLayerMask;
+    [SerializeField] private float lineOfSightCheckInterval = 0.1f;
+    [SerializeField] private bool debugLineOfSight = true;
+    [SerializeField] private float lineOfSightRadius = 0.15f;
+    private bool hasLineOfSight;
+    private float nextLineOfSightCheckTime;
+    private RaycastHit2D lastLineOfSightHit;
+
     private NavMeshAgent agent;
     private Animator anim;
     private EnemyAttackBase enemyAttack;
@@ -27,12 +37,24 @@ public class EnemyMovementNav : MonoBehaviour {
     private bool isKnockedBack;
     private Coroutine knockbackCoroutine;
 
+    private Transform firePoint;
+    private bool isRangedEnemy;
+
     private void Awake() {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         enemyAttack = GetComponent<EnemyAttackBase>();
 
         SetupNavMeshAgent();
+
+        if (TryGetComponent<ProjectileShooter>(out ProjectileShooter ps)) {
+            firePoint = ps.firePoint;
+            isRangedEnemy = true;
+        }
+        else {
+            firePoint = transform;
+            isRangedEnemy = false;
+        }
     }
 
     private void Update() {
@@ -69,6 +91,51 @@ public class EnemyMovementNav : MonoBehaviour {
             playerPosition
         );
 
+        if (isRangedEnemy) {
+            HandleRangedEnemy(distance, playerPosition);
+        }
+        else {
+            HandleMeleeEnemy(distance);
+        }
+    }
+
+    private void HandleRangedEnemy(float distance, Vector3 playerPosition) {
+        if (enemyAttack == null) {
+            agent.SetDestination(desiredPosition);
+            return;
+        }
+
+        bool shouldCheckLineOfSight =
+            distance <= enemyAttack.AttackDistance + 1f;
+
+        if (shouldCheckLineOfSight && Time.time >= nextLineOfSightCheckTime) {
+            hasLineOfSight = CanSeePlayer(playerPosition);
+            nextLineOfSightCheckTime = Time.time + lineOfSightCheckInterval;
+        }
+
+        if (!shouldCheckLineOfSight) {
+            hasLineOfSight = false;
+        }
+
+        bool canAttack =
+            distance <= enemyAttack.AttackDistance &&
+            hasLineOfSight;
+
+        if (canAttack) {
+            StopMovement();
+            enemyAttack.TryAttack();
+            return;
+        }
+
+        if (hasLineOfSight && distance <= stopDistance) {
+            StopMovement();
+            return;
+        }
+
+        agent.SetDestination(desiredPosition);
+    }
+
+    private void HandleMeleeEnemy(float distance) {
         if (distance <= stopDistance) {
             StopMovement();
 
@@ -81,12 +148,46 @@ public class EnemyMovementNav : MonoBehaviour {
 
         if (enemyAttack != null && distance <= enemyAttack.AttackDistance) {
             StopMovement();
-
             enemyAttack.TryAttack();
             return;
         }
 
         agent.SetDestination(desiredPosition);
+    }
+
+    // controlla se c'e' un ostacolo tra lui e il player, in modo da non fermarsi ad attaccare se
+    // non vede il player
+    private bool CanSeePlayer(Vector2 playerPosition) {
+        if (Player.Instance == null)
+            return false;
+
+        Vector2 origin = firePoint != null ? firePoint.position : transform.position;
+
+        Vector2 directionToPlayer = playerPosition - origin;
+        float distanceToPlayer = directionToPlayer.magnitude;
+
+        if (distanceToPlayer <= 0.01f)
+            return true;
+
+        Vector2 direction = directionToPlayer.normalized;
+
+        lastLineOfSightHit = Physics2D.CircleCast(
+            origin,
+            lineOfSightRadius,
+            direction,
+            distanceToPlayer,
+            obstacleLayerMask
+        );
+
+        if (debugLineOfSight) {
+            Debug.DrawLine(
+                origin,
+                playerPosition,
+                lastLineOfSightHit.collider == null ? Color.green : Color.red
+            );
+        }
+
+        return lastLineOfSightHit.collider == null;
     }
 
     private void UpdateRandomOffset() {
