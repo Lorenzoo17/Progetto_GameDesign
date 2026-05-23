@@ -113,7 +113,8 @@ public class Player : MonoBehaviour
         }*/
 
         //Esegui il reload della scena TODO: sostituire con schermata di game over
-        GameOverManager.Instance.ShowGameOver();
+        if(GameOverManager.Instance != null)
+            GameOverManager.Instance.ShowGameOver();
     }
 
     //Distruzione player per cambio scena, da chiamare dal level loader

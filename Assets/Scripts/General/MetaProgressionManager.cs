@@ -12,8 +12,10 @@ public class MetaProgressionManager : MonoBehaviour {
 
     // MutagenCoin
     public int MutagenCoin;// monete mutagene
+    public int DungeonCoin; // monete dungeon -> resettare quando si ritorna in hub o quando si entra in dungeon
     [SerializeField] private LootDatabase lootDatabase; // database di tutte le armi e mutageni e perk
     public event EventHandler OnMutagenCoinChanged;
+    public event EventHandler OnDungeonCoinChanged;
 
     private int maxEquippedMutagens = 1; // numero massimo di mutageni che e' possibile equipaggiare (cambiano in base a 
     // numero di boss sconfitti o comprati o altro da vedere) di default per ora 1
@@ -38,6 +40,20 @@ public class MetaProgressionManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         UnlockDefaultItems();
+    }
+
+    public void AddDungeonCoin(int amount) {
+        DungeonCoin += amount;
+
+        OnDungeonCoinChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool SpendDungeonCoin(int amount) {
+        if (DungeonCoin < amount) return false;
+        DungeonCoin -= amount;
+
+        OnDungeonCoinChanged?.Invoke(this, EventArgs.Empty);
+        return true;
     }
 
     // richiamato quando ad esempio si sconfigge un boss (si raccolgono mutagenCoin)

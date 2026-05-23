@@ -7,6 +7,7 @@ public class GameOverManager : MonoBehaviour
     public static GameOverManager Instance;
     
     [SerializeField] private GameObject gameOverPrefab;
+    [SerializeField] private string hubSceneName = "HubScene";
 
     private GameObject currentUI;
     private bool isGameOver = false;
@@ -68,6 +69,6 @@ public class GameOverManager : MonoBehaviour
             Player.Instance.DestroySelf();
         }
 
-        SceneManager.LoadScene("HubScene");
+        SceneManager.LoadScene(hubSceneName);
     }
 }

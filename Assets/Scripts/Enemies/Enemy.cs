@@ -147,7 +147,15 @@ public class Enemy : MonoBehaviour
             enemySpawner.OnEnemyDeath(); // aggiorno contatore numero corrente di nemici per l'enemy spawner
         }
 
-        Destroy(gameObject);
+        // spawno un oggetto
+        if(SpawnItems.Instance != null) {
+            SpawnItems.Instance.SpawnItem(transform.position);
+        }
+        else {
+            Debug.Log("Spawn non presente");
+        }
+
+            Destroy(gameObject);
     }
 
     public void SetEnemySpawner(EnemySpawner es) {
