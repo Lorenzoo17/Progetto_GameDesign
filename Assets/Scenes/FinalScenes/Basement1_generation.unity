@@ -512,8 +512,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c48d215df443c649ba6159fcda608f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpawnItems
-  itemsToSpawnPrefabs:
-  - {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
+  globalDropChance: 0.4
+  dropItems:
+  - itemName: dungeonCoin
+    prefab: {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
+    weight: 0.6
+  - itemName: heart
+    prefab: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
+    weight: 0.4
+  - itemName: mutagenCoin
+    prefab: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
+    weight: 0.05
 --- !u!1 &705466242
 GameObject:
   m_ObjectHideFlags: 0
