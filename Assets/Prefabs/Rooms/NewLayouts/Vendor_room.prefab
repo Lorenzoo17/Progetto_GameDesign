@@ -1517,11 +1517,11 @@ MonoBehaviour:
     dialogueLines:
     - character:
         name: Ennio
-        icon: {fileID: -4348277106678931353, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
+        icon: {fileID: 6763541741953116743, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: I know what you are, and I know what you seek.
     - character:
         name: Ennio
-        icon: {fileID: -4348277106678931353, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
+        icon: {fileID: 6763541741953116743, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: Don't be afraid though, I don't care about the foolish people in the
         surface, just buy something.
   promptInterface: {fileID: 3947952041599997220}
