@@ -18,6 +18,9 @@ public abstract class MutagenSO : ScriptableObject
     public float duration;
     public GameObject animationEffect;
 
+    public MutagenLootData mutagenLootData; // usato in treasureRoomSpawner, per capire se il player ha gia'
+    // il mutagene corrispondente equipaggiato
+
     public abstract bool Activate(Player player, MutagenInstance instance);
 
     public abstract void Tick(Player player, MutagenInstance instance, float deltaTime);

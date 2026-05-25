@@ -202,4 +202,11 @@ public class PlayerAttack : MonoBehaviour {
         currentWeapon.transform.localPosition = Vector2.zero;
         currentWeapon.transform.localRotation = Quaternion.Euler(currentWeapon.GetComponent<Weapon>().xRotationOffset, 0, 0);
     }
+
+    public Weapon GetCurrentWeapon() {
+        if (currentWeapon == null)
+            return null;
+
+        return currentWeapon.GetComponent<Weapon>();
+    }
 }

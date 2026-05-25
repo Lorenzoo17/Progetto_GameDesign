@@ -31,10 +31,16 @@ public class LevelLoader : MonoBehaviour
 
     private System.Collections.IEnumerator LoadLevel(string sceneName)
     {
+        if (Player.Instance != null) {
+            Player.Instance.playerMovement.StopPlayer();
+        }
         anim.SetTrigger("Start");
         yield return new WaitForSeconds(transitionTime);
         Debug.Log($"Loading scene: {sceneName}");
 
+        if (Player.Instance != null) {
+            Player.Instance.playerMovement.ResumePlayer();
+        }
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 }

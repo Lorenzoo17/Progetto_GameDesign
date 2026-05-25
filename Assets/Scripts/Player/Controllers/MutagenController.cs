@@ -1,5 +1,6 @@
-using UnityEngine;
 using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class MutagenController : MonoBehaviour
 {
@@ -290,6 +291,28 @@ public class MutagenController : MonoBehaviour
 
             _ => null
         };
+    }
+
+    public HashSet<string> GetEquippedMutagenIds() {
+        HashSet<string> equippedMutagenIds = new();
+
+        AddEquippedMutagenId(equippedHead, equippedMutagenIds);
+        AddEquippedMutagenId(equippedBody, equippedMutagenIds);
+        AddEquippedMutagenId(equippedPaws, equippedMutagenIds);
+
+        return equippedMutagenIds;
+    }
+
+    private void AddEquippedMutagenId(MutagenSO mutagen, HashSet<string> ids) {
+        if (mutagen == null)
+            return;
+
+        if (mutagen.mutagenLootData == null) {
+            Debug.LogWarning($"Mutagene {mutagen.mutagenName} non ha MutagenLootData assegnato");
+            return;
+        }
+
+        ids.Add(mutagen.mutagenLootData.id);
     }
 
     //Eventi

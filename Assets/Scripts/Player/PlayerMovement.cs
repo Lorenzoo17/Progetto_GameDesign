@@ -35,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     private float bounceTimer;
     private float externalSpeedMultiplier = 1f;
 
+    public bool canMove = true; // usato ad esempio quando parte un dialogo (si mette a false)
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -80,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rb == null) return;
+        if (rb == null || !canMove) return;
 
         if (isDodging)
         {
@@ -205,6 +207,15 @@ public class PlayerMovement : MonoBehaviour
             currentWalkVisualEffectTime = 0;
         }
 
+    }
+
+    public void StopPlayer() {
+        canMove = false;
+        rb.linearVelocity = Vector2.zero;
+        movement = Vector2.zero;
+    }
+    public void ResumePlayer() {
+        canMove = true;
     }
 
     // per applicare knockback

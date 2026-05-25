@@ -6,7 +6,7 @@ public class SellingSlot : MonoBehaviour, IInteractable {
     [SerializeField] private GameObject promptInterface;
     public Transform itemPositioningTransform;
 
-    private SellingItemData sellingItem;
+    public SellingItemData sellingItem;
     private bool sold;
 
     public void Interact() { // richiamato in playerInteract

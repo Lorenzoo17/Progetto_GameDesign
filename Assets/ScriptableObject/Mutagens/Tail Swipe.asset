@@ -20,6 +20,7 @@ MonoBehaviour:
   isToggle: 0
   duration: 0
   animationEffect: {fileID: 6232918333787745658, guid: b407bab266ed45a4cb29a00f72c8ccb4, type: 3}
+  mutagenLootData: {fileID: 11400000, guid: 0805923d27e93ba4c89cda6ccb5046de, type: 2}
   bounceDistance: 8
   bounceDuration: 0.25
   speedMultiplier: 3

@@ -69,6 +69,18 @@ public class PerkController : MonoBehaviour
     {
         return activePerks;
     }
+
+    public HashSet<string> GetEquippedPerkIds() {
+        HashSet<string> equippedPerkIds = new();
+
+        foreach (PerkBase perk in activePerks) {
+            if (perk != null && perk.perkLootData != null) {
+                equippedPerkIds.Add(perk.perkLootData.id);
+            }
+        }
+
+        return equippedPerkIds;
+    }
 }
 
 /// INTERFACES FOR PERKS

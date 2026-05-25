@@ -30,6 +30,12 @@ public class MetaProgressionManager : MonoBehaviour {
 
     public static MetaProgressionManager Instance {  get; private set; }
 
+    [Header("DEBUG - Runtime State")]
+    [SerializeField] private List<string> debugUnlockedWeapons = new();
+    [SerializeField] private List<string> debugUnlockedPerks = new();
+    [SerializeField] private List<string> debugUnlockedMutagens = new();
+    [SerializeField] private List<string> debugEquippedMutagens = new();
+
     private void Awake() {
         if (Instance != null && Instance != this) {
             Destroy(gameObject);
@@ -76,6 +82,7 @@ public class MetaProgressionManager : MonoBehaviour {
     // far si che si possa poi trovare nel dungeon (in quanto viene messo in questa lista)
     public void UnlockNewPerk(string perkNameId) {
         if (unlockedPerks.Add(perkNameId)) {
+            RefreshDebugInspector();
             OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);
         }
         else {
@@ -84,6 +91,7 @@ public class MetaProgressionManager : MonoBehaviour {
     }
     public void UnlockNewWeapon(string weaponNameId) {
         if (unlockedWeapons.Add(weaponNameId)) {
+            RefreshDebugInspector();
             OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);
         }
         else {
@@ -93,6 +101,7 @@ public class MetaProgressionManager : MonoBehaviour {
 
     public void UnlockNewMutagen(string mutagenId) {
         if (unlockedMutagens.Add(mutagenId)) {
+            RefreshDebugInspector();
             OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);
         }
         else {
@@ -161,6 +170,15 @@ public class MetaProgressionManager : MonoBehaviour {
             if (mutagen.unlockedByDefault)
                 unlockedMutagens.Add(mutagen.id);
         }
+
+        RefreshDebugInspector();
+    }
+
+    private void RefreshDebugInspector() {
+        debugUnlockedWeapons = new List<string>(unlockedWeapons);
+        debugUnlockedPerks = new List<string>(unlockedPerks);
+        debugUnlockedMutagens = new List<string>(unlockedMutagens);
+        debugEquippedMutagens = new List<string>(equippedMutagens);
     }
 
     public void ResetAll() {
@@ -174,6 +192,7 @@ public class MetaProgressionManager : MonoBehaviour {
         maxEquippedMutagens = 1;
 
         UnlockDefaultItems();
+        RefreshDebugInspector();
 
         OnMutagenCoinChanged?.Invoke(this, EventArgs.Empty);
         OnMetaProgressionChanged?.Invoke(this, EventArgs.Empty);

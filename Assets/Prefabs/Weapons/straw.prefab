@@ -153,7 +153,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 785bd3d2971010248b6093732c634028, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponRanged
+  xRotationOffset: 0
   pickedUp: 0
+  dropDuration: 0.25
+  colliderReactivateDelay: 1
+  shadow: {fileID: 0}
+  initialZRotation: 0
+  visual: {fileID: 0}
+  floatAmplitude: 0.08
+  floatSpeed: 2.5
+  weaponLootData: {fileID: 11400000, guid: 2bca6f8841134104dbacacd85d789a5d, type: 2}
   weaponRotationOffsetZ: 90
   projectileShooter: {fileID: 0}
   curvedProjectile: 0

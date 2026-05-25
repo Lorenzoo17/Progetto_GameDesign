@@ -253,11 +253,14 @@ MonoBehaviour:
   visual: {fileID: 5373509663000345189}
   floatAmplitude: 0.08
   floatSpeed: 2.5
+  weaponLootData: {fileID: 11400000, guid: cde68d4ac594aa84da8a56e888ad666c, type: 2}
   weaponRotationOffsetZ: 0
   attackDuration: 0.1
   meleeAttackEffect: {fileID: 8176667913236221772, guid: af45be17e1ea6d6499933814cdb67375, type: 3}
   weaponBaseRange: 1
   weaponBaseDamage: 10
+  hasPoison: 0
+  poisonDamage: 0
 --- !u!1 &7350762406063032451
 GameObject:
   m_ObjectHideFlags: 0

@@ -164,6 +164,7 @@ MonoBehaviour:
   visual: {fileID: 4307620193044706028}
   floatAmplitude: 0.08
   floatSpeed: 2.5
+  weaponLootData: {fileID: 11400000, guid: 573a3dfc634a0bd45ba24af9a8c027d3, type: 2}
   weaponRotationOffsetZ: 90
   projectileShooter: {fileID: 0}
   curvedProjectile: 0

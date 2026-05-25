@@ -9,6 +9,7 @@ public enum SellingItemType {
     Mutagen
 }
 
+[System.Serializable]
 public class SellingItemData {
     public string id;
     public GameObject itemObject;
@@ -63,8 +64,8 @@ public class SellingStation : MonoBehaviour {
             if (perk == null || perk.prefab == null)
                 continue;
 
-            if (!MetaProgressionManager.Instance.IsWeaponUnlocked(perk.id)) {
-                itemsToSellData.Add(new SellingItemData(perk.id, perk.prefab, perk.price, SellingItemType.Weapon));
+            if (!MetaProgressionManager.Instance.IsPerkUnlocked(perk.id)) {
+                itemsToSellData.Add(new SellingItemData(perk.id, perk.prefab, perk.price, SellingItemType.Perk));
             }
         }
 
@@ -72,8 +73,8 @@ public class SellingStation : MonoBehaviour {
             if (mutagen == null || mutagen.prefab == null)
                 continue;
 
-            if (!MetaProgressionManager.Instance.IsWeaponUnlocked(mutagen.id)) {
-                itemsToSellData.Add(new SellingItemData(mutagen.id, mutagen.prefab, mutagen.price, SellingItemType.Weapon));
+            if (!MetaProgressionManager.Instance.IsMutagenUnlocked(mutagen.id)) {
+                itemsToSellData.Add(new SellingItemData(mutagen.id, mutagen.prefab, mutagen.price, SellingItemType.Mutagen));
             }
         }
 
