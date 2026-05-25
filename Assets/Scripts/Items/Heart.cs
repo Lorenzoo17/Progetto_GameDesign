@@ -5,10 +5,13 @@ public class Heart : MonoBehaviour, ICollectible {
 
     public void Collect(Player player) {
         if(player.playerHealth != null) {
-            player.playerHealth.Heal(healUnits);
+            if(player.playerHealth.GetHealthPercentage() < 1f) { // se ha massima vita, non si cura e non si distrugge nemmeno
+                // il cuore
+                player.playerHealth.Heal(healUnits);
 
-            // suono di raccolta/cura
-            Destroy(gameObject);
+                // suono di raccolta/cura
+                Destroy(gameObject);
+            }
         }
     }
 }

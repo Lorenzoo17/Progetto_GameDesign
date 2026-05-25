@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5108580418067489380}
   - component: {fileID: 3389697909742553061}
   m_Layer: 0
-  m_Name: heart
+  m_Name: half_heart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 4517553597814813242, guid: a8ff27617bb16c1448d9c11c1bd53e1d, type: 3}
+  m_Sprite: {fileID: -4161280609430139373, guid: 4e016f741c69741479aa84eed001bdef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a948320c505bed4fbfa7afc6631ea0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Heart
-  healUnits: 2
+  healUnits: 1
 --- !u!58 &3389697909742553061
 CircleCollider2D:
   m_ObjectHideFlags: 0

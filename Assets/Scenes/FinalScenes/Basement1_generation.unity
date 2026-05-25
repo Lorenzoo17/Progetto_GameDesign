@@ -519,10 +519,13 @@ MonoBehaviour:
     weight: 0.6
   - itemName: heart
     prefab: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
-    weight: 0.4
+    weight: 0.2
   - itemName: mutagenCoin
     prefab: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
     weight: 0.05
+  - itemName: halfHeart
+    prefab: {fileID: 5333475906305167229, guid: 4f727578f97df474396abc678364aa6b, type: 3}
+    weight: 0.3
 --- !u!1 &705466242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1713,8 +1716,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2423525787303234603, guid: 383666e826fda744c89af23e2312ea4c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2120021362}
   m_SourcePrefab: {fileID: 100100000, guid: 383666e826fda744c89af23e2312ea4c, type: 3}
+--- !u!1 &2120021361 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2423525787303234603, guid: 383666e826fda744c89af23e2312ea4c, type: 3}
+  m_PrefabInstance: {fileID: 2120021360}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2120021362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120021361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4074af8a108d7b44096248a90cd2a63b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackDirectionArrow
 --- !u!1001 &2862828157699642546
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1723,18 +1746,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5086548881782825917, guid: 51b53ed22b04a624b99428e7cfaee229, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -123
-      objectReference: {fileID: 0}
-    - target: {fileID: 6328438926606317106, guid: 51b53ed22b04a624b99428e7cfaee229, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6328438926606317106, guid: 51b53ed22b04a624b99428e7cfaee229, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 1.6098633
-      objectReference: {fileID: 0}
     - target: {fileID: 6681740915279442006, guid: 51b53ed22b04a624b99428e7cfaee229, type: 3}
       propertyPath: m_Name
       value: Canvas

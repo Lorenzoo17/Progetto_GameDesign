@@ -19,7 +19,7 @@ public class PlayerAttack : MonoBehaviour {
 
     public GameObject currentWeapon;
 
-    [SerializeField] private Transform attackDirectionUI; // Componente per indicare direzione in cui il player
+    public Transform attackDirectionUI; // Componente per indicare direzione in cui il player
     // sta guardando
     [SerializeField] private float attackDirectionUIDistanceFromPlayer = 0.5f;
     private Vector2 attackDirection;
