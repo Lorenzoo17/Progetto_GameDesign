@@ -10,6 +10,8 @@ public class Coins : MonoBehaviour, ICollectible {
     [SerializeField] private float distanceForFollow = 5f;
     [SerializeField] private float followSpeed = 2f;
 
+    public bool towardsPlayer = true;
+
     public void Collect(Player player) {
         if (MetaProgressionManager.Instance != null) {
             switch (coinType) {
@@ -27,7 +29,7 @@ public class Coins : MonoBehaviour, ICollectible {
     }
 
     private void Update() {
-        if (Player.Instance == null) return;
+        if (Player.Instance == null || !towardsPlayer) return;
 
         float distance = Vector2.Distance(Player.Instance.transform.position, this.transform.position);
         Vector2 direction = (Player.Instance.transform.position - transform.position).normalized;

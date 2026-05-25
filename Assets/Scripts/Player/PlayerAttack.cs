@@ -26,6 +26,10 @@ public class PlayerAttack : MonoBehaviour {
     [SerializeField] private bool knockBackWhileAttacking;
     [SerializeField] private float knockBackForce;
 
+    private bool blockAttack = false; // impostato durante dialoghi per evitare che attacchi durante dialoghi
+    public void BlockAttack() => blockAttack = true;
+    public void UnlockAttack() => blockAttack = false;
+
     public Transform GetWeaponHolder() {
         return weaponHolder;
     }  
@@ -72,6 +76,8 @@ public class PlayerAttack : MonoBehaviour {
     // ----------- GESTIONE ATTACCO ------------
 
     private void Attack(object sender, EventArgs e) {
+        if (blockAttack) return;
+
         if (!canAttack || currentWeapon == null) return;
 
         currentWeapon.GetComponent<IWeapon>().Attack(attackDirection);
