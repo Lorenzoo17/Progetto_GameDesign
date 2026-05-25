@@ -23455,6 +23455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefa2f09ebc39b84d836fa5076fa2bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomBehaviour
+  roomType: 5
   blocks:
   - {fileID: 7620158089876446514}
   - {fileID: 4899788988408738923}
@@ -23468,7 +23469,6 @@ MonoBehaviour:
   enemiesSpawnPoints: []
   decorationSpawnPoints: []
   minEnemiesToSpawn: 0
-  isStartRoom: 0
   roomBounds: {fileID: 3133940279954961217}
   roomCentre: {fileID: 0}
   navSurface: {fileID: 237294491762669695}

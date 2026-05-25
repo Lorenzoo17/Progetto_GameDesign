@@ -420,7 +420,7 @@ Tilemap:
       - {fileID: -211005044, guid: 70c59463e9923c04189e0c98e96e39bc, type: 3}
       - {fileID: 230435606, guid: 70c59463e9923c04189e0c98e96e39bc, type: 3}
       - {fileID: 1569491620, guid: 70c59463e9923c04189e0c98e96e39bc, type: 3}
-      m_AnimationSpeed: 5
+      m_AnimationSpeed: 5.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -6, y: -4, z: 0}
@@ -4569,6 +4569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefa2f09ebc39b84d836fa5076fa2bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomBehaviour
+  roomType: 1
   blocks:
   - {fileID: 8386426721591654874}
   - {fileID: 1699632094474014551}
@@ -4586,7 +4587,6 @@ MonoBehaviour:
   - {fileID: 8891575819560029291}
   decorationSpawnPoints: []
   minEnemiesToSpawn: 2
-  isStartRoom: 0
   roomBounds: {fileID: 6255865823547132451}
   roomCentre: {fileID: 0}
   navSurface: {fileID: 4719946886462315758}

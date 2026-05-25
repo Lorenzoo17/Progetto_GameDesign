@@ -1,7 +1,18 @@
 using NavMeshPlus.Components;
+using System;
 using UnityEngine;
 
+public enum RoomType {
+    StartRoom,
+    EnemiesRoom,
+    TrapRoom,
+    TreasureRoom,
+    VendorRoom,
+    BossRoom
+}
 public class RoomBehaviour : MonoBehaviour {
+
+    [SerializeField] private RoomType roomType;
 
     // 0 - Up, 1 - Down, 2 - Right, 3 - Left
     [SerializeField] private GameObject[] blocks; // muri
@@ -19,12 +30,14 @@ public class RoomBehaviour : MonoBehaviour {
     [SerializeField] private Transform[] decorationSpawnPoints;
     [SerializeField] private int minEnemiesToSpawn = 3;
 
-    [SerializeField] private bool isStartRoom = false;
     [SerializeField] private BoxCollider2D roomBounds;
     public Transform roomCentre;
 
     [SerializeField] private NavMeshSurface navSurface;
 
+    // utilizzati da trapShooter ad esempio
+    public event EventHandler OnRoomEnter;
+    public event EventHandler OnRoomExit;
     private void Awake() {
         // sicurezza
         // trova automaticamente tutte le porte nei figli
@@ -68,6 +81,8 @@ public class RoomBehaviour : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (!other.GetComponent<Player>()) return;
+        
+        OnRoomEnter?.Invoke(this, EventArgs.Empty);
 
         if (DungeonGenerator.Instance != null && !DungeonGenerator.Instance.IsDungeonReady) {
             return;
@@ -80,7 +95,7 @@ public class RoomBehaviour : MonoBehaviour {
         if (!isVisited) {
             isVisited = true;
 
-            if (!isStartRoom) {
+            if (roomType != RoomType.StartRoom) {
                 StartRoom();
             }
         }
@@ -88,11 +103,14 @@ public class RoomBehaviour : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D other) {
         if (!other.GetComponent<Player>()) return;
+
+        OnRoomExit?.Invoke(this, EventArgs.Empty);
     }
 
     // prima entrata
     private void StartRoom() {
-        if (isStartRoom) return;
+        // per queste due camere per ora non si chiudono semplicemente le porte
+        if (roomType == RoomType.StartRoom || roomType == RoomType.TrapRoom) return;
 
         if(EnemySpawner.Instance != null) {
             EnemySpawner.Instance.SetCurrentRoom(this);

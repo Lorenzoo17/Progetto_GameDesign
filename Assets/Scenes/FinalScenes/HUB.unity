@@ -24683,11 +24683,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MusicLibrary
   tracks:
-  - musicID: 2
+  - musicID: 3
     clip: {fileID: 8300000, guid: a22a99941a55f14418610025f8cbd9fa, type: 3}
   - musicID: 1
     clip: {fileID: 8300000, guid: 8267e1ab28f71694fb89132928e0efa5, type: 3}
   - musicID: 0
+    clip: {fileID: 8300000, guid: 8267e1ab28f71694fb89132928e0efa5, type: 3}
+  - musicID: 2
     clip: {fileID: 8300000, guid: 8267e1ab28f71694fb89132928e0efa5, type: 3}
 --- !u!114 &1303515481
 MonoBehaviour:

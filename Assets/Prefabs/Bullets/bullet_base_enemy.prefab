@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84e34ecd51da46447aeaf3d162e6627c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AutoDestroy
-  delay: 2
+  delay: 4
 --- !u!1 &4184047302667283458
 GameObject:
   m_ObjectHideFlags: 0
