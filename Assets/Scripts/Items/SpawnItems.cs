@@ -27,12 +27,14 @@ public class SpawnItems : MonoBehaviour {
         Instance = this;
     }
 
-    public void SpawnItem(Vector2 position) {
+    public void SpawnItem(Vector2 position, float localDropChance = -1f) {
         if (dropItems == null || dropItems.Length == 0)
             return;
 
+        float chance = localDropChance < 0 ? globalDropChance : localDropChance;
+
         // possibilità generale che esca QUALCOSA
-        if (Random.value > globalDropChance)
+        if (Random.value > chance)
             return;
 
         GameObject selectedPrefab = GetRandomItem(); // si seleziona oggetto da spawnare in base ai pesi

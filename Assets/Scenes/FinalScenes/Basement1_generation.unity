@@ -1516,7 +1516,10 @@ MonoBehaviour:
   - room: {fileID: 8781386131341019937, guid: 032d53794dd0e4f439022876655c6961, type: 3}
     minPosition: {x: -5, y: -5}
     maxPosition: {x: 5, y: 5}
-  - room: {fileID: 8781386131341019937, guid: 01dbb237b97feaf4cb6cdd66c6237b3b, type: 3}
+  - room: {fileID: 5570208806824628964, guid: 7b776415e8fcd0e43bb942a804b75982, type: 3}
+    minPosition: {x: -5, y: -5}
+    maxPosition: {x: 5, y: 5}
+  - room: {fileID: 8781386131341019937, guid: 8b564831009bc164ab5e6ec1ae611acc, type: 3}
     minPosition: {x: -5, y: -5}
     maxPosition: {x: 5, y: 5}
 --- !u!4 &1080929456
