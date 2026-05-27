@@ -24,8 +24,11 @@ public class PerkPickup : MonoBehaviour, IInteractable
         _perkPair = pair;
         _room = room;
 
+        activeVisual?.SetActive(true);
+        lockedVisual?.SetActive(false);
+
         _room.OnRoomExit += HandleRoomExit;
-        _room.OnRoomCleared += HandleRoomCleared; // ← we'll add this event below
+        _room.OnRoomCleared += HandleRoomCleared;
     }
 
     private void OnDestroy()
@@ -92,8 +95,8 @@ public class PerkPickup : MonoBehaviour, IInteractable
         _locked = true;
         HidePrompt();
 
-        if (activeVisual != null) activeVisual.SetActive(false);
-        if (lockedVisual != null) lockedVisual.SetActive(true);
+        activeVisual.SetActive(false);
+        lockedVisual.SetActive(true);
 
         GetComponent<Collider2D>().enabled = false;
     }
