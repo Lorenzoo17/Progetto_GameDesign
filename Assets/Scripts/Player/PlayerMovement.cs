@@ -51,6 +51,12 @@ public class PlayerMovement : MonoBehaviour
         InputManager.Instance.OnDodgeEvent += OnDodgeEvent_Performed;
     }
 
+    private void OnDestroy() {
+        if (InputManager.Instance != null) {
+            InputManager.Instance.OnDodgeEvent -= OnDodgeEvent_Performed;
+        }
+    }
+
     public bool IsDodging()
     {
         return isDodging;

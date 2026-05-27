@@ -12,7 +12,7 @@ public class MetaProgressionManager : MonoBehaviour {
 
     // MutagenCoin
     public int MutagenCoin;// monete mutagene
-    public int DungeonCoin; // monete dungeon -> resettare quando si ritorna in hub o quando si entra in dungeon
+    public int DungeonCoin; // monete dungeon -> resettare quando si ritorna in hub o quando si entra in dungeon (fatto in GameOverManager)
     [SerializeField] private LootDatabase lootDatabase; // database di tutte le armi e mutageni e perk
     public event EventHandler OnMutagenCoinChanged;
     public event EventHandler OnDungeonCoinChanged;

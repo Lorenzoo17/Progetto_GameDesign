@@ -69,6 +69,10 @@ public class GameOverManager : MonoBehaviour
             Player.Instance.DestroySelf();
         }
 
+        if(MetaProgressionManager.Instance != null) {
+            MetaProgressionManager.Instance.DungeonCoin = 0; // resetto dungeonCoin
+        }
+
         SceneManager.LoadScene(hubSceneName);
     }
 }
