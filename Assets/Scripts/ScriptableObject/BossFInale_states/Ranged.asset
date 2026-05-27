@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 921224c18b68f5d42aa884a614c35230, type: 3}
+  m_Name: Ranged
+  m_EditorClassIdentifier: Assembly-CSharp::BossRangedAttackState
+  fireRate: 0.5
+  bossProjectilePrefab: {fileID: 1771740914817530386, guid: f862edfa6a292c94590e566a542ea4a0, type: 3}
+  projectileSpeed: 2
+  minProjectiles: 1
+  maxProjectiles: 1
