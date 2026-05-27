@@ -2,7 +2,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HealthPerk", menuName = "ScriptableObject/Perk/HealthPerk")]
 public class HealthPerk : PerkBase
 {
-    private int healthIncrease;
+    public int healthIncrease;
 
     public HealthPerk(string name, int healthIncrease)
     {

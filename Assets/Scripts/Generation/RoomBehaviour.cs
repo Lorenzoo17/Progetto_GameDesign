@@ -2,7 +2,8 @@ using NavMeshPlus.Components;
 using System;
 using UnityEngine;
 
-public enum RoomType {
+public enum RoomType
+{
     StartRoom,
     EnemiesRoom,
     TrapRoom,
@@ -10,7 +11,8 @@ public enum RoomType {
     VendorRoom,
     BossRoom
 }
-public class RoomBehaviour : MonoBehaviour {
+public class RoomBehaviour : MonoBehaviour
+{
 
     [SerializeField] private RoomType roomType;
 
@@ -38,7 +40,9 @@ public class RoomBehaviour : MonoBehaviour {
     // utilizzati da trapShooter ad esempio
     public event EventHandler OnRoomEnter;
     public event EventHandler OnRoomExit;
-    private void Awake() {
+    public event EventHandler OnRoomCleared;
+    private void Awake()
+    {
         // sicurezza
         // trova automaticamente tutte le porte nei figli
 
@@ -46,22 +50,27 @@ public class RoomBehaviour : MonoBehaviour {
         roomBounds = roomBounds == null ? GetComponent<BoxCollider2D>() : roomBounds;
     }
 
-    private void Start() {
-        if (roomCentre == null) {
+    private void Start()
+    {
+        if (roomCentre == null)
+        {
             roomCentre = transform;
         }
 
         BakeRoomNavMesh();
     }
 
-    public void MarkAsVisited() {
+    public void MarkAsVisited()
+    {
         isVisited = true;
     }
 
     // chiamato dal DungeonGenerator
-    public void UpdateRoom(bool[] status) {
+    public void UpdateRoom(bool[] status)
+    {
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
 
             bool hasDoor = status[i];
             doorExists[i] = hasDoor;
@@ -73,76 +82,93 @@ public class RoomBehaviour : MonoBehaviour {
             doors[i].gameObject.SetActive(hasDoor);
 
             // tutte le porte sono settate come aperte all'inizio
-            if (hasDoor) {
+            if (hasDoor)
+            {
                 doors[i].GetComponent<Door>().SetClosed(false);
             }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         if (!other.GetComponent<Player>()) return;
-        
+
         OnRoomEnter?.Invoke(this, EventArgs.Empty);
 
-        if (DungeonGenerator.Instance != null && !DungeonGenerator.Instance.IsDungeonReady) {
+        if (DungeonGenerator.Instance != null && !DungeonGenerator.Instance.IsDungeonReady)
+        {
             return;
         }
 
-        if (Camera.main.TryGetComponent<CameraDungeonBehaviour>(out CameraDungeonBehaviour cdb)) {
+        if (Camera.main.TryGetComponent<CameraDungeonBehaviour>(out CameraDungeonBehaviour cdb))
+        {
             cdb.SetRoomBounds(roomBounds);
         }
 
-        if (!isVisited) {
+        if (!isVisited)
+        {
             isVisited = true;
 
-            if (roomType != RoomType.StartRoom) {
+            if (roomType != RoomType.StartRoom)
+            {
                 StartRoom();
             }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other) {
+    private void OnTriggerExit2D(Collider2D other)
+    {
         if (!other.GetComponent<Player>()) return;
 
         OnRoomExit?.Invoke(this, EventArgs.Empty);
     }
 
     // prima entrata
-    private void StartRoom() {
+    private void StartRoom()
+    {
         // per queste due camere per ora non si chiudono semplicemente le porte
         if (roomType == RoomType.StartRoom || roomType == RoomType.TrapRoom) return;
 
-        if(EnemySpawner.Instance != null) {
+        if (EnemySpawner.Instance != null)
+        {
             EnemySpawner.Instance.SetCurrentRoom(this);
         }
 
-        if(this.GetComponent<TreasureRoomSpawner>() == null) // non chiudo le porte se e' una treasure room
+        if (this.GetComponent<TreasureRoomSpawner>() == null) // non chiudo le porte se e' una treasure room
             CloseDoors();
 
         SpawnEnemies();
     }
 
     // chiudi SOLO porte esistenti
-    private void CloseDoors() {
-        for (int i = 0; i < 4; i++) {
-            if (doorExists[i]) {
+    private void CloseDoors()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (doorExists[i])
+            {
                 doors[i].GetComponent<Door>().SetClosed(true);
             }
         }
     }
 
     // Si attivano solo porte effettivamente esistenti
-    private void OpenDoors() {
-        for (int i = 0; i < 4; i++) {
-            if (doorExists[i]) {
+    private void OpenDoors()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (doorExists[i])
+            {
                 doors[i].GetComponent<Door>().SetClosed(false);
             }
         }
     }
 
     // spawn nemici (placeholder)
-    private void SpawnEnemies() {
-        if (EnemySpawner.Instance == null) {
+    private void SpawnEnemies()
+    {
+        if (EnemySpawner.Instance == null)
+        {
             Debug.Log("Enemy spawner non trovato");
             return;
         }
@@ -152,20 +178,26 @@ public class RoomBehaviour : MonoBehaviour {
     }
 
     // stanza completata
-    public void RoomCleared() { // richiamato in enemyspawner (se la stanza ha nemici)
+    public void RoomCleared()
+    { // richiamato in enemyspawner (se la stanza ha nemici)
         isCleared = true;
         OpenDoors();
+        OnRoomCleared?.Invoke(this, EventArgs.Empty);
     }
 
-    public void BakeRoomNavMesh() {
-        if (navSurface == null) {
+    public void BakeRoomNavMesh()
+    {
+        if (navSurface == null)
+        {
             navSurface = GetComponentInChildren<NavMeshSurface>();
         }
 
-        if (navSurface != null) {
+        if (navSurface != null)
+        {
             navSurface.BuildNavMesh();
         }
-        else {
+        else
+        {
             Debug.LogWarning($"NavMeshSurface non trovata nella stanza {name}");
         }
     }

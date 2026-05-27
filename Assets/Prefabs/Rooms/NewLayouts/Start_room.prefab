@@ -13035,6 +13035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefa2f09ebc39b84d836fa5076fa2bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomBehaviour
+  roomType: 0
   blocks:
   - {fileID: 1677286862292280006}
   - {fileID: 444150086728124822}
@@ -13048,7 +13049,6 @@ MonoBehaviour:
   enemiesSpawnPoints: []
   decorationSpawnPoints: []
   minEnemiesToSpawn: 0
-  isStartRoom: 1
   roomBounds: {fileID: 3460831080830173133}
   roomCentre: {fileID: 8823166139187354106}
   navSurface: {fileID: 4158172437251693773}
@@ -19381,6 +19381,53 @@ Transform:
   - {fileID: 7673566035549783939}
   m_Father: {fileID: 9123076580156427229}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5556158079677965246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 638335319273020279}
+  - component: {fileID: 5081259687569536514}
+  m_Layer: 0
+  m_Name: PerkPickupSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &638335319273020279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5556158079677965246}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.68, y: -2.78, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1294702259762979647}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5081259687569536514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5556158079677965246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37df3857383a45446b52fcae83a8a6fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PerkPickupSpawner
+  perkPairPool:
+  - {fileID: 11400000, guid: 6e89a5f2db69b5f4ea18b0cd6cf8854f, type: 2}
+  perkPickupPrefab: {fileID: 8179226885080331185, guid: 823dba0c63d047943a7f1755a646b742, type: 3}
 --- !u!1 &5746133551498008910
 GameObject:
   m_ObjectHideFlags: 0
@@ -19771,6 +19818,7 @@ Transform:
   - {fileID: 8921532684355560792}
   - {fileID: 828924662561833347}
   - {fileID: 6513546884105116775}
+  - {fileID: 638335319273020279}
   m_Father: {fileID: 3863458053556647735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &6583014476601194759
@@ -33525,7 +33573,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: aba54675d8d8c9847b71b8eda37ca93d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
