@@ -369,6 +369,7 @@ MonoBehaviour:
   perkController: {fileID: 0}
   statusController: {fileID: 0}
   cameraShakeData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
+  isDead: 0
 --- !u!114 &7525827829384608064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,6 +389,7 @@ MonoBehaviour:
   knockbackDuration: 0.15
   dodgeDuration: 0.15
   dodgeDistance: 2
+  canMove: 1
 --- !u!114 &8383370384364451087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf36f0fac7c85ca4ab43a32cdabcea0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMana
-  maxMana: 3
+  baseMaxMana: 3
 --- !u!114 &4977418957196858382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +421,7 @@ MonoBehaviour:
   aoeData: {fileID: 0}
   currentWeapon: {fileID: 0}
   attackDirectionUI: {fileID: 0}
-  attackDirectionUIDistanceFromPlayer: 1
+  attackDirectionUIDistanceFromPlayer: 1.5
   knockBackWhileAttacking: 1
   knockBackForce: 5
 --- !u!114 &3871625790322029012
@@ -473,9 +475,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec940a9d92104384995bafe4d3635466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MutagenController
-  equippedMutagens: []
-  activeMutagens: []
-  maxActiveMutagens: 3
+  equippedHead: {fileID: 0}
+  equippedBody: {fileID: 0}
+  equippedPaws: {fileID: 0}
+  activeHead:
+    source: {fileID: 0}
+    remainingDuration: 0
+  activeBody:
+    source: {fileID: 0}
+    remainingDuration: 0
+  activePaws:
+    source: {fileID: 0}
+    remainingDuration: 0
 --- !u!1 &2719412296750409366
 GameObject:
   m_ObjectHideFlags: 0

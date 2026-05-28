@@ -25,6 +25,9 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible{
     private Vector3 idleStartPosition;
 
     public WeaponLootData weaponLootData;
+
+    public event System.Action<Weapon> OnCollected; // richiamato in StartWeaponSpawner, per far si che le porte della startRoom
+    // si aprano solamente quando l'arma iniziale viene raccolta
     private void Start() {
         initialZRotation = transform.eulerAngles.z;
         idleStartPosition = transform.position;
@@ -70,6 +73,8 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible{
         if(GetComponent<Collider2D>() != null) {
             GetComponent<Collider2D>().enabled = false; // disattivo collider
         }
+
+        OnCollected?.Invoke(this);
     }
 
     public void DropWeapon() {

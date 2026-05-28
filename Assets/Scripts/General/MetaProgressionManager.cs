@@ -26,6 +26,8 @@ public class MetaProgressionManager : MonoBehaviour {
     private HashSet<string> unlockedMutagens = new(); // lista mutageni sbloccati
     private HashSet<string> equippedMutagens = new(); // lista mutageni equipaggiati dal player nell'hub
 
+    private HashSet<string> defaultWeapons = new();
+
     public event EventHandler OnMetaProgressionChanged;
 
     public static MetaProgressionManager Instance {  get; private set; }
@@ -149,6 +151,8 @@ public class MetaProgressionManager : MonoBehaviour {
         return new List<string>(equippedMutagens);
     }
 
+    public List<string> GetDefaultWeapons() => new(defaultWeapons);
+
     // richiamato in awake e resetAll per sbloccare di default le armi iniziali
     private void UnlockDefaultItems() {
         if(lootDatabase == null) {
@@ -157,8 +161,10 @@ public class MetaProgressionManager : MonoBehaviour {
         }
 
         foreach (WeaponLootData weapon in lootDatabase.weapons) {
-            if (weapon.unlockedByDefault)
+            if (weapon.unlockedByDefault) {
                 unlockedWeapons.Add(weapon.id);
+                defaultWeapons.Add(weapon.id); // aggiungo anche alla lista delle armi default (questa non si aggiornera')
+            }
         }
 
         foreach (PerkLootData perk in lootDatabase.perks) {
@@ -188,6 +194,7 @@ public class MetaProgressionManager : MonoBehaviour {
         unlockedPerks.Clear();
         unlockedMutagens.Clear();
         equippedMutagens.Clear();
+        defaultWeapons.Clear();
 
         maxEquippedMutagens = 1;
 

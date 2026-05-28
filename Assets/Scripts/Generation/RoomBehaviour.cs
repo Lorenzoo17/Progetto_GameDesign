@@ -126,21 +126,22 @@ public class RoomBehaviour : MonoBehaviour
     // prima entrata
     private void StartRoom() {
         // per queste camere per ora non si chiudono semplicemente le porte
-        if (roomType == RoomType.StartRoom || roomType == RoomType.TrapRoom || roomType == RoomType.VendorRoom) return;
+        if (roomType == RoomType.TrapRoom || roomType == RoomType.VendorRoom || roomType == RoomType.TreasureRoom) return;
+        // startRoom anche rimane chiusa, in quanto si aspetta che il player raccolga l'arma iniziale
 
         if (EnemySpawner.Instance != null)
         {
             EnemySpawner.Instance.SetCurrentRoom(this);
         }
 
-        if (this.GetComponent<TreasureRoomSpawner>() == null) // non chiudo le porte se e' una treasure room
-            CloseDoors();
-
+        // per le altre stanze, chiudo le porte
+        CloseDoors();
+        // se necessario, spawno i nemici
         SpawnEnemies();
     }
 
     // chiudi SOLO porte esistenti
-    private void CloseDoors()
+    public void CloseDoors()
     {
         for (int i = 0; i < 4; i++)
         {
@@ -152,7 +153,7 @@ public class RoomBehaviour : MonoBehaviour
     }
 
     // Si attivano solo porte effettivamente esistenti
-    private void OpenDoors()
+    public void OpenDoors()
     {
         for (int i = 0; i < 4; i++)
         {

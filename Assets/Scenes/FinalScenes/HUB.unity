@@ -25537,6 +25537,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: bone_mace
       objectReference: {fileID: 0}
+    - target: {fileID: 6440760680909680636, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

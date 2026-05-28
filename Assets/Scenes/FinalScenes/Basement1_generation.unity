@@ -1499,7 +1499,7 @@ MonoBehaviour:
   bossRoom: {fileID: 7181218629803831723, guid: 94154d58be2e18c40869d851fe9c5556, type: 3}
   powerUpRoom: {fileID: 995667458416466138, guid: 9e339acffd82cd346b98cbddf3d013d6, type: 3}
   vendorRoom: {fileID: 995667458416466138, guid: 563acac63e97c6744845d379202c7de0, type: 3}
-  startRoom: {fileID: 3471122668593747318, guid: 7bd977f32d6934f4b92288b04e4b4ae4, type: 3}
+  startRoom: {fileID: 3471122668593747318, guid: 4f4c0a621637a54469a55e893b75d227, type: 3}
   normalRooms:
   - room: {fileID: 5570208806824628964, guid: a7bda12cc22aa5e49ae028f7088da051, type: 3}
     minPosition: {x: -5, y: -5}
@@ -2005,7 +2005,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d160049de5ed14aac093c422a2b818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusController
-  activeStatuses: []
 --- !u!114 &1313769007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2018,8 +2017,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d81661412ed714bbf5deb88e60900d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PerkController
-  activePerks: []
-  player: {fileID: 0}
 --- !u!1 &1330269846
 GameObject:
   m_ObjectHideFlags: 0
