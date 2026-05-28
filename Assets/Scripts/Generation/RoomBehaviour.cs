@@ -41,6 +41,17 @@ public class RoomBehaviour : MonoBehaviour
     public event EventHandler OnRoomEnter;
     public event EventHandler OnRoomExit;
     public event EventHandler OnRoomCleared;
+
+    public static event Action<RoomBehaviour> OnAnyRoomEntered;
+    public static event Action<RoomBehaviour> OnAnyRoomVisited;
+
+    public RoomType RoomType => roomType;
+    public Vector2Int GridPosition { get; private set; }
+    public bool IsVisited => isVisited;
+
+    public void SetGridPosition(Vector2Int gridPosition) {
+        GridPosition = gridPosition;
+    }
     private void Awake()
     {
         // sicurezza
@@ -62,7 +73,10 @@ public class RoomBehaviour : MonoBehaviour
 
     public void MarkAsVisited()
     {
+        if (isVisited) return;
+
         isVisited = true;
+        OnAnyRoomVisited?.Invoke(this);
     }
 
     // chiamato dal DungeonGenerator
@@ -94,6 +108,7 @@ public class RoomBehaviour : MonoBehaviour
         if (!other.GetComponent<Player>()) return;
 
         OnRoomEnter?.Invoke(this, EventArgs.Empty);
+        OnAnyRoomEntered?.Invoke(this);
 
         if (DungeonGenerator.Instance != null && !DungeonGenerator.Instance.IsDungeonReady)
         {
@@ -107,7 +122,7 @@ public class RoomBehaviour : MonoBehaviour
 
         if (!isVisited)
         {
-            isVisited = true;
+            MarkAsVisited();
 
             if (roomType != RoomType.StartRoom)
             {

@@ -135,6 +135,7 @@ public class DungeonGenerator : MonoBehaviour {
                     transform
                 ).GetComponent<RoomBehaviour>();
 
+                newRoom.SetGridPosition(new Vector2Int(i, j));
                 newRoom.UpdateRoom(currentCell.status);
 
                 newRoom.name += $" {i}-{j}";
@@ -315,5 +316,15 @@ public class DungeonGenerator : MonoBehaviour {
         if (playerCollider != null) {
             playerCollider.enabled = true;
         }
+    }
+
+    public bool[] GetCellStatus(Vector2Int gridPosition) {
+        if (board == null) return null;
+
+        int index = gridPosition.x + gridPosition.y * size.x;
+
+        if (index < 0 || index >= board.Count) return null;
+
+        return board[index].status;
     }
 }
