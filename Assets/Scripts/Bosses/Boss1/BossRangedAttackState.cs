@@ -48,24 +48,44 @@ public class BossRangedAttackState : State<BossCtrl>
         {
             float healthPercent = _runner.Health.GetHealthPercentage();
             int currentProjectiles = Mathf.RoundToInt(Mathf.Lerp(maxProjectiles, minProjectiles, healthPercent));
+            Debug.Log($"Health: {healthPercent*100}%, Projectiles to Fire: {currentProjectiles}");
 
             for (int i = 0; i < currentProjectiles; i++) 
             {
-                Vector2 shootDir;
+                Vector2 shootDir = Random.insideUnitCircle.normalized;
 
                 if (_runner.MemoryTurnsLeft > 0 && _runner.LastKnownPlayerPos != null) 
                 {
-                    Vector3 target = _runner.LastKnownPlayerPos.Value;
-                    shootDir = ((Vector2)target - (Vector2)_runner.transform.position).normalized;
+                    
+                    Player player = Object.FindFirstObjectByType<Player>();
+                    if (player != null)
+                    {
+                        // Calcola la direzione verso la sua posizione attuale
+                        Vector3 targetPos = player.transform.position;
+                        if (player.TryGetComponent<Rigidbody2D>(out Rigidbody2D playerRb))
+                        {
+                            float distance = Vector2.Distance(_runner.transform.position, targetPos);
+                            float timeToImpact = distance / 8f;
+                            Vector2 playerVelocity = playerRb.linearVelocity;
+                            targetPos += (Vector3)(playerVelocity * timeToImpact);
+                        }
+
+                        Vector2 errorMargin = Random.insideUnitCircle * 1.5f;
+                        targetPos += (Vector3)errorMargin;
+                        shootDir = (targetPos - _runner.transform.position).normalized;
+                        Debug.Log($"Shooting towards last known player position: {targetPos}, Direction: {shootDir}");
+                    }
                 } 
                 else 
                 {
-                    shootDir = Random.insideUnitCircle.normalized;
+
+                    Debug.Log($"Shooting in random direction: {shootDir}");
                 }
 
                 ShootProjectile(shootDir);
                 yield return new WaitForSeconds(fireRate); 
             }
+
 
             if (_runner.MemoryTurnsLeft > 0) {
                 _runner.MemoryTurnsLeft--;

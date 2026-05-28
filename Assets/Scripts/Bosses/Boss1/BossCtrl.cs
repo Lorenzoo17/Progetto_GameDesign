@@ -10,6 +10,7 @@ public class BossCtrl : StateRunner<BossCtrl>
     public Animator Anim { get; private set; }
     public HealthSystem Health { get; private set; }
     public Transform Visuals { get; private set; }
+
     public NavMeshPlus.Components.NavMeshSurface LocalNavMesh { get; private set; }
     public ProjectileShooter Shooter { get; private set; }  
 
@@ -36,7 +37,7 @@ public class BossCtrl : StateRunner<BossCtrl>
         Rb = GetComponent<Rigidbody2D>();
         Anim = GetComponentInChildren<Animator>();
         Health = GetComponent<HealthSystem>();
-        Visuals = transform.Find("Visuals");
+        Visuals = transform.Find("Visual");
         LocalNavMesh = GetComponentInParent<NavMeshPlus.Components.NavMeshSurface>();
         Shooter = GetComponentInChildren<ProjectileShooter>();
         FirePoint = transform.Find("FirePoint");

@@ -8,9 +8,9 @@ public class BossSpecialAttackState : State<BossCtrl>
     public static int timesAttacked = 0; 
 
     [Header("Impostazioni Attacco Tubi")]
-    [SerializeField] private int projectilesPerPipe = 3; 
-    [SerializeField] private float fireRate = 0.5f;     
-    [SerializeField] private float delayBetweenPipes = 0.5f; 
+    [SerializeField] private int projectilesPerPipe = 5; 
+    [SerializeField] private float fireRate = 0.3f;     
+    [SerializeField] private float delayBetweenPipes = 0.2f; 
 
     [Header("Impostazioni Proiettile")]
     [SerializeField] private GameObject bossProjectilePrefab; // Trascina qui il prefab!
@@ -41,6 +41,8 @@ public class BossSpecialAttackState : State<BossCtrl>
         if (healthPercent <= 0.25f) maxPipes = 8;
         else if (healthPercent <= 0.50f) maxPipes = 6;
         else if (healthPercent <= 0.75f) maxPipes = 4;
+
+        Debug.Log($"Health: {healthPercent*100}%, Pipes to Attack: {maxPipes}");
 
         timesAttacked = maxPipes; 
 
@@ -88,7 +90,15 @@ public class BossSpecialAttackState : State<BossCtrl>
         if (attackCompleted) _runner.SetState(typeof(BossIdleState));
     }
 
-    public override void Exit() {}
+    public override void Exit() {
+        if (_runner != null && _runner.Visuals != null)
+        {
+            if (_runner.Visuals.TryGetComponent<SpriteRenderer>(out var sr))
+            {
+                sr.enabled = true;
+            }
+        }
+    }
     public override void CaptureInput() { }
     public override void FixedUpdate() { }
 }

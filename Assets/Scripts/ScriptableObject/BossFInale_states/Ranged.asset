@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 921224c18b68f5d42aa884a614c35230, type: 3}
   m_Name: Ranged
   m_EditorClassIdentifier: Assembly-CSharp::BossRangedAttackState
-  fireRate: 0.5
+  fireRate: 0.3
   bossProjectilePrefab: {fileID: 5887688937532165023, guid: 8cb0ad047f19d8d4a83fba6b2d23bd46, type: 3}
-  projectileSpeed: 2
+  projectileSpeed: 8
   minProjectiles: 1
   maxProjectiles: 1

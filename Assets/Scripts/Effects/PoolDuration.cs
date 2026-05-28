@@ -4,6 +4,7 @@ using System.Collections;
 public class PoolDuration : MonoBehaviour 
 {
     private Animator anim;
+    private BossCtrl bossInRoom;
 
     private void Awake() 
     {
@@ -14,9 +15,20 @@ public class PoolDuration : MonoBehaviour
     // Questa funzione viene chiamata dal proiettile subito dopo l'Instantiate
     public void StartLifeCycle(float duration) 
     {
+        bossInRoom = FindAnyObjectByType<BossCtrl>();
         StartCoroutine(LifeCycleRoutine(duration));
     }
-
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.TryGetComponent<Player>(out Player playerScript))
+        {
+            // Avvisa il boss ogni volta che il player è sopra la pozza
+            if (bossInRoom != null)
+            {
+                bossInRoom.ReportPlayerHit(other.transform.position);
+            }
+        }
+    }
     private IEnumerator LifeCycleRoutine(float duration) 
     {
         // 1. La pozza resta attiva per il tempo stabilito

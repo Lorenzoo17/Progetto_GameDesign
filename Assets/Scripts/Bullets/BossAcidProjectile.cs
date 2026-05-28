@@ -73,11 +73,11 @@ public class BossAcidProjectile : ProjectileBase
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log($"[PROIETTILE DEBUG] Collisione rilevata con: {other.gameObject.name} sul layer: {LayerMask.LayerToName(other.gameObject.layer)}");
         if (!isInitializedForBoss) return;
         if (other.GetComponent<ICollectible>() != null) return;
 
-        // Ignora se stesso o il boss
-        if (other.gameObject == owner || other.GetComponentInParent<BossCtrl>() != null) return;
+        if (other.gameObject == owner || other.GetComponentInParent<BossCtrl>() != null || other.GetComponent<Enemy>() != null) return;
 
         // Se tocca un muro (Layer Wall), esplode subito, fa lo splash e la pozza
         if (((1 << other.gameObject.layer) & destroyOnContactLayers) != 0)
@@ -93,7 +93,7 @@ public class BossAcidProjectile : ProjectileBase
         if (hasHitSomething)
         {
             // Se ha colpito il Player, avvisa il Boss per il sistema di memoria
-            if (other.CompareTag("Player") && bossInRoom != null)
+            if (other.TryGetComponent<Player>(out Player playerScript) && bossInRoom != null)
             {
                 bossInRoom.ReportPlayerHit(other.transform.position);
             }
