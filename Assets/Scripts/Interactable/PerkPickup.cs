@@ -53,6 +53,9 @@ public class PerkPickup : MonoBehaviour, IInteractable
         if (controller != null)
         {
             controller.AddPerk(chosen);
+            NotificationUI.Instance?.ShowMessage(
+                $"You obtained {chosen.name}"
+            );
             if (!positive) _grantedNegative = chosen;
         }
 
@@ -75,7 +78,10 @@ public class PerkPickup : MonoBehaviour, IInteractable
 
     private void HandleRoomExit(object sender, System.EventArgs e)
     {
-        if (_used) return;
+        if (_used || _locked) return;
+        NotificationUI.Instance?.ShowMessage(
+            "You lost your chance"
+        );
         Lock();
     }
 
