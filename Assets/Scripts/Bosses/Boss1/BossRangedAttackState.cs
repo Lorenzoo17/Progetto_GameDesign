@@ -79,24 +79,18 @@ public class BossRangedAttackState : State<BossCtrl>
     }
 
     // NUOVO METODO: Instanzia il proiettile e usa la fisica per muoverlo!
-    private void ShootProjectile(Vector2 direction) 
+    private void ShootProjectile(Vector2 direction)
     {
-        /*
-        if (bossProjectilePrefab == null) {
-            Debug.LogWarning("Manca il prefab del proiettile in BossRangedAttackState!");
-            return;
+        // Usa il polimorfismo: se lo shooter è quello del Boss, usa le funzioni nuove!
+        if (_runner.Shooter is ProjectileShooterBoss bossShooter)
+        {
+            bossShooter.ShootBossProjectile(_runner.gameObject, direction);
         }
-
-        Vector3 spawnPos = _runner.FirePoint != null ? _runner.FirePoint.position : _runner.transform.position;
-        GameObject proj = Instantiate(bossProjectilePrefab, spawnPos, Quaternion.identity);
-        
-        Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
-        if (rb != null) {
-            rb.linearVelocity = direction.normalized * projectileSpeed;
+        else
+        {
+            // Sicurezza: se per sbaglio c'è il vecchio shooter, usa quello lineare
+            _runner.Shooter.ShootLinear(_runner.gameObject, direction);
         }
-        */
-
-        _runner.Shooter.ShootLinear(_runner.gameObject, direction);
     }
 
     public override void Update() {}

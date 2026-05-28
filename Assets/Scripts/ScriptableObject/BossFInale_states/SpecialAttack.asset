@@ -15,5 +15,5 @@ MonoBehaviour:
   projectilesPerPipe: 3
   fireRate: 0.5
   delayBetweenPipes: 0.5
-  bossProjectilePrefab: {fileID: 1771740914817530386, guid: 6ff7c4b3989e1ab4fb157be9f109e362, type: 3}
+  bossProjectilePrefab: {fileID: 5887688937532165023, guid: 8cb0ad047f19d8d4a83fba6b2d23bd46, type: 3}
   projectileSpeed: 2

@@ -68,16 +68,17 @@ public class BossSpecialAttackState : State<BossCtrl>
         attackCompleted = true;
     }
 
-    private void ShootProjectile(Vector2 direction) 
+    private void ShootProjectile(Vector2 direction)
     {
-        if (bossProjectilePrefab == null) return;
-
-        Vector3 spawnPos = _runner.FirePoint != null ? _runner.FirePoint.position : _runner.transform.position;
-        GameObject proj = Instantiate(bossProjectilePrefab, spawnPos, Quaternion.identity);
-        
-        Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
-        if (rb != null) {
-            rb.linearVelocity = direction.normalized * projectileSpeed;
+        // Usa il polimorfismo: se lo shooter è quello del Boss, usa le funzioni nuove!
+        if (_runner.Shooter is ProjectileShooterBoss bossShooter)
+        {
+            bossShooter.ShootBossProjectile(_runner.gameObject, direction);
+        }
+        else
+        {
+            // Sicurezza: se per sbaglio c'è il vecchio shooter, usa quello lineare
+            _runner.Shooter.ShootLinear(_runner.gameObject, direction);
         }
     }
 
