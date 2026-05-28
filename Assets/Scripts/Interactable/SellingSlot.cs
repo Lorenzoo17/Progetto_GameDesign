@@ -4,12 +4,15 @@ using UnityEngine;
 public class SellingSlot : MonoBehaviour, IInteractable {
     [SerializeField] private TextMeshProUGUI priceText;
     [SerializeField] private GameObject promptInterface;
+
     public Transform itemPositioningTransform;
 
-    private SellingItemData sellingItem;
+    public SellingItemData sellingItem;
+
+    private GameObject currentItemInstance;
     private bool sold;
 
-    public void Interact() { // richiamato in playerInteract
+    public void Interact() {
         if (sold) return;
         if (sellingItem == null) return;
 
@@ -18,32 +21,59 @@ public class SellingSlot : MonoBehaviour, IInteractable {
             return;
         }
 
-        bool canBuy = false;
-        canBuy = MetaProgressionManager.Instance.SpendMutagenCoin(sellingItem.price);
+        bool canBuy;
 
-        if (!canBuy) {
-            Debug.Log("Monete insufficienti");
-            return;
+        switch (sellingItem.purchaseMode) {
+            case SellingPurchaseMode.UnlockMetaProgression:
+                // per hub, spendo monete mutagene
+                canBuy = MetaProgressionManager.Instance.SpendMutagenCoin(sellingItem.price);
+
+                if (!canBuy) {
+                    Debug.Log("Monete insufficienti");
+                    return;
+                }
+                BuyAsMetaUnlock();
+                break;
+
+            case SellingPurchaseMode.ReleasePickup:
+                // per dugeon, si spendono monete dungeon
+                canBuy = MetaProgressionManager.Instance.SpendDungeonCoin(sellingItem.price);
+
+                if (!canBuy) {
+                    Debug.Log("Monete insufficienti");
+                    return;
+                }
+                BuyAsDungeonPickup();
+                break;
         }
-
-        // si aggiorna MetaProgressionManager!
-        UpdateMetaProgressionManager();
 
         sold = true;
 
-        if (sellingItem.itemObject != null) {
-            Destroy(sellingItem.itemObject);// si distrugge istanza
-        }
-
         HidePrompt();
-        Collider2D slotCollider = GetComponent<Collider2D>();
-        if (slotCollider != null && slotCollider.isTrigger) {
-            slotCollider.enabled = false;
-        }
+        DisableSlotInteraction();
 
         if (priceText != null) {
             priceText.text = "";
         }
+    }
+
+    private void BuyAsMetaUnlock() {
+        UpdateMetaProgressionManager();
+
+        if (currentItemInstance != null) {
+            Destroy(currentItemInstance);
+        }
+    }
+
+    private void BuyAsDungeonPickup() {
+        if (currentItemInstance == null)
+            return;
+
+        currentItemInstance.transform.SetParent(null);
+
+        SetItemCollidersEnabled(currentItemInstance, true);
+
+        Debug.Log($"Oggetto acquistato e ora raccoglibile: {sellingItem.id}");
     }
 
     private void UpdateMetaProgressionManager() {
@@ -51,32 +81,57 @@ public class SellingSlot : MonoBehaviour, IInteractable {
             case SellingItemType.Weapon:
                 MetaProgressionManager.Instance.UnlockNewWeapon(sellingItem.id);
                 break;
+
             case SellingItemType.Mutagen:
                 MetaProgressionManager.Instance.UnlockNewMutagen(sellingItem.id);
                 break;
+
             case SellingItemType.Perk:
                 MetaProgressionManager.Instance.UnlockNewPerk(sellingItem.id);
                 break;
         }
     }
 
-    public void SetUpSellingSlot(GameObject itemObject, int itemPrice, string itemId, SellingItemType type) { // poi id dell'oggetto o scriptableObject
-        sellingItem = new SellingItemData(itemId, itemObject, itemPrice, type);
+    public void SetUpSellingSlot(GameObject itemInstance, SellingItemData itemData) {
+        currentItemInstance = itemInstance;
+        sellingItem = itemData;
 
-        if(sellingItem.itemObject.TryGetComponent<Collider2D>(out Collider2D c)) {
-            c.enabled = false; // disabilito collider (dipende da che prefab si usa, in questo caso quello
-                               // dell'arma effettiva, quindi cosi evito interazioni.
-                               // in alternativa si puo' mettere altro prefabb fatto apposta o crearne uno con
-                               // solo lo sprite renderer dell'oggetto. Appena si fatto gli SO)
+        if (currentItemInstance != null) {
+            SetItemCollidersEnabled(currentItemInstance, false);
+            // se e' una moneta, evito che vada verso il player in automatico
+            if(currentItemInstance.GetComponent<Coins>() != null) {
+                currentItemInstance.GetComponent<Coins>().towardsPlayer = false;
+            }
         }
+
         sold = false;
-        priceText.text = itemPrice.ToString();
+
+        if (priceText != null) {
+            priceText.text = itemData.price.ToString();
+        }
+    }
+
+    private void SetItemCollidersEnabled(GameObject item, bool enabled) {
+        Collider2D[] colliders = item.GetComponentsInChildren<Collider2D>();
+
+        foreach (Collider2D collider in colliders) {
+            collider.enabled = enabled;
+        }
+    }
+
+    private void DisableSlotInteraction() {
+        Collider2D slotCollider = GetComponent<Collider2D>();
+
+        if (slotCollider != null) {
+            slotCollider.enabled = false;
+        }
     }
 
     public void ShowPrompt() {
         if (promptInterface == null || sold) return;
         promptInterface.SetActive(true);
     }
+
     public void HidePrompt() {
         if (promptInterface == null) return;
         promptInterface.SetActive(false);

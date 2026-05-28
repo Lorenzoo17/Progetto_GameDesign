@@ -124,10 +124,9 @@ public class RoomBehaviour : MonoBehaviour
     }
 
     // prima entrata
-    private void StartRoom()
-    {
-        // per queste due camere per ora non si chiudono semplicemente le porte
-        if (roomType == RoomType.StartRoom || roomType == RoomType.TrapRoom) return;
+    private void StartRoom() {
+        // per queste camere per ora non si chiudono semplicemente le porte
+        if (roomType == RoomType.StartRoom || roomType == RoomType.TrapRoom || roomType == RoomType.VendorRoom) return;
 
         if (EnemySpawner.Instance != null)
         {

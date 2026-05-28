@@ -20,8 +20,6 @@ public class Player : MonoBehaviour
     public ShakeData cameraShakeData;
 
     public bool isDead = false;
-
-
     private void Awake()
     {
         if (Instance != null && Instance != this)

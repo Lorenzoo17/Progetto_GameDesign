@@ -33,4 +33,17 @@ public class LootDatabase : ScriptableObject {
                 return null;
         }
     }
+
+    public int GetPriceByType(string id, SellingItemType type) {
+        switch (type) {
+            case SellingItemType.Weapon:
+                return GetWeaponById(id).price;
+            case SellingItemType.Perk:
+                return GetPerkById(id).price;
+            case SellingItemType.Mutagen:
+                return GetMutagenById(id).price;
+            default:
+                return 0;
+        }
+    }
 }

@@ -30,6 +30,10 @@ public class HealthSystem : MonoBehaviour, IDamageable
         defense = 0;
     }
 
+    public float GetHealthPercentage() {
+        return (CurrentHealth / maxHealth) * 100f;
+    }
+
     public void TakeDamage(DamageInfo damageInfo)
     {
         DamageInfo modifiedDamageInfo = TakeDamageLol(damageInfo);

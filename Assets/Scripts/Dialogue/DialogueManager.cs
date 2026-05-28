@@ -28,6 +28,10 @@ public class DialogueManager : MonoBehaviour {
 
     public void StartDialogue(Dialogue dialogue) {
         isDialogueActive = true;
+        if (Player.Instance != null) {
+            Player.Instance.playerMovement.StopPlayer();
+            Player.Instance.playerAttack.BlockAttack();
+        }
 
         animator.Play("show"); // mostro il box di dialogo
 
@@ -67,6 +71,10 @@ public class DialogueManager : MonoBehaviour {
 
     void EndDialogue() {
         isDialogueActive = false;
+        if (Player.Instance != null) {
+            Player.Instance.playerMovement.ResumePlayer();
+            Player.Instance.playerAttack.UnlockAttack();
+        }
         animator.Play("hide"); // nascondo il box di dialogo
     }
 }

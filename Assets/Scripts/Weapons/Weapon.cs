@@ -23,6 +23,8 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible{
     [SerializeField] private float floatAmplitude = 0.08f;
     [SerializeField] private float floatSpeed = 2.5f;
     private Vector3 idleStartPosition;
+
+    public WeaponLootData weaponLootData;
     private void Start() {
         initialZRotation = transform.eulerAngles.z;
         idleStartPosition = transform.position;

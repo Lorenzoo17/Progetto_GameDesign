@@ -25,6 +25,7 @@ MonoBehaviour:
   isToggle: 0
   duration: 0
   animationEffect: {fileID: 5086786982675458212, guid: 55355a6e9cc9d9e4791531fee20aa4ec, type: 3}
+  mutagenLootData: {fileID: 11400000, guid: c0d982f500686814db3792179b3af844, type: 2}
   shakeType: 2
   soundEffect: 1
   effectPrefab: {fileID: 5086786982675458212, guid: 55355a6e9cc9d9e4791531fee20aa4ec, type: 3}
