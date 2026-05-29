@@ -7,7 +7,11 @@ public class TreasureRoomSpawner : MonoBehaviour {
     [SerializeField] private Transform spawnPoint;
 
     private void Start() {
-        SpawnItem();
+        this.GetComponent<RoomBehaviour>().OnRoomEnter += TreasureRoomSpawner_OnRoomEnter;
+    }
+
+    private void TreasureRoomSpawner_OnRoomEnter(object sender, System.EventArgs e) {
+        SpawnItem(); // oggetto spanwa all'entrata del player nella stanza
     }
 
     private void SpawnItem() {
