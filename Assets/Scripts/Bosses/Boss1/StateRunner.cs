@@ -28,9 +28,9 @@ namespace stateMachine
             if (stateDictionary.TryGetValue(newStateType, out State<T> newState)) {
                 currentState = newState;
                 currentState.Enter(); // Ora chiamiamo correttamente l'inizio dello stato
-                Debug.Log($"[FSM] {gameObject.name} passato allo stato: {newStateType.Name}");
+               //Debug.Log($"[FSM] {gameObject.name} passato allo stato: {newStateType.Name}");
             } else {
-                Debug.LogError("Stato " + newStateType + " non trovato in " + gameObject.name);
+               // Debug.LogError("Stato " + newStateType + " non trovato in " + gameObject.name);
             }
         }
 

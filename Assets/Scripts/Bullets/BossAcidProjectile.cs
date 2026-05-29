@@ -73,7 +73,7 @@ public class BossAcidProjectile : ProjectileBase
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"[PROIETTILE DEBUG] Collisione rilevata con: {other.gameObject.name} sul layer: {LayerMask.LayerToName(other.gameObject.layer)}");
+        //Debug.Log($"[PROIETTILE DEBUG] Collisione rilevata con: {other.gameObject.name} sul layer: {LayerMask.LayerToName(other.gameObject.layer)}");
         if (!isInitializedForBoss) return;
         if (other.GetComponent<ICollectible>() != null) return;
 
