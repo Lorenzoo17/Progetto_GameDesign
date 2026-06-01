@@ -14,7 +14,7 @@ public class BossKnockbackState : State<BossCtrl>
         _runner.Rb.linearVelocity = Vector2.zero;
         _runner.Rb.AddForce(_runner.LastKnockbackDirection.normalized * _runner.LastKnockbackForce, ForceMode2D.Impulse);
         
-        if (_runner.Anim != null) _runner.Anim.SetTrigger("Hit"); 
+        //if (_runner.Anim != null) _runner.Anim.SetTrigger("Hit"); 
     }
 
     public override void Update() {

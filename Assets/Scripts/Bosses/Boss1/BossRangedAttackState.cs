@@ -26,13 +26,21 @@ public class BossRangedAttackState : State<BossCtrl>
             _runner.Agent.isStopped = true;
         }
         
-        if (_runner.Anim != null) _runner.Anim.SetTrigger("Attack");
+        //if (_runner.Anim != null) _runner.Anim.SetTrigger("Attack");
 
         _runner.StartCoroutine(FireSequenceRoutine());
     }
 
     private IEnumerator FireSequenceRoutine() 
     {
+        if (_runner.Anim != null)
+        {
+            _runner.Anim.SetTrigger("jump_to_attack");
+        }
+        else
+        {
+            Debug.LogWarning("BossRangedAttack: Boss does not have an Animator component.");
+        }
         // === ATTACCO A CROCE (Al 4° Salto) ===
         if (_runner.NextAttackPattern == BossCtrl.AttackPattern.Cross) 
         {
@@ -48,7 +56,7 @@ public class BossRangedAttackState : State<BossCtrl>
         {
             float healthPercent = _runner.Health.GetHealthPercentage();
             int currentProjectiles = Mathf.RoundToInt(Mathf.Lerp(maxProjectiles, minProjectiles, healthPercent));
-            Debug.Log($"Health: {healthPercent*100}%, Projectiles to Fire: {currentProjectiles}");
+            Debug.Log($"Health: {healthPercent}%, Projectiles to Fire: {currentProjectiles}");
 
             for (int i = 0; i < currentProjectiles; i++) 
             {
@@ -116,7 +124,18 @@ public class BossRangedAttackState : State<BossCtrl>
     public override void Update() {}
 
     public override void ChangeState() {
-        if (attackCompleted) _runner.SetState(typeof(BossIntroMovementState));
+        if (attackCompleted) {
+            if (_runner.Anim != null)
+            {
+                _runner.Anim.SetTrigger("attack_to_idle");
+            }
+            else
+            {
+                Debug.LogWarning("BossSpecialAttack: Boss does not have an Animator component.");
+            }
+            _runner.SetState(typeof(BossIntroMovementState));
+        }
+        
     }
 
     public override void Exit() {

@@ -10,7 +10,7 @@ public class BossCtrl : StateRunner<BossCtrl>
     public Animator Anim { get; private set; }
     public HealthSystem Health { get; private set; }
     public Transform Visuals { get; private set; }
-
+    
     public NavMeshPlus.Components.NavMeshSurface LocalNavMesh { get; private set; }
     public ProjectileShooter Shooter { get; private set; }  
 
@@ -47,7 +47,24 @@ public class BossCtrl : StateRunner<BossCtrl>
         }
         base.Awake(); 
     }
+    protected override void Update()
+    {
+        base.Update();
+        if (Anim != null)
+        {
+            // Questo prende le informazioni sulla clip (il file PNG/anim) attualmente in esecuzione
+            AnimatorClipInfo[] clipInfo = Anim.GetCurrentAnimatorClipInfo(0);
 
+            if (clipInfo.Length > 0)
+            {
+                Debug.Log($"[ANIMATOR COMPILATO] Il Boss sta riproducendo il file: '{clipInfo[0].clip.name}'");
+            }
+            else
+            {
+                Debug.LogWarning("[ANIMATOR COMPILATO] Il blocco è attivo, ma la casella 'Motion' è VUOTA (None)!");
+            }
+        }
+    }
     public void ApplyKnockback(Vector2 direction) {
         LastKnockbackDirection = direction;
         LastKnockbackForce = knockbackForce;

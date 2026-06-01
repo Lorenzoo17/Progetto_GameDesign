@@ -62,10 +62,27 @@ public class BossIdleState : State<BossCtrl>
         Debug.Log($"[BOSS IDLE] Attacco finito! Il boss riposa per {totalRestTime} secondi (ha usato {fatiche} tubi).");
 
         // Se hai un'animazione di Idle o "Stanco", questo è il momento di farla partire
-        if (_runner.Anim != null) _runner.Anim.SetTrigger("Idle"); 
+        //if (_runner.Anim != null) _runner.Anim.SetTrigger("Idle"); 
+        if (_runner.Anim != null)
+        {
+            _runner.Anim.SetTrigger("idle_to_jet");
+        }
+        else
+        {
+            Debug.LogWarning("BossSpecialAttack: Boss does not have an Animator component.");
+        }
 
         // Il boss sta fermo e vulnerabile a prendere botte per il tempo calcolato
         yield return new WaitForSeconds(totalRestTime);
+
+        if (_runner.Anim != null)
+        {
+            _runner.Anim.SetTrigger("jet_to_idle");
+        }
+        else
+        {
+            Debug.LogWarning("BossSpecialAttack: Boss does not have an Animator component.");
+        }
 
         // Fine del riposo, diamo il via libera per cambiare stato
         isRestComplete = true;

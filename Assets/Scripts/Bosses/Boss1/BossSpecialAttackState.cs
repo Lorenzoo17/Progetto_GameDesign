@@ -35,6 +35,14 @@ public class BossSpecialAttackState : State<BossCtrl>
 
     private IEnumerator FireSequenceRoutine() 
     {
+        if (_runner.Anim != null)
+        {
+            _runner.Anim.SetTrigger("jump_to_attack");
+        }
+        else
+        {
+            Debug.LogWarning("BossSpecialAttack: Boss does not have an Animator component.");
+        }
         float healthPercent = _runner.Health.GetHealthPercentage();
         
         int maxPipes = 2;
@@ -68,6 +76,9 @@ public class BossSpecialAttackState : State<BossCtrl>
             yield return new WaitForSeconds(delayBetweenPipes);
         }
         attackCompleted = true;
+
+
+
     }
 
     private void ShootProjectile(Vector2 direction)
@@ -87,7 +98,17 @@ public class BossSpecialAttackState : State<BossCtrl>
     public override void Update() {}
 
     public override void ChangeState() {
-        if (attackCompleted) _runner.SetState(typeof(BossIdleState));
+        if (attackCompleted) {
+            if (_runner.Anim != null)
+            {
+                _runner.Anim.SetTrigger("attack_to_idle");
+            }
+            else
+            {
+                Debug.LogWarning("BossSpecialAttack: Boss does not have an Animator component.");
+            }
+            _runner.SetState(typeof(BossIdleState));
+        } 
     }
 
     public override void Exit() {

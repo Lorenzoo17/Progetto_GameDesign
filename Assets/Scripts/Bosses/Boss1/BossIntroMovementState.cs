@@ -83,6 +83,14 @@ public class BossIntroMovementState : State<BossCtrl>
 
     private void StartJump()
     {
+        if (_runner.Anim != null)
+        {
+            _runner.Anim.SetTrigger("idle_to_jump");
+        }
+        else
+        {
+               Debug.LogWarning("BossIntroMovementState: Boss does not have an Animator component.");
+        }
         jumpCounter++;
         Vector3 targetPos;
 
