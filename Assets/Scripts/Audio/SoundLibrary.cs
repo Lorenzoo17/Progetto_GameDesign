@@ -10,7 +10,13 @@ public enum SoundID {
     UIConfirm,
     UICancel,
     WoodCrack,
-    PickUp
+    PickUp,
+    CoinPickUp,
+    HealthPickUp,
+    EnemyDeath,
+    PlayerDeath,
+    PlayerDash,
+    PlayerShoot,
 }
 
 [System.Serializable]
