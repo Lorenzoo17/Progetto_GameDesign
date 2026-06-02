@@ -12,11 +12,15 @@ public class HealthPerk : PerkBase
 
     public override void OnApply(Player player)
     {
-        player.playerHealth.IncreaseHealth(healthIncrease);
+        if (player.playerHealth.currentHealthUnits + healthIncrease > 0 && healthIncrease < 0) player.playerHealth.DecreaseHealth(Mathf.Abs(healthIncrease)); // applico se non uccide il player
+        else if (healthIncrease > 0)
+            player.playerHealth.IncreaseHealth(healthIncrease);
     }
 
     public override void OnRemove(Player player)
     {
-        player.playerHealth.DecreaseHealth(healthIncrease);
+        if (healthIncrease > 0) player.playerHealth.DecreaseHealth(healthIncrease);
+        else
+            player.playerHealth.IncreaseHealth(Mathf.Abs(healthIncrease)); // aggiungoi salute
     }
 }

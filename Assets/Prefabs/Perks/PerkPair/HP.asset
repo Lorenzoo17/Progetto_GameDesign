@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 399452f6bd1557c45ad3c55e6fa530b4, type: 3}
-  m_Name: Ex.1
+  m_Name: HP
   m_EditorClassIdentifier: Assembly-CSharp::PerkPair
-  negative: {fileID: 11400000, guid: aef1727a26de1e84580dfa513f27d90c, type: 2}
-  positive: {fileID: 11400000, guid: 66ccb351dce250643939a536ccc80495, type: 2}
+  negative: {fileID: 11400000, guid: 356c7c578e97d5242a13f04fdede7e97, type: 2}
+  positive: {fileID: 11400000, guid: 4a46f34eb749eec4d9ef352005c9a681, type: 2}

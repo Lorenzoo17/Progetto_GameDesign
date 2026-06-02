@@ -1,11 +1,12 @@
 using UnityEngine;
+using System; // Aggiungi questo
 
 [RequireComponent(typeof(Collider2D))]
 public class PerkPickup : MonoBehaviour, IInteractable
 {
     [Header("Visuals")]
-    [SerializeField] private GameObject activeVisual;  // green pool sprite
-    [SerializeField] private GameObject lockedVisual;  // caged sprite
+    [SerializeField] private GameObject activeVisual;
+    [SerializeField] private GameObject lockedVisual;
 
     [Header("Prompt")]
     [SerializeField] private GameObject promptInterface;
@@ -16,8 +17,7 @@ public class PerkPickup : MonoBehaviour, IInteractable
     private bool _locked = false;
     private PerkBase _grantedNegative = null;
     private RoomBehaviour _room;
-
-    // ── Setup (called by the spawner) ──────────────────────
+    private System.Random random = new System.Random(); // Aggiungi questo
 
     public void SetUp(PerkPair pair, RoomBehaviour room)
     {
@@ -38,15 +38,14 @@ public class PerkPickup : MonoBehaviour, IInteractable
         _room.OnRoomCleared -= HandleRoomCleared;
     }
 
-    // ── IInteractable ──────────────────────────────────────
-
     public void Interact()
     {
         if (_used || _locked || _perkPair == null) return;
 
         _used = true;
 
-        bool positive = Random.value <= 0.6f;
+        // Usa System.Random per più casualità (0.0 - 1.0)
+        bool positive = random.NextDouble() <= 0.3;
         PerkBase chosen = positive ? _perkPair.positive : _perkPair.negative;
 
         PerkController controller = FindFirstObjectByType<PerkController>();
@@ -74,8 +73,6 @@ public class PerkPickup : MonoBehaviour, IInteractable
         promptInterface.SetActive(false);
     }
 
-    // ── Room event handlers ────────────────────────────────
-
     private void HandleRoomExit(object sender, System.EventArgs e)
     {
         if (_used || _locked) return;
@@ -93,8 +90,6 @@ public class PerkPickup : MonoBehaviour, IInteractable
         controller?.RemovePerk(_grantedNegative);
         _grantedNegative = null;
     }
-
-    // ── Helpers ────────────────────────────────────────────
 
     private void Lock()
     {

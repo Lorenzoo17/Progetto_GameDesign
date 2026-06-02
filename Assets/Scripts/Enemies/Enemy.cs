@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float stunDurationMultiplier = 1f;  
+    [SerializeField] private float stunDurationMultiplier = 1f;
     [SerializeField] private float knockBackForce;
     [SerializeField] private float knockbackDuration = 0.2f;
 
@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-            if (stunTimer > 0f)
+        if (stunTimer > 0f)
         {
             stunTimer -= Time.deltaTime;
 
@@ -157,28 +157,28 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if(enemySpawner != null) {
+        if (enemySpawner != null)
+        {
             enemySpawner.OnEnemyDeath(); // aggiorno contatore numero corrente di nemici per l'enemy spawner
         }
 
         // spawno un oggetto
-        if(SpawnItems.Instance != null) {
+        if (SpawnItems.Instance != null)
+        {
             SpawnItems.Instance.SpawnItem(transform.position);
         }
-        else {
+        else
+        {
             Debug.Log("Spawn non presente");
         }
 
-            Destroy(gameObject);
+        Destroy(gameObject);
     }
 
-    public void SetEnemySpawner(EnemySpawner es) {
+    public void SetEnemySpawner(EnemySpawner es)
+    {
         enemySpawner = es;
     }
-
-    // ======================================================
-    // 🔥 STUN SYSTEM FIXATO
-    // ======================================================
 
     public void SetStun(bool value)
     {

@@ -7,6 +7,7 @@ public class PerkPickupSpawner : MonoBehaviour
 
     [Header("Prefab")]
     [SerializeField] private GameObject perkPickupPrefab;
+    private System.Random random = new System.Random();
 
     private void Start()
     {
@@ -27,11 +28,12 @@ public class PerkPickupSpawner : MonoBehaviour
             return;
         }
 
-        // Pick a random pair from the pool
-        PerkPair chosen = perkPairPool[Random.Range(0, perkPairPool.Length)];
+        // Pick a random pair from the pool usando System.Random
+        PerkPair chosen = perkPairPool[random.Next(0, perkPairPool.Length)];
 
         // Instantiate and wire up
         GameObject go = Instantiate(perkPickupPrefab, transform.position, Quaternion.identity);
+
 
         if (go.TryGetComponent(out PerkPickup pickup))
         {
