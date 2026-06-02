@@ -13,4 +13,8 @@ public abstract class PerkBase : ScriptableObject
 
     public virtual void OnApply(Player player) { }
     public virtual void OnRemove(Player player) { }
+    public virtual string Descriptor()
+    {
+        return description;
+    }
 }
