@@ -155,6 +155,12 @@ public class Enemy : MonoBehaviour
             Debug.Log("Spawn non presente");
         }
 
+        // suono morte
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound3D(SoundID.EnemyDeath, transform.position);
+        }
+
             Destroy(gameObject);
     }
 

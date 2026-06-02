@@ -10,6 +10,11 @@ public class Heart : MonoBehaviour, ICollectible {
                 player.playerHealth.Heal(healUnits);
 
                 // suono di raccolta/cura
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlaySound2D(SoundID.HealthPickUp, .25f);
+                }
+
                 Destroy(gameObject);
             }
         }

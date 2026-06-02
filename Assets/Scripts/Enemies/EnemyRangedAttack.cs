@@ -41,5 +41,9 @@ public class EnemyRangedAttack : EnemyAttackBase {
                 projectileShooter.ShootLinear(gameObject, direction);
                 break;
         }
+        // suono di attacco ranged 
+        if (SoundManager.Instance != null) {
+            SoundManager.Instance.PlaySound2D(SoundID.EnemyShoot, .2f);
+        }
     }
 }

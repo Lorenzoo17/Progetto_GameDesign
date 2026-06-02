@@ -24,6 +24,11 @@ public class Coins : MonoBehaviour, ICollectible {
             }
         }
 
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.CoinPickUp, .25f);
+        }
+
         // sound
         Destroy(gameObject);
     }
