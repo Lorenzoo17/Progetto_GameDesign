@@ -26,14 +26,12 @@ public class MutagenUIController : MonoBehaviour
 
     private void Start()
     {
-        RefreshVisibility();
         FindPlayer();
         RefreshUI();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        RefreshVisibility();
         FindPlayer();
         RefreshUI();
     }
@@ -67,11 +65,6 @@ public class MutagenUIController : MonoBehaviour
         }
     }
 
-    private void RefreshVisibility()
-    {
-        bool showUI = SceneManager.GetActiveScene().name != "HubScene";
-        gameplayUI.SetActive(showUI);
-    }
 
     public void RefreshUI()
     {

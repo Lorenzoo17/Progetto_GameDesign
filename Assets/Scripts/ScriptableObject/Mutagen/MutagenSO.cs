@@ -26,5 +26,15 @@ public abstract class MutagenSO : ScriptableObject
     public abstract void Tick(Player player, MutagenInstance instance, float deltaTime);
 
     public abstract void Deactivate(Player player, MutagenInstance instance);
+
+    /// <summary>
+    /// Restituisce la durata base dell'effetto per un nemico specifico.
+    /// Il nemico applicherà il suo moltiplicatore personalizzato.
+    /// Sovrascrivi questo metodo se il mutagen necessita di logica personalizzata.
+    /// </summary>
+    public virtual float GetEnemyEffectDuration(Enemy enemy)
+    {
+        return duration;
+    }
 }
 
