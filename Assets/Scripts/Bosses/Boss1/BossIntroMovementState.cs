@@ -30,9 +30,7 @@ public class BossIntroMovementState : State<BossCtrl>
     private int specialAttackCooldown = 4;
     private bool isReadyForSpecialAttack = false;
     private bool specialAttackEnabled = false;
-
     private bool hasJustLanded = false;
-
     private bool useSpecialPool = false;
     private bool leaveAcidPool = true;
 
@@ -49,7 +47,10 @@ public class BossIntroMovementState : State<BossCtrl>
         waitTimer = 0f;
         isJumping = false;
         hasJustLanded = false;
-        botolaManager = _runner.transform.parent.GetComponentInChildren<BotolaManager>();
+        if (_runner.transform.parent != null)
+        {
+            botolaManager = _runner.transform.parent.GetComponentInChildren<BotolaManager>();
+        }
     }
 
     public override void Update()
@@ -83,14 +84,8 @@ public class BossIntroMovementState : State<BossCtrl>
 
     private void StartJump()
     {
-        if (_runner.Anim != null)
-        {
-            _runner.Anim.SetTrigger("idle_to_jump");
-        }
-        else
-        {
-               Debug.LogWarning("BossIntroMovementState: Boss does not have an Animator component.");
-        }
+        if (_runner.Anim != null) _runner.Anim.SetTrigger("idle_to_jump");
+
         jumpCounter++;
         Vector3 targetPos;
 
@@ -99,13 +94,14 @@ public class BossIntroMovementState : State<BossCtrl>
         useSpecialPool = false;
         specialAttackEnabled = false;
 
-        // PRIORITÀ 1: Salto al centro (Reset)
-        if (jumpCounter >= 4 && _runner.MemoryTurnsLeft == 0)
+        // 🔥 FIX: Al 4° salto andrà SEMPRE al centro assoluto!
+        if (jumpCounter >= 4)
         {
             _runner.NextAttackPattern = BossCtrl.AttackPattern.Cross;
             targetPos = GetRoomCenter();
             jumpCounter = 0;
             leaveAcidPool = false;
+            _runner.MemoryTurnsLeft = 0;
         }
         else
         {
@@ -118,55 +114,37 @@ public class BossIntroMovementState : State<BossCtrl>
                     specialAttackCooldown = 3;
                     currentProbability = baseProbability;
                 }
-                else
-                {
-                    currentProbability += probabilityIncrease;
-                }
+                else currentProbability += probabilityIncrease;
             }
 
-            // PRIORITÀ 2: Attacco Speciale
+            // PRIORITÀ 2: Attacco Speciale (Tubi)
             if (specialAttackEnabled)
             {
                 useSpecialPool = true;
-                if (botolaManager != null && botolaManager.botole.Count > 0)
-                {
-                    targetPos = botolaManager.GetRandomBotola().position;
-                }
-                else
-                {
-                    targetPos = GetRoomCenter();
-                }
+                if (botolaManager != null && botolaManager.botole.Count > 0) targetPos = botolaManager.GetRandomBotola().position;
+                else targetPos = GetRoomCenter();
             }
-            // PRIORITÀ 3: HA IL TRACCIATORE (Melma addosso al player)
+            // PRIORITÀ 3: HA IL TRACCIATORE (Salta verso il player)
             else if (_runner.MemoryTurnsLeft > 0)
             {
-                Player player = Object.FindFirstObjectByType<Player>();
+                Player player = UnityEngine.Object.FindFirstObjectByType<Player>();
                 if (player != null)
                 {
-                    // Precisione al 95%: miriamo al player ma aggiungiamo un errore fino a 1.5 unità
                     Vector2 errorMargin = Random.insideUnitCircle * 1.5f;
                     Vector3 predictedPos = player.transform.position + (Vector3)errorMargin;
 
-                    NavMeshHit hit;
-                    if (NavMesh.SamplePosition(predictedPos, out hit, 3f, NavMesh.AllAreas))
+                    Vector3 dirToPlayer = predictedPos - _runner.transform.position;
+                    if (dirToPlayer.magnitude > maxJumpDistance)
                     {
-                        targetPos = new Vector3(hit.position.x, hit.position.y, _runner.transform.position.z);
+                        predictedPos = _runner.transform.position + (dirToPlayer.normalized * maxJumpDistance);
                     }
-                    else
-                    {
-                        targetPos = predictedPos;
-                    }
+
+                    targetPos = GetSafeNavMeshPoint(predictedPos);
                 }
-                else
-                {
-                    targetPos = FindValidJumpPoint(_runner.transform.position, maxJumpDistance);
-                }
+                else targetPos = FindValidJumpPoint(_runner.transform.position, maxJumpDistance);
             }
-            // PRIORITÀ 4: Salto casuale ampio (Non sa dove sei)
-            else
-            {
-                targetPos = FindValidJumpPoint(_runner.transform.position, maxJumpDistance);
-            }
+            // PRIORITÀ 4: Salto casuale
+            else targetPos = FindValidJumpPoint(_runner.transform.position, maxJumpDistance);
         }
 
         _runner.StartCoroutine(JumpRoutine(targetPos));
@@ -174,44 +152,56 @@ public class BossIntroMovementState : State<BossCtrl>
 
     private Vector3 FindValidJumpPoint(Vector3 centerOrigin, float searchRadius)
     {
-        int attempts = 0;
-        while (attempts < 15)
-        { // Aumentati i tentativi
-            attempts++;
+        for (int attempts = 0; attempts < 15; attempts++)
+        {
             Vector2 randomDir = Random.insideUnitCircle.normalized;
             float range = Random.Range(minJumpDistance, maxJumpDistance);
             Vector3 candidatePos = centerOrigin + (Vector3)(randomDir * range);
-            candidatePos.z = _runner.transform.position.z;
 
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(candidatePos, out hit, 2f, NavMesh.AllAreas))
+            Vector2 dirToHit = candidatePos - centerOrigin;
+            RaycastHit2D wallCheck = Physics2D.Raycast(centerOrigin, dirToHit.normalized, dirToHit.magnitude, LayerMask.GetMask("Wall", "Walls"));
+
+            if (wallCheck.collider == null)
             {
-                Vector3 finalHitPos = new Vector3(hit.position.x, hit.position.y, _runner.transform.position.z);
-
-                // Controllo Muri semplificato e più robusto
-                Vector2 dirToHit = finalHitPos - _runner.transform.position;
-                RaycastHit2D wallCheck = Physics2D.Raycast(_runner.transform.position, dirToHit.normalized, dirToHit.magnitude, LayerMask.GetMask("Wall", "Walls"));
-                Debug.Log($"BossJumpState: Tentativo {attempts} - Posizione candidata: {finalHitPos}, Distanza: {dirToHit.magnitude}, Hit muro: {(wallCheck.collider != null ? wallCheck.collider.name : "Nessuno")}");
-                if (wallCheck.collider == null) return finalHitPos;
+                if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+                {
+                    return new Vector3(hit.position.x, hit.position.y, _runner.transform.position.z);
+                }
             }
         }
-        Debug.LogWarning("BossJumpState: Non sono riuscito a trovare un punto di salto valido dopo 15 tentativi, salto al centro.");
         return GetRoomCenter();
     }
 
+    private Vector3 GetSafeNavMeshPoint(Vector3 target)
+    {
+        if (NavMesh.SamplePosition(target, out NavMeshHit hit, 3f, NavMesh.AllAreas))
+        {
+            return new Vector3(hit.position.x, hit.position.y, _runner.transform.position.z);
+        }
+        return target;
+    }
+
+    // 🔥 FIX: Calcolo perfetto del centro usando le coordinate del Padre (La Stanza)
     private Vector3 GetRoomCenter()
     {
-        if (_runner.LocalNavMesh != null && _runner.LocalNavMesh.navMeshData != null)
+        if (_runner.transform.parent != null)
         {
-            return _runner.LocalNavMesh.navMeshData.sourceBounds.center;
+            // Assicuriamoci che il centro della stanza cada su un punto valido della mappa azzurra
+            return GetSafeNavMeshPoint(_runner.transform.parent.position);
         }
-        return Vector3.zero;
+        // Failsafe se il Boss non ha un padre
+        return GetSafeNavMeshPoint(_runner.transform.position);
     }
 
     private IEnumerator JumpRoutine(Vector3 targetPos)
     {
         isJumping = true;
-        if (_runner.Agent != null) _runner.Agent.enabled = false;
+
+        if (_runner.Agent != null && _runner.Agent.isOnNavMesh)
+        {
+            _runner.Agent.isStopped = true;
+            _runner.Agent.updatePosition = false;
+        }
 
         Vector3 startPos = _runner.transform.position;
         float timePassed = 0f;
@@ -230,34 +220,37 @@ public class BossIntroMovementState : State<BossCtrl>
             yield return null;
         }
 
-        _runner.transform.position = targetPos;
+        if (_runner.Visuals != null) _runner.Visuals.localPosition = Vector3.zero;
 
         if (acidPoolPrefab != null && leaveAcidPool)
         {
             GameObject pool = Instantiate(acidPoolPrefab, targetPos, Quaternion.identity);
             float durataScelta = useSpecialPool ? acidPoolDurationSpecial : acidPoolDuration;
             if (useSpecialPool) pool.transform.localScale = new Vector3(3f, 3f, 1f);
-            if (pool.TryGetComponent<PoolDuration>(out PoolDuration poolScript))
-            {
-                poolScript.StartLifeCycle(durataScelta);
-            }
+            if (pool.TryGetComponent<PoolDuration>(out PoolDuration poolScript)) poolScript.StartLifeCycle(durataScelta);
         }
 
         if (specialAttackEnabled)
         {
-            if (_runner.Visuals != null)
-            {
-                _runner.Visuals.localPosition = Vector3.zero;
-                if (_runner.Visuals.TryGetComponent<SpriteRenderer>(out var sr)) sr.enabled = false;
-            }
+            if (_runner.Visuals != null && _runner.Visuals.TryGetComponent<SpriteRenderer>(out var sr)) sr.enabled = false;
             Collider2D bossCollider = _runner.GetComponent<Collider2D>();
             if (bossCollider != null) bossCollider.enabled = false;
+
+            if (_runner.Agent != null) _runner.Agent.enabled = false;
+
             isReadyForSpecialAttack = true;
         }
         else
         {
-            if (_runner.Visuals != null) _runner.Visuals.localPosition = Vector3.zero;
-            if (_runner.Agent != null) _runner.Agent.enabled = true;
+            if (_runner.Agent != null)
+            {
+                if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, 5.0f, NavMesh.AllAreas))
+                {
+                    _runner.transform.position = hit.position;
+                    _runner.Agent.Warp(hit.position);
+                }
+                _runner.Agent.updatePosition = true;
+            }
             hasJustLanded = true;
         }
 
@@ -270,6 +263,7 @@ public class BossIntroMovementState : State<BossCtrl>
         isJumping = false;
         hasJustLanded = false;
     }
+
     public override void CaptureInput() { }
     public override void FixedUpdate() { }
 }

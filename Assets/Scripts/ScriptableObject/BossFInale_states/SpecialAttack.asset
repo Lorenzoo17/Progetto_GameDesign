@@ -17,3 +17,4 @@ MonoBehaviour:
   delayBetweenPipes: 0.5
   bossProjectilePrefab: {fileID: 5887688937532165023, guid: 8cb0ad047f19d8d4a83fba6b2d23bd46, type: 3}
   projectileSpeed: 10
+  anticipationDelay: 0.65

@@ -36,6 +36,10 @@ public class Enemy : MonoBehaviour
         enemyMovement = GetComponent<EnemyMovement>();
 
         sr = GetComponent<SpriteRenderer>();
+        if (sr == null) { 
+            sr = GetComponentInChildren<SpriteRenderer>();
+            Debug.LogWarning("SpriteRenderer non trovato sul GameObject principale, cercato nei figli.");
+        }
         initialColor = sr.color;
 
         anim = GetComponent<Animator>();

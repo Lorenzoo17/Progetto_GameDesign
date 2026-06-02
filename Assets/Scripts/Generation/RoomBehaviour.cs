@@ -1,6 +1,8 @@
 using NavMeshPlus.Components;
 using System;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.AI;
 
 public enum RoomType {
     StartRoom,
@@ -116,9 +118,8 @@ public class RoomBehaviour : MonoBehaviour {
             EnemySpawner.Instance.SetCurrentRoom(this);
         }
 
-        if(this.GetComponent<TreasureRoomSpawner>() == null) // non chiudo le porte se e' una treasure room
+        if (this.GetComponent<TreasureRoomSpawner>() == null) // non chiudo le porte se e' una treasure room
             CloseDoors();
-
         SpawnEnemies();
     }
 
@@ -157,16 +158,49 @@ public class RoomBehaviour : MonoBehaviour {
         OpenDoors();
     }
 
-    public void BakeRoomNavMesh() {
-        if (navSurface == null) {
+    public void BakeRoomNavMesh()
+    {
+        if (navSurface == null)
             navSurface = GetComponentInChildren<NavMeshSurface>();
-        }
 
-        if (navSurface != null) {
+        if (navSurface != null)
+        {
             navSurface.BuildNavMesh();
+            // Aspetta un frame prima di attivare l'agente
+            StartCoroutine(ActivateBossWhenNavMeshReady());
         }
-        else {
+        else
+        {
             Debug.LogWarning($"NavMeshSurface non trovata nella stanza {name}");
         }
+    }
+
+    private IEnumerator ActivateBossWhenNavMeshReady()
+    {
+        BossCtrl boss = UnityEngine.Object.FindFirstObjectByType<BossCtrl>();
+        if (boss == null) yield break;
+
+        float elapsed = 0f;
+        int frameCount = 0;
+
+        while (elapsed < 3f)
+        {
+            yield return null;
+            elapsed += Time.deltaTime;
+            frameCount++;
+
+            bool sample = NavMesh.SamplePosition(boss.transform.position, out NavMeshHit hit, 5f, NavMesh.AllAreas);
+            //Debug.Log($"[NAVMESH WAIT] Frame {frameCount} ({elapsed:F3}s) - SamplePosition: {sample}" + (sample ? $" | hit.dist: {hit.distance:F4} | hit.pos: {hit.position}" : ""));
+
+            if (sample)
+            {
+                //Debug.Log($"[NAVMESH WAIT] NavMesh pronta al frame {frameCount}, attivo il boss.");
+                boss.ActivateBossAgent();
+                yield break;
+            }
+        }
+
+        //Debug.LogWarning("[NAVMESH WAIT] Timeout! NavMesh mai pronta.");
+        boss.ActivateBossAgent();
     }
 }

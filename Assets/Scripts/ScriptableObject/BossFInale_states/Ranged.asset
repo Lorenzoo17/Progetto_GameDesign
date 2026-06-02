@@ -16,4 +16,5 @@ MonoBehaviour:
   bossProjectilePrefab: {fileID: 5887688937532165023, guid: 8cb0ad047f19d8d4a83fba6b2d23bd46, type: 3}
   projectileSpeed: 8
   minProjectiles: 1
-  maxProjectiles: 1
+  maxProjectiles: 8
+  anticipationDelay: 0.65
