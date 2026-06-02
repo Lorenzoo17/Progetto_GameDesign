@@ -6,7 +6,8 @@ public abstract class PerkBase : ScriptableObject
 
     [Header("Optional: link to a pair")]
     public PerkPair pair;
-
+    public Sprite icon;
+    [TextArea] public string description;
     public PerkLootData perkLootData; // usato in treasureRoomSpawner, per capire se il player ha gia'
     // il mutagene corrispondente equipaggiato
 
