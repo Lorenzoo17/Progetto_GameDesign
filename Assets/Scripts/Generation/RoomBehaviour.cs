@@ -166,8 +166,7 @@ public class RoomBehaviour : MonoBehaviour {
         if (navSurface != null)
         {
             navSurface.BuildNavMesh();
-            // Aspetta un frame prima di attivare l'agente
-            StartCoroutine(ActivateBossWhenNavMeshReady());
+            
         }
         else
         {
@@ -175,32 +174,5 @@ public class RoomBehaviour : MonoBehaviour {
         }
     }
 
-    private IEnumerator ActivateBossWhenNavMeshReady()
-    {
-        BossCtrl boss = UnityEngine.Object.FindFirstObjectByType<BossCtrl>();
-        if (boss == null) yield break;
-
-        float elapsed = 0f;
-        int frameCount = 0;
-
-        while (elapsed < 3f)
-        {
-            yield return null;
-            elapsed += Time.deltaTime;
-            frameCount++;
-
-            bool sample = NavMesh.SamplePosition(boss.transform.position, out NavMeshHit hit, 5f, NavMesh.AllAreas);
-            //Debug.Log($"[NAVMESH WAIT] Frame {frameCount} ({elapsed:F3}s) - SamplePosition: {sample}" + (sample ? $" | hit.dist: {hit.distance:F4} | hit.pos: {hit.position}" : ""));
-
-            if (sample)
-            {
-                //Debug.Log($"[NAVMESH WAIT] NavMesh pronta al frame {frameCount}, attivo il boss.");
-                boss.ActivateBossAgent();
-                yield break;
-            }
-        }
-
-        //Debug.LogWarning("[NAVMESH WAIT] Timeout! NavMesh mai pronta.");
-        boss.ActivateBossAgent();
-    }
+    
 }

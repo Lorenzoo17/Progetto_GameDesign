@@ -25,7 +25,7 @@ public class PoolDuration : MonoBehaviour
             // Avvisa il boss ogni volta che il player è sopra la pozza
             if (bossInRoom != null)
             {
-                bossInRoom.ReportPlayerHit(other.transform.position);
+                bossInRoom.ReportPlayerHit();
             }
         }
     }

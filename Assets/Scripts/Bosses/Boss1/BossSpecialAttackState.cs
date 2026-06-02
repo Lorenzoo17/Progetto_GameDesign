@@ -43,7 +43,7 @@ public class BossSpecialAttackState : State<BossCtrl>
 
         yield return new WaitForSeconds(anticipationDelay);
 
-        // 🔥 FIX: Trasformiamo da 0-100 a 0.0-1.0
+        
         float healthRatio = _runner.Health.GetHealthPercentage() / 100f;
 
         int maxPipes = 2;
@@ -74,6 +74,8 @@ public class BossSpecialAttackState : State<BossCtrl>
             yield return new WaitForSeconds(delayBetweenPipes);
         }
         attackCompleted = true;
+        yield return new WaitForSeconds(0.5f);
+        _runner.AnimActionComplete = true;
     }
 
     private void ShootProjectile(Vector2 direction)

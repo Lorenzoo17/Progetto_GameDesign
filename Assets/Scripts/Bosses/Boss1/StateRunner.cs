@@ -11,7 +11,7 @@ namespace stateMachine
         private State<T> currentState;
 
         protected virtual void Awake() {
-            // Cloniamo gli stati per evitare interferenze tra istanze diverse dello stesso Boss
+            
             foreach (var s in states) {
                 State<T> stateInstance = Instantiate(s);
                 stateInstance.Init(this as T);
@@ -27,10 +27,10 @@ namespace stateMachine
 
             if (stateDictionary.TryGetValue(newStateType, out State<T> newState)) {
                 currentState = newState;
-                currentState.Enter(); // Ora chiamiamo correttamente l'inizio dello stato
-               //Debug.Log($"[FSM] {gameObject.name} passato allo stato: {newStateType.Name}");
+                currentState.Enter(); 
+               
             } else {
-               // Debug.LogError("Stato " + newStateType + " non trovato in " + gameObject.name);
+                Debug.LogError("Stato " + newStateType + " non trovato in " + gameObject.name);
             }
         }
 

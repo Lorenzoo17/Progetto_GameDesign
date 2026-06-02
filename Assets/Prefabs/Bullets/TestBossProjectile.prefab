@@ -214,7 +214,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3949224532137384709}
-  - component: {fileID: 3341678687580210299}
   - component: {fileID: -922817826465931049}
   - component: {fileID: 2341695957761563695}
   m_Layer: 0
@@ -241,22 +240,6 @@ Transform:
   - {fileID: 1900947208726583810}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3341678687580210299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5887688937532165023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5723cdbe47b797340b7968a4be0f5020, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ProjectileBoss1
-  pozzaPrefab: {fileID: 4996778419277687879, guid: 52de2dfedd95f9c43851cbca2688dcf3, type: 3}
-  impactPrefab: {fileID: 5397995872131914903, guid: a6797a06307b44e43855287ea8cf9997, type: 3}
-  lifeTime: 4
-  poolDuration: 1
 --- !u!61 &-922817826465931049
 BoxCollider2D:
   m_ObjectHideFlags: 0
