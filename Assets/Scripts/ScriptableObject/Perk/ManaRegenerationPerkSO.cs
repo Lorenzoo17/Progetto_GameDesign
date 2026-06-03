@@ -13,7 +13,7 @@ public class ManaRegenerationPerkSO : PerkBase
     {
         this.player = player;
         roomsCleared = 0;
-
+        Debug.Log($"Applied {name} to player. Will regenerate {manaToRestore} mana every {roomsRequired} rooms cleared.");
         // Registra il listener agli eventi della stanza
         RoomBehaviour.OnAnyRoomCleared += HandleRoomCleared;
     }
@@ -39,6 +39,7 @@ public class ManaRegenerationPerkSO : PerkBase
                 player.playerMana.RestoreMana(manaToRestore);
 
 
+            Debug.Log($"Mana regenerated! (+{manaToRestore})");
             if (NotificationUI.Instance != null)
             {
                 NotificationUI.Instance.ShowMessage(

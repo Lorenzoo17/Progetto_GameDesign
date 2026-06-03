@@ -14,7 +14,6 @@ public class DamageEventArgs : EventArgs
 }
 public class HealthSystem : MonoBehaviour, IDamageable
 {
-
     [SerializeField] private float maxHealth;
     public float CurrentHealth { get; private set; }
     public bool resetsSceneOnDeath = false;
@@ -24,13 +23,17 @@ public class HealthSystem : MonoBehaviour, IDamageable
     [SerializeField] private float defense;
     public event EventHandler<DamageEventArgs> OnDamageTaken;
 
+    private DamageEffectVisuals damageEffectVisuals;
+
     private void Awake()
     {
         CurrentHealth = maxHealth;
         defense = 0;
+        damageEffectVisuals = GetComponent<DamageEffectVisuals>();
     }
 
-    public float GetHealthPercentage() {
+    public float GetHealthPercentage()
+    {
         return (CurrentHealth / maxHealth) * 100f;
     }
 
@@ -39,6 +42,9 @@ public class HealthSystem : MonoBehaviour, IDamageable
         DamageInfo modifiedDamageInfo = TakeDamageLol(damageInfo);
         CurrentHealth -= modifiedDamageInfo.Damage[DamageType.Physical];
         OnDamageTaken?.Invoke(this, new DamageEventArgs(modifiedDamageInfo.Damage[DamageType.Physical], modifiedDamageInfo.Direction));
+
+        // Trigga visual effects
+        HandleDamageVisuals(modifiedDamageInfo);
 
         if (SoundManager.Instance != null)
         {
@@ -57,8 +63,15 @@ public class HealthSystem : MonoBehaviour, IDamageable
 
     public void TakePoisonDamage(DamageInfo damageInfo)
     {
-        CurrentHealth -= damageInfo.Damage[DamageType.Poison];
-        OnDamageTaken?.Invoke(this, new DamageEventArgs(damageInfo.Damage[DamageType.Poison], damageInfo.Direction));
+        float poisonDamage = damageInfo.Damage[DamageType.Poison];
+        CurrentHealth -= poisonDamage;
+        OnDamageTaken?.Invoke(this, new DamageEventArgs(poisonDamage, damageInfo.Direction));
+
+        // Trigga visual effects per veleno
+        if (damageEffectVisuals != null && poisonDamage > 0)
+        {
+            damageEffectVisuals.PlayPoisonEffect();
+        }
 
         if (CurrentHealth <= 0)
         {
@@ -67,6 +80,23 @@ public class HealthSystem : MonoBehaviour, IDamageable
             {
                 levelLoader.LoadNextScene("CombatHub");
             }
+        }
+    }
+
+    private void HandleDamageVisuals(DamageInfo damageInfo)
+    {
+        if (damageEffectVisuals == null) return;
+
+        // Particella rossa se il danno è stato boosted
+        if (damageInfo.AppliedEffects.Contains("DamageBoost"))
+        {
+            damageEffectVisuals.PlayDamageBoostEffect();
+        }
+
+        // Maschera verde se è stato applicato veleno
+        if (damageInfo.AppliedEffects.Contains("PoisonApplied"))
+        {
+            damageEffectVisuals.PlayPoisonEffect();
         }
     }
 
@@ -80,13 +110,17 @@ public class HealthSystem : MonoBehaviour, IDamageable
             damageInfo.Source,
             damageInfo.SourceFaction
         );
+
+        // Copia gli effetti applicati
+        modifiedDamageInfo.AppliedEffects = damageInfo.AppliedEffects;
+
         return modifiedDamageInfo;
     }
+
     private DamageInfo TakeDamageOther(DamageInfo damageInfo)
     {
         float defensePerc = (100f / (100f + defense));
         float damage = damageInfo.Damage[DamageType.Physical];
-
 
         DamageInfo modifiedDamageInfo = new DamageInfo(
             MathF.Log(damage, 2) * defensePerc * MathF.Sqrt(damage),
@@ -94,6 +128,8 @@ public class HealthSystem : MonoBehaviour, IDamageable
             damageInfo.Source,
             damageInfo.SourceFaction
         );
+
+        modifiedDamageInfo.AppliedEffects = damageInfo.AppliedEffects;
 
         return modifiedDamageInfo;
     }

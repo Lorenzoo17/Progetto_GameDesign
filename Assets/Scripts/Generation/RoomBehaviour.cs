@@ -200,6 +200,7 @@ public class RoomBehaviour : MonoBehaviour
         isCleared = true;
         OpenDoors();
         OnRoomCleared?.Invoke(this, EventArgs.Empty);
+        Debug.Log($"Room cleared: {name}");
         OnAnyRoomCleared?.Invoke(this);
     }
 

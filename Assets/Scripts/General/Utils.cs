@@ -21,20 +21,34 @@ public struct SingleDamageInfo
     }
 }
 
-public struct DamageInfo
+
+[System.Serializable]
+public class DamageInfo
 {
-    public Dictionary<DamageType, float> Damage { get; private set; }
-    public Vector2 Direction { get; private set; }
-    public GameObject Source { get; private set; }
-    public EntityType SourceFaction { get; private set; }
+    public Dictionary<DamageType, float> Damage { get; set; }
+    public Vector2 Direction { get; set; }
+    public GameObject Source { get; set; }
+    public EntityType SourceFaction { get; set; }
+
+    // Traccia gli effetti applicati dai perk
+    public List<string> AppliedEffects { get; set; } = new();
 
     public DamageInfo(float damage, Vector2 direction, GameObject source, EntityType sourceFaction)
     {
-        Damage = new Dictionary<DamageType, float>();
-        Damage[DamageType.Physical] = damage;
+        Damage = new Dictionary<DamageType, float>
+        {
+            { DamageType.Physical, damage },
+            { DamageType.Poison, 0f }
+        };
         Direction = direction;
         Source = source;
         SourceFaction = sourceFaction;
+    }
+
+    public void AddEffect(string effectName)
+    {
+        if (!AppliedEffects.Contains(effectName))
+            AppliedEffects.Add(effectName);
     }
 }
 
