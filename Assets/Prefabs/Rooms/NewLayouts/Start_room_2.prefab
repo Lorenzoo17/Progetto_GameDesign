@@ -19162,9 +19162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PerkPickupSpawner
   perkPairPool:
+  - {fileID: 11400000, guid: 563f2ff9c720370409d478ac6cff1bc2, type: 2}
   - {fileID: 11400000, guid: b3402fa2d463ee14b856fd4be3a68531, type: 2}
   - {fileID: 11400000, guid: 0565a7d56d9226341ac1432e193f1f8e, type: 2}
-  - {fileID: 11400000, guid: 563f2ff9c720370409d478ac6cff1bc2, type: 2}
   - {fileID: 11400000, guid: a0d4efc688b8ce343867306128992ff1, type: 2}
   - {fileID: 11400000, guid: 6ff39a995ebf61c4e93f8064180a87d2, type: 2}
   - {fileID: 11400000, guid: b4ecd7e32b814394e86027a3fa8eceec, type: 2}
