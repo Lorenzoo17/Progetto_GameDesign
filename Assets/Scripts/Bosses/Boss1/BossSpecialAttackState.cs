@@ -57,6 +57,7 @@ public class BossSpecialAttackState : State<BossCtrl>
         {
             Transform selectedPipe = pipeManager.GetRandomPipe();
 
+
             if (selectedPipe != null)
             {
                 Vector3 offset = _runner.FirePoint != null ? _runner.FirePoint.localPosition : Vector3.zero;
@@ -91,12 +92,6 @@ public class BossSpecialAttackState : State<BossCtrl>
     public override void ChangeState()
     {
         if (!attackCompleted) return;
-
-        if (!triggerSent)
-        {
-            if (_runner.Anim != null) _runner.Anim.SetTrigger("attack_to_idle");
-            triggerSent = true;
-        }
 
         if (_runner.AnimActionComplete) _runner.SetState(typeof(BossIdleState));
     }

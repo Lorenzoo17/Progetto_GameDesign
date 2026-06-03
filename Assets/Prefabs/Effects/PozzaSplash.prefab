@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 60392126198569560}
   - component: {fileID: 1176331453960779814}
   - component: {fileID: 5129415156049009785}
+  - component: {fileID: -4973741541661656971}
+  - component: {fileID: 7592886797365866211}
   m_Layer: 0
   m_Name: PozzaSplash
   m_TagString: Untagged
@@ -127,3 +129,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee86846d9c772cf4f9aaade18df7962d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PoolDuration
+--- !u!114 &-4973741541661656971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4996778419277687879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c96d549c0609b84f8be33dc3255eaa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AcidPoolDamage
+  poolDamage: 0.5
+  damageCooldown: 1
+--- !u!58 &7592886797365866211
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4996778419277687879}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.1

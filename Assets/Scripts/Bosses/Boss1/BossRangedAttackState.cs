@@ -16,6 +16,7 @@ public class BossRangedAttackState : State<BossCtrl>
     [SerializeField] private int minProjectiles = 2;
     [SerializeField] private int maxProjectiles = 6;
 
+
     private bool attackCompleted = false;
     private bool triggerSent = false;
     [SerializeField] private float anticipationDelay = 0.4f;

@@ -19,6 +19,9 @@ public class BossCtrl : StateRunner<BossCtrl>
     [HideInInspector] public Vector2 LastKnockbackDirection;
     [HideInInspector] public float LastKnockbackForce;
     [HideInInspector] public float LastKnockbackDuration;
+    [Header("Riferimenti Stanza")]
+    public Transform roomCenter;
+
 
     public enum AttackPattern { RandomOrTarget, Cross }
     [HideInInspector] public AttackPattern NextAttackPattern = AttackPattern.RandomOrTarget;

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using stateMachine;
 
@@ -29,48 +29,41 @@ public class BossIdleState : State<BossCtrl>
 
     private IEnumerator ExitPipeAndRestRoutine()
     {
-        
+       
+        if (_runner.Anim != null)
+        {
+            _runner.Anim.SetTrigger("play_jet");
+            
+        }
+
         Vector3 startPos = _runner.transform.position;
         Vector3 roomCenter = Vector3.zero;
 
-        if (_runner.LocalNavMesh != null && _runner.LocalNavMesh.navMeshData != null) {
+        if (_runner.LocalNavMesh != null && _runner.LocalNavMesh.navMeshData != null)
+        {
             roomCenter = _runner.LocalNavMesh.navMeshData.sourceBounds.center;
         }
-        
+
         Vector3 directionToCenter = (roomCenter - startPos).normalized;
         Vector3 targetPos = startPos + (directionToCenter * slideDistance);
-        
+
         float elapsedTime = 0f;
+
+        
         while (elapsedTime < slideDuration)
         {
             _runner.transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime / slideDuration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        _runner.transform.position = targetPos; 
+        _runner.transform.position = targetPos;
 
         int fatiche = BossSpecialAttackState.timesAttacked;
         float totalRestTime = baseRestTime + (fatiche * restTimePerAttack);
+
+        if (_runner.debug) Debug.Log($"[BOSS IDLE] Attacco finito! Il boss riposa per {totalRestTime} secondi (ha usato {fatiche} tubi).");
+
         
-        if (_runner.debug ) Debug.Log($"[BOSS IDLE] Attacco finito! Il boss riposa per {totalRestTime} secondi (ha usato {fatiche} tubi).");
-
-        if (_runner.Anim != null)
-        {
-            _runner.Anim.SetTrigger("idle_to_jet");
-        }
-        else
-        {
-            Debug.LogWarning("BossSpecialAttack: Boss does not have an Animator component.");
-        }
-
-        if (_runner.Anim != null)
-        {
-            _runner.Anim.SetTrigger("jet_to_idle");
-        }
-        else
-        {
-            Debug.LogWarning("BossSpecialAttack: Boss does not have an Animator component.");
-        }
 
         yield return new WaitForSeconds(totalRestTime);
 

@@ -5,7 +5,7 @@ public class PipeManager : MonoBehaviour
 {
     
     public List<Transform> tubi = new List<Transform>();
-
+    public int lastUsedIndex = -1;
     private void Start() 
     {
         if (tubi.Count <= 0) {
@@ -17,6 +17,10 @@ public class PipeManager : MonoBehaviour
     {
         if (tubi.Count == 0) return null; 
         int index = Random.Range(0, tubi.Count);
-        return tubi[index];
+        if (index != lastUsedIndex) {
+            lastUsedIndex = index;
+            return tubi[index];
+        }
+        else return GetRandomPipe();
     }
 }

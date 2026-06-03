@@ -103,7 +103,7 @@ public class BossIntroMovementState : State<BossCtrl>
         if (jumpCounter >= 4)
         {
             _runner.NextAttackPattern = BossCtrl.AttackPattern.Cross;
-            targetPos = GetRoomCenter();
+            targetPos = _runner.roomCenter.transform.position;
             jumpCounter = 0;
             leaveAcidPool = false;
         }
@@ -126,7 +126,7 @@ public class BossIntroMovementState : State<BossCtrl>
             {
                 useSpecialPool = true;
                 if (botolaManager != null && botolaManager.botole.Count > 0) targetPos = botolaManager.GetRandomBotola().position;
-                else targetPos = GetRoomCenter();
+                else targetPos = _runner.roomCenter.transform.position;
             }
             
             else if (_runner.hasHitplayer)
@@ -221,7 +221,7 @@ public class BossIntroMovementState : State<BossCtrl>
                 }
             }
         }
-        return GetRoomCenter();
+        return _runner.roomCenter.transform.position;
     }
 
     private Vector3 GetSafeNavMeshPoint(Vector3 target)
@@ -234,16 +234,6 @@ public class BossIntroMovementState : State<BossCtrl>
     }
 
     
-    private Vector3 GetRoomCenter()
-    {
-        if (_runner.LocalNavMesh != null && _runner.LocalNavMesh.navMeshData != null)
-        {
-            
-            return GetSafeNavMeshPoint(_runner.LocalNavMesh.navMeshData.sourceBounds.center);
-        }
-        
-        return GetSafeNavMeshPoint(_runner.transform.position);
-    }
 
     private IEnumerator JumpRoutine(Vector3 targetPos)
     {

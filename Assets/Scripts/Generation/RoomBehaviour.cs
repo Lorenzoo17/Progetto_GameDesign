@@ -121,6 +121,8 @@ public class RoomBehaviour : MonoBehaviour {
         if (this.GetComponent<TreasureRoomSpawner>() == null) // non chiudo le porte se e' una treasure room
             CloseDoors();
         SpawnEnemies();
+
+       
     }
 
     // chiudi SOLO porte esistenti
