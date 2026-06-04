@@ -17,6 +17,9 @@ public class BossRangedAttackState : State<BossCtrl>
     [SerializeField] private int minProjectiles = 2;
     [SerializeField] private int maxProjectiles = 6;
 
+    [Header("Miramento e Precisione")]
+    [Tooltip("Margine massimo di errore in gradi rispetto alla posizione del Player (es. 50 significa un arco totale di 100°)")]
+    [SerializeField] private float errorMargin = 50f;
 
     private bool attackCompleted = false;
     private bool triggerSent = false;
@@ -47,44 +50,59 @@ public class BossRangedAttackState : State<BossCtrl>
 
         if (_runner.NextAttackPattern == BossCtrl.AttackPattern.Cross)
         {
-            if (healthRatio <= 0.40f) 
+            if (healthRatio <= 0.40f)
             {
                 ShootCircle(8, 0f);
                 yield return new WaitForSeconds(1.0f);
                 ShootCircle(8, 22.5f);
                 yield return new WaitForSeconds(0.5f);
             }
-            else if (healthRatio <= 0.80f) 
+            else if (healthRatio <= 0.80f)
             {
                 ShootCircle(8, 0f);
                 yield return new WaitForSeconds(0.5f);
             }
-            else 
+            else
             {
-                ShootCircle(4, 0f); 
+                ShootCircle(4, 0f);
                 yield return new WaitForSeconds(0.5f);
             }
         }
-        
         else
         {
-            
             int currentProj = Mathf.RoundToInt(Mathf.Lerp(maxProjectiles, minProjectiles, healthRatio));
-
-            
             if (currentProj < minProjectiles) currentProj = minProjectiles;
 
-            if (_runner.debug) Debug.Log($"[ATTACCO NORMALE] Vita: {healthRatio * 100}%, Sto per sparare {currentProj} proiettili!");
+            if (_runner.debug) Debug.Log($"[ATTACCO NORMALE] Vita: {healthRatio * 100}%, Sparo {currentProj} proiettili ad arco sul Player!");
 
             for (int i = 0; i < currentProj; i++)
             {
                 Vector2 firePosition = _runner.FirePoint != null ? (Vector2)_runner.FirePoint.position : (Vector2)_runner.transform.position;
-                Vector2 shootDir = GetRandomDirectionAwayFromWalls(firePosition);
+
+                // 🎯 1. Trova l'istanza del player corrente nella stanza
+                Player player = Object.FindFirstObjectByType<Player>();
+                Vector2 shootDir;
+
+                if (player != null)
+                {
+                    // 🎯 2. Calcola la direzione base (perfetta) verso il player
+                    Vector2 dirToPlayer = ((Vector2)player.transform.position - firePosition).normalized;
+
+                    // 🎯 3. Calcola una deviazione casuale (es. tra -50° e +50°)
+                    float randomOffset = Random.Range(-errorMargin, errorMargin);
+
+                    // 🎯 4. Ruota il vettore direzione originale usando l'offset casuale
+                    shootDir = RotateVector(dirToPlayer, randomOffset);
+                }
+                else
+                {
+                    // Fallback di sicurezza se il player scompare durante l'esecuzione
+                    shootDir = Random.insideUnitCircle.normalized;
+                }
 
                 ShootProjectile(shootDir);
                 yield return new WaitForSeconds(fireRate);
             }
-
         }
 
         attackCompleted = true;
@@ -92,7 +110,6 @@ public class BossRangedAttackState : State<BossCtrl>
         _runner.AnimActionComplete = true;
     }
 
-    
     private void ShootCircle(int numberOfProjectiles, float offsetAngle = 0f)
     {
         float angleStep = 360f / numberOfProjectiles;
@@ -131,33 +148,9 @@ public class BossRangedAttackState : State<BossCtrl>
     {
         if (_runner.Agent != null && _runner.Agent.isOnNavMesh) _runner.Agent.isStopped = false;
     }
+
     public override void CaptureInput() { }
     public override void FixedUpdate() { }
-
-    private Vector2 GetRandomDirectionAwayFromWalls(Vector2 firePointPos)
-    {
-        int rayCount = 8;
-        Vector2 repulsionVector = Vector2.zero;
-        int wallLayerMask = LayerMask.GetMask("Wall", "Walls");
-
-        for (int i = 0; i < rayCount; i++)
-        {
-            float angle = i * (360f / rayCount);
-            Vector2 dirToCheck = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
-
-            RaycastHit2D hit = Physics2D.Raycast(firePointPos, dirToCheck, 15f, wallLayerMask);
-            if (hit.collider != null)
-            {
-                float strength = 1f - (hit.distance / 15f);
-                repulsionVector += (-dirToCheck * strength);
-            }
-        }
-
-        if (repulsionVector == Vector2.zero) return Random.insideUnitCircle.normalized;
-
-        float randomSpread = Random.Range(-45f, 45f);
-        return RotateVector(repulsionVector.normalized, randomSpread);
-    }
 
     private Vector2 RotateVector(Vector2 v, float degrees)
     {

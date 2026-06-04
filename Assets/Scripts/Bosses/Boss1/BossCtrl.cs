@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using stateMachine;
 
@@ -21,6 +21,14 @@ public class BossCtrl : StateRunner<BossCtrl>
     [HideInInspector] public float LastKnockbackDuration;
     [Header("Riferimenti Stanza")]
     public Transform roomCenter;
+
+    [Header("Impostazioni Melee Bounce")]
+    [SerializeField] private float meleeDistanceThreshold = 3f; // Distanza massima per considerare il colpo "melee"
+    [SerializeField] private float meleeComboMaxDelay = 1.5f;
+    private int consecutiveMeleeHits = 0;
+    private float lastMeleeHitTime = -999f;
+    public bool isBounceActive = false;
+    [SerializeField] private float minDelayBetweenHits = 0.2f;
 
 
     public enum AttackPattern { RandomOrTarget, Cross }
@@ -58,12 +66,73 @@ public class BossCtrl : StateRunner<BossCtrl>
 
     public void ApplyKnockback(Vector2 direction)
     {
+        Debug.Log($"[DEBUG BOUNCE] ApplyKnockback chiamato! Il boss ha subito un danno.");
+
         LastKnockbackDirection = direction;
         LastKnockbackForce = knockbackForce;
         LastKnockbackDuration = knockbackDuration;
-        SetState(typeof(BossKnockbackState)); 
+
+        if (CheckMeleeHitCombo())
+        {
+            Debug.Log("[DEBUG BOUNCE] !! COMBO 3/3 RIUSCITA !! Tento il passaggio a BossBounceState.");
+            SetState(typeof(BossBounceState));
+        }
+        
     }
 
+    private bool CheckMeleeHitCombo()
+    {
+        if (specialAttackActive || isBounceActive) return false;
+
+        Player player = Object.FindFirstObjectByType<Player>();
+        if (player != null)
+        {
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+
+            if (distance <= meleeDistanceThreshold)
+            {
+                
+                float timeSinceLastHit = Time.time - lastMeleeHitTime;
+                if (timeSinceLastHit < minDelayBetweenHits)
+                {
+                    if (debug) Debug.Log($"[BOSS COMBO] Colpo ignorato! Troppo veloce ({timeSinceLastHit:F3}s < {minDelayBetweenHits}s). Probabile multi-hit dello stesso attacco.");
+
+                   
+                    return false;
+                }
+
+
+
+                if (timeSinceLastHit > meleeComboMaxDelay)
+                {
+                    
+                    consecutiveMeleeHits = 1;
+                    if (debug) Debug.Log($"[BOSS COMBO] Tempo scaduto ({timeSinceLastHit:F2}s > {meleeComboMaxDelay}s). Combo resettata! Questo è il colpo (1/3).");
+                }
+                else
+                {
+                    
+                    consecutiveMeleeHits++;
+                    if (debug) Debug.Log($"[BOSS COMBO] Colpo rapido! Combo: ({consecutiveMeleeHits}/3) - Delta tempo: {timeSinceLastHit:F2}s");
+                }
+
+                
+                lastMeleeHitTime = Time.time;
+
+                if (consecutiveMeleeHits >= 3)
+                {
+                    consecutiveMeleeHits = 0; 
+                    return true; 
+                }
+            }
+            else
+            {
+                consecutiveMeleeHits = 0;
+                if (debug) Debug.Log("[BOSS COMBO] Colpo da lontano. Combo resettata a 0.");
+            }
+        }
+        return false;
+    }
     public void ReportPlayerHit()
     {
         if (debug)

@@ -32,7 +32,7 @@ public class BossIntroMovementState : State<BossCtrl>
     private bool specialAttackEnabled = false;
     private bool hasJustLanded = false;
     private bool useSpecialPool = false;
-    private bool leaveAcidPool = true;
+    private bool leaveAcidPool = false;
 
     private BotolaManager botolaManager;
 
@@ -117,7 +117,7 @@ public class BossIntroMovementState : State<BossCtrl>
         Vector3 targetPos;
 
         _runner.NextAttackPattern = BossCtrl.AttackPattern.RandomOrTarget;
-        leaveAcidPool = true;
+        leaveAcidPool = false;
         useSpecialPool = false;
         specialAttackEnabled = false;
 

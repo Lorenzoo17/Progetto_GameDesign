@@ -679,6 +679,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pipe_5
       objectReference: {fileID: 0}
+    - target: {fileID: 4825681100677012540, guid: 98624dc8ae6b54441bdb7e616c98d8ad, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4825681100677012540, guid: 98624dc8ae6b54441bdb7e616c98d8ad, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.36
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17943,6 +17951,10 @@ PrefabInstance:
       propertyPath: maxHealth
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 1340829199885440648, guid: 800388be8bf6ad84ab4005a862ba9fcd, type: 3}
+      propertyPath: projectileSpeed
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2375325059639907942, guid: 800388be8bf6ad84ab4005a862ba9fcd, type: 3}
       propertyPath: m_Name
       value: BossFinale
@@ -18011,6 +18023,18 @@ PrefabInstance:
       propertyPath: roomCenter
       value: 
       objectReference: {fileID: 4710393640996844596}
+    - target: {fileID: 8797646812830116539, guid: 800388be8bf6ad84ab4005a862ba9fcd, type: 3}
+      propertyPath: coolDownRush
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8797646812830116539, guid: 800388be8bf6ad84ab4005a862ba9fcd, type: 3}
+      propertyPath: states.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8797646812830116539, guid: 800388be8bf6ad84ab4005a862ba9fcd, type: 3}
+      propertyPath: 'states.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 332631aab606c9649a164a5eadbe1725, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

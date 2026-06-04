@@ -59,7 +59,12 @@ public class Enemy : MonoBehaviour
 
     private void EnemyHealthSystem_OnDamageTaken(object sender, DamageEventArgs e)
     {
-        if (enemyMovement != null)
+        if (TryGetComponent<BossCtrl>(out BossCtrl boss))
+        {
+            // Se sei il Boss, deleghiamo tutto al tuo script (che gestirà la combo dei 3 colpi!)
+            boss.ApplyKnockback(e.AttackDirection);
+        }
+        else if (enemyMovement != null)
         {
             enemyMovement.ApplyKnockback(
                 e.AttackDirection,

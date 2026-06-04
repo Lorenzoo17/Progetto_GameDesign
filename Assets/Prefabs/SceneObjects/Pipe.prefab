@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7494521394954739049}
+  - {fileID: 4825681100677012540}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0.051, y: 11.407, z: -302.419}
 --- !u!212 &612021574618283348
@@ -92,6 +93,37 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &4099726382862401666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4825681100677012540}
+  m_Layer: 0
+  m_Name: BossPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4825681100677012540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099726382862401666}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.048250634, y: 0.08688241, z: 0.4791855, w: -0.8720692}
+  m_LocalPosition: {x: -2.564, y: -1.493, z: 0.02}
+  m_LocalScale: {x: 0.5518752, y: 0.5619218, z: 0.96797854}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3694916116351057538}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8649017051370988976
 GameObject:
   m_ObjectHideFlags: 0
