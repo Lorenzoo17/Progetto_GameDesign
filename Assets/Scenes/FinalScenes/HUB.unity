@@ -568,7 +568,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2054,6 +2054,7 @@ MonoBehaviour:
   - {fileID: 61063498}
   maxItemsToSell: 3
   dungeonExtraItems: []
+  room: {fileID: 0}
 --- !u!1 &149179538
 GameObject:
   m_ObjectHideFlags: 0

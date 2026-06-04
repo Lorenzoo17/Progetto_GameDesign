@@ -62,6 +62,7 @@ public class SellingStation : MonoBehaviour {
 
     [Header("Solo dungeon")]
     [SerializeField] private DungeonShopExtraItem[] dungeonExtraItems;
+    [SerializeField] private RoomBehaviour room;
 
     private void Start() {
         if (MetaProgressionManager.Instance == null) {
@@ -74,6 +75,18 @@ public class SellingStation : MonoBehaviour {
             return;
         }
 
+        if(shopContext == ShopContext.Hub)
+            SpawnItemsToSell(); // si spawnano nei sellingSlots gli item corretti
+
+        // per dungeon, si spawnano quando il player entra nella stanza
+        if (shopContext == ShopContext.Dungeon) {
+            if(room != null  && room.RoomType == RoomType.VendorRoom) {
+                room.OnRoomEnter += Room_OnRoomEnter;
+            }
+        }
+    }
+
+    private void Room_OnRoomEnter(object sender, System.EventArgs e) {
         SpawnItemsToSell(); // si spawnano nei sellingSlots gli item corretti
     }
 

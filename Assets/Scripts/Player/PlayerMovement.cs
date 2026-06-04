@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private float bounceTimer;
     private float externalSpeedMultiplier = 1f;
 
-    public bool canMove = true; // usato ad esempio quando parte un dialogo (si mette a false)
+    public bool canMove = true; // usato ad esempio quando parte un dialogo o in bossSplashScreen (si mette a false)
 
     private void Awake()
     {

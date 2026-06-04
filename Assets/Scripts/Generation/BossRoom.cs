@@ -18,10 +18,17 @@ public class BossRoom : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (!other.GetComponent<Player>() || bossesToSpawn.Length == 0) return;
         if (spawned) return;
-
         int index = Random.Range(0, bossesToSpawn.Length);
-        Instantiate(bossesToSpawn[index], bossSpawnTransform.position, Quaternion.identity);
+        GameObject boss = Instantiate(bossesToSpawn[index], bossSpawnTransform.position, Quaternion.identity);
 
         spawned = true;
+
+        // attivo splashScreen
+        if (BossSplashScreen.Instance != null) {
+            if(boss.TryGetComponent<SpriteRenderer>(out SpriteRenderer sr)) {
+                BossFreezable bf = boss.GetComponent<BossFreezable>();
+                BossSplashScreen.Instance.SetBossSplashScreen(boss.name, sr.sprite, bf);
+            }
+        }
     }
 }
