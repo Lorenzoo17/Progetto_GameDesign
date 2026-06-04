@@ -6,6 +6,7 @@ public class MutagenInstance
     public MutagenSO source;
 
     public float remainingDuration;
+    public object customData;
 
     public Dictionary<string, float> runtimeFloats = new();
 

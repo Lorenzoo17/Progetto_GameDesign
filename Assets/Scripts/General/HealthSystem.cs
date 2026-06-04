@@ -39,24 +39,37 @@ public class HealthSystem : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageInfo damageInfo)
     {
-        DamageInfo modifiedDamageInfo = TakeDamageLol(damageInfo);
-        CurrentHealth -= modifiedDamageInfo.Damage[DamageType.Physical];
+        // Applica danno fisico
+        ApplyPhysicalDamage(damageInfo);
+
+        // Applica danno veleno
         if (damageInfo.Damage[DamageType.Poison] > 0)
         {
             TakePoisonDamage(damageInfo);
         }
-        OnDamageTaken?.Invoke(this, new DamageEventArgs(modifiedDamageInfo.Damage[DamageType.Physical], modifiedDamageInfo.Direction));
 
-        // Trigga visual effects
+        // Effetti visivi e morte
+        HandleDeathIfNeeded();
+    }
+
+    private void ApplyPhysicalDamage(DamageInfo damageInfo)
+    {
+        DamageInfo modifiedDamageInfo = TakeDamageLol(damageInfo);
+        CurrentHealth -= modifiedDamageInfo.Damage[DamageType.Physical];
+        OnDamageTaken?.Invoke(this, new DamageEventArgs(modifiedDamageInfo.Damage[DamageType.Physical], modifiedDamageInfo.Direction));
         HandleDamageVisuals(modifiedDamageInfo);
 
         if (SoundManager.Instance != null)
         {
             SoundManager.Instance.PlaySound2D(SoundID.EnemyHit, .25f);
         }
+    }
 
+    private void HandleDeathIfNeeded()
+    {
         if (CurrentHealth <= 0)
         {
+            Debug.Log($"[HealthSystem] Enemy died!");
             Destroy(gameObject);
             if (resetsSceneOnDeath)
             {
@@ -68,8 +81,15 @@ public class HealthSystem : MonoBehaviour, IDamageable
     public void TakePoisonDamage(DamageInfo damageInfo)
     {
         float poisonDamage = damageInfo.Damage[DamageType.Poison];
+
+        Debug.Log($"[HealthSystem] Taking poison damage: {poisonDamage} from {damageInfo.Source.name}");
+
+        if (poisonDamage <= 0) return; // Non applicare se danno è 0
+
         CurrentHealth -= poisonDamage;
         OnDamageTaken?.Invoke(this, new DamageEventArgs(poisonDamage, damageInfo.Direction));
+
+        Debug.Log($"[HealthSystem] Taking poison damage: {poisonDamage}. Current health: {CurrentHealth}. Effect: {string.Join(", ", damageInfo.AppliedEffects)}");
 
         // Trigga visual effects per veleno
         if (damageEffectVisuals != null && poisonDamage > 0)
@@ -78,14 +98,17 @@ public class HealthSystem : MonoBehaviour, IDamageable
         }
 
         // 🔥 SISTEMA DI VELENO CUMULATIVO
+        // Solo se è il primo colpo di veleno (contiene "PoisonApplied")
         if (damageInfo.AppliedEffects.Contains("PoisonApplied") && poisonDamage > 0)
         {
+            Debug.Log($"[HealthSystem] PoisonApplied detected! Creating/updating PoisonEffect");
+
             // Cerca se esiste già un effetto veleno
             PoisonEffect poisonEffect = GetComponent<PoisonEffect>();
-            Debug.Log($"Applying poison: {poisonDamage} damage. Current health: {CurrentHealth}");
+
             if (poisonEffect == null)
             {
-                // Primo colpo di veleno: crea il componente
+                Debug.Log($"[HealthSystem] Creating new PoisonEffect component");
                 poisonEffect = gameObject.AddComponent<PoisonEffect>();
             }
 
@@ -95,6 +118,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
 
         if (CurrentHealth <= 0)
         {
+            Debug.Log($"[HealthSystem] Enemy died!");
             Destroy(gameObject);
             if (resetsSceneOnDeath)
             {

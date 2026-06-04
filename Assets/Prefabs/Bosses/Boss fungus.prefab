@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 839396337409860717}
   - component: {fileID: 4224596478995532550}
   - component: {fileID: 6624161415336746985}
+  - component: {fileID: -1850199715440305445}
   m_Layer: 0
   m_Name: Boss fungus
   m_TagString: Untagged
@@ -197,6 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  stunDurationMultiplier: 1
   knockBackForce: 2
   knockbackDuration: 0.2
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 0}
@@ -319,6 +321,46 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-1850199715440305445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378181008594232565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10e9422cca56f844fad3cef3c3b52d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageEffectVisuals
+  poisonColor: {r: 0, g: 1, b: 0, a: 1}
+  poisonFlashDuration: 0.15
+  poisonFadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damageBoostParticlePrefab: {fileID: 0}
+  particleOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &4837429136762248818
 GameObject:
   m_ObjectHideFlags: 0

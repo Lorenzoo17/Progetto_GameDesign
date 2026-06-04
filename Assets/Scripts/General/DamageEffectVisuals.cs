@@ -3,61 +3,67 @@ using System.Collections;
 
 public class DamageEffectVisuals : MonoBehaviour
 {
+    private SpriteRenderer spriteRenderer;
+
     [Header("Poison Effect")]
-    [SerializeField] private Color poisonColor = Color.green;
-    [SerializeField] private float poisonFlashDuration = 0.3f;
-    [SerializeField] private Material poisonMaterial;
+    [SerializeField] private Color poisonColor = new Color(0, 1, 0, 1); // Verde
+    [SerializeField] private float poisonFlashDuration = 0.15f;
+    [SerializeField] private AnimationCurve poisonFadeCurve = AnimationCurve.EaseInOut(0, 1, 1, 0);
 
     [Header("Damage Boost Effect")]
     [SerializeField] private GameObject damageBoostParticlePrefab;
     [SerializeField] private Vector3 particleOffset = Vector3.zero;
 
-    private SpriteRenderer spriteRenderer;
-    private Material originalMaterial;
+    private Color originalColor;
     private Coroutine poisonFlashCoroutine;
 
-    private void Awake()
+    private void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        // 🔥 AUTO-DETECT se non è assegnato
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
         if (spriteRenderer != null)
-        {
-            originalMaterial = spriteRenderer.material;
-        }
+            originalColor = spriteRenderer.color;
     }
 
     public void PlayPoisonEffect()
     {
+        Debug.Log($"[DamageEffectVisuals] Playing poison effect on {gameObject.name}");
         if (spriteRenderer == null) return;
 
-        // Interrompi il flash precedente
         if (poisonFlashCoroutine != null)
-        {
             StopCoroutine(poisonFlashCoroutine);
-        }
 
         poisonFlashCoroutine = StartCoroutine(PoisonFlashCoroutine());
     }
 
     private IEnumerator PoisonFlashCoroutine()
     {
-        // Flash verde
-        spriteRenderer.color = poisonColor;
+        float elapsedTime = 0f;
 
-        yield return new WaitForSeconds(poisonFlashDuration);
+        while (elapsedTime < poisonFlashDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / poisonFlashDuration;
+            float curveValue = poisonFadeCurve.Evaluate(progress);
 
-        // Torna al colore originale
-        spriteRenderer.color = Color.white;
+            spriteRenderer.color = Color.Lerp(originalColor, poisonColor, curveValue);
+            yield return null;
+        }
+
+        spriteRenderer.color = originalColor;
     }
 
     public void PlayDamageBoostEffect()
     {
         if (damageBoostParticlePrefab == null) return;
 
-        // Istanzia particella rossa on-hit
         Vector3 spawnPos = transform.position + particleOffset;
         GameObject particleGO = Instantiate(damageBoostParticlePrefab, spawnPos, Quaternion.identity);
-
-        // Opzionale: distruggi la particella dopo un po'
         Destroy(particleGO, 2f);
     }
 }

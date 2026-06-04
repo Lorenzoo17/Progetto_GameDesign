@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399452f6bd1557c45ad3c55e6fa530b4, type: 3}
   m_Name: POISON
   m_EditorClassIdentifier: Assembly-CSharp::PerkPair
-  negative: {fileID: 0}
-  positive: {fileID: 0}
+  negative: {fileID: 11400000, guid: bf3e4e571c3de194ab8d19926c26555f, type: 2}
+  positive: {fileID: 11400000, guid: bf3e4e571c3de194ab8d19926c26555f, type: 2}
