@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4076147c77e2bff44800faaaef7f0666, type: 3}
   m_Name: Scream
   m_EditorClassIdentifier: Assembly-CSharp::ScreamSO
-  mutagenName: 
-  description: 
+  mutagenName: Scream
+  description: Growl on this little microphone to stun every enemy around you. If
+    they don't move, you can hit them HARDER!
   icon: {fileID: -45653508336638033, guid: c1686957ad594a94bbbe1319986904b7, type: 3}
-  bodyPart: 0
   manaCost: 1
   isToggle: 0
   duration: 10

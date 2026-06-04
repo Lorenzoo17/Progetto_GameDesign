@@ -7,7 +7,7 @@ public class GameOverManager : MonoBehaviour
     public static GameOverManager Instance;
     
     [SerializeField] private GameObject gameOverPrefab;
-    [SerializeField] private string hubSceneName = "HubScene";
+    [SerializeField] private string hubSceneName = "HUB";
 
     private GameObject currentUI;
     private bool isGameOver = false;
