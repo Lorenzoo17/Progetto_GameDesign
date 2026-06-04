@@ -326,10 +326,4 @@ public class PlayerAttack : MonoBehaviour
             );
         }
     }
-
-    //GETTERS
-    public Vector2 GetAttackDirection()
-    {
-        return attackDirection;
-    }
 }

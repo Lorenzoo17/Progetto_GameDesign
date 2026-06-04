@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5549a4c0aa8a26d44913ea8aeec1ba7f, type: 3}
+  m_Name: Spore Tentacle
+  m_EditorClassIdentifier: Assembly-CSharp::LaserMutagenSO
+  mutagenName: Spore burst
+  description: A piercing laser of spore energy that damages all in its path
+  icon: {fileID: 0}
+  manaCost: 1
+  isToggle: 0
+  duration: 1
+  animationEffect: {fileID: 0}
+  mutagenLootData: {fileID: 0}
+  laserLength: 20
+  laserWidth: 1
+  damagePerSecond: 10
+  tickRate: 0.1
+  laserEffectPrefab: {fileID: 1876972881680791527, guid: 5b53c2b76ab23a240b3e4001fd938e8c, type: 3}
+  shakeType: 2
+  soundEffect: 1
+  laserLoopSound: {fileID: 0}
+  isDuration: 1

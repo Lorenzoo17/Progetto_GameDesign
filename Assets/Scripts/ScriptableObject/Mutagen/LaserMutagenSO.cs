@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Reflection;
 
-[CreateAssetMenu(fileName = "NewLaserData", menuName = "Combat/Laser Mutagen")]
+[CreateAssetMenu(fileName = "NewLaserData", menuName = "Mutagens/Laser Mutagen")]
 public class LaserMutagenSO : MutagenSO
 {
     [Header("Laser Properties")]
