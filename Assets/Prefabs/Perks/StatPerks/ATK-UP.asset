@@ -19,4 +19,4 @@ MonoBehaviour:
   perkLootData: {fileID: 0}
   statType: 0
   modifierType: 1
-  value: 1.5
+  value: 0.5

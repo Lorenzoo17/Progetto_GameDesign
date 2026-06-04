@@ -41,6 +41,10 @@ public class HealthSystem : MonoBehaviour, IDamageable
     {
         DamageInfo modifiedDamageInfo = TakeDamageLol(damageInfo);
         CurrentHealth -= modifiedDamageInfo.Damage[DamageType.Physical];
+        if (damageInfo.Damage[DamageType.Poison] > 0)
+        {
+            TakePoisonDamage(damageInfo);
+        }
         OnDamageTaken?.Invoke(this, new DamageEventArgs(modifiedDamageInfo.Damage[DamageType.Physical], modifiedDamageInfo.Direction));
 
         // Trigga visual effects
@@ -71,6 +75,22 @@ public class HealthSystem : MonoBehaviour, IDamageable
         if (damageEffectVisuals != null && poisonDamage > 0)
         {
             damageEffectVisuals.PlayPoisonEffect();
+        }
+
+        // 🔥 SISTEMA DI VELENO CUMULATIVO
+        if (damageInfo.AppliedEffects.Contains("PoisonApplied") && poisonDamage > 0)
+        {
+            // Cerca se esiste già un effetto veleno
+            PoisonEffect poisonEffect = GetComponent<PoisonEffect>();
+            Debug.Log($"Applying poison: {poisonDamage} damage. Current health: {CurrentHealth}");
+            if (poisonEffect == null)
+            {
+                // Primo colpo di veleno: crea il componente
+                poisonEffect = gameObject.AddComponent<PoisonEffect>();
+            }
+
+            // Aggiungi il veleno (accumula con quelli precedenti)
+            poisonEffect.AddPoison(damageInfo.Source, poisonDamage);
         }
 
         if (CurrentHealth <= 0)

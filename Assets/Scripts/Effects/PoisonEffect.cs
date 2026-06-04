@@ -1,28 +1,74 @@
 using UnityEngine;
+using System.Collections;
 
 public class PoisonEffect : MonoBehaviour
 {
-    private float damagePerSecond = 2f;
-    private float duration = 5f;
-    private float timer = 0f;
+    [SerializeField] private float tickInterval = 0.5f; // Ogni quanti secondi applica danno
 
-    private HealthSystem healthSystem;
+    private float poisonStack = 0f; // Valore attuale di veleno
+    private IDamageable damageable;
+    private GameObject poisonSource;
+    private Coroutine poisonTickCoroutine;
+    private DamageEffectVisuals damageEffectVisuals;
 
     private void Start()
     {
-        healthSystem = GetComponent<HealthSystem>();
+        damageable = GetComponent<IDamageable>();
+        damageEffectVisuals = GetComponent<DamageEffectVisuals>();
     }
 
-    private void Update()
+    public void AddPoison(GameObject source, float poisonAmount)
     {
-        if (timer < duration)
+        poisonSource = source;
+        poisonStack += poisonAmount; // Accumula il veleno
+
+        Debug.Log($"Poison stack: {poisonStack}");
+
+        // Se il coroutine non è già avviato, avvialo
+        if (poisonTickCoroutine == null)
         {
-            timer += Time.deltaTime;
-            healthSystem.TakeDamage(new DamageInfo(damagePerSecond * Time.deltaTime, Vector2.zero, Player.Instance.gameObject, EntityType.Player));
+            poisonTickCoroutine = StartCoroutine(PoisonTickCoroutine());
         }
-        else
+    }
+
+    private IEnumerator PoisonTickCoroutine()
+    {
+        while (poisonStack > 0 && damageable != null)
         {
-            Destroy(this);
+            yield return new WaitForSeconds(tickInterval);
+
+            if (poisonStack <= 0) break;
+
+            // Applica danno pari al valore di poison attuale
+            DamageInfo poisonDamage = new DamageInfo(
+                poisonStack,
+                Vector2.zero,
+                poisonSource,
+                EntityType.Player
+            );
+            poisonDamage.AddEffect("PoisonTick");
+
+            damageable.TakePoisonDamage(poisonDamage);
+
+            // Visual effect ad ogni tick
+            if (damageEffectVisuals != null)
+            {
+                damageEffectVisuals.PlayPoisonEffect();
+            }
+
+            // Decrementa il valore di poison
+            poisonStack -= 1f;
+            poisonStack = Mathf.Max(0, poisonStack); // Non scendere sotto 0
+
+            Debug.Log($"Poison tick! Danno: {poisonStack + 1}, Stack rimanente: {poisonStack}");
         }
+
+        // Veleno finito
+        Destroy(this);
+    }
+
+    public float GetPoisonStack()
+    {
+        return poisonStack;
     }
 }

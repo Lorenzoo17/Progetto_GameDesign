@@ -53,14 +53,6 @@ public class WeaponMelee : Weapon
                     DamageInfo normalDamage = new DamageInfo(weaponDamage, dir, Player.Instance.gameObject, EntityType.Player);
                     normalDamage = Player.Instance.perkController.OnDealDamage(ref normalDamage);
                     entityDamageable.TakeDamage(normalDamage);
-
-                    // 🔥 APPLICA PERK AL DANNO DA VELENO
-                    if (hasPoison)
-                    {
-                        DamageInfo poisonDamageInfo = new DamageInfo(poisonDamegeValue, dir, Player.Instance.gameObject, EntityType.Player);
-                        poisonDamageInfo = Player.Instance.perkController.OnDealDamage(ref poisonDamageInfo);
-                        entityDamageable.TakePoisonDamage(poisonDamageInfo);
-                    }
                 }
             }
         }
