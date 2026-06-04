@@ -7,9 +7,8 @@ public class MutagenUIController : MonoBehaviour
     [SerializeField] private GameObject gameplayUI;
 
     [Header("Slots")]
-    [SerializeField] private MutagenSlotUI headSlot;
-    [SerializeField] private MutagenSlotUI bodySlot;
-    [SerializeField] private MutagenSlotUI pawsSlot;
+    [SerializeField] private MutagenSlotUI firstSlot;
+    [SerializeField] private MutagenSlotUI secondSlot;
 
     private MutagenController mutagenController;
 
@@ -71,23 +70,17 @@ public class MutagenUIController : MonoBehaviour
         if (mutagenController == null)
             return;
 
-        MutagenSO head = mutagenController.GetEquippedMutagenByPart(MutagenBodyPart.Head);
-        MutagenSO body = mutagenController.GetEquippedMutagenByPart(MutagenBodyPart.Body);
-        MutagenSO paws = mutagenController.GetEquippedMutagenByPart(MutagenBodyPart.Paws);
+        MutagenSO first = mutagenController.GetEquippedMutagenBySlot(0);
+        MutagenSO second = mutagenController.GetEquippedMutagenBySlot(1);
 
-        headSlot.SetSlot(
-            head,
-            head != null && mutagenController.IsMutagenActive(head)
+        firstSlot.SetSlot(
+            first,
+            first != null && mutagenController.IsMutagenActive(first)
         );
 
-        bodySlot.SetSlot(
-            body,
-            body != null && mutagenController.IsMutagenActive(body)
-        );
-
-        pawsSlot.SetSlot(
-            paws,
-            paws != null && mutagenController.IsMutagenActive(paws)
+        secondSlot.SetSlot(
+            second,
+            second != null && mutagenController.IsMutagenActive(second)
         );
     }
 }   

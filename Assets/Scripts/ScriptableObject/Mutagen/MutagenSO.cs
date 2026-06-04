@@ -1,14 +1,11 @@
 using UnityEngine;
 
-public enum MutagenBodyPart { Head, Body, Paws }
-
 public abstract class MutagenSO : ScriptableObject
 {
     [Header("Base Info")]
     public string mutagenName;
     [TextArea] public string description;
     public Sprite icon;
-    public MutagenBodyPart bodyPart;
 
     [Header("Cost")]
     public int manaCost = 1;
