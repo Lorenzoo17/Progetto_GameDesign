@@ -47,7 +47,15 @@ public class MutagenSlotSelectorManager : MonoBehaviour
         pendingMutagen = mutagen;
 
         // Troviamo il MutagenItem che ha richiesto la selezione
-        pendingMutagenItem = FindObjectOfType<MutagenItem>();
+        MutagenItem[] mutagenItems = FindObjectsOfType<MutagenItem>();
+        foreach (MutagenItem item in mutagenItems)
+        {
+            if (item.mutagenData == mutagen)
+            {
+                pendingMutagenItem = item;
+                break;
+            }
+        }
         Debug.Log($"ShowSlotSelector: pendingMutagenItem found = {pendingMutagenItem != null}");
 
         // Mettiamo in pausa il gioco
@@ -186,7 +194,9 @@ public class MutagenSlotSelectorManager : MonoBehaviour
         {
             controller.EquipMutagen(pendingMutagen, slotIndex);
         }
-        
+            
+        Destroy(pendingMutagenItem.gameObject);
+
         CloseSlotSelector();
 
     }
@@ -205,7 +215,6 @@ public class MutagenSlotSelectorManager : MonoBehaviour
             currentUI.SetActive(false);
         }
 
-        Destroy(pendingMutagenItem.gameObject);
 
         // Riprendi il gioco
         Time.timeScale = previousTimeScale;

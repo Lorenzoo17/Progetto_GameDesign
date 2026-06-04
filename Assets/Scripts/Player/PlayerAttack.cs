@@ -215,4 +215,47 @@ public class PlayerAttack : MonoBehaviour {
 
         return currentWeapon.GetComponent<Weapon>();
     }
+
+    //Acidic Burp mutagen
+    public void SpawnGiantProjectile(
+    GameObject projectilePrefab,
+    float speed,
+    float damageMultiplier,
+    float scaleMultiplier)
+{
+    Vector2 dir = GetAttackDirection();
+
+    if (dir == Vector2.zero || projectilePrefab == null)
+        return;
+
+    Transform spawnPoint = weaponHolder;
+
+    GameObject projectile = Instantiate(
+        projectilePrefab,
+        spawnPoint.position,
+        Quaternion.identity
+    );
+
+    projectile.transform.localScale *= scaleMultiplier;
+
+    float damage =
+        Player.Instance.playerStats.playerCurrentStats.GetAttack()
+        * damageMultiplier;
+
+    if (projectile.TryGetComponent<GiantProjectile>(out var gp))
+    {
+        gp.Initialize(
+            dir,
+            speed,
+            damage,
+            gameObject
+        );
+    }
+}
+
+    //GETTERS
+    public Vector2 GetAttackDirection()
+    {
+        return attackDirection;
+    }
 }
