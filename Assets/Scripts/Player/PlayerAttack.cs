@@ -218,40 +218,66 @@ public class PlayerAttack : MonoBehaviour {
 
     //Acidic Burp mutagen
     public void SpawnGiantProjectile(
-    GameObject projectilePrefab,
-    float speed,
-    float damageMultiplier,
-    float scaleMultiplier)
-{
-    Vector2 dir = GetAttackDirection();
-
-    if (dir == Vector2.zero || projectilePrefab == null)
-        return;
-
-    Transform spawnPoint = weaponHolder;
-
-    GameObject projectile = Instantiate(
-        projectilePrefab,
-        spawnPoint.position,
-        Quaternion.identity
-    );
-
-    projectile.transform.localScale *= scaleMultiplier;
-
-    float damage =
-        Player.Instance.playerStats.playerCurrentStats.GetAttack()
-        * damageMultiplier;
-
-    if (projectile.TryGetComponent<GiantProjectile>(out var gp))
+        GameObject projectilePrefab,
+        float speed,
+        float damageMultiplier,
+        float scaleMultiplier)
     {
-        gp.Initialize(
-            dir,
-            speed,
-            damage,
-            gameObject
+        Vector2 dir = GetAttackDirection();
+
+        if (dir == Vector2.zero || projectilePrefab == null)
+            return;
+
+        Transform spawnPoint = weaponHolder;
+
+        GameObject projectile = Instantiate(
+            projectilePrefab,
+            spawnPoint.position,
+            Quaternion.identity
         );
+
+        projectile.transform.localScale *= scaleMultiplier;
+
+        float damage =
+            Player.Instance.playerStats.playerCurrentStats.GetAttack()
+            * damageMultiplier;
+
+        if (projectile.TryGetComponent<GiantProjectile>(out var gp))
+        {
+            gp.Initialize(
+                dir,
+                speed,
+                damage,
+                gameObject
+            );
+        }
     }
-}
+
+    // Puddle mutagen
+    public void SpawnPuddle(
+        GameObject puddlePrefab,
+        float duration,
+        float tickDamage,
+        float tickInterval,
+        float radius)
+    {
+        Vector3 pos = transform.position;
+
+        GameObject puddle = Instantiate(puddlePrefab, pos, Quaternion.identity);
+
+        MouthwashPuddle puddleScript = puddle.GetComponent<MouthwashPuddle>();
+
+        if (puddleScript != null)
+        {
+            puddleScript.Initialize(
+                tickDamage,
+                tickInterval,
+                radius,
+                duration,
+                gameObject // owner = player (per immunità)
+            );
+        }
+    }
 
     //GETTERS
     public Vector2 GetAttackDirection()

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e72b783b19937de4c8ad6d9ede28dbe0
+guid: 41fef632b8904ca418443fa7b90c9f84
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3289453322174803879
-    second: soda_0
+      213: -3915630757249382357
+    second: colluttorio 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: soda_0
+      name: colluttorio 1_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 1
-        width: 18
-        height: 26
+        x: 0
+        y: 0
+        width: 32
+        height: 66
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 950da8ab1a38952d0800000000000000
-      internalID: -3289453322174803879
+      spriteID: b288e8a7292e8a9c0800000000000000
+      internalID: -3915630757249382357
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      soda_0: -3289453322174803879
+      colluttorio 1_0: -3915630757249382357
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
