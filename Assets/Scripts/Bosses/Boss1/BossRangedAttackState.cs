@@ -11,6 +11,7 @@ public class BossRangedAttackState : State<BossCtrl>
     [Header("Impostazioni Proiettile")]
     [SerializeField] private GameObject bossProjectilePrefab;
     [SerializeField] private float projectileSpeed = 8f;
+    [SerializeField] private float maxAttackRange = 15f;
 
     [Header("Quantità Proiettili (Attacco Normale)")]
     [SerializeField] private int minProjectiles = 2;
@@ -77,7 +78,8 @@ public class BossRangedAttackState : State<BossCtrl>
 
             for (int i = 0; i < currentProj; i++)
             {
-                Vector2 shootDir = Random.insideUnitCircle.normalized;
+                Vector2 firePosition = _runner.FirePoint != null ? (Vector2)_runner.FirePoint.position : (Vector2)_runner.transform.position;
+                Vector2 shootDir = GetRandomDirectionAwayFromWalls(firePosition);
 
                 ShootProjectile(shootDir);
                 yield return new WaitForSeconds(fireRate);
@@ -105,7 +107,7 @@ public class BossRangedAttackState : State<BossCtrl>
     private void ShootProjectile(Vector2 direction)
     {
         if (_runner.Shooter is ProjectileShooterBoss bossShooter)
-            bossShooter.ShootBossProjectile(_runner.gameObject, direction);
+            bossShooter.ShootBossProjectile(_runner.gameObject, direction, maxAttackRange);
         else
             _runner.Shooter.ShootLinear(_runner.gameObject, direction);
     }
@@ -131,4 +133,37 @@ public class BossRangedAttackState : State<BossCtrl>
     }
     public override void CaptureInput() { }
     public override void FixedUpdate() { }
+
+    private Vector2 GetRandomDirectionAwayFromWalls(Vector2 firePointPos)
+    {
+        int rayCount = 8;
+        Vector2 repulsionVector = Vector2.zero;
+        int wallLayerMask = LayerMask.GetMask("Wall", "Walls");
+
+        for (int i = 0; i < rayCount; i++)
+        {
+            float angle = i * (360f / rayCount);
+            Vector2 dirToCheck = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+
+            RaycastHit2D hit = Physics2D.Raycast(firePointPos, dirToCheck, 15f, wallLayerMask);
+            if (hit.collider != null)
+            {
+                float strength = 1f - (hit.distance / 15f);
+                repulsionVector += (-dirToCheck * strength);
+            }
+        }
+
+        if (repulsionVector == Vector2.zero) return Random.insideUnitCircle.normalized;
+
+        float randomSpread = Random.Range(-45f, 45f);
+        return RotateVector(repulsionVector.normalized, randomSpread);
+    }
+
+    private Vector2 RotateVector(Vector2 v, float degrees)
+    {
+        float radians = degrees * Mathf.Deg2Rad;
+        float sin = Mathf.Sin(radians);
+        float cos = Mathf.Cos(radians);
+        return new Vector2(cos * v.x - sin * v.y, sin * v.x + cos * v.y);
+    }
 }

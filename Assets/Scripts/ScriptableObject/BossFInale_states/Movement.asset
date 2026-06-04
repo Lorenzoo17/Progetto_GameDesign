@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe0c07d942f9b9042b42571a7ef51a0d, type: 3}
   m_Name: Movement
   m_EditorClassIdentifier: Assembly-CSharp::BossIntroMovementState
-  jumpDuration: 0.8
-  jumpHeight: 0.5
-  waitTimeBetweenJumps: 2
+  jumpDuration: 0.6
+  jumpHeight: 0.7
+  waitTimeBetweenJumps: 0.8
   minJumpDistance: 5
   maxJumpDistance: 9
   acidPoolPrefab: {fileID: 4996778419277687879, guid: 52de2dfedd95f9c43851cbca2688dcf3, type: 3}
@@ -22,3 +22,4 @@ MonoBehaviour:
   acidPoolDurationSpecial: 8
   baseProbability: 0.12
   probabilityIncrease: 0.1
+  rushDuration: 2

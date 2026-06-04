@@ -10,17 +10,13 @@ public class AcidPoolDamage : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"[POZZA] Qualcosa è entrato nella pozza: {other.gameObject.name}");
+        //Debug.Log($"[POZZA] Qualcosa è entrato nella pozza: {other.gameObject.name}");
 
         if (other.TryGetComponent<Player>(out Player player))
         {
-            Debug.Log("[POZZA] Ho confermato che è il Player! Applico il primo danno.");
+            //Debug.Log("[POZZA] Ho confermato che è il Player! Applico il primo danno.");
             DealDamageToPlayer(player);
             timer = damageCooldown;
-        }
-        else
-        {
-            Debug.Log("[POZZA] L'oggetto entrato NON ha il componente Player.");
         }
     }
 
@@ -32,7 +28,7 @@ public class AcidPoolDamage : MonoBehaviour
 
             if (timer <= 0f)
             {
-                Debug.Log("[POZZA] Il cooldown è finito, applico un nuovo tic di danno!");
+                //Debug.Log("[POZZA] Il cooldown è finito, applico un nuovo tic di danno!");
                 DealDamageToPlayer(player);
                 timer = damageCooldown;
             }
@@ -52,7 +48,7 @@ public class AcidPoolDamage : MonoBehaviour
                 EntityType.Enemy
             ));
 
-            Debug.Log($"[POZZA] Danno di {poolDamage} inviato con successo a {player.gameObject.name}!");
+            //Debug.Log($"[POZZA] Danno di {poolDamage} inviato con successo a {player.gameObject.name}!");
         }
         else
         {

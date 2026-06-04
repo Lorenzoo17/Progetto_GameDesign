@@ -36,10 +36,10 @@ public class BossIntroMovementState : State<BossCtrl>
 
     private BotolaManager botolaManager;
 
-    [Header("Probabilità Attacco Rush")]
+    [Header("Attacco Rush")]
     [SerializeField] private float rushDuration;
-
     public bool isRushing { get; private set; }
+
 
     public override void Init(BossCtrl runner)
     {
@@ -60,13 +60,35 @@ public class BossIntroMovementState : State<BossCtrl>
 
     public override void Update()
     {
-        if (isJumping) return;
+        
+        if (isJumping || isRushing) return;
 
         waitTimer += Time.deltaTime;
         if (waitTimer >= waitTimeBetweenJumps)
         {
             waitTimer = 0f;
-            StartJump();
+
+            if (_runner.hasHitplayer)
+            {
+                if(_runner.debug)Debug.Log("Boss ha colpito il player, tenta di prevedere la posizione per il rush!");
+                Player player = UnityEngine.Object.FindFirstObjectByType<Player>();
+
+                if (player != null)
+                {
+                    Vector3 predictedPos = player.transform.position;
+                    Vector3 targetPos = GetSafeNavMeshPoint(predictedPos);
+                    _runner.StartCoroutine(RushRoutine(targetPos));
+                }
+                else
+                {
+                    
+                    StartJump();
+                }
+            }
+            else
+            {
+                StartJump();
+            }
         }
     }
 
@@ -129,19 +151,8 @@ public class BossIntroMovementState : State<BossCtrl>
                 else targetPos = _runner.roomCenter.transform.position;
             }
             
-            else if (_runner.hasHitplayer)
-            {
-                Player player = UnityEngine.Object.FindFirstObjectByType<Player>();
-                if (player != null)
-                {
-
-                    Vector3 predictedPos = player.transform.position;
-
-                    targetPos = GetSafeNavMeshPoint(predictedPos);
-                    _runner.StartCoroutine(RushRoutine(targetPos));
-                }
-                else targetPos = FindValidJumpPoint(_runner.transform.position, maxJumpDistance);
-            }
+     
+            
             
             else targetPos = FindValidJumpPoint(_runner.transform.position, maxJumpDistance);
         }
@@ -151,6 +162,7 @@ public class BossIntroMovementState : State<BossCtrl>
 
     private IEnumerator RushRoutine(Vector3 targetPos)
     {
+        if(_runner.debug)Debug.Log("Inizio Rush verso: " + targetPos);
         isRushing = true;
 
         if (_runner.Agent != null && _runner.Agent.isOnNavMesh)
@@ -186,20 +198,24 @@ public class BossIntroMovementState : State<BossCtrl>
        
         if (_runner.Agent != null)
         {
-            
-            if (UnityEngine.AI.NavMesh.SamplePosition(_runner.transform.position, out UnityEngine.AI.NavMeshHit hit, 3.0f, UnityEngine.AI.NavMesh.AllAreas))
+
+            if (!_runner.Agent.enabled) _runner.Agent.enabled = true;
+
+            if (UnityEngine.AI.NavMesh.SamplePosition(_runner.transform.position, out UnityEngine.AI.NavMeshHit hit, 3.0f, _runner.Agent.areaMask))
             {
-                
                 _runner.transform.position = new Vector3(hit.position.x, hit.position.y, _runner.transform.position.z);
-                _runner.Agent.Warp(hit.position);
+
+                _runner.Agent.nextPosition = hit.position;
             }
 
-            
             _runner.Agent.updatePosition = true;
+            if (_runner.Agent.isOnNavMesh) _runner.Agent.isStopped = false;
         }
         if (_runner.Anim != null) _runner.Anim.SetTrigger("rush_to_idle"); 
-        hasJustLanded = true;
+        //hasJustLanded = true; //se voglio passare alla fase d'attacco
         isRushing = false;
+        _runner.hasHitplayer = false;
+        _runner.coolDownRush = 3;
     }
 
     private Vector3 FindValidJumpPoint(Vector3 centerOrigin, float searchRadius)
@@ -215,7 +231,8 @@ public class BossIntroMovementState : State<BossCtrl>
 
             if (wallCheck.collider == null)
             {
-                if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, 2f, NavMesh.AllAreas))
+                // Modificato con la maschera specifica del boss
+                if (NavMesh.SamplePosition(candidatePos, out NavMeshHit hit, 2f, _runner.Agent.areaMask))
                 {
                     return new Vector3(hit.position.x, hit.position.y, _runner.transform.position.z);
                 }
@@ -226,14 +243,13 @@ public class BossIntroMovementState : State<BossCtrl>
 
     private Vector3 GetSafeNavMeshPoint(Vector3 target)
     {
-        if (NavMesh.SamplePosition(target, out NavMeshHit hit, 3f, NavMesh.AllAreas))
+        // Modificato con la maschera specifica del boss
+        if (NavMesh.SamplePosition(target, out NavMeshHit hit, 3f, _runner.Agent.areaMask))
         {
             return new Vector3(hit.position.x, hit.position.y, _runner.transform.position.z);
         }
         return target;
     }
-
-    
 
     private IEnumerator JumpRoutine(Vector3 targetPos)
     {
@@ -286,12 +302,16 @@ public class BossIntroMovementState : State<BossCtrl>
         {
             if (_runner.Agent != null)
             {
-                if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, 5.0f, NavMesh.AllAreas))
+                if (!_runner.Agent.enabled) _runner.Agent.enabled = true;
+
+                if (NavMesh.SamplePosition(targetPos, out NavMeshHit hit, 5.0f, _runner.Agent.areaMask))
                 {
                     _runner.transform.position = hit.position;
-                    _runner.Agent.Warp(hit.position);
+
+                    _runner.Agent.nextPosition = hit.position;
                 }
                 _runner.Agent.updatePosition = true;
+                if (_runner.Agent.isOnNavMesh) _runner.Agent.isStopped = false;
             }
             hasJustLanded = true;
         }

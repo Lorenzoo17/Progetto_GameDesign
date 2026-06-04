@@ -29,9 +29,12 @@ public class BossCtrl : StateRunner<BossCtrl>
 
     public Transform FirePoint { get; private set; }
     public bool hasHitplayer = false;
+    [Header("Cooldown Attacco Rush")]
+    [SerializeField] public int coolDownRush = 3;
 
     [SerializeField] private float knockbackForce = 10f;
     [SerializeField] private float knockbackDuration = 0.2f;
+    public bool specialAttackActive = false;
 
     protected override void Awake()
     {
@@ -63,6 +66,14 @@ public class BossCtrl : StateRunner<BossCtrl>
 
     public void ReportPlayerHit()
     {
-        hasHitplayer = true;
+        if (debug)
+        {
+            Debug.Log("BossCtrl: Player hit reported.");
+            Debug.Log("Current Cooldown: " + coolDownRush);
+        }
+            if (!specialAttackActive) { 
+            if(coolDownRush==0)hasHitplayer = true;
+            else coolDownRush--;
+        }
     }
 }
