@@ -301,7 +301,10 @@ public class PlayerAttack : MonoBehaviour
 
         if (dir == Vector2.zero || projectilePrefab == null)
             return;
+        if (dir == Vector2.zero || projectilePrefab == null)
+            return;
 
+        Transform spawnPoint = weaponHolder;
         Transform spawnPoint = weaponHolder;
 
         GameObject projectile = Instantiate(
@@ -309,9 +312,18 @@ public class PlayerAttack : MonoBehaviour
             spawnPoint.position,
             Quaternion.identity
         );
+        GameObject projectile = Instantiate(
+            projectilePrefab,
+            spawnPoint.position,
+            Quaternion.identity
+        );
 
         projectile.transform.localScale *= scaleMultiplier;
+        projectile.transform.localScale *= scaleMultiplier;
 
+        float damage =
+            Player.Instance.playerStats.playerCurrentStats.GetAttack()
+            * damageMultiplier;
         float damage =
             Player.Instance.playerStats.playerCurrentStats.GetAttack()
             * damageMultiplier;
@@ -325,5 +337,37 @@ public class PlayerAttack : MonoBehaviour
                 gameObject
             );
         }
+    }
+
+    // Puddle mutagen
+    public void SpawnPuddle(
+        GameObject puddlePrefab,
+        float duration,
+        float tickDamage,
+        float tickInterval,
+        float radius)
+    {
+        Vector3 pos = transform.position;
+
+        GameObject puddle = Instantiate(puddlePrefab, pos, Quaternion.identity);
+
+        MouthwashPuddle puddleScript = puddle.GetComponent<MouthwashPuddle>();
+
+        if (puddleScript != null)
+        {
+            puddleScript.Initialize(
+                tickDamage,
+                tickInterval,
+                radius,
+                duration,
+                gameObject // owner = player (per immunità)
+            );
+        }
+    }
+
+    //GETTERS
+    public Vector2 GetAttackDirection()
+    {
+        return attackDirection;
     }
 }
