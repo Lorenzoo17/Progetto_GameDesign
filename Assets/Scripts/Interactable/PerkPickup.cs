@@ -45,17 +45,25 @@ public class PerkPickup : MonoBehaviour, IInteractable
         _used = true;
 
         // Usa System.Random per più casualità (0.0 - 1.0)
-        bool positive = random.NextDouble() <= 0.3;
+        bool positive = random.NextDouble() < 0.0;
         PerkBase chosen = positive ? _perkPair.positive : _perkPair.negative;
 
         PerkController controller = FindFirstObjectByType<PerkController>();
         if (controller != null)
         {
-            controller.AddPerk(chosen);
+            if (positive)
+            {
+                controller.AddPerk(_perkPair.positive);
+            }
+            else
+            {
+                controller.AddNegativePerk(_perkPair.negative, _perkPair.positive);
+            }
+
             NotificationUI.Instance?.ShowMessage(
                 $"You obtained {chosen.name}"
             );
-            if (!positive) _grantedNegative = chosen;
+            if (!positive) _grantedNegative = _perkPair.negative;
         }
 
         Lock();

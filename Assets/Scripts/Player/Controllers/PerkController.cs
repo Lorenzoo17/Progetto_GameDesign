@@ -4,6 +4,8 @@ public class PerkController : MonoBehaviour
 {
 
     public List<PerkBase> activePerks = new();
+    public List<PerkBase> perksToRemove = new();
+    public List<PerkBase> perksToAdd = new();
 
     // Filtered lists (performance + clarity)
     public List<IModifyIncomingDamage> incomingDamageModifiers = new();
@@ -84,8 +86,42 @@ public class PerkController : MonoBehaviour
 
         return equippedPerkIds;
     }
-}
 
+    public void ClearAllNegativePerks()
+    {
+        Debug.Log("Clearing all negative perks");
+        // Rimuovi tutti i perk attivi
+        foreach (PerkBase perk in perksToRemove)
+        {
+            if (perk != null)
+            {
+                perk.OnRemove(player);
+            }
+        }
+        foreach (PerkBase perk in perksToAdd)
+        {
+            if (perk != null)
+            {
+                NotificationUI.Instance?.ShowMessage(
+                $"You obtained {perk.name}"
+            );
+                activePerks.Add(perk);
+                perk.OnApply(player);
+            }
+        }
+        perksToRemove.Clear();
+        perksToAdd.Clear();
+    }
+
+    public void AddNegativePerk(PerkBase negativePerk, PerkBase positivePerk)
+    {
+        if (negativePerk == null || positivePerk == null) return;
+        Debug.Log($"Adding negative perk: {negativePerk.name} and scheduling positive perk: {positivePerk.name}");
+        perksToRemove.Add(negativePerk);
+        negativePerk.OnApply(player);
+        perksToAdd.Add(positivePerk);
+    }
+}
 /// INTERFACES FOR PERKS
 public interface IModifyIncomingDamage
 {
@@ -95,3 +131,4 @@ public interface IOnDealDamage
 {
     public DamageInfo OnDealDamage(ref DamageInfo damage);
 }
+

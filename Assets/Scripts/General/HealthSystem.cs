@@ -12,16 +12,26 @@ public class DamageEventArgs : EventArgs
         AttackDirection = attackDirection;
     }
 }
+public class BossDeathEventArgs : EventArgs
+{
+    public string BossName { get; }
+
+    public BossDeathEventArgs(string bossName)
+    {
+        BossName = bossName;
+    }
+}
 public class HealthSystem : MonoBehaviour, IDamageable
 {
     [SerializeField] private float maxHealth;
     public float CurrentHealth { get; private set; }
-    public bool resetsSceneOnDeath = false;
+    public bool isBoss = false;
 
     public LevelLoader levelLoader;
 
     [SerializeField] private float defense;
     public event EventHandler<DamageEventArgs> OnDamageTaken;
+    public event EventHandler<BossDeathEventArgs> OnBossDeath;
 
     private DamageEffectVisuals damageEffectVisuals;
 
@@ -47,9 +57,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
         {
             TakePoisonDamage(damageInfo);
         }
-
-        // Effetti visivi e morte
-        HandleDeathIfNeeded();
     }
 
     private void ApplyPhysicalDamage(DamageInfo damageInfo)
@@ -63,6 +70,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
         {
             SoundManager.Instance.PlaySound2D(SoundID.EnemyHit, .25f);
         }
+        HandleDeathIfNeeded();
     }
 
     private void HandleDeathIfNeeded()
@@ -71,9 +79,9 @@ public class HealthSystem : MonoBehaviour, IDamageable
         {
             Debug.Log($"[HealthSystem] Enemy died!");
             Destroy(gameObject);
-            if (resetsSceneOnDeath)
+            if (isBoss)
             {
-                levelLoader.LoadNextScene("CombatHub");
+                FindFirstObjectByType<PerkController>()?.ClearAllNegativePerks();
             }
         }
     }
@@ -85,7 +93,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
         Debug.Log($"[HealthSystem] Taking poison damage: {poisonDamage} from {damageInfo.Source.name}");
 
         if (poisonDamage <= 0) return; // Non applicare se danno è 0
-
         CurrentHealth -= poisonDamage;
         OnDamageTaken?.Invoke(this, new DamageEventArgs(poisonDamage, damageInfo.Direction));
 
@@ -115,16 +122,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
             // Aggiungi il veleno (accumula con quelli precedenti)
             poisonEffect.AddPoison(damageInfo.Source, poisonDamage);
         }
-
-        if (CurrentHealth <= 0)
-        {
-            Debug.Log($"[HealthSystem] Enemy died!");
-            Destroy(gameObject);
-            if (resetsSceneOnDeath)
-            {
-                levelLoader.LoadNextScene("CombatHub");
-            }
-        }
+        HandleDeathIfNeeded();
     }
 
     private void HandleDamageVisuals(DamageInfo damageInfo)

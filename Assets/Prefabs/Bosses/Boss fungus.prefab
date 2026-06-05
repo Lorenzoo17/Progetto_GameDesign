@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 100
-  resetsSceneOnDeath: 0
+  isBoss: 1
   levelLoader: {fileID: 0}
   defense: 0
 --- !u!114 &4870650689927582519

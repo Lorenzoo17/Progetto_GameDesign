@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399452f6bd1557c45ad3c55e6fa530b4, type: 3}
   m_Name: OnHIT
   m_EditorClassIdentifier: Assembly-CSharp::PerkPair
-  negative: {fileID: 0}
-  positive: {fileID: 0}
+  negative: {fileID: 11400000, guid: 668f014b440f2e245ba45b60cf3138ac, type: 2}
+  positive: {fileID: 11400000, guid: 61eabcdd54fd16a4e95a50c5ff6f9e0e, type: 2}
