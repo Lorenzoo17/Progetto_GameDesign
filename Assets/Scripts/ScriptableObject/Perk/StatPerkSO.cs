@@ -30,4 +30,13 @@ public class StatPerkSO : PerkBase
             Debug.LogError("Player o PlayerStats non trovati!");
         }
     }
+
+    public override string Descriptor()
+    {
+        string modValue = modifierType == ModifierType.Flat
+            ? value.ToString()
+            : (value * 100).ToString("F0") + "%";
+
+        return $"{statType} {(modifierType == ModifierType.Flat ? "+" : "")}{modValue}";
+    }
 }

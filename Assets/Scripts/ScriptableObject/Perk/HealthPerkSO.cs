@@ -23,4 +23,19 @@ public class HealthPerk : PerkBase
         else
             player.playerHealth.IncreaseHealth(Mathf.Abs(healthIncrease)); // aggiungoi salute
     }
+    public override string Descriptor()
+    {
+        if (healthIncrease > 0)
+        {
+            return $"Increase max health by {healthIncrease}.";
+        }
+        else if (healthIncrease < 0)
+        {
+            return $"Decrease max health by {Mathf.Abs(healthIncrease)}.";
+        }
+        else
+        {
+            return "No effect on health.";
+        }
+    }
 }

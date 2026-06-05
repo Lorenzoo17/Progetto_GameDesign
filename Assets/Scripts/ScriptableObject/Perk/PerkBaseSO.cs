@@ -8,7 +8,7 @@ public abstract class PerkBase : ScriptableObject
     public PerkPair pair;
     public Sprite icon;
     public bool isHidden = false;
-    [TextArea] public string description;
+    [TextArea] private string description;
     public PerkLootData perkLootData; // usato in treasureRoomSpawner, per capire se il player ha gia'
     // il mutagene corrispondente equipaggiato
 

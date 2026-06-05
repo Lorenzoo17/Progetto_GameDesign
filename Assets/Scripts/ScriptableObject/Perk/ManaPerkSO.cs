@@ -34,4 +34,19 @@ public class ManaPerkSO : PerkBase
             }
         }
     }
+    public override string Descriptor()
+    {
+        if (manaValue > 0)
+        {
+            return $"Increase max mana by {manaValue}.";
+        }
+        else if (manaValue < 0)
+        {
+            return $"Decrease max mana by {Mathf.Abs(manaValue)}.";
+        }
+        else
+        {
+            return "No effect on mana.";
+        }
+    }
 }

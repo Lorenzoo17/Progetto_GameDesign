@@ -38,4 +38,17 @@ public class OnHitPerkSO : PerkBase, IOnDealDamage
 
         return damage;
     }
+
+    public override string Descriptor()
+    {
+        switch (effectType)
+        {
+            case OnHitEffectType.DamageBoost:
+                return $"On hit: +{value} {damageBoostType} damage";
+            case OnHitEffectType.PoisonApplication:
+                return $"On hit: Apply {value} Poison damage";
+            default:
+                return "Unknown on hit effect";
+        }
+    }
 }
