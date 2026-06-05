@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public static Player Instance;
+    private SpriteRenderer spriteRenderer;
 
     public PlayerMovement playerMovement;
     public PlayerAttack playerAttack;
@@ -140,6 +141,29 @@ public class Player : MonoBehaviour
         else
         {
             Debug.LogWarning("NO SPAWN POINT FOUND IN SCENE");
+        }
+    }
+
+    //Getters
+    public Sprite GetPlayerSprite()
+    {
+        return spriteRenderer.sprite;
+    }
+
+    public Sprite SetPlayerSprite(Sprite newSprite)
+    {
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sprite = newSprite;
+            return newSprite;
+        }
+        else
+        {
+            Debug.LogWarning("Player SpriteRenderer not found!");
+            return null;
         }
     }
 }

@@ -38,7 +38,7 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible{
 
     private void Update() {
 
-        // Idle floating animation SOLO quando l'arma non è equipaggiata
+        // Idle floating animation SOLO quando l'arma non ï¿½ equipaggiata
         if (!pickedUp) {
 
             float yOffset =
@@ -139,4 +139,10 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible{
         pickedUp = false;
     }
 
+    //Getter
+    public Sprite GetWeaponSprite()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        return sr != null ? sr.sprite : null;
+    }
 }
