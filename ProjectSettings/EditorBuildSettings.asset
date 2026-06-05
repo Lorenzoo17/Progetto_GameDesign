@@ -8,10 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/HubScene.unity
     guid: 9c78ad0373a86c043acbd05a357eb047
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestScenes/Combat tests/CombatHub.unity
     guid: 913b9a0f8caf7474582e854b213f1a4f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TileScene_Test.unity
     guid: 4f907a1487ae80f4cac206f44ee2839b
   - enabled: 0
@@ -23,13 +23,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestScenes/Combat tests/Combat_Boss_Fungus.unity
     guid: 0d88c8a82ea81354c85541e2bea4a775
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestScenes/Combat tests/Combat_classic.unity
     guid: 00aca4c991882124a8418aeb63442374
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FinalScenes/MainMenu.unity
     guid: e706b68f27a05fc4ba9f34feb00be43d
   - enabled: 1

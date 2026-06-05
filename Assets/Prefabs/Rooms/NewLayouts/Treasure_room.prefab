@@ -7490,6 +7490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
 --- !u!1 &1459826336517529925
 GameObject:
   m_ObjectHideFlags: 0
@@ -16575,6 +16576,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
 --- !u!1 &4042494818484225052
 GameObject:
   m_ObjectHideFlags: 0
@@ -28128,6 +28130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
 --- !u!1 &7238806512869542087
 GameObject:
   m_ObjectHideFlags: 0
