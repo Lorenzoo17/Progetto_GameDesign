@@ -20,7 +20,7 @@ MonoBehaviour:
   duration: 1
   animationEffect: {fileID: 0}
   mutagenLootData: {fileID: 0}
-  laserLength: 20
+  laserLength: 5
   laserWidth: 1
   damagePerSecond: 10
   tickRate: 0.1

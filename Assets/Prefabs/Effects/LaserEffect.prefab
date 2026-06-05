@@ -85,7 +85,7 @@ LineRenderer:
   m_MaskInteraction: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
+  - {x: 2, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -102,8 +102,8 @@ LineRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: 0.19083959
+        time: 0.9701631
+        value: 0.16874614
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -146,7 +146,7 @@ LineRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 1
+    textureMode: 0
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
@@ -202,6 +202,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserVisualEffect
   lineRenderer: {fileID: 2217939377214019820}
-  pulseSpeed: 2
-  minWidth: 0.8
-  maxWidth: 1.5
+  totalFrames: 4
+  framesPerSecond: 12
+  startWidthMultiplier: 1.2
+  endWidthMultiplier: 0.4
+  tentacleProfile:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

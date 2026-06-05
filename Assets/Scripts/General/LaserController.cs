@@ -59,7 +59,7 @@ public class LaserController : MonoBehaviour
         currentDirection = newDirection.normalized;
 
         // Calculate laser end position
-        laserEndPos = laserStartPos + (Vector3)currentDirection * 20f; // 20 blocks long
+        laserEndPos = laserStartPos + (Vector3)currentDirection * 4; // 4 units long
 
         // Update line renderer
         if (laserRenderer != null)
