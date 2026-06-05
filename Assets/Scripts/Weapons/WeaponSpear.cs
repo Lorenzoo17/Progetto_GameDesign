@@ -111,4 +111,9 @@ public class WeaponSpear : Weapon
         Vector2 rayOrigin = Player.Instance != null ? Player.Instance.playerAttack.GetWeaponHolder().position : transform.position;
         Gizmos.DrawLine(rayOrigin, rayOrigin + (Vector2.right * spearLength));
     }
+    public override string Description()
+    {
+        string description = $"Spear weapon with base damage {weaponBaseDamage} and range {spearLength}.";
+        return description;
+    }
 }

@@ -116,4 +116,9 @@ public class WeaponMelee : Weapon
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackCentrePosition, weaponBaseRange);
     }
+    public override string Description()
+    {
+        string description = $"Melee weapon with base damage {weaponBaseDamage} and range {weaponBaseRange}.";
+        return description;
+    }
 }

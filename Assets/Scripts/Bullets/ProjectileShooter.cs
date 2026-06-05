@@ -153,4 +153,8 @@ public class ProjectileShooter : MonoBehaviour
         }
     }
 
+    public float GetDamage()
+    {
+        return damage;
+    }
 }
