@@ -305,25 +305,17 @@ public class PlayerAttack : MonoBehaviour
             return;
 
         Transform spawnPoint = weaponHolder;
-        Transform spawnPoint = weaponHolder;
 
         GameObject projectile = Instantiate(
             projectilePrefab,
             spawnPoint.position,
             Quaternion.identity
         );
-        GameObject projectile = Instantiate(
-            projectilePrefab,
-            spawnPoint.position,
-            Quaternion.identity
-        );
+
 
         projectile.transform.localScale *= scaleMultiplier;
         projectile.transform.localScale *= scaleMultiplier;
 
-        float damage =
-            Player.Instance.playerStats.playerCurrentStats.GetAttack()
-            * damageMultiplier;
         float damage =
             Player.Instance.playerStats.playerCurrentStats.GetAttack()
             * damageMultiplier;
@@ -365,9 +357,4 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    //GETTERS
-    public Vector2 GetAttackDirection()
-    {
-        return attackDirection;
-    }
 }
