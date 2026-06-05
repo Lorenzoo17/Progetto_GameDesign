@@ -5,8 +5,11 @@ public class WeaponRanged : Weapon
     [SerializeField] private float weaponRotationOffsetZ;
     [SerializeField] private ProjectileShooter projectileShooter;
 
-    [SerializeField] private bool curvedProjectile;
+    [SerializeField] private ShooterType shootingType;
+
+    [Header("Settings in base a tipo di shooter")]
     [SerializeField] private float curvedProjectileRange;
+    [SerializeField] private int projectileNumber;
 
     private void Awake() {
         if (projectileShooter == null) {
@@ -20,11 +23,19 @@ public class WeaponRanged : Weapon
             return;
         }
 
-        if (curvedProjectile) {
-            projectileShooter.ShootCurved(Player.Instance.gameObject, dir, curvedProjectileRange);
-        }
-        else {
-            projectileShooter.ShootLinear(Player.Instance.gameObject, dir);
+        switch (shootingType) {
+            case ShooterType.Curved:
+                projectileShooter.ShootCurved(Player.Instance.gameObject, dir, curvedProjectileRange);
+                break;
+            case ShooterType.Linear:
+                projectileShooter.ShootLinear(Player.Instance.gameObject, dir);
+                break;
+            case ShooterType.Spread:
+                projectileShooter.ShootFocusedSpread(Player.Instance.gameObject, projectileNumber, dir);
+                break;
+            default:
+                projectileShooter.ShootLinear(Player.Instance.gameObject, dir);
+                break;
         }
     }
 

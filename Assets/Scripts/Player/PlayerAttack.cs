@@ -102,8 +102,15 @@ public class PlayerAttack : MonoBehaviour {
             SoundManager.Instance.PlaySound2D(SoundID.PlayerAttack, .15f);
         }
 
-        attackTimer = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();
+        attackTimer = CalculateAttackRateBasedOnWeapon();
         canAttack = false;
+    }
+
+    private float CalculateAttackRateBasedOnWeapon() {
+        float baseAttackRate = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();
+        if (currentWeapon == null) return baseAttackRate;
+
+        return baseAttackRate + currentWeapon.GetComponent<Weapon>().weaponAttackRateSlowdown;
     }
     
     //AOE methods

@@ -12,7 +12,8 @@ public enum ShakeDataType {
     Explosion,
     RangedAttack,
     MeleeAttack,
-    SmashAttack
+    SmashAttack,
+    UI
 }
 
 [System.Serializable]

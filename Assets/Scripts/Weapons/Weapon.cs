@@ -18,6 +18,10 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible{
     [SerializeField] private Transform shadow;
     public float initialZRotation;
 
+    public float weaponAttackRateSlowdown; // usato in modo da diminuire l'attack rate in base alla velocita' dell'arma (con 0 corrisponde all'attack rate del player)
+    // con 0.3 si fa ad esempio attackrate + 0.3 -> quindi player attacca piu' lentamente
+    // richiamato in playerAttack
+
     [Header("Idle animation details")]
     [SerializeField] private Transform visual;
     [SerializeField] private float floatAmplitude = 0.08f;

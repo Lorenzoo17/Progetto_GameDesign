@@ -1,3 +1,4 @@
+using FirstGearGames.SmoothCameraShaker;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -119,11 +120,15 @@ public class BossSplashScreen : MonoBehaviour {
             yield return null;
         }
 
-        // sicurezza: imposto esattamente le posizioni finali
+        // per sicurezza imposto esattamente le posizioni finali
         if (bossSplashRect != null)
             bossSplashRect.anchoredPosition = bossEndPosition;
 
         if (playerSplashRect != null)
             playerSplashRect.anchoredPosition = playerEndPosition;
+
+        if(EffectManager.Instance != null) {
+            CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.UI));
+        }
     }
 }

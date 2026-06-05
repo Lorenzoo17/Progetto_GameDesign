@@ -101,6 +101,19 @@ public class ProjectileShooter : MonoBehaviour {
         Vector2 targetDirection =
             ((Vector2)target.position - (Vector2)firePoint.position).normalized;
 
+        ShootSpread(owner, projectileNumber, targetDirection, spreadAngle);
+    }
+
+    public void ShootFocusedSpread(GameObject owner, int projectileNumber, Vector2 direction, float spreadAngle = 45f) {
+        if (projectileNumber <= 0) return;
+        if (direction == null) return;
+
+        Vector2 targetDirection = direction;
+
+        ShootSpread(owner, projectileNumber, targetDirection, spreadAngle);
+    }
+
+    private void ShootSpread(GameObject owner, int projectileNumber, Vector2 targetDirection, float spreadAngle) {
         float targetAngle = Mathf.Atan2(
             targetDirection.y,
             targetDirection.x
@@ -137,5 +150,4 @@ public class ProjectileShooter : MonoBehaviour {
             }
         }
     }
-
 }

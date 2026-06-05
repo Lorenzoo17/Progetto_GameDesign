@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 515a48f0dc785ff4e8925a24486487c3, type: 3}
-  m_Name: BoneMace_data
+  m_Name: Lader_data
   m_EditorClassIdentifier: Assembly-CSharp::WeaponLootData
-  id: 0
-  prefab: {fileID: 6440760680909680636, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
-  unlockedByDefault: 1
+  id: 4
+  price: 100
+  prefab: {fileID: 6440760680909680636, guid: db8b9590606571f46b1ced7fab3fab79, type: 3}
+  unlockedByDefault: 0

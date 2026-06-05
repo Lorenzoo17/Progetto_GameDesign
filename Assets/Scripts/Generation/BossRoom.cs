@@ -27,7 +27,7 @@ public class BossRoom : MonoBehaviour {
         if (BossSplashScreen.Instance != null) {
             if(boss.TryGetComponent<SpriteRenderer>(out SpriteRenderer sr)) {
                 BossFreezable bf = boss.GetComponent<BossFreezable>();
-                BossSplashScreen.Instance.SetBossSplashScreen(boss.name, sr.sprite, bf);
+                BossSplashScreen.Instance.SetBossSplashScreen(boss.name.Replace("(Clone)", "").Trim(), sr.sprite, bf);
             }
         }
     }

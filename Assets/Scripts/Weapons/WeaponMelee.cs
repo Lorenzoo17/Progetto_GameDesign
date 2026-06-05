@@ -8,13 +8,13 @@ public class WeaponMelee : Weapon {
     [SerializeField] private float weaponRotationOffsetZ = 0f;
     [SerializeField] private float attackDuration = 0.1f; // velocita' dell'animazione di attacco
     [SerializeField] private GameObject meleeAttackEffect;
+    [SerializeField] private float meleeAttackEffectSize = 1f; // dimensione dell'effetto (piu' grande per armi piu' grandi ad esempio)
 
     [SerializeField] private float weaponBaseRange = 1f;
     [SerializeField] private float weaponBaseDamage = 2f;
 
     [SerializeField] private Boolean hasPoison = false;
     [SerializeField] private float poisonDamage = 0f;
-
 
     private Vector2 attackCentrePosition;
 
@@ -69,6 +69,7 @@ public class WeaponMelee : Weapon {
         Quaternion meleeEffectRotation = Quaternion.Euler(0, 0, baseAngle);
         float attackSlashEffectOffset = 1.1f; // quanto distante istanziare lo slash effect rispetto al player
         GameObject slashEffect = Instantiate(meleeAttackEffect, Player.Instance.playerAttack.GetWeaponHolder().position + (Vector3)(dir.normalized * attackSlashEffectOffset), meleeEffectRotation);
+        slashEffect.transform.localScale = slashEffect.transform.localScale * meleeAttackEffectSize;
         if (slashEffect.TryGetComponent<MeleeEffect>(out MeleeEffect meleeEffect)) {
             meleeEffect.SetDirection(dir);
         }

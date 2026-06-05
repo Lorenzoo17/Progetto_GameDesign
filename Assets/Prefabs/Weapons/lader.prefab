@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 2318207561773721498}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.179, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2162202722926875417}
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 0874515b1b4c3134680c2a3529a6ee34, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a19b2a69375d0624f9d83a55d0117977, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 6103905353878875399}
   - component: {fileID: 5681690135529362285}
   m_Layer: 0
-  m_Name: bone_mace
+  m_Name: lader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +176,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 0874515b1b4c3134680c2a3529a6ee34, type: 3}
+  m_Sprite: {fileID: -4429382940171163295, guid: 80d23d96785d3364fb9e7cf1b21660eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -184,7 +184,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!61 &6103905353878875399
 BoxCollider2D:
@@ -220,17 +220,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.2}
+  m_Offset: {x: -0.015596658, y: 0.5587235}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.49926278, y: 0.05}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.14, y: 0.32}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.71926016, y: 1.3275295}
   m_EdgeRadius: 0
 --- !u!114 &5681690135529362285
 MonoBehaviour:
@@ -250,15 +250,17 @@ MonoBehaviour:
   colliderReactivateDelay: 1
   shadow: {fileID: 2494095169791938276}
   initialZRotation: 0
+  weaponAttackRateSlowdown: 0.75
   visual: {fileID: 5373509663000345189}
   floatAmplitude: 0.08
   floatSpeed: 2.5
   weaponLootData: {fileID: 11400000, guid: cde68d4ac594aa84da8a56e888ad666c, type: 2}
   weaponRotationOffsetZ: 0
-  attackDuration: 0.1
+  attackDuration: 0.25
   meleeAttackEffect: {fileID: 8176667913236221772, guid: af45be17e1ea6d6499933814cdb67375, type: 3}
-  weaponBaseRange: 1
-  weaponBaseDamage: 10
+  meleeAttackEffectSize: 2
+  weaponBaseRange: 2
+  weaponBaseDamage: 15
   hasPoison: 0
   poisonDamage: 0
 --- !u!1 &7350762406063032451
@@ -288,7 +290,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.27, z: 0}
-  m_LocalScale: {x: 4.96, y: 2.0840337, z: 2.0840337}
+  m_LocalScale: {x: 9.79, y: 4.1134458, z: 4.1134458}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2162202722926875417}

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 515a48f0dc785ff4e8925a24486487c3, type: 3}
-  m_Name: Straw_data
+  m_Name: TrashMace_data
   m_EditorClassIdentifier: Assembly-CSharp::WeaponLootData
-  id: 2
-  price: 35
-  prefab: {fileID: 6452691135951933731, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
-  unlockedByDefault: 0
+  id: 0
+  price: 50
+  prefab: {fileID: 6440760680909680636, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
+  unlockedByDefault: 1
