@@ -195,7 +195,7 @@ public class MutagenSlotSelectorManager : MonoBehaviour
             controller.EquipMutagen(pendingMutagen, slotIndex);
         }
             
-        Destroy(pendingMutagenItem.gameObject);
+        
 
         CloseSlotSelector();
 
@@ -215,7 +215,8 @@ public class MutagenSlotSelectorManager : MonoBehaviour
             currentUI.SetActive(false);
         }
 
-
+        Destroy(pendingMutagenItem.gameObject);
+        
         // Riprendi il gioco
         Time.timeScale = previousTimeScale;
 
