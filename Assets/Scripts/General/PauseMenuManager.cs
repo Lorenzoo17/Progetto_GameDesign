@@ -7,8 +7,8 @@ public class PauseMenuManager : MonoBehaviour
     public static PauseMenuManager Instance { get; private set; }
 
     [SerializeField] private GameObject pauseMenuPrefab;
-    [SerializeField] private string hubSceneName = "HUB";
-    [SerializeField] private string startingMenuSceneName = "MainMenu";
+    private string hubSceneName = "HUB";
+    private string startingMenuSceneName = "MainMenu";
 
     private GameObject currentUI;
     private bool isPaused = false;
@@ -26,77 +26,40 @@ public class PauseMenuManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        // Il menu viene istanziato solo quando necessario
-    }
-
     private void Update()
     {
-        // Gestire ESC per chiudere il menu stats se aperto
         if (Input.GetKeyDown(KeyCode.Escape) && isPaused && currentUI != null)
         {
-            Transform statsPanel = currentUI.transform.Find("StatsPanel");
-            if (statsPanel != null && statsPanel.gameObject.activeInHierarchy)
-            {
-                CloseStats();
-            }
+            HandleCloseStats();
         }
     }
 
+    // =========================
+    // PAUSE
+    // =========================
     public void Pause()
     {
         if (isPaused) return;
+
         isPaused = true;
         previousTimeScale = Time.timeScale;
-        Time.timeScale = 0f; // Fermiamo il tempo del gioco
+        Time.timeScale = 0f;
 
         Debug.Log("Gioco in pausa");
 
-        // Disabilitiamo gli input del player
         if (InputManager.Instance != null)
-        {
             InputManager.Instance.inputEnabled = false;
-        }
 
-        // Istanziamo il menu di pausa se non esiste
         if (currentUI == null && pauseMenuPrefab != null)
         {
             currentUI = Instantiate(pauseMenuPrefab);
             currentUI.SetActive(true);
+
             currentUI.transform.SetAsLastSibling();
             currentUI.transform.localScale = Vector3.one;
             currentUI.transform.position = Vector3.zero;
 
-            // Configuriamo i bottoni
-            Button resumeButton = currentUI.transform.Find("PauseMenuPanel/ResumeButton")?.GetComponent<Button>();
-            Button statsButton = currentUI.transform.Find("PauseMenuPanel/StatsButton")?.GetComponent<Button>();
-            Button surrenderButton = currentUI.transform.Find("PauseMenuPanel/SurrenderButton")?.GetComponent<Button>();
-            Button exitButton = currentUI.transform.Find("PauseMenuPanel/ExitButton")?.GetComponent<Button>();
-
-            if (resumeButton != null)
-            {
-                resumeButton.onClick.RemoveAllListeners();
-                resumeButton.onClick.AddListener(Resume);
-            }
-
-            if (statsButton != null)
-            {
-                statsButton.onClick.RemoveAllListeners();
-                statsButton.onClick.AddListener(OpenStats);
-            }
-
-            if (surrenderButton != null)
-            {
-                surrenderButton.onClick.RemoveAllListeners();
-                surrenderButton.onClick.AddListener(Surrender);
-            }
-
-            if (exitButton != null)
-            {
-                exitButton.onClick.RemoveAllListeners();
-                exitButton.onClick.AddListener(Exit);
-            }
+            BindButtons();
         }
         else if (currentUI != null)
         {
@@ -104,23 +67,69 @@ public class PauseMenuManager : MonoBehaviour
         }
     }
 
+    // =========================
+    // BUTTON BINDING
+    // =========================
+    private void BindButtons()
+    {
+        Button resumeButton = currentUI.transform.Find("PauseMenuPanel/ResumeButton")?.GetComponent<Button>();
+        Button statsButton = currentUI.transform.Find("PauseMenuPanel/StatsButton")?.GetComponent<Button>();
+        Button surrenderButton = currentUI.transform.Find("PauseMenuPanel/SurrenderButton")?.GetComponent<Button>();
+        Button exitButton = currentUI.transform.Find("PauseMenuPanel/ExitButton")?.GetComponent<Button>();
+        Button goBackButton = currentUI.transform.Find("StatsPanel/GoBackButton")?.GetComponent<Button>();
+
+        if (resumeButton != null)
+        {
+            resumeButton.onClick.RemoveAllListeners();
+            resumeButton.onClick.AddListener(Resume);
+        }
+
+        if (statsButton != null)
+        {
+            statsButton.onClick.RemoveAllListeners();
+            statsButton.onClick.AddListener(OpenStats);
+        }
+
+        if (surrenderButton != null)
+        {
+            surrenderButton.onClick.RemoveAllListeners();
+            surrenderButton.onClick.AddListener(Surrender);
+        }
+
+        if (exitButton != null)
+        {
+            exitButton.onClick.RemoveAllListeners();
+            exitButton.onClick.AddListener(Exit);
+        }
+
+        // 🔥 GO BACK BUTTON (Stats -> Pause)
+        if (goBackButton != null)
+        {
+            goBackButton.onClick.RemoveAllListeners();
+            goBackButton.onClick.AddListener(HandleCloseStats);
+        }
+    }
+
+    // =========================
+    // RESUME
+    // =========================
     public void Resume()
     {
         isPaused = false;
-        Time.timeScale = previousTimeScale; // Riprendi il tempo del gioco
+        Time.timeScale = previousTimeScale;
 
         if (currentUI != null)
             currentUI.SetActive(false);
 
-        // Riabilitiamo gli input del player
         if (InputManager.Instance != null)
-        {
             InputManager.Instance.inputEnabled = true;
-        }
 
         Debug.Log("Gioco ripreso");
     }
 
+    // =========================
+    // STATS
+    // =========================
     private void OpenStats()
     {
         if (currentUI == null) return;
@@ -137,25 +146,31 @@ public class PauseMenuManager : MonoBehaviour
         Debug.Log("Menu statistiche aperto");
     }
 
-    private void CloseStats()
+    private void HandleCloseStats()
     {
-        if (currentUI == null) return;
+        if (!isPaused || currentUI == null)
+            return;
 
         Transform pausePanel = currentUI.transform.Find("PauseMenuPanel");
         Transform statsPanel = currentUI.transform.Find("StatsPanel");
 
-        if (statsPanel != null)
-            statsPanel.gameObject.SetActive(false);
+        if (statsPanel != null && statsPanel.gameObject.activeInHierarchy)
+        {
+            if (statsPanel != null)
+                statsPanel.gameObject.SetActive(false);
 
-        if (pausePanel != null)
-            pausePanel.gameObject.SetActive(true);
+            if (pausePanel != null)
+                pausePanel.gameObject.SetActive(true);
 
-        Debug.Log("Menu statistiche chiuso");
+            Debug.Log("Stats chiuso");
+        }
     }
 
+    // =========================
+    // SCENE ACTIONS
+    // =========================
     private void Surrender()
     {
-        // Ripristiniamo il tempo normale prima di cambiare scena
         Time.timeScale = 1f;
         isPaused = false;
 
@@ -165,7 +180,6 @@ public class PauseMenuManager : MonoBehaviour
 
     private void Exit()
     {
-        // Ripristiniamo il tempo normale prima di cambiare scena
         Time.timeScale = 1f;
         isPaused = false;
 
