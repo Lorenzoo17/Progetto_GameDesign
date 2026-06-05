@@ -111,10 +111,25 @@ public class StatsPanelUI : MonoBehaviour
     // =========================
     private void RefreshPerks(Player player)
     {
+        if (perkContainer == null || perkIconPrefab == null)
+        {
+            Debug.LogError("Perk UI references missing!");
+            return;
+        }
         foreach (Transform child in perkContainer)
             Destroy(child.gameObject);
 
-        foreach (PerkBase perk in player.perkController.activePerks)
+            if (player.perkController == null)
+        {
+            Debug.LogError("perkController NULL");
+            return;
+        }
+
+        var perks = player.perkController.activePerks;
+
+        Debug.Log("Perks count: " + perks.Count);
+
+        foreach (PerkBase perk in perks)
         {
             if (perk == null || perk.icon == null)
                 continue;

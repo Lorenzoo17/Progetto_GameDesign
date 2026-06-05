@@ -2397,7 +2397,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 556921260081144244}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99985695
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2567,9 +2567,9 @@ RectTransform:
   m_Father: {fileID: 3840953782677706427}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 16, y: -0.000026792462}
+  m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &5580384927529813210
 MonoBehaviour:
@@ -3225,8 +3225,8 @@ RectTransform:
   - {fileID: 6310904582243773570}
   - {fileID: 5327326966213852848}
   - {fileID: 780462376880039994}
-  - {fileID: 1880989543879873437}
   - {fileID: 8783746192157845774}
+  - {fileID: 1880989543879873437}
   - {fileID: 561668520203610226}
   m_Father: {fileID: 7592308577960604743}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3289,7 +3289,7 @@ MonoBehaviour:
   weaponImage: {fileID: 5988961399867442228}
   mutagen1Image: {fileID: 7342804076375846869}
   mutagen2Image: {fileID: 3166546671956706327}
-  perkContainer: {fileID: 7223194567942156681}
+  perkContainer: {fileID: 3840953782677706427}
   perkIconPrefab: {fileID: 1365661818300871622, guid: 4908bd336151b40459f3c4fef52ecdcb, type: 3}
   attackText: {fileID: 2035838939370572579}
   speedText: {fileID: 4486331314059315791}
