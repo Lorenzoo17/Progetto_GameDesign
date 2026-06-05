@@ -21,6 +21,7 @@ public class LaserMutagenSO : MutagenSO
 
     public override bool Activate(Player player, MutagenInstance instance)
     {
+        Debug.Log($"[LaserMutagenSO] Activating laser mutagen: {mutagenName}");
         return player.playerAttack.TriggerLaser(this, instance);
     }
 
@@ -30,8 +31,16 @@ public class LaserMutagenSO : MutagenSO
         if (instance.customData is not LaserController laserController)
             return;
 
-        // Update laser position and direction. attackDirection may be non-public; try reflection then fall back to forward.
-        laserController.UpdateLaser(player.playerAttack.GetAttackDirection());
+        // 1. Recuperiamo la direzione di attacco (quella che avevi prima)
+        Vector2 direction = player.playerAttack.GetAttackDirection();
+
+        // 2. Recuperiamo la posizione di partenza (il punto in cui si trova il player o l'arma)
+        // Se 'weaponHolder' non è accessibile qui, usa 'player.transform.position'
+        Vector3 startPosition = player.transform.position;
+
+        // 3. Chiamiamo UpdateLaser passando tutti e 3 i parametri richiesti:
+        // Posizione iniziale, Direzione dello sguardo, Lunghezza del laser (definita in questo ScriptableObject)
+        laserController.UpdateLaser(startPosition, direction, this.laserLength);
 
         // Apply damage on tick
         laserController.ApplyDamage(player, this, deltaTime);

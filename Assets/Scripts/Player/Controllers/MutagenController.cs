@@ -144,33 +144,21 @@ public class MutagenController : MonoBehaviour
         if (mutagen == null)
             return false;
 
-        // already active check
+        // 1. Controllo se è già attivo
         if (IsMutagenActive(mutagen))
         {
             Debug.Log($"Mutagen already active: {mutagen.mutagenName}");
             return false;
         }
 
-        // mana check
+        // 2. Controllo il mana
         if (!playerMana.HasEnoughMana(mutagen.manaCost))
         {
             Debug.Log("Not enough mana.");
             return false;
         }
 
-        // activation validation
-        MutagenInstance activationCheck = new MutagenInstance(mutagen);
-
-        bool hasActivated =
-            mutagen.Activate(player, activationCheck);
-
-        if (!hasActivated)
-            return false;
-
-        // consume mana
-        playerMana.UseMana(mutagen.manaCost);
-
-        // Trova lo slot dove è equipaggiato il mutagen
+        // 3. Trova lo slot di equipaggiamento
         int slotIndex = GetMutagenSlotIndex(mutagen);
         if (slotIndex == -1)
         {
@@ -178,17 +166,20 @@ public class MutagenController : MonoBehaviour
             return false;
         }
 
-        // runtime instance
-        MutagenInstance instance =
-            new MutagenInstance(mutagen);
+        // 4. Crea l'istanza unica a runtime
+        MutagenInstance instance = new MutagenInstance(mutagen);
 
+        // 5. Attiva il mutagen UNA SOLA VOLTA
+        bool hasActivated = mutagen.Activate(player, instance);
+
+        if (!hasActivated)
+            return false;
+
+        // 6. Se l'attivazione è andata a buon fine, consuma il mana e assegna lo slot attivo
+        playerMana.UseMana(mutagen.manaCost);
         SetActiveMutagen(slotIndex, instance);
 
-        // activate
-        mutagen.Activate(player, instance);
-
         Debug.Log($"Activated mutagen: {mutagen.mutagenName}");
-
         NotifyUI();
 
         return true;
@@ -317,11 +308,12 @@ public class MutagenController : MonoBehaviour
         };
     }
 
-    public HashSet<string> GetEquippedMutagenIds() {
+    public HashSet<string> GetEquippedMutagenIds()
+    {
         HashSet<string> equippedMutagenIds = new();
 
         AddEquippedMutagenId(equipped1, equippedMutagenIds);
-        AddEquippedMutagenId(equipped2, equippedMutagenIds);    
+        AddEquippedMutagenId(equipped2, equippedMutagenIds);
 
         return equippedMutagenIds;
     }
@@ -333,11 +325,13 @@ public class MutagenController : MonoBehaviour
         OnRequestSlotSelection?.Invoke(mutagen);
     }
 
-    private void AddEquippedMutagenId(MutagenSO mutagen, HashSet<string> ids) {
+    private void AddEquippedMutagenId(MutagenSO mutagen, HashSet<string> ids)
+    {
         if (mutagen == null)
             return;
 
-        if (mutagen.mutagenLootData == null) {
+        if (mutagen.mutagenLootData == null)
+        {
             Debug.LogWarning($"Mutagene {mutagen.mutagenName} non ha MutagenLootData assegnato");
             return;
         }

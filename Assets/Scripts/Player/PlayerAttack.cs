@@ -259,7 +259,7 @@ public class PlayerAttack : MonoBehaviour
 
         // Create the laser controller
         LaserController laserController = new LaserController();
-
+        Debug.Log($"[PlayerAttack] Triggering laser attack with data: {laserData.mutagenName}");
         // Initialize with visual effect at weapon holder position
         laserController.Initialize(laserData.laserEffectPrefab, weaponHolder.position, attackDirection);
 
