@@ -50,7 +50,7 @@ public class WeaponMelee : Weapon
                 {
 
                     // 🔥 APPLICA PERK AL DANNO NORMALE
-                    DamageInfo normalDamage = new DamageInfo(weaponDamage, dir, Player.Instance.gameObject, EntityType.Player);
+                    DamageInfo normalDamage = new DamageInfo(weaponDamage + Player.Instance.playerStats.playerCurrentStats.getAttack(), dir, Player.Instance.gameObject, EntityType.Player);
                     normalDamage = Player.Instance.perkController.OnDealDamage(ref normalDamage);
                     entityDamageable.TakeDamage(normalDamage);
                 }

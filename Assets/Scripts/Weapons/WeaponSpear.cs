@@ -46,7 +46,7 @@ public class WeaponSpear : Weapon
                 {
                     hitEnemiesThisAttack.Add(hit.collider.gameObject);
 
-                    DamageInfo damageInfo = new DamageInfo(weaponBaseDamage, dir, Player.Instance.gameObject, EntityType.Player);
+                    DamageInfo damageInfo = new DamageInfo(weaponBaseDamage + Player.Instance.playerStats.playerCurrentStats.getAttack(), dir, Player.Instance.gameObject, EntityType.Player);
                     damageInfo = Player.Instance.perkController.OnDealDamage(ref damageInfo);
                     entityDamageable.TakeDamage(damageInfo);
                 }

@@ -10,27 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3abbea3d7753bb408b987c54e43d08d, type: 3}
-  m_Name: TransformationMutagen
+  m_Name: ImFastAsFuckBOII
   m_EditorClassIdentifier: Assembly-CSharp::TransformationMutagenSO
-  mutagenName: Berserk!
-  description: Enrage and unleash all you might!
-  icon: {fileID: 2094781142805662057, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
-  manaCost: 2
+  mutagenName: Speedster
+  description: My name is Jimmy Allen and I am the fastest man alive.
+  icon: {fileID: -6422791717167894241, guid: a20203a2681288b419663861560b3769, type: 3}
+  manaCost: 1
   isToggle: 0
-  duration: 45
+  duration: 50
   animationEffect: {fileID: 0}
   mutagenLootData: {fileID: 0}
   perks:
-  - {fileID: 11400000, guid: b59b082ea907f7940aad7488ca024b19, type: 2}
-  - {fileID: 11400000, guid: b59b082ea907f7940aad7488ca024b19, type: 2}
-  - {fileID: 11400000, guid: 356c7c578e97d5242a13f04fdede7e97, type: 2}
-  - {fileID: 11400000, guid: 61eabcdd54fd16a4e95a50c5ff6f9e0e, type: 2}
-  auraPrefab: {fileID: 5269492632940277768, guid: 070c8c8ab7760e24bb4ca012eb509bab, type: 3}
+  - {fileID: 11400000, guid: 7e59aa1ace0a2d24d95765a467859a16, type: 2}
+  - {fileID: 11400000, guid: 560c4cc8adaba0d40a4491da9750d051, type: 2}
+  - {fileID: 11400000, guid: 560c4cc8adaba0d40a4491da9750d051, type: 2}
+  auraPrefab: {fileID: 6245043206217704307, guid: ef392c2cdb48c084b995c92cf8f0d159, type: 3}
   auraGradient:
     serializedVersion: 2
-    key0: {r: 0.7264151, g: 0.030838363, b: 0.030838363, a: 0.36078432}
-    key1: {r: 0.8773585, g: 0.47708753, b: 0.1779548, a: 0.22745098}
-    key2: {r: 0, g: 0, b: 0, a: 0.30980393}
+    key0: {r: 1, g: 0.92156863, b: 0.015686275, a: 0.46666667}
+    key1: {r: 0.8867924, g: 0.6175058, b: 0.23843002, a: 0.46666667}
+    key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
@@ -45,8 +44,8 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 63993
-    atime2: 65535
+    atime1: 65535
+    atime2: 0
     atime3: 0
     atime4: 0
     atime5: 0
@@ -55,6 +54,6 @@ MonoBehaviour:
     m_Mode: 0
     m_ColorSpace: -1
     m_NumColorKeys: 2
-    m_NumAlphaKeys: 3
+    m_NumAlphaKeys: 2
   gradientSpeed: 1
   playerTintColor: {r: 1, g: 1, b: 1, a: 1}
