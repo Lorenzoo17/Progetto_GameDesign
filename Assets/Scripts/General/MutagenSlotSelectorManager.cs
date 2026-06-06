@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public class MutagenSlotSelectorManager : MonoBehaviour
 {
@@ -12,6 +14,9 @@ public class MutagenSlotSelectorManager : MonoBehaviour
     private MutagenItem pendingMutagenItem;
     private float previousTimeScale = 1f;
     private bool isSelectingSlot = false;
+
+    //[Header("Button Hover Settings")]
+    //SerializeField] private float selectedButtonScale = 1.15f;
 
     private void Awake()
     {
@@ -118,6 +123,7 @@ public class MutagenSlotSelectorManager : MonoBehaviour
         if (mutagenIcon != null && pendingMutagen != null)
         {
             mutagenIcon.sprite = pendingMutagen.icon;
+            mutagenIcon.preserveAspect = true;
         }
 
         // Configuriamo i bottoni degli slot
@@ -126,10 +132,11 @@ public class MutagenSlotSelectorManager : MonoBehaviour
 
         // Configuriamo il bottone di annullamento
         Button cancelButton = currentUI.transform.Find("CancelButton")?.GetComponent<Button>();
-        if (cancelButton != null)
-        {
+        if (cancelButton != null) {
             cancelButton.onClick.RemoveAllListeners();
             cancelButton.onClick.AddListener(CancelSelection);
+
+            ConfigureButtonVisual(cancelButton);
         }
     }
 
@@ -174,6 +181,10 @@ public class MutagenSlotSelectorManager : MonoBehaviour
         // Configuriamo il click
         slotButton.onClick.RemoveAllListeners();
         slotButton.onClick.AddListener(() => SelectSlot(slotIndex));
+
+        // Divider + scale su hover/selezione
+        ConfigureButtonVisual(slotButton);
+
         Debug.Log($"Button {buttonName} configured successfully");
     }
 
@@ -247,5 +258,79 @@ public class MutagenSlotSelectorManager : MonoBehaviour
     public bool IsSelectingSlot()
     {
         return isSelectingSlot;
+    }
+
+    private void ConfigureButtonVisual(Button button) {
+        if (button == null) return;
+
+        Transform divider = button.transform.Find("Divider");
+
+        // Nel caso nel prefab lo hai chiamato "divider" minuscolo
+        if (divider == null)
+            divider = button.transform.Find("divider");
+
+        Vector3 originalScale = button.transform.localScale;
+
+        bool isPointerOver = false;
+        bool isSelected = false;
+
+        if (divider != null)
+            divider.gameObject.SetActive(false);
+
+        button.transform.localScale = originalScale;
+
+        EventTrigger trigger = button.GetComponent<EventTrigger>();
+
+        if (trigger == null)
+            trigger = button.gameObject.AddComponent<EventTrigger>();
+
+        trigger.triggers.Clear();
+
+        AddEventTrigger(trigger, EventTriggerType.PointerEnter, () =>
+        {
+            if (!button.interactable) return;
+
+            isPointerOver = true;
+            RefreshVisual();
+        });
+
+        AddEventTrigger(trigger, EventTriggerType.PointerExit, () =>
+        {
+            isPointerOver = false;
+            RefreshVisual();
+        });
+
+        AddEventTrigger(trigger, EventTriggerType.Select, () =>
+        {
+            if (!button.interactable) return;
+
+            isSelected = true;
+            RefreshVisual();
+        });
+
+        AddEventTrigger(trigger, EventTriggerType.Deselect, () =>
+        {
+            isSelected = false;
+            RefreshVisual();
+        });
+
+        void RefreshVisual() {
+            bool active = button.interactable && (isPointerOver || isSelected);
+
+            if (divider != null)
+                divider.gameObject.SetActive(active);
+        }
+    }
+
+    private void AddEventTrigger(EventTrigger trigger, EventTriggerType eventType, UnityAction action) {
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = eventType;
+
+        entry.callback.AddListener((eventData) =>
+        {
+            action.Invoke();
+        });
+
+        trigger.triggers.Add(entry);
     }
 }

@@ -55,6 +55,8 @@ public class StatsPanelUI : MonoBehaviour
 
         playerImage.sprite = sr.sprite;
         playerImage.enabled = true;
+
+        playerImage.preserveAspect = true;
     }
 
     // =========================
@@ -82,6 +84,7 @@ public class StatsPanelUI : MonoBehaviour
         {
             weaponImage.sprite = sr.sprite;
             weaponImage.enabled = true;
+            weaponImage.preserveAspect = true;
         }
         else
         {
@@ -104,6 +107,9 @@ public class StatsPanelUI : MonoBehaviour
 
         mutagen1Image.enabled = m1 != null;
         mutagen2Image.enabled = m2 != null;
+
+        mutagen1Image.preserveAspect = true;
+        mutagen2Image.preserveAspect = true;
     }
 
     // =========================
@@ -137,6 +143,8 @@ public class StatsPanelUI : MonoBehaviour
             Image icon = Instantiate(perkIconPrefab, perkContainer);
             icon.sprite = perk.icon;
             icon.enabled = true;
+
+            icon.preserveAspect = true;
         }
     }
 

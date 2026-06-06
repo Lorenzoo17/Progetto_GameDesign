@@ -449,6 +449,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusController
   activePerks: []
+  perksToRemove: []
+  perksToAdd: []
   player: {fileID: 0}
 --- !u!114 &-2533598983264280887
 MonoBehaviour:

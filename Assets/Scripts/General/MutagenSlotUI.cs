@@ -18,6 +18,7 @@ public class MutagenSlotUI : MonoBehaviour
         {
             iconImage.enabled = true;
             iconImage.sprite = mutagen.icon;
+            iconImage.preserveAspect = true;
         }
         else
         {

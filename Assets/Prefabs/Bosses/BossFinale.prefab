@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5413238639295673508}
   - component: {fileID: 8797646812830116539}
   - component: {fileID: -1854229873080924358}
+  - component: {fileID: 158517071961120852}
   m_Layer: 0
   m_Name: BossFinale
   m_TagString: Untagged
@@ -148,7 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 4
-  resetsSceneOnDeath: 0
+  isBoss: 0
   levelLoader: {fileID: 0}
   defense: 0
 --- !u!114 &5151883782128186509
@@ -261,6 +262,22 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageBoostParticlePrefab: {fileID: 0}
   particleOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &158517071961120852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375325059639907942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f21adee016e2e346b1f35aa3203ab19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFightManager
+  scriptsToDisable:
+  - {fileID: 5151883782128186509}
+  - {fileID: 8797646812830116539}
+  room: {fileID: 0}
 --- !u!1 &5568309253460772942
 GameObject:
   m_ObjectHideFlags: 0

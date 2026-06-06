@@ -46,23 +46,24 @@ public class BossSplashScreen : MonoBehaviour {
     }
 
     // richiamato in BossRoom.cs
-    public void SetBossSplashScreen(string bossName, Sprite bossSprite, BossFreezable bossFreezable) {
+    public void SetBossSplashScreen(string bossName, Sprite bossSprite, BossFightManager bossFightManager) {
         splashScreenLayout.SetActive(true);
 
         bossNameTMPro.text = bossName;
         bossImage.sprite = bossSprite;
+        bossImage.preserveAspect = true;
 
         if (splashCoroutine != null)
             StopCoroutine(splashCoroutine);
 
-        splashCoroutine = StartCoroutine(SplashScreenRoutine(bossFreezable));
+        splashCoroutine = StartCoroutine(SplashScreenRoutine(bossFightManager));
     }
 
-    private System.Collections.IEnumerator SplashScreenRoutine(BossFreezable bossFreezable) {
+    private System.Collections.IEnumerator SplashScreenRoutine(BossFightManager bossFightManager) {
         Player.Instance.playerMovement.StopPlayer();
 
-        if (bossFreezable != null)
-            bossFreezable.FreezeBoss();
+        if (bossFightManager != null)
+            bossFightManager.FreezeBoss();
 
         // splash art resettate in posizione iniziale
         if (bossSplashRect != null)
@@ -82,8 +83,8 @@ public class BossSplashScreen : MonoBehaviour {
 
         Player.Instance.playerMovement.ResumePlayer();
 
-        if (bossFreezable != null)
-            bossFreezable.ResumeBoss();
+        if (bossFightManager != null)
+            bossFightManager.ResumeBoss();
 
         splashScreenLayout.SetActive(false);
         splashCoroutine = null;

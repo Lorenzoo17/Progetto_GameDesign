@@ -3794,7 +3794,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: -4348277106678931353, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -24171,10 +24171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -27081,10 +27081,6 @@ PrefabInstance:
     - target: {fileID: 1303978041023684131, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1716811542928549543, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2345396852533137219, guid: 5990d23cbaad83548b79d64db4ee8f31, type: 3}
       propertyPath: m_LocalPosition.x
@@ -33014,6 +33010,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenuManager
   pauseMenuPrefab: {fileID: 4209035676273115925, guid: 8fb154106c7974c4d96350283580771c, type: 3}
+  selectedButtonScale: 1.15
+  disabledTextColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  enabledTextColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1865569016
 MonoBehaviour:
   m_ObjectHideFlags: 0

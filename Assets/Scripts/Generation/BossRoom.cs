@@ -23,11 +23,14 @@ public class BossRoom : MonoBehaviour {
 
         spawned = true;
 
-        // attivo splashScreen
-        if (BossSplashScreen.Instance != null) {
-            if(boss.TryGetComponent<SpriteRenderer>(out SpriteRenderer sr)) {
-                BossFreezable bf = boss.GetComponent<BossFreezable>();
-                BossSplashScreen.Instance.SetBossSplashScreen(boss.name.Replace("(Clone)", "").Trim(), sr.sprite, bf);
+        if (boss.TryGetComponent<BossFightManager>(out BossFightManager bf)) {
+            bf.SetRoom(rb);
+
+            // attivo splashScreen
+            if (BossSplashScreen.Instance != null) {
+                if (boss.TryGetComponent<SpriteRenderer>(out SpriteRenderer sr)) {
+                    BossSplashScreen.Instance.SetBossSplashScreen(boss.name.Replace("(Clone)", "").Trim(), sr.sprite, bf);
+                }
             }
         }
     }

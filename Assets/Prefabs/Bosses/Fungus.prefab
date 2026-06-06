@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 4224596478995532550}
   - component: {fileID: 6624161415336746985}
   - component: {fileID: -1850199715440305445}
-  - component: {fileID: 4732685457262759346}
+  - component: {fileID: 4379115838475733567}
   m_Layer: 0
   m_Name: Fungus
   m_TagString: Untagged
@@ -362,7 +362,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageBoostParticlePrefab: {fileID: 0}
   particleOffset: {x: 0, y: 0, z: 0}
---- !u!114 &4732685457262759346
+--- !u!114 &4379115838475733567
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -371,12 +371,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4378181008594232565}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52b49dea744d4f94baf0f8840f1da4fc, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f21adee016e2e346b1f35aa3203ab19, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossFreezable
+  m_EditorClassIdentifier: Assembly-CSharp::BossFightManager
   scriptsToDisable:
-  - {fileID: 4870650689927582519}
   - {fileID: 839396337409860717}
+  - {fileID: 4870650689927582519}
 --- !u!1 &4837429136762248818
 GameObject:
   m_ObjectHideFlags: 0
