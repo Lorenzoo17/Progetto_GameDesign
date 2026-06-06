@@ -15,8 +15,8 @@ MonoBehaviour:
   perkName: Plus Damage
   pair: {fileID: 0}
   icon: {fileID: 0}
-  description: 
+  isHidden: 0
   perkLootData: {fileID: 0}
   effectType: 0
   damageBoostType: 1
-  value: 1
+  value: 3
