@@ -16101,7 +16101,7 @@ Tilemap:
       - {fileID: -211005044, guid: 70c59463e9923c04189e0c98e96e39bc, type: 3}
       - {fileID: 230435606, guid: 70c59463e9923c04189e0c98e96e39bc, type: 3}
       - {fileID: 1569491620, guid: 70c59463e9923c04189e0c98e96e39bc, type: 3}
-      m_AnimationSpeed: 5.0000005
+      m_AnimationSpeed: 5
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: 1, z: 0}
@@ -16125,7 +16125,7 @@ Tilemap:
       - {fileID: -211005044, guid: 70c59463e9923c04189e0c98e96e39bc, type: 3}
       - {fileID: 230435606, guid: 70c59463e9923c04189e0c98e96e39bc, type: 3}
       - {fileID: 1569491620, guid: 70c59463e9923c04189e0c98e96e39bc, type: 3}
-      m_AnimationSpeed: 5.0000005
+      m_AnimationSpeed: 5
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -1, y: 2, z: 0}
@@ -16603,6 +16603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
 --- !u!1 &4335929138662440525
 GameObject:
   m_ObjectHideFlags: 0
@@ -16778,6 +16779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
 --- !u!1 &4339746725877757583
 GameObject:
   m_ObjectHideFlags: 0
@@ -18223,6 +18225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
 --- !u!1 &6730807429130446109
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68f3470837d8cb64fa3f1f8c0d9ad88a, type: 3}
+  m_Name: GiantProjectile_Data
+  m_EditorClassIdentifier: Assembly-CSharp::MutagenLootData
+  id: 4
+  price: 100
+  prefab: {fileID: 2313166402203152390, guid: 26af4dae7cb0e7e4aaf8a5d968e3260f, type: 3}
+  unlockedByDefault: 1

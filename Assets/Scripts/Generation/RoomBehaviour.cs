@@ -44,12 +44,13 @@ public class RoomBehaviour : MonoBehaviour
 
     public static event Action<RoomBehaviour> OnAnyRoomEntered;
     public static event Action<RoomBehaviour> OnAnyRoomVisited;
-
+    public static event Action<RoomBehaviour> OnAnyRoomCleared;
     public RoomType RoomType => roomType;
     public Vector2Int GridPosition { get; private set; }
     public bool IsVisited => isVisited;
 
-    public void SetGridPosition(Vector2Int gridPosition) {
+    public void SetGridPosition(Vector2Int gridPosition)
+    {
         GridPosition = gridPosition;
     }
     private void Awake()
@@ -139,7 +140,8 @@ public class RoomBehaviour : MonoBehaviour
     }
 
     // prima entrata
-    private void StartRoom() {
+    private void StartRoom()
+    {
         // per queste camere per ora non si chiudono semplicemente le porte
         if (roomType == RoomType.TrapRoom || roomType == RoomType.VendorRoom || roomType == RoomType.TreasureRoom) return;
         // startRoom anche rimane chiusa, in quanto si aspetta che il player raccolga l'arma iniziale
@@ -198,6 +200,8 @@ public class RoomBehaviour : MonoBehaviour
         isCleared = true;
         OpenDoors();
         OnRoomCleared?.Invoke(this, EventArgs.Empty);
+        Debug.Log($"Room cleared: {name}");
+        OnAnyRoomCleared?.Invoke(this);
     }
 
     public void BakeRoomNavMesh()

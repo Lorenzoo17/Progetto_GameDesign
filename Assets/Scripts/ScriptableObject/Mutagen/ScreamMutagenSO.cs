@@ -9,7 +9,8 @@ public class ScreamSO : MutagenSO
 
         foreach (Enemy enemy in enemies)
         {
-            enemy.SetStun(true);
+            float effectDuration = GetEnemyEffectDuration(enemy);
+            enemy.ApplyStun(effectDuration);
         }
 
     
@@ -42,11 +43,6 @@ public class ScreamSO : MutagenSO
 
     public override void Deactivate(Player player, MutagenInstance instance)
     {
-        Enemy[] enemies = GameObject.FindObjectsOfType<Enemy>();
-
-        foreach (Enemy enemy in enemies)
-        {
-            enemy.SetStun(false);
-        }
+        // gestito da enemy
     }
 }

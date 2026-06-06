@@ -29,6 +29,7 @@ public class EnemyMovementNav : MonoBehaviour {
     private NavMeshAgent agent;
     private Animator anim;
     private EnemyAttackBase enemyAttack;
+    private Enemy enemy;
 
     private Vector3 desiredPosition;
     private Vector3 randomFollowOffset;
@@ -45,6 +46,7 @@ public class EnemyMovementNav : MonoBehaviour {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         enemyAttack = GetComponent<EnemyAttackBase>();
+        enemy = GetComponent<Enemy>();
 
         SetupNavMeshAgent();
 
@@ -64,6 +66,13 @@ public class EnemyMovementNav : MonoBehaviour {
 
         if (!agent.isOnNavMesh)
             return;
+
+        if (enemy != null && enemy.IsStunned)
+        {
+            StopMovement();
+            SetMoving(false);
+            return;
+        }
 
         if (isKnockedBack)
             return;
@@ -219,6 +228,12 @@ public class EnemyMovementNav : MonoBehaviour {
 
         agent.ResetPath();
         agent.velocity = Vector3.zero;
+    }
+
+    public void ForceStop()
+    {
+        StopMovement();
+        SetMoving(false);
     }
 
     public void ApplyKnockback(Vector2 direction, float force, float duration) {

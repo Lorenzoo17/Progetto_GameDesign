@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour {
+public class PlayerStats : MonoBehaviour
+{
 
     // statistiche da impostare dall'editor o tramite ScriptableObject
     [SerializeField] private CharacterStats baseStats;
@@ -10,22 +11,27 @@ public class PlayerStats : MonoBehaviour {
 
     private List<StatPerkSO> activePerks = new List<StatPerkSO>(); // perks attualmente attivi
 
-    private void Awake() {
+    private void Awake()
+    {
         // Inizializzo le statistiche
         playerCurrentStats = new CharacterStats(baseStats);
     }
 
-    public List<StatPerkSO> GetActivePerks() {
+    public List<StatPerkSO> GetActivePerks()
+    {
         return activePerks;
     }
 
-    private void UpdateStats() {
+    public void UpdateStats()
+    {
         // reset
         playerCurrentStats = new CharacterStats(baseStats);
 
-        foreach (var perk in activePerks) {
+        foreach (var perk in activePerks)
+        {
 
-            switch (perk.statType) {
+            switch (perk.statType)
+            {
 
                 case StatType.DodgeCoolDown:
                     ApplyModifier(ref playerCurrentStats, perk,
@@ -64,15 +70,25 @@ public class PlayerStats : MonoBehaviour {
         ref CharacterStats stats,
         StatPerkSO perk,
         Action<CharacterStats> flatAction,
-        Action<CharacterStats> percentAction) {
-            if (perk.modifierType == ModifierType.Flat)
-                flatAction(stats);
-            else
-                percentAction(stats);
+        Action<CharacterStats> percentAction)
+    {
+        if (perk.modifierType == ModifierType.Flat)
+            flatAction(stats);
+        else
+            percentAction(stats);
     }
 
-    public void AddPerk(StatPerkSO perk) {
+    public void AddPerk(StatPerkSO perk)
+    {
         activePerks.Add(perk);
         UpdateStats();
+    }
+    public void RemovePerk(StatPerkSO perk)
+    {
+        if (activePerks.Contains(perk))
+        {
+            activePerks.Remove(perk);
+            UpdateStats();
+        }
     }
 }

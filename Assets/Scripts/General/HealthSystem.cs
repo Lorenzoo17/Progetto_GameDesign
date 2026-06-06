@@ -12,61 +12,133 @@ public class DamageEventArgs : EventArgs
         AttackDirection = attackDirection;
     }
 }
+public class BossDeathEventArgs : EventArgs
+{
+    public string BossName { get; }
+
+    public BossDeathEventArgs(string bossName)
+    {
+        BossName = bossName;
+    }
+}
 public class HealthSystem : MonoBehaviour, IDamageable
 {
-
     [SerializeField] private float maxHealth;
     public float CurrentHealth { get; private set; }
-    public bool resetsSceneOnDeath = false;
+    public bool isBoss = false;
 
     public LevelLoader levelLoader;
 
     [SerializeField] private float defense;
     public event EventHandler<DamageEventArgs> OnDamageTaken;
+    public event EventHandler<BossDeathEventArgs> OnBossDeath;
+
+    private DamageEffectVisuals damageEffectVisuals;
 
     private void Awake()
     {
         CurrentHealth = maxHealth;
         defense = 0;
+        damageEffectVisuals = GetComponent<DamageEffectVisuals>();
     }
 
-    public float GetHealthPercentage() {
+    public float GetHealthPercentage()
+    {
         return (CurrentHealth / maxHealth) * 100f;
     }
 
     public void TakeDamage(DamageInfo damageInfo)
     {
+        // Applica danno fisico
+        ApplyPhysicalDamage(damageInfo);
+
+        // Applica danno veleno
+        if (damageInfo.Damage[DamageType.Poison] > 0)
+        {
+            TakePoisonDamage(damageInfo);
+        }
+    }
+
+    private void ApplyPhysicalDamage(DamageInfo damageInfo)
+    {
         DamageInfo modifiedDamageInfo = TakeDamageLol(damageInfo);
         CurrentHealth -= modifiedDamageInfo.Damage[DamageType.Physical];
         OnDamageTaken?.Invoke(this, new DamageEventArgs(modifiedDamageInfo.Damage[DamageType.Physical], modifiedDamageInfo.Direction));
+        HandleDamageVisuals(modifiedDamageInfo);
 
         if (SoundManager.Instance != null)
         {
             SoundManager.Instance.PlaySound2D(SoundID.EnemyHit, .25f);
         }
+        HandleDeathIfNeeded();
+    }
 
+    private void HandleDeathIfNeeded()
+    {
         if (CurrentHealth <= 0)
         {
+            Debug.Log($"[HealthSystem] Enemy died!");
             Destroy(gameObject);
-            if (resetsSceneOnDeath)
+            if (isBoss)
             {
-                levelLoader.LoadNextScene("CombatHub");
+                FindFirstObjectByType<PerkController>()?.ClearAllNegativePerks();
             }
         }
     }
 
     public void TakePoisonDamage(DamageInfo damageInfo)
     {
-        CurrentHealth -= damageInfo.Damage[DamageType.Poison];
-        OnDamageTaken?.Invoke(this, new DamageEventArgs(damageInfo.Damage[DamageType.Poison], damageInfo.Direction));
+        float poisonDamage = damageInfo.Damage[DamageType.Poison];
 
-        if (CurrentHealth <= 0)
+        Debug.Log($"[HealthSystem] Taking poison damage: {poisonDamage} from {damageInfo.Source.name}");
+
+        if (poisonDamage <= 0) return; // Non applicare se danno è 0
+        CurrentHealth -= poisonDamage;
+        OnDamageTaken?.Invoke(this, new DamageEventArgs(poisonDamage, damageInfo.Direction));
+
+        Debug.Log($"[HealthSystem] Taking poison damage: {poisonDamage}. Current health: {CurrentHealth}. Effect: {string.Join(", ", damageInfo.AppliedEffects)}");
+
+        // Trigga visual effects per veleno
+        if (damageEffectVisuals != null && poisonDamage > 0)
         {
-            Destroy(gameObject);
-            if (resetsSceneOnDeath)
+            damageEffectVisuals.PlayPoisonEffect();
+        }
+
+        // 🔥 SISTEMA DI VELENO CUMULATIVO
+        // Solo se è il primo colpo di veleno (contiene "PoisonApplied")
+        if (damageInfo.AppliedEffects.Contains("PoisonApplied") && poisonDamage > 0)
+        {
+            Debug.Log($"[HealthSystem] PoisonApplied detected! Creating/updating PoisonEffect");
+
+            // Cerca se esiste già un effetto veleno
+            PoisonEffect poisonEffect = GetComponent<PoisonEffect>();
+
+            if (poisonEffect == null)
             {
-                levelLoader.LoadNextScene("CombatHub");
+                Debug.Log($"[HealthSystem] Creating new PoisonEffect component");
+                poisonEffect = gameObject.AddComponent<PoisonEffect>();
             }
+
+            // Aggiungi il veleno (accumula con quelli precedenti)
+            poisonEffect.AddPoison(damageInfo.Source, poisonDamage);
+        }
+        HandleDeathIfNeeded();
+    }
+
+    private void HandleDamageVisuals(DamageInfo damageInfo)
+    {
+        if (damageEffectVisuals == null) return;
+
+        // Particella rossa se il danno è stato boosted
+        if (damageInfo.AppliedEffects.Contains("DamageBoost"))
+        {
+            damageEffectVisuals.PlayDamageBoostEffect();
+        }
+
+        // Maschera verde se è stato applicato veleno
+        if (damageInfo.AppliedEffects.Contains("PoisonApplied"))
+        {
+            damageEffectVisuals.PlayPoisonEffect();
         }
     }
 
@@ -80,13 +152,17 @@ public class HealthSystem : MonoBehaviour, IDamageable
             damageInfo.Source,
             damageInfo.SourceFaction
         );
+
+        // Copia gli effetti applicati
+        modifiedDamageInfo.AppliedEffects = damageInfo.AppliedEffects;
+
         return modifiedDamageInfo;
     }
+
     private DamageInfo TakeDamageOther(DamageInfo damageInfo)
     {
         float defensePerc = (100f / (100f + defense));
         float damage = damageInfo.Damage[DamageType.Physical];
-
 
         DamageInfo modifiedDamageInfo = new DamageInfo(
             MathF.Log(damage, 2) * defensePerc * MathF.Sqrt(damage),
@@ -94,6 +170,8 @@ public class HealthSystem : MonoBehaviour, IDamageable
             damageInfo.Source,
             damageInfo.SourceFaction
         );
+
+        modifiedDamageInfo.AppliedEffects = damageInfo.AppliedEffects;
 
         return modifiedDamageInfo;
     }

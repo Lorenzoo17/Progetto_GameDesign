@@ -7,7 +7,6 @@ public class HealthBar : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject heartPrefab;
     [SerializeField] private Transform heartsContainer;
-
     [Header("Sprites")]
     [SerializeField] private Sprite fullHeartSprite;
     [SerializeField] private Sprite halfHeartSprite;
@@ -29,6 +28,10 @@ public class HealthBar : MonoBehaviour
     private void PlayerHealth_OnHealthChanged(object sender, System.EventArgs e)
     {
         UpdateHearts();
+        if (Player.Instance.playerHealth.maxHealthUnits > hearts.Count * 2)
+        {
+            CreateHearts();
+        }
     }
 
     private void CreateHearts()
@@ -49,6 +52,27 @@ public class HealthBar : MonoBehaviour
 
             Image heartImage = heartObj.GetComponent<Image>();
 
+            hearts.Add(heartImage);
+
+        }
+    }
+
+    private void createHeart()
+    {
+        if (Player.Instance.playerHealth.maxHealthUnits % 2 == 0)
+        {
+            // Aggiungi un cuore pieno
+            GameObject heartObj = Instantiate(heartPrefab, heartsContainer);
+            Image heartImage = heartObj.GetComponent<Image>();
+            heartImage.sprite = fullHeartSprite;
+            hearts.Add(heartImage);
+        }
+        else
+        {
+            // Aggiungi un cuore mezzo pieno
+            GameObject heartObj = Instantiate(heartPrefab, heartsContainer);
+            Image heartImage = heartObj.GetComponent<Image>();
+            heartImage.sprite = halfHeartSprite;
             hearts.Add(heartImage);
         }
     }

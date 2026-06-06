@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class LinearProjectile : ProjectileBase {
+public class LinearProjectile : ProjectileBase
+{
     private Rigidbody2D rb;
     private float speed;
 
@@ -10,12 +11,14 @@ public class LinearProjectile : ProjectileBase {
 
     [SerializeField] private LayerMask destroyOnContactLayers;
 
-    private void Awake() {
+    private void Awake()
+    {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Start() {
-        if(shadow != null)
+    private void Start()
+    {
+        if (shadow != null)
             shadow.localPosition = (Vector3)initialShadownOffset;
     }
 
@@ -24,25 +27,34 @@ public class LinearProjectile : ProjectileBase {
         Vector2 direction,
         float speed,
         float damage
-    ) {
+    )
+    {
+        if (owner == Player.Instance.gameObject)
+        {
+            damage += Player.Instance.playerStats.playerCurrentStats.getAttack() / 2;
+        }
         base.InitializeProjectile(owner, direction, damage); // metodo di ProjectileBase
 
         this.speed = speed;
 
-        if (rb != null) {
+        if (rb != null)
+        {
             rb.linearVelocity = this.direction * speed;
         }
     }
 
-    private void Update() {
-        if(shadow != null)
+    private void Update()
+    {
+        if (shadow != null)
             shadow.localPosition = Vector3.Lerp(shadow.localPosition, Vector3.zero, shadowInterpolationValue * Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         if (other.GetComponent<ICollectible>() != null) return;
 
-        if (((1 << other.gameObject.layer) & destroyOnContactLayers) != 0) {
+        if (((1 << other.gameObject.layer) & destroyOnContactLayers) != 0)
+        {
             ProjectileDestruction();
             return;
         }
@@ -50,7 +62,8 @@ public class LinearProjectile : ProjectileBase {
         Vector2 hitDirection = direction;
         bool hasHitSomething = TryDealDamage(other, direction);
 
-        if (hasHitSomething) {
+        if (hasHitSomething)
+        {
             ProjectileDestruction();
         }
     }

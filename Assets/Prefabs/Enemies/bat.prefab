@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 1122360804315905039}
   - component: {fileID: 2622074710920071546}
   - component: {fileID: 3603770711520021077}
+  - component: {fileID: 5420803320957088141}
   m_Layer: 0
   m_Name: bat
   m_TagString: Untagged
@@ -157,7 +158,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.013818085, y: -0.0061413646}
+  m_Offset: {x: 0.074542046, y: 0.2015996}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -167,7 +168,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.29, y: 0.27}
+  m_Size: {x: 1.1273575, y: 0.8772421}
   m_EdgeRadius: 0
 --- !u!114 &3135712122500313157
 MonoBehaviour:
@@ -197,6 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  stunDurationMultiplier: 1
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
@@ -320,6 +322,46 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5420803320957088141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5350465888886524393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10e9422cca56f844fad3cef3c3b52d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageEffectVisuals
+  poisonColor: {r: 0, g: 1, b: 0, a: 1}
+  poisonFlashDuration: 0.15
+  poisonFadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damageBoostParticlePrefab: {fileID: 0}
+  particleOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &7430712143432339987
 GameObject:
   m_ObjectHideFlags: 0

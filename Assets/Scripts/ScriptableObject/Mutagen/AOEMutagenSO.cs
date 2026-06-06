@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewAOEData", menuName = "Combat/AOE Data")]
+[CreateAssetMenu(fileName = "NewAOEData", menuName = "Mutagens/AOE Data")]
 public class AOEMutagenSO : MutagenSO
 {
     [Header("Visual & Sound")]

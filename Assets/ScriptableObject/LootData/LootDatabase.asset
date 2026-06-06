@@ -19,8 +19,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2bca6f8841134104dbacacd85d789a5d, type: 2}
   - {fileID: 11400000, guid: 99f21301c5420cc459249e4d607d57c0, type: 2}
   - {fileID: 11400000, guid: 4224ff914d2c07040ad92cd87e191bf2, type: 2}
+  - {fileID: 11400000, guid: f054dda7c979f10479d14eb270e033a4, type: 2}
   perks: []
   mutagens:
   - {fileID: 11400000, guid: 0805923d27e93ba4c89cda6ccb5046de, type: 2}
   - {fileID: 11400000, guid: c0d982f500686814db3792179b3af844, type: 2}
   - {fileID: 11400000, guid: 5f2545a743ecc7e44a1400fad4cd2c63, type: 2}
+  - {fileID: 11400000, guid: 57377eedd96738f459bfebdcc9395731, type: 2}
+  - {fileID: 11400000, guid: 7e5e8d6a29d95e14cbd87265eb7fe5bd, type: 2}
+  - {fileID: 11400000, guid: 620933fff0218284d8dd587ab31a4ed9, type: 2}

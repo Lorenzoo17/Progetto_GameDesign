@@ -9,12 +9,34 @@ public class StatPerkSO : PerkBase
 
     public override void OnApply(Player player)
     {
-        Debug.Log("Stat perk applied");
+        if (player != null && player.playerStats != null)
+        {
+            player.playerStats.AddPerk(this);
+        }
+        else
+        {
+            Debug.LogError("Player o PlayerStats non trovati!");
+        }
     }
 
     public override void OnRemove(Player player)
     {
-        Debug.Log("Stat perk removed");
+        if (player != null && player.playerStats != null)
+        {
+            player.playerStats.RemovePerk(this);
+        }
+        else
+        {
+            Debug.LogError("Player o PlayerStats non trovati!");
+        }
+    }
+
+    public override string Descriptor()
+    {
+        string modValue = modifierType == ModifierType.Flat
+            ? value.ToString()
+            : (value * 100).ToString("F0") + "%";
+
+        return $"{statType} {(modifierType == ModifierType.Flat ? "+" : "")}{modValue}";
     }
 }
-

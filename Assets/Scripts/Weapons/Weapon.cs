@@ -1,11 +1,13 @@
 using UnityEngine;
 
-public interface IWeapon {
+public interface IWeapon
+{
     void Attack(Vector2 attackDirection);
     void HandleRotation(Transform weaponHolder, Vector2 dir);
 }
 
-public class Weapon : MonoBehaviour, IWeapon, ICollectible{
+public class Weapon : MonoBehaviour, IWeapon, ICollectible
+{
 
     // aggiungere scriptableobject di riferimento!! (si fa il set di sprite, nome ecc)
     [Header("Xrotation offset on equip")]
@@ -32,18 +34,22 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible{
 
     public event System.Action<Weapon> OnCollected; // richiamato in StartWeaponSpawner, per far si che le porte della startRoom
     // si aprano solamente quando l'arma iniziale viene raccolta
-    private void Start() {
+    private void Start()
+    {
         initialZRotation = transform.eulerAngles.z;
         idleStartPosition = transform.position;
-        if(visual == null) {
+        if (visual == null)
+        {
             visual = transform;
         }
     }
 
-    private void Update() {
+    private void Update()
+    {
 
-        // Idle floating animation SOLO quando l'arma non è equipaggiata
-        if (!pickedUp) {
+        // Idle floating animation SOLO quando l'arma non ï¿½ equipaggiata
+        if (!pickedUp)
+        {
 
             float yOffset =
                 Mathf.Sin(Time.time * floatSpeed)
@@ -56,40 +62,48 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible{
     }
 
 
-    public virtual void Attack(Vector2 attackDirection) {
+    public virtual void Attack(Vector2 attackDirection)
+    {
         Debug.Log("Base weapon attack");
     }
-    public virtual void HandleRotation(Transform weaponHolder, Vector2 dir) {
+    public virtual void HandleRotation(Transform weaponHolder, Vector2 dir)
+    {
         Debug.Log("Base weapon rotation");
     }
 
-    public void Collect(Player player) {
+    public void Collect(Player player)
+    {
         if (pickedUp) return;
 
         player.playerAttack.SetCurrentWeapon(this.gameObject);
         // Visual effect
-        
+
         pickedUp = true;
-        if(shadow != null) {
+        if (shadow != null)
+        {
             // disattivo ombra
             shadow.gameObject.SetActive(false);
         }
-        if(GetComponent<Collider2D>() != null) {
+        if (GetComponent<Collider2D>() != null)
+        {
             GetComponent<Collider2D>().enabled = false; // disattivo collider
         }
 
         OnCollected?.Invoke(this);
     }
 
-    public void DropWeapon() {
-        if (GetComponent<Collider2D>() != null) {
+    public void DropWeapon()
+    {
+        if (GetComponent<Collider2D>() != null)
+        {
             GetComponent<Collider2D>().enabled = false; // disattivo collider se per caso attivo (lo riattivo dopo il drop)
         }
 
         ChooseDropDirection(Player.Instance.transform.position);
     }
 
-    private void ChooseDropDirection(Vector2 origin, float dropDistance = .2f) {
+    private void ChooseDropDirection(Vector2 origin, float dropDistance = .2f)
+    {
         Vector2 randomDirection = Random.insideUnitCircle.normalized; // direzion casuale
         Vector2 dropPosition = origin + randomDirection * dropDistance;
 
@@ -99,18 +113,21 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible{
         );
     }
 
-    private System.Collections.IEnumerator AnimateDrop(Vector2 targetPosition) {
+    private System.Collections.IEnumerator AnimateDrop(Vector2 targetPosition)
+    {
         // resetto posizione
         transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, initialZRotation);
         // riabilito ombra
-        if (shadow != null) {
+        if (shadow != null)
+        {
             shadow.gameObject.SetActive(true);
         }
         Vector2 startPosition = transform.position;
 
         float elapsed = 0f;
 
-        while (elapsed < dropDuration) {
+        while (elapsed < dropDuration)
+        {
 
             elapsed += Time.deltaTime;
 
@@ -136,11 +153,23 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible{
 
         Collider2D col = GetComponent<Collider2D>();
 
-        if (col != null) {
+        if (col != null)
+        {
             col.enabled = true;
         }
 
         pickedUp = false;
     }
 
+    //Getter
+    public Sprite GetWeaponSprite()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        return sr != null ? sr.sprite : null;
+    }
+
+    public virtual string Description()
+    {
+        return "A weapon";
+    }
 }

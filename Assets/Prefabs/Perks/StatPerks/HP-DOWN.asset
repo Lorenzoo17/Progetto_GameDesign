@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a63d003d944ea144dbe0fc724c633ec9, type: 3}
+  m_Name: HP-DOWN
+  m_EditorClassIdentifier: Assembly-CSharp::HealthPerk
+  perkName: HP DOWN
+  pair: {fileID: 0}
+  icon: {fileID: 2049267348816350652, guid: bdb2f1be203cb1e4ca1b3ff06d4d66cd, type: 3}
+  description: 
+  perkLootData: {fileID: 0}
+  healthIncrease: -1

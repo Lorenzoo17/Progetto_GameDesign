@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: Tail Swipe
   m_EditorClassIdentifier: Assembly-CSharp::BounceMutagenSO
   mutagenName: Tail Swipe
-  description: 
+  description: Feeling too slow when dodging? Try jumping using a spring.
   icon: {fileID: -3801105685616643883, guid: 298d10079d1c93a458656d571853ddbc, type: 3}
-  bodyPart: 2
   manaCost: 1
   isToggle: 0
   duration: 0
