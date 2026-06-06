@@ -50,10 +50,24 @@ public class WeaponRanged : Weapon
         Quaternion weaponHolderRotation = Quaternion.Euler(0, 0, angle + weaponRotationOffsetZ);
         weaponHolder.rotation = weaponHolderRotation;
     }
-    public override string Description()
-    {
-        string projectileType = curvedProjectile ? "Curved" : "Linear";
-        string description = $"{projectileType} ranged weapon with base damage {projectileShooter.GetDamage()} and range {curvedProjectileRange}.";
+    public override string Description() {
+        if (projectileShooter == null)
+            return "Ranged weapon without assigned ProjectileShooter.";
+
+        string description = shootingType switch {
+            ShooterType.Curved =>
+                $"Curved ranged weapon with base damage {projectileShooter.GetDamage()} and curved range {curvedProjectileRange}.",
+
+            ShooterType.Linear =>
+                $"Linear ranged weapon with base damage {projectileShooter.GetDamage()}.",
+
+            ShooterType.Spread =>
+                $"Spread ranged weapon with base damage {projectileShooter.GetDamage()} and {projectileNumber} projectiles.",
+
+            _ =>
+                $"Ranged weapon with base damage {projectileShooter.GetDamage()}."
+        };
+
         return description;
     }
 }
