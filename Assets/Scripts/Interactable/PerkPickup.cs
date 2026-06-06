@@ -45,7 +45,7 @@ public class PerkPickup : MonoBehaviour, IInteractable
         _used = true;
 
         // Usa System.Random per più casualità (0.0 - 1.0)
-        bool positive = random.NextDouble() < 0.0;
+        bool positive = random.NextDouble() < 0.35;
         PerkBase chosen = positive ? _perkPair.positive : _perkPair.negative;
 
         PerkController controller = FindFirstObjectByType<PerkController>();
