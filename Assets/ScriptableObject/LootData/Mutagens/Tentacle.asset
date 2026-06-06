@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68f3470837d8cb64fa3f1f8c0d9ad88a, type: 3}
-  m_Name: Gas_data
+  m_Name: Tentacle
   m_EditorClassIdentifier: Assembly-CSharp::MutagenLootData
-  id: 1
+  id: 7
   price: 100
-  prefab: {fileID: 1319264943776926878, guid: f4d26fe22661e39428cae1307677ee68, type: 3}
+  prefab: {fileID: 1824753898060607263, guid: 4baff8d062d35d6479652f034a5d5d32, type: 3}
   unlockedByDefault: 1

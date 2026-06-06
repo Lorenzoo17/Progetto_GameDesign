@@ -15,4 +15,4 @@ MonoBehaviour:
   id: 4
   price: 100
   prefab: {fileID: 2313166402203152390, guid: 26af4dae7cb0e7e4aaf8a5d968e3260f, type: 3}
-  unlockedByDefault: 0
+  unlockedByDefault: 1
