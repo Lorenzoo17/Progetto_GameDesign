@@ -271,9 +271,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementNav
   speed: 2
   stopDistance: 1.2
+  minTargetDistance: 20
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lineOfSightCheckInterval: 0.1
+  debugLineOfSight: 1
+  lineOfSightRadius: 0.15
 --- !u!114 &48011440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  stunDurationMultiplier: 1
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
@@ -340,6 +348,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 30
+  isBoss: 0
+  levelLoader: {fileID: 0}
+  defense: 0
 --- !u!61 &48011444
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -21581,6 +21592,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
+  spawnOnStart: 0
+  spawnTransform: {fileID: 0}
 --- !u!61 &539449506
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -21756,6 +21770,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
+  spawnOnStart: 0
+  spawnTransform: {fileID: 0}
 --- !u!61 &547358978
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -22125,7 +22142,7 @@ MonoBehaviour:
   m_BuildHeightMesh: 0
   m_MinRegionArea: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 23800000, guid: 7162c70ef9c28a34a84044683a1dd384, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 5297f5bfb4a7f3c4ea4b2d55b8936bb1, type: 2}
 --- !u!114 &587983816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22695,6 +22712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6a8751ed0767b4bbe9649086588146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  inputEnabled: 1
 --- !u!4 &708381516
 Transform:
   m_ObjectHideFlags: 0
@@ -22979,6 +22997,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
+  spawnOnStart: 0
+  spawnTransform: {fileID: 0}
 --- !u!61 &761787197
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -23269,6 +23290,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
+  spawnOnStart: 0
+  spawnTransform: {fileID: 0}
 --- !u!61 &840955180
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -23935,6 +23959,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
+  spawnOnStart: 0
+  spawnTransform: {fileID: 0}
 --- !u!61 &944629053
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -24327,6 +24354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
+  spawnOnStart: 0
+  spawnTransform: {fileID: 0}
 --- !u!1 &1088180838
 GameObject:
   m_ObjectHideFlags: 0
@@ -24480,9 +24510,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementNav
   speed: 2
   stopDistance: 1.2
+  minTargetDistance: 20
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lineOfSightCheckInterval: 0.1
+  debugLineOfSight: 1
+  lineOfSightRadius: 0.15
 --- !u!114 &1119631039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24549,7 +24586,7 @@ MonoBehaviour:
   attackDuration: 0.8
   attackHitDelay: 0.5
   projectileShooter: {fileID: 0}
-  useCurvedProjectile: 0
+  shooterType: 0
 --- !u!114 &1119631042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24562,6 +24599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  stunDurationMultiplier: 1
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
@@ -24585,6 +24623,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 20
+  isBoss: 0
+  levelLoader: {fileID: 0}
+  defense: 0
 --- !u!61 &1119631044
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -25310,7 +25351,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 250f4489438dc60418cf3f4c65f7a2a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthBar
-  healthBarSlider: {fileID: 1277524998}
+  heartPrefab: {fileID: 0}
+  heartsContainer: {fileID: 0}
+  fullHeartSprite: {fileID: 0}
+  halfHeartSprite: {fileID: 0}
+  emptyHeartSprite: {fileID: 0}
 --- !u!1 &1294984814
 GameObject:
   m_ObjectHideFlags: 0
@@ -25723,9 +25768,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementNav
   speed: 2
   stopDistance: 1.2
+  minTargetDistance: 20
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lineOfSightCheckInterval: 0.1
+  debugLineOfSight: 1
+  lineOfSightRadius: 0.15
 --- !u!114 &1355217185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25769,6 +25821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  stunDurationMultiplier: 1
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
@@ -25792,6 +25845,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 20
+  isBoss: 0
+  levelLoader: {fileID: 0}
+  defense: 0
 --- !u!61 &1355217189
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -31149,6 +31205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
+  spawnOnStart: 0
+  spawnTransform: {fileID: 0}
 --- !u!61 &1440855430
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -31324,6 +31383,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
+  spawnOnStart: 0
+  spawnTransform: {fileID: 0}
 --- !u!61 &1470430443
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -32639,9 +32701,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementNav
   speed: 2
   stopDistance: 1.2
+  minTargetDistance: 20
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lineOfSightCheckInterval: 0.1
+  debugLineOfSight: 1
+  lineOfSightRadius: 0.15
 --- !u!114 &1525385512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32695,7 +32764,7 @@ MonoBehaviour:
   attackDuration: 0.8
   attackHitDelay: 0.5
   projectileShooter: {fileID: 0}
-  useCurvedProjectile: 0
+  shooterType: 0
 --- !u!114 &1525385514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32721,6 +32790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  stunDurationMultiplier: 1
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
@@ -32744,6 +32814,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 20
+  isBoss: 0
+  levelLoader: {fileID: 0}
+  defense: 0
 --- !u!61 &1525385517
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -33142,6 +33215,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
+  spawnOnStart: 0
+  spawnTransform: {fileID: 0}
 --- !u!61 &1589804354
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -34536,9 +34612,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementNav
   speed: 2
   stopDistance: 1.5
+  minTargetDistance: 20
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lineOfSightCheckInterval: 0.1
+  debugLineOfSight: 1
+  lineOfSightRadius: 0.15
 --- !u!114 &1810845042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34582,6 +34665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  stunDurationMultiplier: 1
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
@@ -34605,6 +34689,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 6
+  isBoss: 0
+  levelLoader: {fileID: 0}
+  defense: 0
 --- !u!61 &1810845046
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -37192,6 +37279,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 6
+  isBoss: 0
+  levelLoader: {fileID: 0}
+  defense: 0
 --- !u!114 &208148593440912106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37387,6 +37477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  stunDurationMultiplier: 1
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
@@ -37467,6 +37558,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 6
+  isBoss: 0
+  levelLoader: {fileID: 0}
+  defense: 0
 --- !u!212 &4119886382445931462
 SpriteRenderer:
   serializedVersion: 2
@@ -38008,6 +38102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  stunDurationMultiplier: 1
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
@@ -38050,7 +38145,7 @@ MonoBehaviour:
   attackDuration: 0.8
   attackHitDelay: 0.5
   projectileShooter: {fileID: 0}
-  useCurvedProjectile: 0
+  shooterType: 0
 --- !u!4 &8294771442682584320
 Transform:
   m_ObjectHideFlags: 0
@@ -38129,9 +38224,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementNav
   speed: 2
   stopDistance: 1.2
+  minTargetDistance: 20
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lineOfSightCheckInterval: 0.1
+  debugLineOfSight: 1
+  lineOfSightRadius: 0.15
 --- !u!195 &8550122492021699655
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -38214,9 +38316,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementNav
   speed: 2
   stopDistance: 1.2
+  minTargetDistance: 20
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lineOfSightCheckInterval: 0.1
+  debugLineOfSight: 1
+  lineOfSightRadius: 0.15
 --- !u!195 &8972859268969113386
 NavMeshAgent:
   m_ObjectHideFlags: 0

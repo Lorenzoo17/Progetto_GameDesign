@@ -37,6 +37,9 @@ public class EnemyRangedAttack : EnemyAttackBase {
                 projectileNumber = Random.Range(2, 4);
                 projectileShooter.ShootFocusedSpread(gameObject, projectileNumber, Player.Instance.transform);
                 break;
+            case ShooterType.Follow:
+                projectileShooter.ShootFollow(gameObject, direction);
+                break;
             default:
                 projectileShooter.ShootLinear(gameObject, direction);
                 break;

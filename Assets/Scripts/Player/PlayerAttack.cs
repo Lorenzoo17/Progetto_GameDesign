@@ -369,4 +369,9 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    private void OnDestroy() {
+        if (InputManager.Instance != null) {
+            InputManager.Instance.OnAttackEvent -= Attack;
+        }
+    }
 }

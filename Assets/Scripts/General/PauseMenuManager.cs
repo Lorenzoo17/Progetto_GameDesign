@@ -199,6 +199,9 @@ public class PauseMenuManager : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
 
+        if (InputManager.Instance != null)
+            InputManager.Instance.inputEnabled = true;
+
         Debug.Log("Abbandono della partita - Ritorno all'HUB");
         if(Player.Instance != null) {
             Player.Instance.DestroySelf(); // distruzione del player
@@ -213,6 +216,9 @@ public class PauseMenuManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         isPaused = false;
+
+        if (InputManager.Instance != null)
+            InputManager.Instance.inputEnabled = true;
 
         Debug.Log("Uscita dal gioco - Ritorno al menu iniziale");
         if (Player.Instance != null) {

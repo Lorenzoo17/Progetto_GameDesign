@@ -54,23 +54,29 @@ public class GameOverManager : MonoBehaviour
         }
     }
 
-    public void GoToHub()
-    {
+    public void GoToHub() {
         Time.timeScale = 1f;
         isGameOver = false;
 
-        if (InputManager.Instance != null)
-        {
+        if (InputManager.Instance != null) {
             InputManager.Instance.inputEnabled = true;
         }
 
-        if (Player.Instance != null)
-        {
+        if (MutagenSlotSelectorManager.Instance != null) {
+            MutagenSlotSelectorManager.Instance.ForceReset();
+        }
+
+        if (currentUI != null) {
+            Destroy(currentUI);
+            currentUI = null;
+        }
+
+        if (Player.Instance != null) {
             Player.Instance.DestroySelf();
         }
 
-        if(MetaProgressionManager.Instance != null) {
-            MetaProgressionManager.Instance.DungeonCoin = 0; // resetto dungeonCoin
+        if (MetaProgressionManager.Instance != null) {
+            MetaProgressionManager.Instance.DungeonCoin = 0;
         }
 
         SceneManager.LoadScene(hubSceneName);

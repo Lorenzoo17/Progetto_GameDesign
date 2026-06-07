@@ -5,7 +5,8 @@ public enum ShooterType
     Linear,
     Curved,
     Spread,
-    Circle
+    Circle,
+    Follow
 }
 public class ProjectileShooter : MonoBehaviour
 {
@@ -39,6 +40,16 @@ public class ProjectileShooter : MonoBehaviour
         if (projectileObj.TryGetComponent<LinearProjectile>(out LinearProjectile projectile))
         {
             projectile.InitializeLinearProjectile(owner, direction, projectileSpeed, damage);
+        }
+    }
+
+    public void ShootFollow(GameObject owner, Vector2 direction) {
+        if (projectilePrefab == null) return;
+
+        GameObject projectileObj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+
+        if (projectileObj.TryGetComponent<FollowProjectile>(out FollowProjectile projectile)) {
+            projectile.InitializeFollowProjectile(owner, direction, projectileSpeed, damage);
         }
     }
 

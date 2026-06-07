@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
-
+using UnityEngine.SceneManagement;
 public class MutagenSlotSelectorManager : MonoBehaviour
 {
     public static MutagenSlotSelectorManager Instance { get; private set; }
@@ -18,10 +18,10 @@ public class MutagenSlotSelectorManager : MonoBehaviour
     //[Header("Button Hover Settings")]
     //SerializeField] private float selectedButtonScale = 1.15f;
 
-    private void Awake()
-    {
-        if (Instance != null)
-        {
+    private MutagenController currentMutagenController;
+
+    private void Awake() {
+        if (Instance != null) {
             Destroy(gameObject);
             return;
         }
@@ -30,17 +30,45 @@ public class MutagenSlotSelectorManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        // Ascolta l'evento dal MutagenController
+
+    private void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        if (currentMutagenController != null) {
+            currentMutagenController.OnRequestSlotSelection -= ShowSlotSelector;
+        }
+    }
+
+    private void Start() {
+        RebindToPlayer();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        RebindToPlayer();
+    }
+
+    private void RebindToPlayer() {
+        if (currentMutagenController != null) {
+            currentMutagenController.OnRequestSlotSelection -= ShowSlotSelector;
+            currentMutagenController = null;
+        }
+
         Player player = FindObjectOfType<Player>();
-        if (player != null)
-        {
-            MutagenController mutagenController = player.GetComponent<MutagenController>();
-            if (mutagenController != null)
-            {
-                mutagenController.OnRequestSlotSelection += ShowSlotSelector;
-            }
+
+        if (player == null)
+            return;
+
+        currentMutagenController = player.GetComponent<MutagenController>();
+
+        if (currentMutagenController != null) {
+            currentMutagenController.OnRequestSlotSelection -= ShowSlotSelector;
+            currentMutagenController.OnRequestSlotSelection += ShowSlotSelector;
+
+            Debug.Log("MutagenSlotSelectorManager collegato al nuovo Player");
         }
     }
 
@@ -226,8 +254,10 @@ public class MutagenSlotSelectorManager : MonoBehaviour
             currentUI.SetActive(false);
         }
 
-        Destroy(pendingMutagenItem.gameObject);
-        
+        if (pendingMutagenItem != null) {
+            Destroy(pendingMutagenItem.gameObject);
+        }
+
         // Riprendi il gioco
         Time.timeScale = previousTimeScale;
 
@@ -332,5 +362,28 @@ public class MutagenSlotSelectorManager : MonoBehaviour
         });
 
         trigger.triggers.Add(entry);
+    }
+
+    public void ForceReset() {
+        isSelectingSlot = false;
+
+        if (currentUI != null) {
+            Destroy(currentUI);
+            currentUI = null;
+        }
+
+        pendingMutagen = null;
+        pendingMutagenItem = null;
+
+        Time.timeScale = 1f;
+
+        if (InputManager.Instance != null) {
+            InputManager.Instance.inputEnabled = true;
+        }
+
+        if (currentMutagenController != null) {
+            currentMutagenController.OnRequestSlotSelection -= ShowSlotSelector;
+            currentMutagenController = null;
+        }
     }
 }

@@ -126,8 +126,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void DestroySelf()
-    {
+    public void DestroySelf() {
+        if (InputManager.Instance != null) {
+            InputManager.Instance.inputEnabled = true;
+
+            if (mutagenController != null)
+                InputManager.Instance.OnMutagenPressed -= mutagenController.TryUseMutagen;
+        }
+
         Instance = null;
         Destroy(gameObject);
     }
