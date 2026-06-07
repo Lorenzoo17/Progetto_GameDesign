@@ -3,11 +3,13 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-public class WeaponMelee : Weapon {
-    
+public class WeaponMelee : Weapon
+{
+
     [SerializeField] private float weaponRotationOffsetZ = 0f;
-    [SerializeField] private float attackDuration = 0.1f; // velocita' dell'animazione di attacco
+    [SerializeField] private float attackDuration = 0.1f;
     [SerializeField] private GameObject meleeAttackEffect;
+    [SerializeField] private float meleeAttackEffectSize = 1f; // dimensione dell'effetto (piu' grande per armi piu' grandi ad esempio)
 
     [SerializeField] private float weaponBaseRange = 1f;
     [SerializeField] private float weaponBaseDamage = 2f;
@@ -15,50 +17,43 @@ public class WeaponMelee : Weapon {
     [SerializeField] private Boolean hasPoison = false;
     [SerializeField] private float poisonDamage = 0f;
 
-
     private Vector2 attackCentrePosition;
-
     private bool isAttacking = false;
     private float attackElapsed = 0f;
-
     private float startAngle;
     private bool swingRight = true;
     private bool currentSwingRight;
 
-    public override void Attack(Vector2 dir) {
+    public override void Attack(Vector2 dir)
+    {
         float baseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         CalculateNewRotationAngle(baseAngle);
 
         Player player = Player.Instance;
 
-        if (Player.Instance.playerStats.GetActivePerks().Exists(p => p.perkName == "Poison")) { 
+        if (Player.Instance.playerStats.GetActivePerks().Exists(p => p.perkName == "Poison"))
+        {
             hasPoison = true;
         }
-        
-        float poisonDamegeValue = Player.Instance.playerStats.playerCurrentStats.getPoisonDamage();
-        
 
-        // gestione attacco con overlapcircle
+        float poisonDamegeValue = Player.Instance.playerStats.playerCurrentStats.getPoisonDamage();
+
         attackCentrePosition = Player.Instance.playerAttack.GetWeaponHolder().position + (Vector3)(dir.normalized * Player.Instance.playerAttack.attackCentreOffset);
-        float weaponDamage = weaponBaseDamage; // poi si somma danno del player
-        float weaponRange = weaponBaseRange; // poi si somma range del player
+        float weaponDamage = weaponBaseDamage;
+        float weaponRange = weaponBaseRange;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCentrePosition, weaponRange);
 
-        foreach(Collider2D entity in colliders) {
-            if(Utils.CombatUtility.CanDamage(Player.Instance.gameObject, entity.gameObject)) {
-                if (entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable)) {
+        foreach (Collider2D entity in colliders)
+        {
+            if (Utils.CombatUtility.CanDamage(Player.Instance.gameObject, entity.gameObject))
+            {
+                if (entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable))
+                {
 
-                    //danno normale
-                    DamageInfo normalDamage = new DamageInfo(weaponDamage, dir, Player.Instance.gameObject, EntityType.Player);
+                    // 🔥 APPLICA PERK AL DANNO NORMALE
+                    DamageInfo normalDamage = new DamageInfo(weaponDamage + Player.Instance.playerStats.playerCurrentStats.getAttack(), dir, Player.Instance.gameObject, EntityType.Player);
+                    normalDamage = Player.Instance.perkController.OnDealDamage(ref normalDamage);
                     entityDamageable.TakeDamage(normalDamage);
-
-
-                    if (hasPoison)
-                    {
-                        DamageInfo poisonDamage = new DamageInfo(poisonDamegeValue, dir, Player.Instance.gameObject, EntityType.Player);
-                        entityDamageable.TakeDamage(poisonDamage);
-                    }
-
                 }
             }
         }
@@ -67,37 +62,33 @@ public class WeaponMelee : Weapon {
         if (meleeAttackEffect == null) return;
 
         Quaternion meleeEffectRotation = Quaternion.Euler(0, 0, baseAngle);
-        float attackSlashEffectOffset = 1.1f; // quanto distante istanziare lo slash effect rispetto al player
+        float attackSlashEffectOffset = 1.1f;
         GameObject slashEffect = Instantiate(meleeAttackEffect, Player.Instance.playerAttack.GetWeaponHolder().position + (Vector3)(dir.normalized * attackSlashEffectOffset), meleeEffectRotation);
+        slashEffect.transform.localScale = slashEffect.transform.localScale * meleeAttackEffectSize;
         if (slashEffect.TryGetComponent<MeleeEffect>(out MeleeEffect meleeEffect)) {
             meleeEffect.SetDirection(dir);
         }
     }
 
-    private void CalculateNewRotationAngle(float baseAngle) {
-        
+    private void CalculateNewRotationAngle(float baseAngle)
+    {
         float currentAngle = baseAngle + weaponRotationOffsetZ;
-
         startAngle = currentAngle;
-
         currentSwingRight = swingRight;
         swingRight = !swingRight;
-
         isAttacking = true;
         attackElapsed = 0f;
     }
-    // rotazione dell'arma melee, basata su:
-    // arma posta a 90 gradi rispetto alla direzione di attacco (mouse)
-    // in questo modo a seguito dell'attacco compie una rotazione di 180 gradi in modo che
-    // lo slash sia centrato rispetto alla direzione di attacco
-    public override void HandleRotation(Transform weaponHolder, Vector2 dir) {
+
+    public override void HandleRotation(Transform weaponHolder, Vector2 dir)
+    {
         float baseAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         float finalAngle = baseAngle + weaponRotationOffsetZ;
 
-        if (isAttacking) {
+        if (isAttacking)
+        {
             attackElapsed += Time.deltaTime;
             float t = attackElapsed / attackDuration;
-
             float swingAmount = 180f * t;
             float currentAngle;
 
@@ -108,20 +99,27 @@ public class WeaponMelee : Weapon {
 
             weaponHolder.rotation = Quaternion.Euler(0, 0, currentAngle);
 
-            if (t >= 1f) {
+            if (t >= 1f)
+            {
                 isAttacking = false;
-
                 weaponRotationOffsetZ += 180f;
                 weaponRotationOffsetZ %= 360f;
             }
         }
-        else {
+        else
+        {
             weaponHolder.rotation = Quaternion.Euler(0, 0, finalAngle);
         }
     }
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmos()
+    {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackCentrePosition, weaponBaseRange);
+    }
+    public override string Description()
+    {
+        string description = $"Melee weapon with base damage {weaponBaseDamage} and range {weaponBaseRange}.";
+        return description;
     }
 }

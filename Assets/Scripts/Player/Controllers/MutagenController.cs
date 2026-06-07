@@ -6,17 +6,18 @@ public class MutagenController : MonoBehaviour
 {
     public event Action OnMutagenStateChanged;
     [Header("Equipped Mutagens")]
-    [SerializeField] private MutagenSO equippedHead;
-    [SerializeField] private MutagenSO equippedBody;
-    [SerializeField] private MutagenSO equippedPaws;
+    [SerializeField] private MutagenSO equipped1;
+    [SerializeField] private MutagenSO equipped2;
 
     [Header("Active Mutagens")]
-    [SerializeField] private MutagenInstance activeHead;
-    [SerializeField] private MutagenInstance activeBody;
-    [SerializeField] private MutagenInstance activePaws;
+    [SerializeField] private MutagenInstance active1;
+    [SerializeField] private MutagenInstance active2;
 
     private Player player;
     private PlayerMana playerMana;
+    private MutagenSO pendingMutagen;
+    private MutagenItem pendingMutagenItem;
+    public event Action<MutagenSO> OnRequestSlotSelection;
 
     private void Awake()
     {
@@ -38,6 +39,15 @@ public class MutagenController : MonoBehaviour
         if (InputManager.Instance != null)
         {
             InputManager.Instance.OnMutagenPressed -= UseMutagenSlot;
+        }
+    }
+
+    private void HandleInteract(object sender, EventArgs e)
+    {
+        // Se c'è un mutagen in attesa di essere equipaggiato, mostra il menu di scelta
+        if (pendingMutagen != null)
+        {
+            OnRequestSlotSelection?.Invoke(pendingMutagen);
         }
     }
 
@@ -72,43 +82,45 @@ public class MutagenController : MonoBehaviour
         TryActivateMutagen(mutagen);
     }
 
-    public void EquipMutagen(MutagenSO mutagen)
+    public void EquipMutagen(MutagenSO mutagen, int slotIndex)
     {
         if (mutagen == null)
             return;
 
-        switch (mutagen.bodyPart)
+        switch (slotIndex)
         {
-            case MutagenBodyPart.Head:
-                equippedHead = mutagen;
+            case 0:
+                equipped1 = mutagen;
                 break;
 
-            case MutagenBodyPart.Body:
-                equippedBody = mutagen;
-                break;
-
-            case MutagenBodyPart.Paws:
-                equippedPaws = mutagen;
+            case 1:
+                equipped2 = mutagen;
                 break;
         }
 
         NotifyUI();
     }
 
-    public void UnequipMutagen(MutagenBodyPart bodyPart)
+    public bool IsSlotEmpty(int slotIndex)
     {
-        switch (bodyPart)
+        return slotIndex switch
         {
-            case MutagenBodyPart.Head:
-                equippedHead = null;
+            0 => equipped1 == null,
+            1 => equipped2 == null,
+            _ => true
+        };
+    }
+
+    public void UnequipMutagen(int slotIndex)
+    {
+        switch (slotIndex)
+        {
+            case 0:
+                equipped1 = null;
                 break;
 
-            case MutagenBodyPart.Body:
-                equippedBody = null;
-                break;
-
-            case MutagenBodyPart.Paws:
-                equippedPaws = null;
+            case 1:
+                equipped2 = null;
                 break;
         }
     }
@@ -117,9 +129,8 @@ public class MutagenController : MonoBehaviour
     {
         return slotIndex switch
         {
-            0 => equippedHead,
-            1 => equippedBody,
-            2 => equippedPaws,
+            0 => equipped1,
+            1 => equipped2,
             _ => null
         };
     }
@@ -133,43 +144,42 @@ public class MutagenController : MonoBehaviour
         if (mutagen == null)
             return false;
 
-        // already active check
+        // 1. Controllo se è già attivo
         if (IsMutagenActive(mutagen))
         {
             Debug.Log($"Mutagen already active: {mutagen.mutagenName}");
             return false;
         }
 
-        // mana check
+        // 2. Controllo il mana
         if (!playerMana.HasEnoughMana(mutagen.manaCost))
         {
             Debug.Log("Not enough mana.");
             return false;
         }
 
-        // activation validation
-        MutagenInstance activationCheck = new MutagenInstance(mutagen);
+        // 3. Trova lo slot di equipaggiamento
+        int slotIndex = GetMutagenSlotIndex(mutagen);
+        if (slotIndex == -1)
+        {
+            Debug.Log("Mutagen is not equipped in any slot.");
+            return false;
+        }
 
-        bool hasActivated =
-            mutagen.Activate(player, activationCheck);
+        // 4. Crea l'istanza unica a runtime
+        MutagenInstance instance = new MutagenInstance(mutagen);
+
+        // 5. Attiva il mutagen UNA SOLA VOLTA
+        bool hasActivated = mutagen.Activate(player, instance);
 
         if (!hasActivated)
             return false;
 
-        // consume mana
+        // 6. Se l'attivazione è andata a buon fine, consuma il mana e assegna lo slot attivo
         playerMana.UseMana(mutagen.manaCost);
-
-        // runtime instance
-        MutagenInstance instance =
-            new MutagenInstance(mutagen);
-
-        SetActiveMutagen(mutagen.bodyPart, instance);
-
-        // activate
-        mutagen.Activate(player, instance);
+        SetActiveMutagen(slotIndex, instance);
 
         Debug.Log($"Activated mutagen: {mutagen.mutagenName}");
-
         NotifyUI();
 
         return true;
@@ -180,19 +190,30 @@ public class MutagenController : MonoBehaviour
         if (mutagen == null)
             return;
 
+        int slotIndex = GetMutagenSlotIndex(mutagen);
+        if (slotIndex == -1)
+            return;
+
         MutagenInstance instance =
-            GetActiveMutagen(mutagen.bodyPart);
+            GetActiveMutagen(slotIndex);
 
         if (instance == null)
             return;
 
         mutagen.Deactivate(player, instance);
 
-        SetActiveMutagen(mutagen.bodyPart, null);
+        SetActiveMutagen(slotIndex, null);
 
         NotifyUI();
 
         Debug.Log($"Deactivated mutagen: {mutagen.mutagenName}");
+    }
+
+    private int GetMutagenSlotIndex(MutagenSO mutagen)
+    {
+        if (equipped1 == mutagen) return 0;
+        if (equipped2 == mutagen) return 1;
+        return -1;
     }
 
     // ======================================================
@@ -201,14 +222,13 @@ public class MutagenController : MonoBehaviour
 
     private void UpdateMutagens(float deltaTime)
     {
-        UpdateMutagen(activeHead, MutagenBodyPart.Head, deltaTime);
-        UpdateMutagen(activeBody, MutagenBodyPart.Body, deltaTime);
-        UpdateMutagen(activePaws, MutagenBodyPart.Paws, deltaTime);
+        UpdateMutagen(active1, 0, deltaTime);
+        UpdateMutagen(active2, 1, deltaTime);
     }
 
     private void UpdateMutagen(
         MutagenInstance mutagen,
-        MutagenBodyPart bodyPart,
+        int slotIndex,
         float deltaTime)
     {
         if (mutagen == null || mutagen.source == null)
@@ -227,7 +247,7 @@ public class MutagenController : MonoBehaviour
 
             Debug.Log($"Expired mutagen: {mutagen.source.mutagenName}");
 
-            SetActiveMutagen(bodyPart, null);
+            SetActiveMutagen(slotIndex, null);
 
             NotifyUI();
         }
@@ -237,33 +257,28 @@ public class MutagenController : MonoBehaviour
     // HELPERS
     // ======================================================
 
-    private MutagenInstance GetActiveMutagen(MutagenBodyPart bodyPart)
+    private MutagenInstance GetActiveMutagen(int slotIndex)
     {
-        return bodyPart switch
+        return slotIndex switch
         {
-            MutagenBodyPart.Head => activeHead,
-            MutagenBodyPart.Body => activeBody,
-            MutagenBodyPart.Paws => activePaws,
+            0 => active1,
+            1 => active2,
             _ => null
         };
     }
 
     private void SetActiveMutagen(
-        MutagenBodyPart bodyPart,
+        int slotIndex,
         MutagenInstance instance)
     {
-        switch (bodyPart)
+        switch (slotIndex)
         {
-            case MutagenBodyPart.Head:
-                activeHead = instance;
+            case 0:
+                active1 = instance;
                 break;
 
-            case MutagenBodyPart.Body:
-                activeBody = instance;
-                break;
-
-            case MutagenBodyPart.Paws:
-                activePaws = instance;
+            case 1:
+                active2 = instance;
                 break;
         }
     }
@@ -273,41 +288,50 @@ public class MutagenController : MonoBehaviour
         if (mutagen == null)
             return false;
 
+        int slotIndex = GetMutagenSlotIndex(mutagen);
+        if (slotIndex == -1)
+            return false;
+
         MutagenInstance active =
-            GetActiveMutagen(mutagen.bodyPart);
+            GetActiveMutagen(slotIndex);
 
         return active != null && active.source == mutagen;
     }
 
-    public MutagenSO GetEquippedMutagenByPart(MutagenBodyPart bodyPart)
+    public MutagenSO GetEquippedMutagenBySlot(int slotIndex)
     {
-        return bodyPart switch
+        return slotIndex switch
         {
-            MutagenBodyPart.Head => equippedHead,
-
-            MutagenBodyPart.Body => equippedBody,
-
-            MutagenBodyPart.Paws => equippedPaws,
-
+            0 => equipped1,
+            1 => equipped2,
             _ => null
         };
     }
 
-    public HashSet<string> GetEquippedMutagenIds() {
+    public HashSet<string> GetEquippedMutagenIds()
+    {
         HashSet<string> equippedMutagenIds = new();
 
-        AddEquippedMutagenId(equippedHead, equippedMutagenIds);
-        AddEquippedMutagenId(equippedBody, equippedMutagenIds);
-        AddEquippedMutagenId(equippedPaws, equippedMutagenIds);
+        AddEquippedMutagenId(equipped1, equippedMutagenIds);
+        AddEquippedMutagenId(equipped2, equippedMutagenIds);
 
         return equippedMutagenIds;
     }
 
-    private void AddEquippedMutagenId(MutagenSO mutagen, HashSet<string> ids) {
+    public void RequestSlotSelection(MutagenSO mutagen)
+    {
+        // Temporaneamente salva il mutagen in attesa di scelta
+        pendingMutagen = mutagen;
+        OnRequestSlotSelection?.Invoke(mutagen);
+    }
+
+    private void AddEquippedMutagenId(MutagenSO mutagen, HashSet<string> ids)
+    {
         if (mutagen == null)
             return;
 
-        if (mutagen.mutagenLootData == null) {
+        if (mutagen.mutagenLootData == null)
+        {
             Debug.LogWarning($"Mutagene {mutagen.mutagenName} non ha MutagenLootData assegnato");
             return;
         }

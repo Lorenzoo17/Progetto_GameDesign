@@ -210,9 +210,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Mutagen3"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
-                    ""id"": ""183e6d1e-f286-4361-bd2c-d352a74a38c7"",
+                    ""id"": ""d2fa938c-66f7-49a4-a894-c194faad0632"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -487,7 +487,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1c04ea5f-b012-41d1-a6f7-02e963b52893"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -564,7 +564,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""69aba7df-871f-4a9f-baff-cd8acebd13ea"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -586,7 +586,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b83f67bf-6906-4f45-8b78-cbc07810466a"",
-                    ""path"": ""<Keyboard>/2"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -596,23 +596,34 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""15f40902-b7b2-4f7b-aca8-3363d3a19a79"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""id"": ""f45dac33-ca89-49d5-9120-55ea55173a3f"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Mutagen3"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0c99805e-ffb9-4cb3-89cd-13883fa83b78"",
-                    ""path"": ""<Keyboard>/3"",
+                    ""id"": ""91a0eb5d-c318-4cf8-a198-f6fc1493e1bc"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Mutagen3"",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de4a8d96-355c-490a-97ab-080d3e30a7f4"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1213,7 +1224,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Mutagen1 = m_Player.FindAction("Mutagen1", throwIfNotFound: true);
         m_Player_Mutagen2 = m_Player.FindAction("Mutagen2", throwIfNotFound: true);
-        m_Player_Mutagen3 = m_Player.FindAction("Mutagen3", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1320,7 +1331,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Mutagen1;
     private readonly InputAction m_Player_Mutagen2;
-    private readonly InputAction m_Player_Mutagen3;
+    private readonly InputAction m_Player_Pause;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1385,9 +1396,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Mutagen2 => m_Wrapper.m_Player_Mutagen2;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Mutagen3".
+        /// Provides access to the underlying input action "Player/Pause".
         /// </summary>
-        public InputAction @Mutagen3 => m_Wrapper.m_Player_Mutagen3;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1453,9 +1464,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Mutagen2.started += instance.OnMutagen2;
             @Mutagen2.performed += instance.OnMutagen2;
             @Mutagen2.canceled += instance.OnMutagen2;
-            @Mutagen3.started += instance.OnMutagen3;
-            @Mutagen3.performed += instance.OnMutagen3;
-            @Mutagen3.canceled += instance.OnMutagen3;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         /// <summary>
@@ -1506,9 +1517,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Mutagen2.started -= instance.OnMutagen2;
             @Mutagen2.performed -= instance.OnMutagen2;
             @Mutagen2.canceled -= instance.OnMutagen2;
-            @Mutagen3.started -= instance.OnMutagen3;
-            @Mutagen3.performed -= instance.OnMutagen3;
-            @Mutagen3.canceled -= instance.OnMutagen3;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         /// <summary>
@@ -1901,12 +1912,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMutagen2(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Mutagen3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMutagen3(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

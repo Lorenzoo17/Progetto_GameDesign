@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private float bounceTimer;
     private float externalSpeedMultiplier = 1f;
 
-    public bool canMove = true; // usato ad esempio quando parte un dialogo (si mette a false)
+    public bool canMove = true; // usato ad esempio quando parte un dialogo o in bossSplashScreen (si mette a false)
 
     private void Awake()
     {
@@ -142,6 +142,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDodgeEvent_Performed(object sender, EventArgs e)
     {
+        if (!canMove) return;
+
         // cooldown
         if (dodgeCooldownTimer > 0f || isDodging) return;
 
@@ -222,7 +224,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void StopPlayer() {
-        canMove = false;
+        canMove = false; // usato anche in playerAttack per non poter attaccare quando canMove e' a false
         rb.linearVelocity = Vector2.zero;
         movement = Vector2.zero;
     }

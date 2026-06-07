@@ -7692,7 +7692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefa2f09ebc39b84d836fa5076fa2bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomBehaviour
-  roomType: 4
+  roomType: 5
   blocks:
   - {fileID: 7393340475099769461}
   - {fileID: 8228512616344848059}
@@ -7942,7 +7942,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -173530099807541425, guid: f91949c6c85398d4fbe892ec4de6033c, type: 3}
+  m_Sprite: {fileID: -4657369681490478202, guid: f91949c6c85398d4fbe892ec4de6033c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8618,6 +8618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
 --- !u!1 &1459826336517529925
 GameObject:
   m_ObjectHideFlags: 0
@@ -17145,7 +17146,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Talk
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c9c3e74aabd928949abc8bf34cd8953d, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -17212,7 +17213,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 134.81993, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &3056077610072489598
@@ -17903,7 +17904,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -173530099807541425, guid: f91949c6c85398d4fbe892ec4de6033c, type: 3}
+  m_Sprite: {fileID: -4657369681490478202, guid: f91949c6c85398d4fbe892ec4de6033c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18900,6 +18901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
 --- !u!1 &4042494818484225052
 GameObject:
   m_ObjectHideFlags: 0
@@ -23444,7 +23446,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -173530099807541425, guid: f91949c6c85398d4fbe892ec4de6033c, type: 3}
+  m_Sprite: {fileID: -4657369681490478202, guid: f91949c6c85398d4fbe892ec4de6033c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -23621,6 +23623,7 @@ MonoBehaviour:
     prefab: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
     price: 100
     type: 3
+  room: {fileID: 4456709943258281981}
 --- !u!1 &5747454651305383231
 GameObject:
   m_ObjectHideFlags: 0
@@ -30134,7 +30137,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -173530099807541425, guid: f91949c6c85398d4fbe892ec4de6033c, type: 3}
+  m_Sprite: {fileID: -4657369681490478202, guid: f91949c6c85398d4fbe892ec4de6033c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -31569,6 +31572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
+  itemDropChance: 0.2
 --- !u!1 &7238806512869542087
 GameObject:
   m_ObjectHideFlags: 0

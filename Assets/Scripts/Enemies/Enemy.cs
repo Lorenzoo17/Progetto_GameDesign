@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] private float stunDurationMultiplier = 1f;
     [SerializeField] private float knockBackForce;
     [SerializeField] private float knockbackDuration = 0.2f;
 
@@ -25,10 +26,12 @@ public class Enemy : MonoBehaviour
     private Animator anim;
 
     private EnemySpawner enemySpawner;
+    private bool isDead = false; // per evitare che DeadManagement venga richiamato piu' volte
 
     // 🔥 STUN STATE
     private bool isStun = false;
     public bool IsStunned => isStun;
+    private float stunTimer;
 
     private void Awake()
     {
@@ -45,16 +48,30 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        if (stunTimer > 0f)
+        {
+            stunTimer -= Time.deltaTime;
+
+            if (stunTimer <= 0f)
+            {
+                SetStun(false);
+            }
+        }
+
         if (sr != null && sr.color != initialColor)
         {
             sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime * Time.deltaTime);
         }
 
         FlipBasedOnPlayer();
+
+        return;
     }
 
     private void EnemyHealthSystem_OnDamageTaken(object sender, DamageEventArgs e)
     {
+        if (isDead) return;
+
         if (enemyMovement != null)
         {
             enemyMovement.ApplyKnockback(
@@ -129,6 +146,9 @@ public class Enemy : MonoBehaviour
 
     private void DeadManagement(Vector2 attackDirection)
     {
+        if (isDead) return;
+        isDead = true;
+
         if (deadBodyPlaceholder != null)
         {
             GameObject deadBody = Instantiate(deadBodyPlaceholder, transform.position, Quaternion.identity);
@@ -143,15 +163,18 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if(enemySpawner != null) {
+        if (enemySpawner != null)
+        {
             enemySpawner.OnEnemyDeath(); // aggiorno contatore numero corrente di nemici per l'enemy spawner
         }
 
         // spawno un oggetto
-        if(SpawnItems.Instance != null) {
+        if (SpawnItems.Instance != null)
+        {
             SpawnItems.Instance.SpawnItem(transform.position);
         }
-        else {
+        else
+        {
             Debug.Log("Spawn non presente");
         }
 
@@ -161,16 +184,13 @@ public class Enemy : MonoBehaviour
             SoundManager.Instance.PlaySound3D(SoundID.EnemyDeath, transform.position);
         }
 
-            Destroy(gameObject);
+        Destroy(gameObject);
     }
 
-    public void SetEnemySpawner(EnemySpawner es) {
+    public void SetEnemySpawner(EnemySpawner es)
+    {
         enemySpawner = es;
     }
-
-    // ======================================================
-    // 🔥 STUN SYSTEM FIXATO
-    // ======================================================
 
     public void SetStun(bool value)
     {
@@ -180,8 +200,29 @@ public class Enemy : MonoBehaviour
         {
             if (enemyMovement != null)
             {
-                enemyMovement.ForceStop(); // 🔥 aggiunta necessaria
+                enemyMovement.ForceStop();
+            }
+            else if (TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav))
+            {
+                nav.ForceStop();
             }
         }
+    }
+
+    public float GetDurationMultiplier()
+    {
+        return stunDurationMultiplier;
+    }
+
+    public void ApplyStun(float baseDuration)
+    {
+        float finalDuration = baseDuration * stunDurationMultiplier;
+
+        if (finalDuration <= 0f)
+            return;
+
+        stunTimer = Mathf.Max(stunTimer, finalDuration);
+
+        SetStun(true);
     }
 }

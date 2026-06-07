@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Straw_data
   m_EditorClassIdentifier: Assembly-CSharp::WeaponLootData
   id: 2
+  price: 35
   prefab: {fileID: 6452691135951933731, guid: 10756968e8fd4864e807bb800d28afd0, type: 3}
   unlockedByDefault: 0

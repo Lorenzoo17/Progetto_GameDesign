@@ -29,6 +29,7 @@ public class EnemyMovementNav : MonoBehaviour {
     private NavMeshAgent agent;
     private Animator anim;
     private EnemyAttackBase enemyAttack;
+    private Enemy enemy;
 
     private Vector3 desiredPosition;
     private Vector3 randomFollowOffset;
@@ -41,10 +42,19 @@ public class EnemyMovementNav : MonoBehaviour {
     private Transform firePoint;
     private bool isRangedEnemy;
 
+    private HealthSystem hs;
+    private bool hasBeenHit; // in modo che inizi a seguire il player a prescindere dalla distanza se
+    // e' stato colpito da esso
+
     private void Awake() {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         enemyAttack = GetComponent<EnemyAttackBase>();
+        enemy = GetComponent<Enemy>();
+
+        hs = GetComponent<HealthSystem>();
+        hasBeenHit = false;
+        hs.OnDamageTaken += Hs_OnDamageTaken;
 
         SetupNavMeshAgent();
 
@@ -58,12 +68,23 @@ public class EnemyMovementNav : MonoBehaviour {
         }
     }
 
+    private void Hs_OnDamageTaken(object sender, DamageEventArgs e) {
+        hasBeenHit = true;
+    }
+
     private void Update() {
         if (Player.Instance == null || agent == null || !agent.enabled)
             return;
 
         if (!agent.isOnNavMesh)
             return;
+
+        if (enemy != null && enemy.IsStunned)
+        {
+            StopMovement();
+            SetMoving(false);
+            return;
+        }
 
         if (isKnockedBack)
             return;
@@ -92,7 +113,7 @@ public class EnemyMovementNav : MonoBehaviour {
             playerPosition
         );
 
-        if(distance <= minTargetDistance) {
+        if(distance <= minTargetDistance || hasBeenHit) { // se e' stato colpito o la distanza e' inferiore a minTargetDistance
             if (isRangedEnemy) {
                 HandleRangedEnemy(distance, playerPosition);
             }
@@ -219,6 +240,12 @@ public class EnemyMovementNav : MonoBehaviour {
 
         agent.ResetPath();
         agent.velocity = Vector3.zero;
+    }
+
+    public void ForceStop()
+    {
+        StopMovement();
+        SetMoving(false);
     }
 
     public void ApplyKnockback(Vector2 direction, float force, float duration) {

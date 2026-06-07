@@ -21,11 +21,37 @@ public class MutagenItem : MonoBehaviour, ICollectible{
     [SerializeField] private float floatAmplitude = 0.08f;
     [SerializeField] private float floatSpeed = 2.5f;
     private Vector3 idleStartPosition;
+    private Player nearbyPlayer;
+    private MutagenController mutagenController;
     private void Start() {
         initialZRotation = transform.eulerAngles.z;
         idleStartPosition = transform.position;
         if(visual == null) {
             visual = transform;
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnInteractEvent += HandleInteract;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.OnInteractEvent -= HandleInteract;
+        }
+    }
+
+    private void HandleInteract(object sender, System.EventArgs e)
+    {
+        if (nearbyPlayer != null && !pickedUp && mutagenData != null)
+        {
+            Collect(nearbyPlayer);
         }
     }
 
@@ -53,17 +79,18 @@ public class MutagenItem : MonoBehaviour, ICollectible{
 
         if (controller != null) 
         {
-            // Pass the SO to the controller's list
-            controller.EquipMutagen(mutagenData);
+            // Salva il controller per l'equipaggiamento successivo
+            mutagenController = controller;
+
+            // Request slot selection instead of auto-equipping
+            controller.RequestSlotSelection(mutagenData);
             
             // Visual/Logic cleanup
             pickedUp = true;
             if(shadow != null) shadow.gameObject.SetActive(false);
             if(GetComponent<Collider2D>() != null) GetComponent<Collider2D>().enabled = false;
             
-            // Optionally destroy the item or disable it
-            gameObject.SetActive(false); 
-            Debug.Log($"Picked up and equipped: {mutagenData.mutagenName}");
+            Debug.Log($"Picked up mutagen (awaiting slot selection): {mutagenData.mutagenName}");
         }
     }
 
@@ -75,7 +102,21 @@ public class MutagenItem : MonoBehaviour, ICollectible{
             Player player = collision.GetComponent<Player>();
             if (player != null) 
             {
-                Collect(player);
+                nearbyPlayer = player;
+                Debug.Log("MutagenItem nearby. Press F to interact.");
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Player player = collision.GetComponent<Player>();
+            if (player == nearbyPlayer)
+            {
+                nearbyPlayer = null;
+                Debug.Log("MutagenItem out of range.");
             }
         }
     }

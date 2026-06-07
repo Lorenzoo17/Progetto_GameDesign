@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-public class ProjectileBase : MonoBehaviour {
+public class ProjectileBase : MonoBehaviour
+{
     protected GameObject owner;
     protected EntityType ownerType;
     protected Vector2 direction;
@@ -15,7 +16,8 @@ public class ProjectileBase : MonoBehaviour {
         GameObject owner,
         Vector2 direction,
         float damage
-    ) {
+    )
+    {
         this.owner = owner;
         this.direction = direction.normalized;
         this.damage = damage;
@@ -26,7 +28,8 @@ public class ProjectileBase : MonoBehaviour {
         initialized = true;
     }
 
-    protected bool CanDamage(Collider2D other) {
+    protected bool CanDamage(Collider2D other)
+    {
         if (other == null) return false;
         if (other.gameObject == owner) return false;
 
@@ -38,20 +41,30 @@ public class ProjectileBase : MonoBehaviour {
         return canAttack;
     }
 
-    protected bool TryDealDamage(Collider2D other, Vector2 hitDirection) {
+    protected bool TryDealDamage(Collider2D other, Vector2 hitDirection)
+    {
         if (!CanDamage(other)) return false;
 
-        if (other.TryGetComponent<IDamageable>(out IDamageable damageable)) {
-            damageable.TakeDamage(new DamageInfo(damage, hitDirection, owner, ownerType));
+        if (other.TryGetComponent<IDamageable>(out IDamageable damageable))
+        {
+            DamageInfo damageInfo = new DamageInfo(damage, hitDirection, owner, ownerType);
+
+            if (Player.Instance != null && Player.Instance.perkController != null)
+            {
+                damageInfo = Player.Instance.perkController.OnDealDamage(ref damageInfo);
+            }
+
+            damageable.TakeDamage(damageInfo);
             return true;
         }
 
         return false;
     }
 
-    // comportamento di base di distruzione, se si vogliono fare multiple bullets, questo viene sovrascritto
-    protected virtual void ProjectileDestruction() {
-        if (destructionEffect != null) {
+    protected virtual void ProjectileDestruction()
+    {
+        if (destructionEffect != null)
+        {
             GameObject effect = Instantiate(destructionEffect, transform.position, Quaternion.identity);
         }
 

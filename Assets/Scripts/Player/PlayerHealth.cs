@@ -127,6 +127,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         maxHealthUnits += units;
         Heal(units); // opzionale, dipende se si vuole che l'aumento di salute massima curi anche quella attuale
+        OnHealthChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void DecreaseHealth(int units)

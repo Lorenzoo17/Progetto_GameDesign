@@ -102,13 +102,14 @@ GameObject:
   - component: {fileID: 2888219085287475258}
   - component: {fileID: 187277450355605363}
   - component: {fileID: 5685900050067070855}
-  - component: {fileID: 2337415292217475272}
   - component: {fileID: 8443078911488429324}
   - component: {fileID: 4673502070674203532}
   - component: {fileID: 1200962363375708060}
   - component: {fileID: 950876987402381692}
   - component: {fileID: 5061562325643261122}
   - component: {fileID: 3518813518886905007}
+  - component: {fileID: -8699363798022627634}
+  - component: {fileID: 7656297383882434101}
   m_Layer: 0
   m_Name: mushroom_melee_nav
   m_TagString: Untagged
@@ -213,52 +214,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!61 &2337415292217475272
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5642179399350267750}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: -0.0040818453, y: -0.49485874}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.5, y: 2}
-    newSize: {x: 0.34375, y: 0.4375}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.55012155, y: 1.0953484}
-  m_EdgeRadius: 0
 --- !u!114 &8443078911488429324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -287,6 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  stunDurationMultiplier: 3
   knockBackForce: 10
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
@@ -374,3 +330,96 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-8699363798022627634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642179399350267750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10e9422cca56f844fad3cef3c3b52d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageEffectVisuals
+  poisonColor: {r: 0, g: 1, b: 0, a: 1}
+  poisonFlashDuration: 0.15
+  poisonFadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damageBoostParticlePrefab: {fileID: 0}
+  particleOffset: {x: 0, y: 0, z: 0}
+--- !u!68 &7656297383882434101
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642179399350267750}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.4844637, y: -0.44855642}
+  - {x: -0.44998717, y: -0.1557846}
+  - {x: -0.25829077, y: 0.022453308}
+  - {x: 0.0019714832, y: 0.08705759}
+  - {x: 0.20142245, y: 0.03382063}
+  - {x: 0.37354565, y: -0.076886654}
+  - {x: 0.48638916, y: -0.25848627}
+  - {x: 0.47017622, y: -0.4889779}
+  - {x: 0.21952057, y: -0.50059366}
+  - {x: 0.21499324, y: -1.0215998}
+  - {x: -0.18258429, y: -1.0182943}
+  - {x: -0.4784372, y: -0.44855785}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0

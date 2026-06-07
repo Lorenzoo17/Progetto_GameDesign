@@ -1,7 +1,8 @@
 using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
 
-public class CurvedProjectile : ProjectileBase {
+public class CurvedProjectile : ProjectileBase
+{
     [SerializeField] private GameObject explosionEffect;
     [SerializeField] private bool spawnStain;
     [SerializeField] private float attackRange;
@@ -35,29 +36,35 @@ public class CurvedProjectile : ProjectileBase {
 
     private float trajectoryProgress;
 
-    private void Update() {
+    private void Update()
+    {
         if (!initialized)
             return;
 
         UpdateProjectilePosition();
 
-        if (trajectoryProgress >= 1f) {
+        if (trajectoryProgress >= 1f)
+        {
             OnBulletExplosion();
         }
     }
 
-    private void OnBulletExplosion() { // richiamato in UpdateProjectilePosition()
+    private void OnBulletExplosion()
+    { // richiamato in UpdateProjectilePosition()
         if (hasExploded || Player.Instance == null) return;
 
         hasExploded = true;
         // spawn di effetto
-        if (explosionEffect != null) {
+        if (explosionEffect != null)
+        {
             GameObject effect = Instantiate(explosionEffect, transform.position, Quaternion.identity);
         }
         // screen shake
-        if (EffectManager.Instance != null) {
+        if (EffectManager.Instance != null)
+        {
             ShakeData data = EffectManager.Instance.GetShakeDataByType(ShakeDataType.Explosion);
-            if (data != null) {
+            if (data != null)
+            {
                 CameraShakerHandler.Shake(data);
             }
         }
@@ -65,7 +72,8 @@ public class CurvedProjectile : ProjectileBase {
         // danno ad area
         Collider2D[] entities = Physics2D.OverlapCircleAll(transform.position, attackRange);
 
-        foreach (Collider2D entity in entities) {
+        foreach (Collider2D entity in entities)
+        {
             if (!Utils.CombatUtility.CanDamage(base.owner, entity.gameObject)) continue;
 
             Vector2 attackDirection = ((Vector2)entity.transform.position - (Vector2)transform.position).normalized;
@@ -73,14 +81,16 @@ public class CurvedProjectile : ProjectileBase {
         }
 
 
-        if (spawnStain && EffectManager.Instance != null) {
+        if (spawnStain && EffectManager.Instance != null)
+        {
             GameObject stain = EffectManager.Instance.SpawnVisualEffect(
                 VisualEffectType.Attack,
                 transform.position,
                 Quaternion.identity
             );
 
-            if (stain.TryGetComponent<Stain>(out Stain stainComponent)) {
+            if (stain.TryGetComponent<Stain>(out Stain stainComponent))
+            {
                 stainComponent.SetUpStain(owner, 1);
             }
         }
@@ -89,23 +99,28 @@ public class CurvedProjectile : ProjectileBase {
         Destroy(gameObject);
     }
 
-    private void UpdateProjectilePosition() {
+    private void UpdateProjectilePosition()
+    {
         trajectoryRange = trajectoryEndPoint - trajectoryStartPoint;
 
-        if (trajectoryRange.sqrMagnitude <= 0.01f) {
+        if (trajectoryRange.sqrMagnitude <= 0.01f)
+        {
             Destroy(gameObject);
             return;
         }
 
-        if (Mathf.Abs(trajectoryRange.normalized.x) < Mathf.Abs(trajectoryRange.normalized.y)) {
+        if (Mathf.Abs(trajectoryRange.normalized.x) < Mathf.Abs(trajectoryRange.normalized.y))
+        {
             UpdatePositionWithXCurve();
         }
-        else {
+        else
+        {
             UpdatePositionWithYCurve();
         }
     }
 
-    private void UpdatePositionWithXCurve() {
+    private void UpdatePositionWithXCurve()
+    {
         float verticalSign = Mathf.Sign(trajectoryRange.y);
 
         float nextPositionY = transform.position.y + moveSpeed * verticalSign * Time.deltaTime;
@@ -123,11 +138,13 @@ public class CurvedProjectile : ProjectileBase {
         float nextPositionXCorrectionNormalized = axisCorrectionAnimationCurve.Evaluate(nextPositionYNormalized);
         nextPositionXCorrectionAbsolute = nextPositionXCorrectionNormalized * trajectoryRange.x;
 
-        if (trajectoryRange.x > 0 && trajectoryRange.y > 0) {
+        if (trajectoryRange.x > 0 && trajectoryRange.y > 0)
+        {
             nextXTrajectoryPosition = -nextXTrajectoryPosition;
         }
 
-        if (trajectoryRange.x < 0 && trajectoryRange.y < 0) {
+        if (trajectoryRange.x < 0 && trajectoryRange.y < 0)
+        {
             nextXTrajectoryPosition = -nextXTrajectoryPosition;
         }
 
@@ -141,7 +158,8 @@ public class CurvedProjectile : ProjectileBase {
         transform.position = newPosition;
     }
 
-    private void UpdatePositionWithYCurve() {
+    private void UpdatePositionWithYCurve()
+    {
         float horizontalSign = Mathf.Sign(trajectoryRange.x);
 
         float nextPositionX = transform.position.x + moveSpeed * horizontalSign * Time.deltaTime;
@@ -169,7 +187,8 @@ public class CurvedProjectile : ProjectileBase {
         transform.position = newPosition;
     }
 
-    private void CalculateNextProjectileSpeed(float normalizedPosition) {
+    private void CalculateNextProjectileSpeed(float normalizedPosition)
+    {
         float nextMoveSpeedNormalized = projectileSpeedAnimationCurve.Evaluate(normalizedPosition);
         moveSpeed = nextMoveSpeedNormalized * maxMoveSpeed;
     }
@@ -181,10 +200,12 @@ public class CurvedProjectile : ProjectileBase {
         float maxMoveSpeed,
         float trajectoryMaxHeight,
         float damage
-    ) {
+    )
+    {
         InitializeProjectile(owner, shootDirection, damage);
 
-        if (shootDirection.sqrMagnitude <= 0.01f) {
+        if (shootDirection.sqrMagnitude <= 0.01f)
+        {
             shootDirection = Vector2.right;
         }
 
@@ -194,6 +215,10 @@ public class CurvedProjectile : ProjectileBase {
 
         trajectoryStartPoint = transform.position;
         trajectoryEndPoint = trajectoryStartPoint + (Vector3)direction * projectileRange;
+        if (owner == Player.Instance.gameObject)
+        {
+            damage += Player.Instance.playerStats.playerCurrentStats.getAttack() / 2;
+        }
 
         trajectoryRange = trajectoryEndPoint - trajectoryStartPoint;
 
@@ -209,7 +234,8 @@ public class CurvedProjectile : ProjectileBase {
 
         // Se il tuo ProjectileVisual dipendeva dal target, va modificato.
         // Per ora puoi commentarlo oppure creare un metodo SetDirection.
-        if (projectileVisual != null) {
+        if (projectileVisual != null)
+        {
             projectileVisual.InitializeVisual(trajectoryStartPoint, trajectoryEndPoint);
         }
     }
@@ -218,33 +244,40 @@ public class CurvedProjectile : ProjectileBase {
         AnimationCurve trajectoryAnimationCurve,
         AnimationCurve axisCorrectionAnimationCurve,
         AnimationCurve projectileSpeedAnimationCurve
-    ) {
+    )
+    {
         this.trajectoryAnimationCurve = trajectoryAnimationCurve;
         this.axisCorrectionAnimationCurve = axisCorrectionAnimationCurve;
         this.projectileSpeedAnimationCurve = projectileSpeedAnimationCurve;
     }
 
-    public Vector3 GetProjectileMoveDir() {
+    public Vector3 GetProjectileMoveDir()
+    {
         return projectileMoveDir;
     }
 
-    public float GetNextYTrajectoryPosition() {
+    public float GetNextYTrajectoryPosition()
+    {
         return nextYTrajectoryPosition;
     }
 
-    public float GetNextPositionYCorrectionAbsolute() {
+    public float GetNextPositionYCorrectionAbsolute()
+    {
         return nextPositionYCorrectionAbsolute;
     }
 
-    public float GetNextXTrajectoryPosition() {
+    public float GetNextXTrajectoryPosition()
+    {
         return nextXTrajectoryPosition;
     }
 
-    public float GetNextPositionXCorrectionAbsolute() {
+    public float GetNextPositionXCorrectionAbsolute()
+    {
         return nextPositionXCorrectionAbsolute;
     }
 
-    private void OnDrawGizmos() {
+    private void OnDrawGizmos()
+    {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }

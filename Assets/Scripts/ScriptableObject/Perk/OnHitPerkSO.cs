@@ -1,34 +1,54 @@
 using UnityEngine;
 
+public enum OnHitEffectType
+{
+    DamageBoost,
+    PoisonApplication
+}
+
 [CreateAssetMenu(fileName = "new on hit perk", menuName = "ScriptableObject/OnHitPerk")]
 public class OnHitPerkSO : PerkBase, IOnDealDamage
 {
-
-    public ModifierType modifierType;
-    public float value;
-    DamageType damageBoostType;
-    TypeOfOnHitPerk typeOfOnHitPerk;
+    [SerializeField] public OnHitEffectType effectType;
+    [SerializeField] public DamageType damageBoostType = DamageType.Physical;
+    [SerializeField] public float value = 1f;
 
     public override void OnApply(Player player)
     {
-        Debug.Log("OnHit perk applied");
+        Debug.Log($"OnHit perk applied: {effectType}");
     }
 
     public override void OnRemove(Player player)
     {
-        Debug.Log("OnHit perk removed");
+        Debug.Log($"OnHit perk removed: {effectType}");
     }
 
-    DamageInfo IOnDealDamage.OnDealDamage(ref DamageInfo damage)
+    public DamageInfo OnDealDamage(ref DamageInfo damage)
     {
-        damage.Damage[damageBoostType] += value;
+        if (effectType == OnHitEffectType.DamageBoost)
+        {
+            damage.Damage[damageBoostType] += value;
+            damage.AddEffect("DamageBoost");
+        }
+        else if (effectType == OnHitEffectType.PoisonApplication)
+        {
+            damage.Damage[DamageType.Poison] += value;
+            damage.AddEffect("PoisonApplied");
+        }
+
         return damage;
     }
-}
 
-public enum TypeOfOnHitPerk
-{
-    None,
-    DamageType,
-    ApplyStatus
+    public override string Descriptor()
+    {
+        switch (effectType)
+        {
+            case OnHitEffectType.DamageBoost:
+                return $"On hit: +{value} {damageBoostType} damage";
+            case OnHitEffectType.PoisonApplication:
+                return $"On hit: Apply {value} Poison damage";
+            default:
+                return "Unknown on hit effect";
+        }
+    }
 }

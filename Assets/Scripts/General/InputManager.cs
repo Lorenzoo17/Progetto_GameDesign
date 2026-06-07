@@ -49,10 +49,29 @@ public class InputManager : MonoBehaviour
         // Interact
         playerInputActions.Player.Interact.performed += Interact_performed;
 
-        // Mutagen (FIX: no lambda)
+        // Mutagens
         playerInputActions.Player.Mutagen1.performed += Mutagen1;
         playerInputActions.Player.Mutagen2.performed += Mutagen2;
-        playerInputActions.Player.Mutagen3.performed += Mutagen3;
+
+        // Pause
+        playerInputActions.Player.Pause.performed += ctx =>
+        {
+            if (Player.Instance == null) return;
+            if (Player.Instance.isDead) return;
+
+            PauseMenuManager pauseMenu = FindObjectOfType<PauseMenuManager>();
+            if (pauseMenu != null)
+            {
+                if (pauseMenu.IsPaused())
+                {
+                    pauseMenu.Resume();
+                }
+                else
+                {
+                    pauseMenu.Pause();
+                }
+            }
+        };
     }
 
     private void Start()
@@ -140,11 +159,6 @@ public class InputManager : MonoBehaviour
         OnMutagenPressed?.Invoke(1);
     }
 
-    private void Mutagen3(InputAction.CallbackContext ctx)
-    {
-        OnMutagenPressed?.Invoke(2);
-    }
-
     private void OnDestroy()
     {
         if (playerInputActions == null) return;
@@ -157,7 +171,6 @@ public class InputManager : MonoBehaviour
 
         playerInputActions.Player.Mutagen1.performed -= Mutagen1;
         playerInputActions.Player.Mutagen2.performed -= Mutagen2;
-        playerInputActions.Player.Mutagen3.performed -= Mutagen3;
 
         playerInputActions.Player.Disable();
     }

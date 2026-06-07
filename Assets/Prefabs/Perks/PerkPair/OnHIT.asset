@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 399452f6bd1557c45ad3c55e6fa530b4, type: 3}
+  m_Name: OnHIT
+  m_EditorClassIdentifier: Assembly-CSharp::PerkPair
+  negative: {fileID: 11400000, guid: 668f014b440f2e245ba45b60cf3138ac, type: 2}
+  positive: {fileID: 11400000, guid: 61eabcdd54fd16a4e95a50c5ff6f9e0e, type: 2}

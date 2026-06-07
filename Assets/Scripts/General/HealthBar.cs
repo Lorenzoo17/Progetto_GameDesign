@@ -7,7 +7,6 @@ public class HealthBar : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject heartPrefab;
     [SerializeField] private Transform heartsContainer;
-
     [Header("Sprites")]
     [SerializeField] private Sprite fullHeartSprite;
     [SerializeField] private Sprite halfHeartSprite;
@@ -15,19 +14,35 @@ public class HealthBar : MonoBehaviour
 
     private List<Image> hearts = new List<Image>();
 
-    private void Start()
-    {
+    private PlayerHealth playerHealth;
+
+    private void Start() {
         if (Player.Instance == null) return;
 
-        CreateHearts();
+        playerHealth = Player.Instance.playerHealth;
 
+        if (playerHealth == null) return;
+
+        CreateHearts();
         UpdateHearts();
 
-        Player.Instance.playerHealth.OnHealthChanged += PlayerHealth_OnHealthChanged;
+        playerHealth.OnHealthChanged += PlayerHealth_OnHealthChanged;
+    }
+
+    private void OnDestroy() {
+        if (playerHealth != null) {
+            playerHealth.OnHealthChanged -= PlayerHealth_OnHealthChanged;
+        }
     }
 
     private void PlayerHealth_OnHealthChanged(object sender, System.EventArgs e)
     {
+        int requiredHearts = Mathf.CeilToInt(playerHealth.maxHealthUnits / 2f);
+
+        if (requiredHearts != hearts.Count) {
+            CreateHearts();
+        }
+
         UpdateHearts();
     }
 
@@ -49,6 +64,27 @@ public class HealthBar : MonoBehaviour
 
             Image heartImage = heartObj.GetComponent<Image>();
 
+            hearts.Add(heartImage);
+
+        }
+    }
+
+    private void createHeart()
+    {
+        if (Player.Instance.playerHealth.maxHealthUnits % 2 == 0)
+        {
+            // Aggiungi un cuore pieno
+            GameObject heartObj = Instantiate(heartPrefab, heartsContainer);
+            Image heartImage = heartObj.GetComponent<Image>();
+            heartImage.sprite = fullHeartSprite;
+            hearts.Add(heartImage);
+        }
+        else
+        {
+            // Aggiungi un cuore mezzo pieno
+            GameObject heartObj = Instantiate(heartPrefab, heartsContainer);
+            Image heartImage = heartObj.GetComponent<Image>();
+            heartImage.sprite = halfHeartSprite;
             hearts.Add(heartImage);
         }
     }

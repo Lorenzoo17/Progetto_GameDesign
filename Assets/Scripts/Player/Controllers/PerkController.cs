@@ -4,6 +4,8 @@ public class PerkController : MonoBehaviour
 {
 
     public List<PerkBase> activePerks = new();
+    public List<PerkBase> perksToRemove = new();
+    public List<PerkBase> perksToAdd = new();
 
     // Filtered lists (performance + clarity)
     public List<IModifyIncomingDamage> incomingDamageModifiers = new();
@@ -22,7 +24,7 @@ public class PerkController : MonoBehaviour
     {
         activePerks.Add(perk);
         perk.OnApply(player);
-        
+
         // Register interfaces
         if (perk is IModifyIncomingDamage dmgMod)
             incomingDamageModifiers.Add(dmgMod);
@@ -70,19 +72,56 @@ public class PerkController : MonoBehaviour
         return activePerks;
     }
 
-    public HashSet<string> GetEquippedPerkIds() {
+    public HashSet<string> GetEquippedPerkIds()
+    {
         HashSet<string> equippedPerkIds = new();
 
-        foreach (PerkBase perk in activePerks) {
-            if (perk != null && perk.perkLootData != null) {
+        foreach (PerkBase perk in activePerks)
+        {
+            if (perk != null && perk.perkLootData != null)
+            {
                 equippedPerkIds.Add(perk.perkLootData.id);
             }
         }
 
         return equippedPerkIds;
     }
-}
 
+    public void ClearAllNegativePerks()
+    {
+        Debug.Log("Clearing all negative perks");
+        // Rimuovi tutti i perk attivi
+        foreach (PerkBase perk in perksToRemove)
+        {
+            if (perk != null)
+            {
+                perk.OnRemove(player);
+            }
+        }
+        foreach (PerkBase perk in perksToAdd)
+        {
+            if (perk != null)
+            {
+                NotificationUI.Instance?.ShowMessage(
+                $"You obtained {perk.name}"
+            );
+                activePerks.Add(perk);
+                perk.OnApply(player);
+            }
+        }
+        perksToRemove.Clear();
+        perksToAdd.Clear();
+    }
+
+    public void AddNegativePerk(PerkBase negativePerk, PerkBase positivePerk)
+    {
+        if (negativePerk == null || positivePerk == null) return;
+        Debug.Log($"Adding negative perk: {negativePerk.name} and scheduling positive perk: {positivePerk.name}");
+        perksToRemove.Add(negativePerk);
+        negativePerk.OnApply(player);
+        perksToAdd.Add(positivePerk);
+    }
+}
 /// INTERFACES FOR PERKS
 public interface IModifyIncomingDamage
 {
@@ -92,3 +131,4 @@ public interface IOnDealDamage
 {
     public DamageInfo OnDealDamage(ref DamageInfo damage);
 }
+
