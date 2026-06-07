@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour
     private Animator anim;
 
     private EnemySpawner enemySpawner;
+    private bool isDead = false; // per evitare che DeadManagement venga richiamato piu' volte
 
     // 🔥 STUN STATE
     private bool isStun = false;
@@ -69,6 +70,8 @@ public class Enemy : MonoBehaviour
 
     private void EnemyHealthSystem_OnDamageTaken(object sender, DamageEventArgs e)
     {
+        if (isDead) return;
+
         if (enemyMovement != null)
         {
             enemyMovement.ApplyKnockback(
@@ -143,6 +146,9 @@ public class Enemy : MonoBehaviour
 
     private void DeadManagement(Vector2 attackDirection)
     {
+        if (isDead) return;
+        isDead = true;
+
         if (deadBodyPlaceholder != null)
         {
             GameObject deadBody = Instantiate(deadBodyPlaceholder, transform.position, Quaternion.identity);

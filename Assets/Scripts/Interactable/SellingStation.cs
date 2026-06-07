@@ -64,6 +64,8 @@ public class SellingStation : MonoBehaviour {
     [SerializeField] private DungeonShopExtraItem[] dungeonExtraItems;
     [SerializeField] private RoomBehaviour room;
 
+    private bool spawned;
+
     private void Start() {
         if (MetaProgressionManager.Instance == null) {
             Debug.LogWarning("MetaProgressionManager non presente");
@@ -87,6 +89,8 @@ public class SellingStation : MonoBehaviour {
     }
 
     private void Room_OnRoomEnter(object sender, System.EventArgs e) {
+        if (spawned) return; // per evitare spawn ad ogni entrata
+
         SpawnItemsToSell(); // si spawnano nei sellingSlots gli item corretti
     }
 
@@ -265,6 +269,8 @@ public class SellingStation : MonoBehaviour {
 
             availableItems.RemoveAt(randomIndex);
         }
+
+        spawned = true;
     }
 
     private void RemoveEquippedItems(List<string> availableItems, HashSet<string> equippedItems) {

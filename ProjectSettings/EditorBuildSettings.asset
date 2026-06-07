@@ -38,6 +38,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FinalScenes/Basement1_generation.unity
     guid: 70565e52a57896644b5c41be48b2297c
+  - enabled: 1
+    path: Assets/Scenes/FinalScenes/Basement2_generation.unity
+    guid: ab3b179ffac937841bb72b88d236f2da
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

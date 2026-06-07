@@ -31338,7 +31338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefa2f09ebc39b84d836fa5076fa2bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomBehaviour
-  roomType: 2
+  roomType: 3
   blocks:
   - {fileID: 8479851104253065851}
   - {fileID: 6846012981744506146}

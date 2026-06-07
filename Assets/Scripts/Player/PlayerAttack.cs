@@ -27,6 +27,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private bool knockBackWhileAttacking;
     [SerializeField] private float knockBackForce;
 
+    public bool StopPlayerFromAttacking { get; set; }
+
     private bool blockAttack = false; // impostato durante dialoghi per evitare che attacchi durante dialoghi
     public void BlockAttack() => blockAttack = true;
     public void UnlockAttack() => blockAttack = false;
@@ -87,9 +89,13 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack(object sender, EventArgs e)
     {
+        if (StopPlayerFromAttacking) return;
+
         if (blockAttack) return;
 
         if (!canAttack || currentWeapon == null) return;
+
+        if (!Player.Instance.playerMovement.canMove) return; // in modo da non poter attaccare durante splash screen del boss ad esempio
 
         currentWeapon.GetComponent<IWeapon>().Attack(attackDirection);
 
@@ -234,7 +240,6 @@ public class PlayerAttack : MonoBehaviour
         // droppo arma corrente se presente
         if (currentWeapon != null)
         {
-            currentWeapon.transform.SetParent(null);
             if (currentWeapon.TryGetComponent<Weapon>(out Weapon w))
             {
                 w.DropWeapon();

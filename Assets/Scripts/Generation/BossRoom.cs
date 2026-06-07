@@ -7,12 +7,26 @@ public class BossRoom : MonoBehaviour {
     [SerializeField] private Transform bossSpawnTransform;
     private bool spawned;
 
+    [SerializeField] private GameObject nextBasementEntrance;
+
     private void Awake() {
         rb = GetComponent<RoomBehaviour>();
 
         if(bossSpawnTransform == null) {
             bossSpawnTransform = rb.roomCentre;
         }
+    }
+
+    private void Start() {
+        if (nextBasementEntrance == null) return;
+
+        nextBasementEntrance.SetActive(false);
+    }
+
+    public void ShowNextBasementEntrance() {
+        if (nextBasementEntrance == null) return;
+
+        nextBasementEntrance.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum RoomType
 {
+    FirstStartRoom, // start room del primo piano (con anche arma)
     StartRoom,
     EnemiesRoom,
     TrapRoom,
@@ -143,7 +144,7 @@ public class RoomBehaviour : MonoBehaviour
     private void StartRoom()
     {
         // per queste camere per ora non si chiudono semplicemente le porte
-        if (roomType == RoomType.TrapRoom || roomType == RoomType.VendorRoom || roomType == RoomType.TreasureRoom) return;
+        if (roomType == RoomType.TrapRoom || roomType == RoomType.VendorRoom || roomType == RoomType.TreasureRoom || roomType == RoomType.StartRoom) return;
         // startRoom anche rimane chiusa, in quanto si aspetta che il player raccolga l'arma iniziale
 
         if (EnemySpawner.Instance != null)

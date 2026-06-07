@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public interface IWeapon
 {
     void Attack(Vector2 attackDirection);
@@ -94,6 +94,16 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible
 
     public void DropWeapon()
     {
+        // Stacco l'arma dal player mantenendo la posizione nel mondo
+        transform.SetParent(null, true);
+
+        // Sposto l'arma dalla scena DontDestroyOnLoad alla scena attiva
+        // questo accade in quanto il player e' dontdestroyonload
+        Scene activeScene = SceneManager.GetActiveScene();
+
+        if (gameObject.scene != activeScene) {
+            SceneManager.MoveGameObjectToScene(gameObject, activeScene);
+        }
         if (GetComponent<Collider2D>() != null)
         {
             GetComponent<Collider2D>().enabled = false; // disattivo collider se per caso attivo (lo riattivo dopo il drop)

@@ -14,24 +14,36 @@ public class HealthBar : MonoBehaviour
 
     private List<Image> hearts = new List<Image>();
 
-    private void Start()
-    {
+    private PlayerHealth playerHealth;
+
+    private void Start() {
         if (Player.Instance == null) return;
 
-        CreateHearts();
+        playerHealth = Player.Instance.playerHealth;
 
+        if (playerHealth == null) return;
+
+        CreateHearts();
         UpdateHearts();
 
-        Player.Instance.playerHealth.OnHealthChanged += PlayerHealth_OnHealthChanged;
+        playerHealth.OnHealthChanged += PlayerHealth_OnHealthChanged;
+    }
+
+    private void OnDestroy() {
+        if (playerHealth != null) {
+            playerHealth.OnHealthChanged -= PlayerHealth_OnHealthChanged;
+        }
     }
 
     private void PlayerHealth_OnHealthChanged(object sender, System.EventArgs e)
     {
-        UpdateHearts();
-        if (Player.Instance.playerHealth.maxHealthUnits > hearts.Count * 2)
-        {
+        int requiredHearts = Mathf.CeilToInt(playerHealth.maxHealthUnits / 2f);
+
+        if (requiredHearts != hearts.Count) {
             CreateHearts();
         }
+
+        UpdateHearts();
     }
 
     private void CreateHearts()

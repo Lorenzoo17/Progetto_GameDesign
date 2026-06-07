@@ -4212,7 +4212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cefa2f09ebc39b84d836fa5076fa2bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomBehaviour
-  roomType: 1
+  roomType: 2
   blocks:
   - {fileID: 8386426721591654874}
   - {fileID: 1699632094474014551}

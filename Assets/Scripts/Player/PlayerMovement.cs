@@ -142,6 +142,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDodgeEvent_Performed(object sender, EventArgs e)
     {
+        if (!canMove) return;
+
         // cooldown
         if (dodgeCooldownTimer > 0f || isDodging) return;
 
@@ -216,7 +218,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void StopPlayer() {
-        canMove = false;
+        canMove = false; // usato anche in playerAttack per non poter attaccare quando canMove e' a false
         rb.linearVelocity = Vector2.zero;
         movement = Vector2.zero;
     }

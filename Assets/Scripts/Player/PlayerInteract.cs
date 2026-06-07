@@ -25,6 +25,9 @@ public class PlayerInteract : MonoBehaviour {
     private void OnTriggerExit2D(Collider2D other) {
         if (other.TryGetComponent<IInteractable>(out IInteractable interactableEntity)) {
             if (interactableEntity == currentInteractableEntity) {
+                if (currentInteractableEntity is MonoBehaviour monoBehaviour && monoBehaviour.isActiveAndEnabled) {
+                    currentInteractableEntity.HidePrompt();
+                }
                 currentInteractableEntity.HidePrompt();
                 currentInteractableEntity = null;
             }

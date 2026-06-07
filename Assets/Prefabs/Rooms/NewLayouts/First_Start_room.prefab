@@ -12820,7 +12820,7 @@ GameObject:
   - component: {fileID: 4117456427181173561}
   - component: {fileID: 8330300708465428752}
   m_Layer: 0
-  m_Name: Start_room_2
+  m_Name: First_Start_room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

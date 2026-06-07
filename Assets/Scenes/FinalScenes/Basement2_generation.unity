@@ -1970,12 +1970,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63369dd79cb27c34c813b4119be36ec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DungeonGenerator
-  size: {x: 3, y: 3}
+  size: {x: 4, y: 4}
   offset: {x: 23.4, y: 23.4}
   bossRoom: {fileID: 7181218629803831723, guid: 94154d58be2e18c40869d851fe9c5556, type: 3}
   powerUpRoom: {fileID: 995667458416466138, guid: 9e339acffd82cd346b98cbddf3d013d6, type: 3}
   vendorRoom: {fileID: 995667458416466138, guid: 563acac63e97c6744845d379202c7de0, type: 3}
-  startRoom: {fileID: 3471122668593747318, guid: 4f4c0a621637a54469a55e893b75d227, type: 3}
+  startRoom: {fileID: 3471122668593747318, guid: 93530c55d034dd444b6a8acc8b4640f7, type: 3}
   normalRooms:
   - room: {fileID: 5570208806824628964, guid: a7bda12cc22aa5e49ae028f7088da051, type: 3}
     minPosition: {x: -5, y: -5}

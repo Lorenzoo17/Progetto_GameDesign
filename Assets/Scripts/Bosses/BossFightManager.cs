@@ -6,6 +6,7 @@ public class BossFightManager : MonoBehaviour {
     [SerializeField] private MonoBehaviour[] scriptsToDisable;
 
     private RoomBehaviour room;
+    private BossRoom bossRoom;
     private HealthSystem healthSystem;
 
     private void Awake() {
@@ -16,6 +17,7 @@ public class BossFightManager : MonoBehaviour {
 
     public void SetRoom(RoomBehaviour room) {
         this.room = room;
+        bossRoom = room.GetComponent<BossRoom>();
     }
 
     private void HealthSystem_OnDamageTaken(object sender, DamageEventArgs e) {
@@ -24,6 +26,7 @@ public class BossFightManager : MonoBehaviour {
                 room.OpenDoors(); // apro le porte
 
             // abilito spawn per andare a piano successivo
+            bossRoom.ShowNextBasementEntrance();
         }
     }
 

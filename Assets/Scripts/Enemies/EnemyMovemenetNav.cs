@@ -42,11 +42,19 @@ public class EnemyMovementNav : MonoBehaviour {
     private Transform firePoint;
     private bool isRangedEnemy;
 
+    private HealthSystem hs;
+    private bool hasBeenHit; // in modo che inizi a seguire il player a prescindere dalla distanza se
+    // e' stato colpito da esso
+
     private void Awake() {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         enemyAttack = GetComponent<EnemyAttackBase>();
         enemy = GetComponent<Enemy>();
+
+        hs = GetComponent<HealthSystem>();
+        hasBeenHit = false;
+        hs.OnDamageTaken += Hs_OnDamageTaken;
 
         SetupNavMeshAgent();
 
@@ -58,6 +66,10 @@ public class EnemyMovementNav : MonoBehaviour {
             firePoint = transform;
             isRangedEnemy = false;
         }
+    }
+
+    private void Hs_OnDamageTaken(object sender, DamageEventArgs e) {
+        hasBeenHit = true;
     }
 
     private void Update() {
@@ -101,7 +113,7 @@ public class EnemyMovementNav : MonoBehaviour {
             playerPosition
         );
 
-        if(distance <= minTargetDistance) {
+        if(distance <= minTargetDistance || hasBeenHit) { // se e' stato colpito o la distanza e' inferiore a minTargetDistance
             if (isRangedEnemy) {
                 HandleRangedEnemy(distance, playerPosition);
             }
