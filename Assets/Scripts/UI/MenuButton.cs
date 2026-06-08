@@ -61,6 +61,12 @@ public class MenuButton : MonoBehaviour,
 
     public void OnPointerExit(PointerEventData eventData) {
         isPointerOver = false;
+
+        if (EventSystem.current != null &&
+            EventSystem.current.currentSelectedGameObject == gameObject) {
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+
         RefreshVisual();
     }
 
