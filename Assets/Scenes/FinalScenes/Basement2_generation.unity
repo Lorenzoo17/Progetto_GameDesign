@@ -1995,6 +1995,9 @@ MonoBehaviour:
   - room: {fileID: 8781386131341019937, guid: 8b564831009bc164ab5e6ec1ae611acc, type: 3}
     minPosition: {x: -5, y: -5}
     maxPosition: {x: 5, y: 5}
+  - room: {fileID: 4933846937166428330, guid: dd8040f766207cf4caf89619b046bd43, type: 3}
+    minPosition: {x: -5, y: -5}
+    maxPosition: {x: 5, y: 5}
 --- !u!4 &1080929456
 Transform:
   m_ObjectHideFlags: 0
