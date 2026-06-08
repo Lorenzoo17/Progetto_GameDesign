@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class MenuButton : MonoBehaviour,
@@ -74,8 +75,21 @@ public class MenuButton : MonoBehaviour,
         return button != null && button.interactable;
     }
 
+    private bool wasHighlighted = false;
+
     private void RefreshVisual() {
         bool active = CanInteract() && (isSelected || isPointerOver);
+
+        if (active && !wasHighlighted)
+        {
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlaySound2D(SoundID.UIHover, .08f);
+            }
+            
+        }
+
+        wasHighlighted = active;
 
         rectTransform.localScale = active
             ? originalScale * selectedScale

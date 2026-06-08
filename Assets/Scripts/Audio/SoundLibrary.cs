@@ -2,15 +2,23 @@ using UnityEngine;
 
 public enum SoundID {
     Footstep,
+    WoodCrack,
+    PickUp,
+    CoinPickUp,
+    HealthPickUp,
     PlayerAttack,
+    PlayerShoot,
     PlayerHit,
-    EnemyHit,
+    PlayerDeath,
+    PlayerDash,
     EnemySmash,
     EnemyShoot,
+    EnemyHit,
+    EnemyDeath,
     UIConfirm,
     UICancel,
-    WoodCrack,
-    PickUp
+    UIHover,
+    Interact,
 }
 
 [System.Serializable]

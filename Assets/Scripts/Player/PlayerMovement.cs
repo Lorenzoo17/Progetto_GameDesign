@@ -169,6 +169,12 @@ public class PlayerMovement : MonoBehaviour
 
         // cooldown dalle stats
         dodgeCooldownTimer = Player.Instance.playerStats.playerCurrentStats.GetDodgeCooldown();
+
+        // suono dodge
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.PlayerDash, .2f);
+        }
     }
 
 

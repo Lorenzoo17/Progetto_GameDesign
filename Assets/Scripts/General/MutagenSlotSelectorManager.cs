@@ -1,9 +1,11 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
-using UnityEngine.EventSystems;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
+
 public class MutagenSlotSelectorManager : MonoBehaviour
 {
     public static MutagenSlotSelectorManager Instance { get; private set; }
@@ -218,6 +220,11 @@ public class MutagenSlotSelectorManager : MonoBehaviour
 
     private void SelectSlot(int slotIndex)
     {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.UIConfirm, .15f);
+        }
+
         Debug.Log($"SelectSlot called: slotIndex={slotIndex}, pendingMutagen={pendingMutagen}, pendingMutagenItem={pendingMutagenItem}");
 
         if (pendingMutagen == null || pendingMutagenItem == null)
@@ -242,6 +249,10 @@ public class MutagenSlotSelectorManager : MonoBehaviour
 
     private void CancelSelection()
     {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.UICancel, .15f);
+        }
         CloseSlotSelector();
     }
 
@@ -290,6 +301,8 @@ public class MutagenSlotSelectorManager : MonoBehaviour
         return isSelectingSlot;
     }
 
+
+    private bool wasActive = false;
     private void ConfigureButtonVisual(Button button) {
         if (button == null) return;
 
@@ -346,6 +359,15 @@ public class MutagenSlotSelectorManager : MonoBehaviour
 
         void RefreshVisual() {
             bool active = button.interactable && (isPointerOver || isSelected);
+
+            if (active && !wasActive)
+            {
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlaySound2D(SoundID.UIHover, .08f);
+                }
+            }
+            wasActive = active;
 
             if (divider != null)
                 divider.gameObject.SetActive(active);

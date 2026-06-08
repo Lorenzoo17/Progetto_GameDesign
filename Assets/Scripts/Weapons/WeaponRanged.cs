@@ -41,6 +41,12 @@ public class WeaponRanged : Weapon
                 projectileShooter.ShootLinear(Player.Instance.gameObject, dir);
                 break;
         }
+
+        // suono di sparo
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.PlayerShoot, .15f);
+        }
     }
 
     public override void HandleRotation(Transform weaponHolder, Vector2 dir)

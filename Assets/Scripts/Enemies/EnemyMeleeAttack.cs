@@ -38,6 +38,11 @@ public class EnemyMeleeAttack : EnemyAttackBase {
                         CameraShakerHandler.Shake(cameraShakeAttackData);
                     }
                 }
+
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlaySound2D(SoundID.EnemySmash, .2f);
+                }
             }
         }
     }

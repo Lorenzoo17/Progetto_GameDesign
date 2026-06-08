@@ -11,7 +11,7 @@ public enum MusicID {
 [System.Serializable]
 public struct MusicTrack {
     public MusicID musicID;
-    public AudioClip clip;
+    public AudioClip[] clips;
 }
 
 public class MusicLibrary : MonoBehaviour {
@@ -21,7 +21,7 @@ public class MusicLibrary : MonoBehaviour {
     public AudioClip GetClip(MusicID musicID) {
         foreach (MusicTrack track in tracks) {
             if (track.musicID == musicID) {
-                return track.clip;
+                return track.clips[Random.Range(0, track.clips.Length)];
             }
         }
 

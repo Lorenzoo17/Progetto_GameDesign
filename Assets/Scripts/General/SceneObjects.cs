@@ -25,7 +25,7 @@ public class SceneObjects : MonoBehaviour, IDamageable
         if (spawnOnStart) return;
 
         if (SoundManager.Instance != null) {
-            SoundManager.Instance.PlaySound2D(SoundID.WoodCrack, .15f);
+            SoundManager.Instance.PlaySound2D(SoundID.WoodCrack, .10f);
         }
 
         if (SpawnItems.Instance != null) {

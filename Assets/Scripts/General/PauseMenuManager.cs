@@ -1,9 +1,10 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
-using UnityEngine.Events;
 using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class PauseMenuManager : MonoBehaviour
 {
     public static PauseMenuManager Instance { get; private set; }
@@ -140,6 +141,11 @@ public class PauseMenuManager : MonoBehaviour
     // =========================
     public void Resume()
     {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.UIConfirm, .15f);
+        }
+
         isPaused = false;
         Time.timeScale = previousTimeScale;
 
@@ -157,6 +163,11 @@ public class PauseMenuManager : MonoBehaviour
     // =========================
     private void OpenStats()
     {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.UIConfirm, .15f);
+        }
+
         if (currentUI == null) return;
 
         Transform pausePanel = currentUI.transform.Find("PauseMenuPanel");
@@ -175,6 +186,11 @@ public class PauseMenuManager : MonoBehaviour
     {
         if (!isPaused || currentUI == null)
             return;
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.UICancel, .15f);
+        }
 
         Transform pausePanel = currentUI.transform.Find("PauseMenuPanel");
         Transform statsPanel = currentUI.transform.Find("StatsPanel");
@@ -196,6 +212,11 @@ public class PauseMenuManager : MonoBehaviour
     // =========================
     private void Surrender()
     {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.UIConfirm, .15f);
+        }
+
         Time.timeScale = 1f;
         isPaused = false;
 
@@ -214,6 +235,11 @@ public class PauseMenuManager : MonoBehaviour
 
     private void Exit()
     {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.UIConfirm, .15f);
+        }
+
         Time.timeScale = 1f;
         isPaused = false;
 
@@ -235,6 +261,7 @@ public class PauseMenuManager : MonoBehaviour
         return isPaused;
     }
 
+    private bool wasActive = false;
     private void ConfigureButtonVisual(Button button) {
         if (button == null) return;
 
@@ -287,6 +314,15 @@ public class PauseMenuManager : MonoBehaviour
 
         void RefreshVisual() {
             bool active = button.interactable && (isPointerOver || isSelected);
+
+            if (active && !wasActive)
+            {
+                if (SoundManager.Instance != null)
+                {
+                    SoundManager.Instance.PlaySound2D(SoundID.UIHover, .08f);
+                }
+            }
+            wasActive = active;
 
             if (divider != null)
                 divider.gameObject.SetActive(active);

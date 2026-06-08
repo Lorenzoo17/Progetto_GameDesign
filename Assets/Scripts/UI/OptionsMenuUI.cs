@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class OptionsMenuUI : MonoBehaviour {
@@ -111,6 +112,11 @@ public class OptionsMenuUI : MonoBehaviour {
     }
 
     public void OpenOptions() {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.UIConfirm, .08f);
+        }
+
         mainMenuPanel.SetActive(false);
         optionsPanel.SetActive(true);
 
@@ -118,6 +124,11 @@ public class OptionsMenuUI : MonoBehaviour {
     }
 
     public void ShowMainMenu() {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.UICancel, .08f);
+        }
+
         optionsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
 

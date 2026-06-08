@@ -159,6 +159,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         // Disabilitiamo le collisioni per evitare ulteriori danni o interazioni
         GetComponent<Collider2D>().enabled = false;
 
+        // death sound
+        if (SoundManager.Instance != null) 
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.PlayerDeath, .25f);
+        }
+
         // Notifichiamo il controller principale del Player
         Player.Instance.OnPlayerDeath();
     }
