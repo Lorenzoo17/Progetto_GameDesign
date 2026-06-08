@@ -11,6 +11,12 @@ public class PlayerInteract : MonoBehaviour {
 
     private void Instance_OnInteractEvent(object sender, System.EventArgs e) {
         if (currentInteractableEntity != null) {
+
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlaySound2D(SoundID.Interact, .25f);
+            }
+
             currentInteractableEntity.Interact();
         }
     }
