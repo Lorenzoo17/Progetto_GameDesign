@@ -9,10 +9,16 @@ public class BossFightManager : MonoBehaviour {
     private BossRoom bossRoom;
     private HealthSystem healthSystem;
 
+    [SerializeField] private bool alreadySpawned;
+
     private void Awake() {
         healthSystem = GetComponent<HealthSystem>();
 
         healthSystem.OnDamageTaken += HealthSystem_OnDamageTaken;
+
+        if (alreadySpawned) {
+            FreezeBoss();
+        }
     }
 
     public void SetRoom(RoomBehaviour room) {

@@ -1,0 +1,611 @@
+fileFormatVersion: 2
+guid: c282a25b94feba0458ac69082a69725d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1408963471572121784
+    second: topo boss salto_0
+  - first:
+      213: 8299123402940947985
+    second: topo boss salto_1
+  - first:
+      213: -3435374424801301569
+    second: topo boss salto_2
+  - first:
+      213: -5117906701204360346
+    second: topo boss salto_3
+  - first:
+      213: -6350243133636849773
+    second: topo boss salto_4
+  - first:
+      213: -7831475514423391889
+    second: topo boss salto_5
+  - first:
+      213: 8548135342105802856
+    second: topo boss salto_6
+  - first:
+      213: -3310216506017021824
+    second: topo boss salto_7
+  - first:
+      213: 2108176186704959337
+    second: topo boss salto_8
+  - first:
+      213: 2357336610838798525
+    second: topo boss salto_9
+  - first:
+      213: -3648873888830281918
+    second: topo boss salto_10
+  - first:
+      213: -2529009890233605407
+    second: topo boss salto_11
+  - first:
+      213: -7387884511519841573
+    second: topo boss salto_12
+  - first:
+      213: -3868232935734094865
+    second: topo boss salto_13
+  - first:
+      213: -1307806058464462458
+    second: topo boss salto_14
+  - first:
+      213: 6972871004547311624
+    second: topo boss salto_15
+  - first:
+      213: -2166724592272636731
+    second: topo boss salto_16
+  - first:
+      213: -4526170306033325467
+    second: topo boss salto_17
+  - first:
+      213: -4720287002374435088
+    second: topo boss salto_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: topo boss salto_0
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 32
+        width: 62
+        height: 63
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b8be88ffc4ad8310800000000000000
+      internalID: 1408963471572121784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_1
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 32
+        width: 56
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11e1d6ba3c86c2370800000000000000
+      internalID: 8299123402940947985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_2
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 32
+        width: 35
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbba14b79291350d0800000000000000
+      internalID: -3435374424801301569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_3
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 32
+        width: 50
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6637f1998fa89f8b0800000000000000
+      internalID: -5117906701204360346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_4
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 32
+        width: 63
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39f4636d3876fd7a0800000000000000
+      internalID: -6350243133636849773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_5
+      rect:
+        serializedVersion: 2
+        x: 803
+        y: 32
+        width: 56
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f69cf973382015390800000000000000
+      internalID: -7831475514423391889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_6
+      rect:
+        serializedVersion: 2
+        x: 926
+        y: 32
+        width: 67
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 868bd2ebdc311a670800000000000000
+      internalID: 8548135342105802856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_7
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 32
+        width: 63
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 080883540afbf02d0800000000000000
+      internalID: -3310216506017021824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_8
+      rect:
+        serializedVersion: 2
+        x: 1196
+        y: 32
+        width: 36
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9679c7c721fb14d10800000000000000
+      internalID: 2108176186704959337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_9
+      rect:
+        serializedVersion: 2
+        x: 1324
+        y: 36
+        width: 38
+        height: 53
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db0e1196821f6b020800000000000000
+      internalID: 2357336610838798525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_10
+      rect:
+        serializedVersion: 2
+        x: 1452
+        y: 43
+        width: 38
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 247a21ad7889c5dc0800000000000000
+      internalID: -3648873888830281918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_11
+      rect:
+        serializedVersion: 2
+        x: 1580
+        y: 51
+        width: 38
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e22d2377e627ecd0800000000000000
+      internalID: -2529009890233605407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_12
+      rect:
+        serializedVersion: 2
+        x: 1710
+        y: 49
+        width: 33
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd2ef31fd26f87990800000000000000
+      internalID: -7387884511519841573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_13
+      rect:
+        serializedVersion: 2
+        x: 1841
+        y: 35
+        width: 27
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe35a15c3a6415ac0800000000000000
+      internalID: -3868232935734094865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_14
+      rect:
+        serializedVersion: 2
+        x: 1950
+        y: 32
+        width: 69
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6893f12a15db9dde0800000000000000
+      internalID: -1307806058464462458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_15
+      rect:
+        serializedVersion: 2
+        x: 2078
+        y: 32
+        width: 67
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 808e9aa1c3d94c060800000000000000
+      internalID: 6972871004547311624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_16
+      rect:
+        serializedVersion: 2
+        x: 2220
+        y: 32
+        width: 42
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c48c7f867f3ee1e0800000000000000
+      internalID: -2166724592272636731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_17
+      rect:
+        serializedVersion: 2
+        x: 2349
+        y: 32
+        width: 39
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56a66fb5610df21c0800000000000000
+      internalID: -4526170306033325467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: topo boss salto_4_5
+      rect:
+        serializedVersion: 2
+        x: 675
+        y: 32
+        width: 64
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fe04910bfb2e7eb0800000000000000
+      internalID: -4720287002374435088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: b6edbac3a04d7cb4988577284dc06c6e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      topo boss salto_0: 1408963471572121784
+      topo boss salto_1: 8299123402940947985
+      topo boss salto_10: -3648873888830281918
+      topo boss salto_11: -2529009890233605407
+      topo boss salto_12: -7387884511519841573
+      topo boss salto_13: -3868232935734094865
+      topo boss salto_14: -1307806058464462458
+      topo boss salto_15: 6972871004547311624
+      topo boss salto_16: -2166724592272636731
+      topo boss salto_17: -4526170306033325467
+      topo boss salto_2: -3435374424801301569
+      topo boss salto_3: -5117906701204360346
+      topo boss salto_4: -6350243133636849773
+      topo boss salto_4_5: -4720287002374435088
+      topo boss salto_5: -7831475514423391889
+      topo boss salto_6: 8548135342105802856
+      topo boss salto_7: -3310216506017021824
+      topo boss salto_8: 2108176186704959337
+      topo boss salto_9: 2357336610838798525
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

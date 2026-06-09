@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d5a4fc35afe0143b7a9ce032688923, type: 3}
   m_Name: Idle
   m_EditorClassIdentifier: Assembly-CSharp::BossIdleState
-  slideDistance: 2
   slideDuration: 0.5
   baseRestTime: 1
   restTimePerAttack: 0.5

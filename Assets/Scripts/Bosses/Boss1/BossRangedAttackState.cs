@@ -6,108 +6,157 @@ using stateMachine;
 public class BossRangedAttackState : State<BossCtrl>
 {
     [Header("Impostazioni Generali")]
-    [SerializeField] private float fireRate = 0.5f;     
+    [SerializeField] private float fireRate = 0.5f;
 
     [Header("Impostazioni Proiettile")]
-    [SerializeField] private GameObject bossProjectilePrefab; // Trascina qui il prefab!
+    [SerializeField] private GameObject bossProjectilePrefab;
     [SerializeField] private float projectileSpeed = 8f;
+    [SerializeField] private float maxAttackRange = 15f;
 
-    [Header("Quantità Proiettili (Attacco Mirato/Random)")] 
-    [SerializeField] private int minProjectiles = 2; 
-    [SerializeField] private int maxProjectiles = 6; 
+    [Header("Quantità Proiettili (Attacco Normale)")]
+    [SerializeField] private int minProjectiles = 2;
+    [SerializeField] private int maxProjectiles = 6;
+
+    [Header("Miramento e Precisione")]
+    [Tooltip("Margine massimo di errore in gradi rispetto alla posizione del Player (es. 50 significa un arco totale di 100°)")]
+    [SerializeField] private float errorMargin = 50f;
 
     private bool attackCompleted = false;
+    private bool triggerSent = false;
+    [SerializeField] private float anticipationDelay = 0.4f;
 
-    public override void Enter() 
+    public override void Enter()
     {
         attackCompleted = false;
-        
-        if (_runner.Agent != null && _runner.Agent.isOnNavMesh) {
+        _runner.AnimActionComplete = false;
+        triggerSent = false;
+
+        if (_runner.Agent != null && _runner.Agent.isOnNavMesh)
+        {
             _runner.Agent.isStopped = true;
         }
-        
-        if (_runner.Anim != null) _runner.Anim.SetTrigger("Attack");
 
         _runner.StartCoroutine(FireSequenceRoutine());
     }
 
-    private IEnumerator FireSequenceRoutine() 
+    private IEnumerator FireSequenceRoutine()
     {
-        // === ATTACCO A CROCE (Al 4° Salto) ===
-        if (_runner.NextAttackPattern == BossCtrl.AttackPattern.Cross) 
-        {
-            Vector2[] crossDirections = { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
-            
-            foreach(Vector2 dir in crossDirections) {
-                ShootProjectile(dir);
-            }
-            yield return new WaitForSeconds(0.5f); 
-        } 
-        // === ATTACCO MIRATO O RANDOM ===
-        else 
-        {
-            float healthPercent = _runner.Health.GetHealthPercentage();
-            int currentProjectiles = Mathf.RoundToInt(Mathf.Lerp(maxProjectiles, minProjectiles, healthPercent));
+        if (_runner.Anim != null) _runner.Anim.SetTrigger("jump_to_attack");
+        else Debug.LogWarning("BossRangedAttack: Boss does not have an Animator component.");
 
-            for (int i = 0; i < currentProjectiles; i++) 
+        yield return new WaitForSeconds(anticipationDelay);
+
+        float healthRatio = _runner.Health.GetHealthPercentage() / 100f;
+
+        if (_runner.NextAttackPattern == BossCtrl.AttackPattern.Cross)
+        {
+            if (healthRatio <= 0.40f)
             {
+                ShootCircle(8, 0f);
+                yield return new WaitForSeconds(1.0f);
+                ShootCircle(8, 22.5f);
+                yield return new WaitForSeconds(0.5f);
+            }
+            else if (healthRatio <= 0.80f)
+            {
+                ShootCircle(8, 0f);
+                yield return new WaitForSeconds(0.5f);
+            }
+            else
+            {
+                ShootCircle(4, 0f);
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+        else
+        {
+            int currentProj = Mathf.RoundToInt(Mathf.Lerp(maxProjectiles, minProjectiles, healthRatio));
+            if (currentProj < minProjectiles) currentProj = minProjectiles;
+
+            if (_runner.debug) Debug.Log($"[ATTACCO NORMALE] Vita: {healthRatio * 100}%, Sparo {currentProj} proiettili ad arco sul Player!");
+
+            for (int i = 0; i < currentProj; i++)
+            {
+                Vector2 firePosition = _runner.FirePoint != null ? (Vector2)_runner.FirePoint.position : (Vector2)_runner.transform.position;
+
+                // 🎯 1. Trova l'istanza del player corrente nella stanza
+                Player player = Object.FindFirstObjectByType<Player>();
                 Vector2 shootDir;
 
-                if (_runner.MemoryTurnsLeft > 0 && _runner.LastKnownPlayerPos != null) 
+                if (player != null)
                 {
-                    Vector3 target = _runner.LastKnownPlayerPos.Value;
-                    shootDir = ((Vector2)target - (Vector2)_runner.transform.position).normalized;
-                } 
-                else 
+                    // 🎯 2. Calcola la direzione base (perfetta) verso il player
+                    Vector2 dirToPlayer = ((Vector2)player.transform.position - firePosition).normalized;
+
+                    // 🎯 3. Calcola una deviazione casuale (es. tra -50° e +50°)
+                    float randomOffset = Random.Range(-errorMargin, errorMargin);
+
+                    // 🎯 4. Ruota il vettore direzione originale usando l'offset casuale
+                    shootDir = RotateVector(dirToPlayer, randomOffset);
+                }
+                else
                 {
+                    // Fallback di sicurezza se il player scompare durante l'esecuzione
                     shootDir = Random.insideUnitCircle.normalized;
                 }
 
                 ShootProjectile(shootDir);
-                yield return new WaitForSeconds(fireRate); 
-            }
-
-            if (_runner.MemoryTurnsLeft > 0) {
-                _runner.MemoryTurnsLeft--;
-                if (_runner.MemoryTurnsLeft == 0) {
-                    _runner.LastKnownPlayerPos = null; 
-                }
+                yield return new WaitForSeconds(fireRate);
             }
         }
 
-        attackCompleted = true; 
+        attackCompleted = true;
+        yield return new WaitForSeconds(0.5f);
+        _runner.AnimActionComplete = true;
     }
 
-    // NUOVO METODO: Instanzia il proiettile e usa la fisica per muoverlo!
-    private void ShootProjectile(Vector2 direction) 
+    private void ShootCircle(int numberOfProjectiles, float offsetAngle = 0f)
     {
-        /*
-        if (bossProjectilePrefab == null) {
-            Debug.LogWarning("Manca il prefab del proiettile in BossRangedAttackState!");
-            return;
+        float angleStep = 360f / numberOfProjectiles;
+        for (int i = 0; i < numberOfProjectiles; i++)
+        {
+            float currentAngle = (i * angleStep) + offsetAngle;
+            Vector2 dir = new Vector2(Mathf.Cos(currentAngle * Mathf.Deg2Rad), Mathf.Sin(currentAngle * Mathf.Deg2Rad));
+            ShootProjectile(dir.normalized);
         }
-
-        Vector3 spawnPos = _runner.FirePoint != null ? _runner.FirePoint.position : _runner.transform.position;
-        GameObject proj = Instantiate(bossProjectilePrefab, spawnPos, Quaternion.identity);
-        
-        Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
-        if (rb != null) {
-            rb.linearVelocity = direction.normalized * projectileSpeed;
-        }
-        */
-
-        _runner.Shooter.ShootLinear(_runner.gameObject, direction);
     }
 
-    public override void Update() {}
-
-    public override void ChangeState() {
-        if (attackCompleted) _runner.SetState(typeof(BossIntroMovementState));
+    private void ShootProjectile(Vector2 direction)
+    {
+        if (_runner.Shooter is ProjectileShooterBoss bossShooter)
+            bossShooter.ShootBossProjectile(_runner.gameObject, direction, maxAttackRange);
+        else
+            _runner.Shooter.ShootLinear(_runner.gameObject, direction);
     }
 
-    public override void Exit() {
+    public override void Update() { }
+
+    public override void ChangeState()
+    {
+        if (!attackCompleted) return;
+
+        if (!triggerSent)
+        {
+            if (_runner.Anim != null) _runner.Anim.SetTrigger("attack_to_idle");
+            triggerSent = true;
+        }
+
+        if (_runner.AnimActionComplete) _runner.SetState(typeof(BossIntroMovementState));
+    }
+
+    public override void Exit()
+    {
         if (_runner.Agent != null && _runner.Agent.isOnNavMesh) _runner.Agent.isStopped = false;
     }
+
     public override void CaptureInput() { }
     public override void FixedUpdate() { }
+
+    private Vector2 RotateVector(Vector2 v, float degrees)
+    {
+        float radians = degrees * Mathf.Deg2Rad;
+        float sin = Mathf.Sin(radians);
+        float cos = Mathf.Cos(radians);
+        return new Vector2(cos * v.x - sin * v.y, sin * v.x + cos * v.y);
+    }
 }

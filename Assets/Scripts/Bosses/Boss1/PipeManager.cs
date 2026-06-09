@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 public class PipeManager : MonoBehaviour
 {
-    // Usiamo una lista pubblica accessibile
+    
     public List<Transform> tubi = new List<Transform>();
-
+    public int lastUsedIndex = -1;
     private void Start() 
     {
         if (tubi.Count <= 0) {
@@ -15,8 +15,12 @@ public class PipeManager : MonoBehaviour
 
     public Transform GetRandomPipe() 
     {
-        if (tubi.Count == 0) return null; // Nessun tubo disponibile
+        if (tubi.Count == 0) return null; 
         int index = Random.Range(0, tubi.Count);
-        return tubi[index];
+        if (index != lastUsedIndex) {
+            lastUsedIndex = index;
+            return tubi[index];
+        }
+        else return GetRandomPipe();
     }
 }
