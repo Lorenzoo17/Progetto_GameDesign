@@ -14,8 +14,7 @@ public enum RoomType
     VendorRoom,
     BossRoom
 }
-public class RoomBehaviour : MonoBehaviour
-{
+public class RoomBehaviour : MonoBehaviour {
 
     [SerializeField] private RoomType roomType;
 
@@ -52,12 +51,10 @@ public class RoomBehaviour : MonoBehaviour
     public Vector2Int GridPosition { get; private set; }
     public bool IsVisited => isVisited;
 
-    public void SetGridPosition(Vector2Int gridPosition)
-    {
+    public void SetGridPosition(Vector2Int gridPosition) {
         GridPosition = gridPosition;
     }
-    private void Awake()
-    {
+    private void Awake() {
         // sicurezza
         // trova automaticamente tutte le porte nei figli
 
@@ -65,18 +62,15 @@ public class RoomBehaviour : MonoBehaviour
         roomBounds = roomBounds == null ? GetComponent<BoxCollider2D>() : roomBounds;
     }
 
-    private void Start()
-    {
-        if (roomCentre == null)
-        {
+    private void Start() {
+        if (roomCentre == null) {
             roomCentre = transform;
         }
 
         BakeRoomNavMesh();
     }
 
-    public void MarkAsVisited()
-    {
+    public void MarkAsVisited() {
         if (isVisited) return;
 
         isVisited = true;
@@ -84,11 +78,9 @@ public class RoomBehaviour : MonoBehaviour
     }
 
     // chiamato dal DungeonGenerator
-    public void UpdateRoom(bool[] status)
-    {
+    public void UpdateRoom(bool[] status) {
 
-        for (int i = 0; i < 4; i++)
-        {
+        for (int i = 0; i < 4; i++) {
 
             bool hasDoor = status[i];
             doorExists[i] = hasDoor;
@@ -100,57 +92,48 @@ public class RoomBehaviour : MonoBehaviour
             doors[i].gameObject.SetActive(hasDoor);
 
             // tutte le porte sono settate come aperte all'inizio
-            if (hasDoor)
-            {
+            if (hasDoor) {
                 doors[i].GetComponent<Door>().SetClosed(false);
             }
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
+    private void OnTriggerEnter2D(Collider2D other) {
         if (!other.GetComponent<Player>()) return;
 
         OnRoomEnter?.Invoke(this, EventArgs.Empty);
         OnAnyRoomEntered?.Invoke(this);
 
-        if (DungeonGenerator.Instance != null && !DungeonGenerator.Instance.IsDungeonReady)
-        {
+        if (DungeonGenerator.Instance != null && !DungeonGenerator.Instance.IsDungeonReady) {
             return;
         }
 
-        if (Camera.main.TryGetComponent<CameraDungeonBehaviour>(out CameraDungeonBehaviour cdb))
-        {
+        if (Camera.main.TryGetComponent<CameraDungeonBehaviour>(out CameraDungeonBehaviour cdb)) {
             cdb.SetRoomBounds(roomBounds);
         }
 
-        if (!isVisited)
-        {
+        if (!isVisited) {
             MarkAsVisited();
 
-            if (roomType != RoomType.StartRoom)
-            {
+            if (roomType != RoomType.StartRoom) {
                 StartRoom();
             }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
+    private void OnTriggerExit2D(Collider2D other) {
         if (!other.GetComponent<Player>()) return;
 
         OnRoomExit?.Invoke(this, EventArgs.Empty);
     }
 
     // prima entrata
-    private void StartRoom()
-    {
+    private void StartRoom() {
         // per queste camere per ora non si chiudono semplicemente le porte
         if (roomType == RoomType.TrapRoom || roomType == RoomType.VendorRoom || roomType == RoomType.TreasureRoom || roomType == RoomType.StartRoom) return;
         // startRoom anche rimane chiusa, in quanto si aspetta che il player raccolga l'arma iniziale
 
-        if (EnemySpawner.Instance != null)
-        {
+        if (EnemySpawner.Instance != null) {
             EnemySpawner.Instance.SetCurrentRoom(this);
         }
 
@@ -159,38 +142,30 @@ public class RoomBehaviour : MonoBehaviour
         // se necessario, spawno i nemici
         SpawnEnemies();
 
-       
+
     }
 
     // chiudi SOLO porte esistenti
-    public void CloseDoors()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            if (doorExists[i])
-            {
+    public void CloseDoors() {
+        for (int i = 0; i < 4; i++) {
+            if (doorExists[i]) {
                 doors[i].GetComponent<Door>().SetClosed(true);
             }
         }
     }
 
     // Si attivano solo porte effettivamente esistenti
-    public void OpenDoors()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            if (doorExists[i])
-            {
+    public void OpenDoors() {
+        for (int i = 0; i < 4; i++) {
+            if (doorExists[i]) {
                 doors[i].GetComponent<Door>().SetClosed(false);
             }
         }
     }
 
     // spawn nemici (placeholder)
-    private void SpawnEnemies()
-    {
-        if (EnemySpawner.Instance == null)
-        {
+    private void SpawnEnemies() {
+        if (EnemySpawner.Instance == null) {
             Debug.Log("Enemy spawner non trovato");
             return;
         }
@@ -200,8 +175,7 @@ public class RoomBehaviour : MonoBehaviour
     }
 
     // stanza completata
-    public void RoomCleared()
-    { // richiamato in enemyspawner (se la stanza ha nemici)
+    public void RoomCleared() { // richiamato in enemyspawner (se la stanza ha nemici)
         isCleared = true;
         OpenDoors();
         OnRoomCleared?.Invoke(this, EventArgs.Empty);
@@ -209,20 +183,17 @@ public class RoomBehaviour : MonoBehaviour
         OnAnyRoomCleared?.Invoke(this);
     }
 
-    public void BakeRoomNavMesh()
-    {
-        if (navSurface == null)
-        {
+    public void BakeRoomNavMesh() {
+        if (navSurface == null) {
             navSurface = GetComponentInChildren<NavMeshSurface>();
 
-        if (navSurface != null)
-        {
-            navSurface.BuildNavMesh();
-            
-        }
-        else
-        {
-            Debug.LogWarning($"NavMeshSurface non trovata nella stanza {name}");
+            if (navSurface != null) {
+                navSurface.BuildNavMesh();
+
+            }
+            else {
+                Debug.LogWarning($"NavMeshSurface non trovata nella stanza {name}");
+            }
         }
     }
 }
