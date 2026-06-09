@@ -579,7 +579,7 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c9c3e74aabd928949abc8bf34cd8953d, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -646,7 +646,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &262097940
@@ -3148,13 +3148,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicLibrary
   tracks:
   - musicID: 3
-    clip: {fileID: 8300000, guid: a22a99941a55f14418610025f8cbd9fa, type: 3}
+    clips: []
   - musicID: 1
-    clip: {fileID: 8300000, guid: 46ab8b97b8547024a8726179da94b31c, type: 3}
+    clips: []
   - musicID: 0
-    clip: {fileID: 8300000, guid: e32ae203eb023a44398abf06ea07405b, type: 3}
+    clips: []
   - musicID: 2
-    clip: {fileID: 8300000, guid: 8267e1ab28f71694fb89132928e0efa5, type: 3}
+    clips: []
 --- !u!114 &1476422523
 MonoBehaviour:
   m_ObjectHideFlags: 0
