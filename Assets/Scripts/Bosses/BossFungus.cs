@@ -81,7 +81,7 @@ public class BossFungus : MonoBehaviour {
     private void Hs_OnDamageTaken(object sender, DamageEventArgs e) {
         if(hs.CurrentHealth <= 0) {
             if(MusicManager.Instance != null) {
-                MusicManager.Instance.PlayMusic(MusicID.SewerDungeon, 0.5f, 1f);
+                MusicManager.Instance.PlayMusic(MusicID.SewerDungeon, 0.5f, 0.15f);
             }
         }
     }
@@ -94,7 +94,7 @@ public class BossFungus : MonoBehaviour {
 
         if(MusicManager.Instance != null) { // allo start (quindi allo spawn) o eventualmente ad uno specifico
             // trigger enter
-            MusicManager.Instance.PlayMusic(MusicID.BossFungus, .5f, 1f);
+            MusicManager.Instance.PlayMusic(MusicID.BossFungus, .5f, .3f);
         }
     }
 

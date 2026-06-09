@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 5413238639295673508}
   - component: {fileID: 8797646812830116539}
   - component: {fileID: 1340829199885440648}
+  - component: {fileID: 8508289129420120813}
+  - component: {fileID: 7050842544685862514}
   m_Layer: 0
   m_Name: BossFinale
   m_TagString: Untagged
@@ -127,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 400
-  resetsSceneOnDeath: 0
+  isBoss: 0
   levelLoader: {fileID: 0}
   defense: 0
 --- !u!114 &77922824042432284
@@ -206,14 +208,23 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 93eb8e39090d68148a7361922afca30c, type: 2}
   - {fileID: 11400000, guid: 1dcb81b3a666d354da67833931a88081, type: 2}
   - {fileID: 11400000, guid: a8e998c8292b65a4aa2b090358185c1a, type: 2}
+  - {fileID: 11400000, guid: 332631aab606c9649a164a5eadbe1725, type: 2}
+  debug: 0
   LastKnockbackDirection: {x: 0, y: 0}
   LastKnockbackForce: 0
   LastKnockbackDuration: 0
-  MemoryTurnsLeft: 0
+  roomCenter: {fileID: 0}
+  meleeDistanceThreshold: 3
+  meleeComboMaxDelay: 1.5
+  isBounceActive: 0
+  minDelayBetweenHits: 0.2
   NextAttackPattern: 0
   AnimActionComplete: 0
+  hasHitplayer: 0
+  coolDownRush: 3
   knockbackForce: 1
   knockbackDuration: 0.2
+  specialAttackActive: 0
 --- !u!114 &1340829199885440648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,8 +317,65 @@ MonoBehaviour:
     m_RotationOrder: 4
   pozzaPrefab: {fileID: 4996778419277687879, guid: 52de2dfedd95f9c43851cbca2688dcf3, type: 3}
   impactPrefab: {fileID: 5397995872131914903, guid: a6797a06307b44e43855287ea8cf9997, type: 3}
+  minNormalProjectileRange: 4
+  minProjectileLifeTime: 0.4
   projectileLifeTime: 4
   poolDuration: 5
+--- !u!114 &8508289129420120813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375325059639907942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10e9422cca56f844fad3cef3c3b52d96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageEffectVisuals
+  poisonColor: {r: 0, g: 1, b: 0, a: 1}
+  poisonFlashDuration: 0.15
+  poisonFadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damageBoostParticlePrefab: {fileID: 0}
+  particleOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &7050842544685862514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375325059639907942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f21adee016e2e346b1f35aa3203ab19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossFightManager
+  scriptsToDisable:
+  - {fileID: 5151883782128186509}
+  - {fileID: 8797646812830116539}
 --- !u!1 &5568309253460772942
 GameObject:
   m_ObjectHideFlags: 0
