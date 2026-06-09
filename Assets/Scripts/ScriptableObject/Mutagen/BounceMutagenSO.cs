@@ -49,4 +49,9 @@ public class BounceMutagenSO : MutagenSO
 
         Debug.Log("Bounce mutagen ended");
     }
+
+    public override string Description()
+    {
+        return $"Bounce away from danger! Instantly propel yourself in the direction you're facing, covering a distance of {bounceDistance} units. Gain increased speed for {bounceDuration} seconds and become invincible during the bounce.";
+    }
 }

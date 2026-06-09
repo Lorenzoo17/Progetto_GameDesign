@@ -22,4 +22,9 @@ public class StatusPerkSO : PerkBase
     {
         Debug.Log("Status perk removed");
     }
+
+    public override string Description()
+    {
+        return $"Applies status: {statusToApply.statusName}";
+    }
 }

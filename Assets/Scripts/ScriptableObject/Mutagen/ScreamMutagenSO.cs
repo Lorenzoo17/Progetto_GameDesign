@@ -45,4 +45,9 @@ public class ScreamSO : MutagenSO
     {
         // gestito da enemy
     }
+
+    public override string Description()
+    {
+        return $"Emit a powerful scream that stuns all enemies in the area for {duration} seconds.";
+    }
 }

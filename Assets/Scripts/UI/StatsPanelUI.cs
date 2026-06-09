@@ -85,6 +85,8 @@ public class StatsPanelUI : MonoBehaviour
             weaponImage.sprite = sr.sprite;
             weaponImage.enabled = true;
             weaponImage.preserveAspect = true;
+
+            SetupTooltip(weaponImage, weapon);
         }
         else
         {
@@ -110,6 +112,12 @@ public class StatsPanelUI : MonoBehaviour
 
         mutagen1Image.preserveAspect = true;
         mutagen2Image.preserveAspect = true;
+
+        if (m1 != null)
+            SetupTooltip(mutagen1Image, m1);
+
+        if (m2 != null)
+            SetupTooltip(mutagen2Image, m2);
     }
 
     // =========================
@@ -145,6 +153,8 @@ public class StatsPanelUI : MonoBehaviour
             icon.enabled = true;
 
             icon.preserveAspect = true;
+
+            SetupTooltip(icon, perk);
         }
     }
 
@@ -169,5 +179,23 @@ public class StatsPanelUI : MonoBehaviour
 
         if (dodgeCooldownText != null)
             dodgeCooldownText.text = $"Dodge Cooldown: {stats.GetDodgeCooldown()}";
+    }
+
+    // =========================
+    // Tooltip setup
+    // =========================
+
+    private void SetupTooltip(Image image, IDescribable source)
+    {
+        if (image == null)
+            return;
+
+        ItemTooltipTrigger tooltip =
+            image.GetComponent<ItemTooltipTrigger>();
+
+        if (tooltip == null)
+            tooltip = image.gameObject.AddComponent<ItemTooltipTrigger>();
+
+        tooltip.SetSource(source);
     }
 }

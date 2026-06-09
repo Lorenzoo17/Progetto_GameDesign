@@ -6,7 +6,12 @@ public interface IWeapon
     void HandleRotation(Transform weaponHolder, Vector2 dir);
 }
 
-public class Weapon : MonoBehaviour, IWeapon, ICollectible
+public interface IDescribable
+{
+    string Description();
+}
+
+public class Weapon : MonoBehaviour, IWeapon, ICollectible, IDescribable
 {
 
     // aggiungere scriptableobject di riferimento!! (si fa il set di sprite, nome ecc)

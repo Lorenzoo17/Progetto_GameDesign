@@ -107,4 +107,18 @@ public class TransformationMutagenSO : MutagenSO
                 Destroy(visual);
         }
     }
+
+    public override string Description()
+    {
+        string perkList = "";
+
+        foreach (PerkBase perk in perks)
+        {
+            if (perk != null)
+                perkList += $"\n- {perk.perkName}";
+        }
+
+        return $"Transform into a powerful form, gaining the following perks:{perkList}\nDuration: {duration} seconds.";
+
+    }
 }

@@ -50,7 +50,7 @@ public class ManaRegenerationPerkSO : PerkBase
             roomsCleared = 0; // Reset del contatore
         }
     }
-    public override string Descriptor()
+    public override string Description()
     {
         return $"Every {roomsRequired} rooms cleared, you get {manaToRestore} mana.";
     }

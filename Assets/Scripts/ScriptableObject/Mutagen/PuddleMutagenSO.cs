@@ -28,4 +28,9 @@ public class PoisonPuddleMutagenSO : MutagenSO
     public override void Tick(Player player, MutagenInstance instance, float deltaTime) { }
 
     public override void Deactivate(Player player, MutagenInstance instance) { }
+
+    public override string Description()
+    {
+        return $"Create a toxic puddle at your location that lasts for {duration} seconds. Enemies that step into the puddle take {tickDamage} damage every {tickInterval} seconds. The puddle has a radius of {radius} units.";
+    }
 }

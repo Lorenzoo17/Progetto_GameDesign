@@ -54,4 +54,9 @@ public class LaserMutagenSO : MutagenSO
             laserController.Destroy();
         }
     }
+
+    public override string Description()
+    {
+        return $"Fire a continuous laser beam in the direction you're facing, dealing {damagePerSecond} damage per second to all enemies in its path. The laser extends up to {laserLength} units and has a width of {laserWidth} units. {(isDuration ? $"Lasts for a certain duration." : "Toggle on/off.")}";
+    }
 }

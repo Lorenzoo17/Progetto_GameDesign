@@ -39,7 +39,7 @@ public class OnHitPerkSO : PerkBase, IOnDealDamage
         return damage;
     }
 
-    public override string Descriptor()
+    public override string Description()
     {
         switch (effectType)
         {

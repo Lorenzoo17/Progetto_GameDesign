@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class MutagenSO : ScriptableObject
+public abstract class MutagenSO : ScriptableObject, IDescribable
 {
     [Header("Base Info")]
     public string mutagenName;
@@ -27,6 +27,11 @@ public abstract class MutagenSO : ScriptableObject
     public virtual float GetEnemyEffectDuration(Enemy enemy)
     {
         return duration;
+    }
+
+    public virtual string Description()
+    {
+        return description;
     }
 }
 

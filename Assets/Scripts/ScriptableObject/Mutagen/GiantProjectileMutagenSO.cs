@@ -54,4 +54,9 @@ public class GiantProjectileMutagenSO : MutagenSO
     public override void Deactivate(Player player, MutagenInstance instance)
     {
     }
+
+    public override string Description()
+    {
+        return $"Shoot a giant projectile in the direction you're facing, dealing {damageMultiplier}x your base damage. The projectile travels at {projectileSpeed} units/second.";
+    }
 }

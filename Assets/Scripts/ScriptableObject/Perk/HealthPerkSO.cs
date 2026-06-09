@@ -23,7 +23,7 @@ public class HealthPerk : PerkBase
         else
             player.playerHealth.IncreaseHealth(Mathf.Abs(healthIncrease)); // aggiungoi salute
     }
-    public override string Descriptor()
+    public override string Description()
     {
         if (healthIncrease > 0)
         {

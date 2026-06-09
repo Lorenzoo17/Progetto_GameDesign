@@ -31,7 +31,7 @@ public class StatPerkSO : PerkBase
         }
     }
 
-    public override string Descriptor()
+    public override string Description()
     {
         string modValue = modifierType == ModifierType.Flat
             ? value.ToString()

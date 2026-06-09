@@ -34,7 +34,7 @@ public class ManaPerkSO : PerkBase
             }
         }
     }
-    public override string Descriptor()
+    public override string Description()
     {
         if (manaValue > 0)
         {

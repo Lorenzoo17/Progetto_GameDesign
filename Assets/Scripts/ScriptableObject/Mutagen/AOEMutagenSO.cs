@@ -34,4 +34,9 @@ public class AOEMutagenSO : MutagenSO
     {
 
     }
+
+    public override string Description()
+    {
+        return $"Unleash a powerful explosion around you, dealing {damageMultiplier}x your base damage to all enemies within {radius} units. Cooldown: {cooldown} seconds.";
+    }
 }

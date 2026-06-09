@@ -1,5 +1,5 @@
 using UnityEngine;
-public abstract class PerkBase : ScriptableObject
+public abstract class PerkBase : ScriptableObject, IDescribable
 {
 
     public string perkName;
@@ -14,7 +14,7 @@ public abstract class PerkBase : ScriptableObject
 
     public virtual void OnApply(Player player) { }
     public virtual void OnRemove(Player player) { }
-    public virtual string Descriptor()
+    public virtual string Description()
     {
         return description;
     }
