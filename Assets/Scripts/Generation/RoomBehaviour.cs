@@ -1,6 +1,8 @@
 using NavMeshPlus.Components;
 using System;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.AI;
 
 public enum RoomType
 {
@@ -156,6 +158,8 @@ public class RoomBehaviour : MonoBehaviour
         CloseDoors();
         // se necessario, spawno i nemici
         SpawnEnemies();
+
+       
     }
 
     // chiudi SOLO porte esistenti
@@ -210,11 +214,11 @@ public class RoomBehaviour : MonoBehaviour
         if (navSurface == null)
         {
             navSurface = GetComponentInChildren<NavMeshSurface>();
-        }
 
         if (navSurface != null)
         {
             navSurface.BuildNavMesh();
+            
         }
         else
         {

@@ -14,7 +14,7 @@ public class BossKnockbackState : State<BossCtrl>
         _runner.Rb.linearVelocity = Vector2.zero;
         _runner.Rb.AddForce(_runner.LastKnockbackDirection.normalized * _runner.LastKnockbackForce, ForceMode2D.Impulse);
         
-        if (_runner.Anim != null) _runner.Anim.SetTrigger("Hit"); 
+        // inserire animazione hit knockback
     }
 
     public override void Update() {
@@ -22,7 +22,7 @@ public class BossKnockbackState : State<BossCtrl>
     }
 
     public override void ChangeState() {
-        // Finito di volare via, si riprende e torna a saltare
+        
         if (timer <= 0) {
             _runner.SetState(typeof(BossIntroMovementState)); 
         }

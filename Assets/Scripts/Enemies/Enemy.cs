@@ -39,6 +39,10 @@ public class Enemy : MonoBehaviour
         enemyMovement = GetComponent<EnemyMovement>();
 
         sr = GetComponent<SpriteRenderer>();
+        if (sr == null) { 
+            sr = GetComponentInChildren<SpriteRenderer>();
+            Debug.LogWarning("SpriteRenderer non trovato sul GameObject principale, cercato nei figli.");
+        }
         initialColor = sr.color;
 
         anim = GetComponent<Animator>();
@@ -72,7 +76,12 @@ public class Enemy : MonoBehaviour
     {
         if (isDead) return;
 
-        if (enemyMovement != null)
+        if (TryGetComponent<BossCtrl>(out BossCtrl boss))
+        {
+            // Se sei il Boss, deleghiamo tutto al tuo script (che gestirà la combo dei 3 colpi!)
+            boss.ApplyKnockback(e.AttackDirection);
+        }
+        else if (enemyMovement != null)
         {
             enemyMovement.ApplyKnockback(
                 e.AttackDirection,

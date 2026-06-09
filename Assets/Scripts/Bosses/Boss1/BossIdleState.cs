@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using stateMachine;
 
@@ -6,45 +6,85 @@ using stateMachine;
 public class BossIdleState : State<BossCtrl>
 {
     [Header("Impostazioni Uscita Tubo")]
-    [SerializeField] private float slideDistance = 2f;    // Quanto si allontana dal tubo
-    [SerializeField] private float slideDuration = 0.5f;  // Quanto ci mette a scivolare fuori
+    [SerializeField] private float slideDuration = 0.5f;
 
     [Header("Impostazioni Riposo (Stanchezza)")]
-    [SerializeField] private float baseRestTime = 1f;       // Tempo base di riposo
-    [SerializeField] private float restTimePerAttack = 0.5f; // Secondi extra per ogni tubo usato. Es: 8 tubi * 0.5 = +4 secondi
+    [SerializeField] private float baseRestTime = 1f;
+    [SerializeField] private float restTimePerAttack = 0.5f;
 
     private bool isRestComplete;
 
     public override void Enter()
     {
         isRestComplete = false;
-        
-        // 1. RIACCENDIAMO IL BOSS FISICAMENTE
-        // Il boss riappare magicamente sopra l'ultimo tubo usato
-        if (_runner.Visuals != null) _runner.Visuals.gameObject.SetActive(true);
-        
+
+        if (_runner.Visuals != null)
+        {
+            _runner.Visuals.gameObject.SetActive(true);
+
+            // Riaccendiamo lo sprite qui per evitare glitch visivi
+            if (_runner.Visuals.TryGetComponent<SpriteRenderer>(out var sr))
+            {
+                sr.enabled = true;
+            }
+        }
+
         Collider2D bossCollider = _runner.GetComponent<Collider2D>();
         if (bossCollider != null) bossCollider.enabled = true;
 
-        // 2. Facciamo partire la sequenza di uscita e riposo
         _runner.StartCoroutine(ExitPipeAndRestRoutine());
     }
 
     private IEnumerator ExitPipeAndRestRoutine()
     {
-        // === FASE A: SCIVOLAMENTO FUORI DAL TUBO ===
-        Vector3 startPos = _runner.transform.position;
-        Vector3 roomCenter = Vector3.zero;
-
-        // Calcoliamo il centro della stanza per sapere verso dove deve "scivolare"
-        if (_runner.LocalNavMesh != null && _runner.LocalNavMesh.navMeshData != null) {
-            roomCenter = _runner.LocalNavMesh.navMeshData.sourceBounds.center;
+        if (_runner.Anim != null)
+        {
+            _runner.Anim.SetTrigger("play_jet");
         }
-        
-        // Calcola la direzione verso il centro della stanza
-        Vector3 directionToCenter = (roomCenter - startPos).normalized;
-        Vector3 targetPos = startPos + (directionToCenter * slideDistance);
-        
+
+        Vector3 startPos = _runner.transform.position;
+        Vector3 targetPos = startPos; // Destinazione di fallback iniziale
+        bool targetFound = false;
+
+        // 🎯 1. Recuperiamo il PipeManager presente nella stanza
+        PipeManager pipeManager = _runner.transform.parent != null ? _runner.transform.parent.GetComponentInChildren<PipeManager>() : null;
+
+        if (pipeManager != null)
+        {
+            float closestDistance = float.MaxValue;
+
+            // 🎯 2. Cicliamo tra tutti i tubi figli del PipeManager per trovare l'ultimo usato
+            foreach (Transform pipe in pipeManager.transform)
+            {
+                Transform bp = pipe.Find("BossPoint");
+                if (bp != null)
+                {
+                    float dist = Vector3.Distance(startPos, bp.position);
+
+                    // Il Boss si trova già davanti all'ultimo tubo, quindi sarà il più vicino in assoluto!
+                    if (dist < closestDistance)
+                    {
+                        closestDistance = dist;
+                        targetPos = bp.position; // Impostiamo la posizione del BossPoint come target
+                        targetFound = true;
+                    }
+                }
+            }
+        }
+
+        // 🔄 Fallback di sicurezza: se un tubo non dovesse avere l'oggetto BossPoint, usa il vecchio calcolo matematico
+        if (!targetFound)
+        {
+            Vector3 roomCenter = Vector3.zero;
+            if (_runner.LocalNavMesh != null && _runner.LocalNavMesh.navMeshData != null)
+            {
+                roomCenter = _runner.LocalNavMesh.navMeshData.sourceBounds.center;
+            }
+            Vector3 directionToCenter = (roomCenter - startPos).normalized;
+            targetPos = startPos + (directionToCenter * 2f); // 2 unità di default verso il centro
+        }
+
+        // 🏃‍♂️ 3. Scivolamento cinematico verso il BossPoint del tubo
         float elapsedTime = 0f;
         while (elapsedTime < slideDuration)
         {
@@ -52,32 +92,27 @@ public class BossIdleState : State<BossCtrl>
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        _runner.transform.position = targetPos; // Assicura la posizione finale esatta
+        _runner.transform.position = targetPos;
 
-        // === FASE B: CALCOLO DELLA STANCHEZZA E RIPOSO ===
-        // Leggiamo quante volte ha attaccato dallo stato precedente usando la variabile statica
+        // 🎯 4. Sincronizziamo l'agente NavMesh sulla posizione esatta del BossPoint ad atterraggio completato
+        if (_runner.Agent != null && _runner.Agent.enabled)
+        {
+            _runner.Agent.nextPosition = targetPos;
+        }
+
+        // Calcolo della stanchezza basato sul numero di tubi visitati
         int fatiche = BossSpecialAttackState.timesAttacked;
         float totalRestTime = baseRestTime + (fatiche * restTimePerAttack);
-        
-        Debug.Log($"[BOSS IDLE] Attacco finito! Il boss riposa per {totalRestTime} secondi (ha usato {fatiche} tubi).");
 
-        // Se hai un'animazione di Idle o "Stanco", questo è il momento di farla partire
-        if (_runner.Anim != null) _runner.Anim.SetTrigger("Idle"); 
+        if (_runner.debug) Debug.Log($"[BOSS IDLE] Uscita completata! Riposo per {totalRestTime}s sul BossPoint: {targetPos}");
 
-        // Il boss sta fermo e vulnerabile a prendere botte per il tempo calcolato
         yield return new WaitForSeconds(totalRestTime);
 
-        // Fine del riposo, diamo il via libera per cambiare stato
         isRestComplete = true;
-    }
-
-    public override void Update() { 
-        // Nessun timer nell'Update, gestisce tutto la Coroutine!
     }
 
     public override void ChangeState()
     {
-        // Se si è riposato abbastanza, torna alla sua routine di salti
         if (isRestComplete)
         {
             _runner.SetState(typeof(BossIntroMovementState));
@@ -86,9 +121,7 @@ public class BossIdleState : State<BossCtrl>
 
     public override void Exit()
     {
-        // IMPORTANTISSIMO: Riaccendiamo il NavMeshAgent prima di rimetterlo a saltare!
-        // Altrimenti lo stato di Movement andrebbe in errore cercando di usare un Agent spento.
-        if (_runner.Agent != null) 
+        if (_runner.Agent != null)
         {
             _runner.Agent.enabled = true;
             if (_runner.Agent.isOnNavMesh) _runner.Agent.isStopped = false;
@@ -97,4 +130,5 @@ public class BossIdleState : State<BossCtrl>
 
     public override void CaptureInput() { }
     public override void FixedUpdate() { }
+    public override void Update() { }
 }

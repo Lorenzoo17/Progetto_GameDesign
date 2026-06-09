@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class BotolaManager : MonoBehaviour 
 {
-    // Usiamo una lista pubblica accessibile
+    
     public List<Transform> botole = new List<Transform>();
 
     private void Start() {
@@ -14,7 +14,7 @@ public class BotolaManager : MonoBehaviour
 
     public Transform GetRandomBotola() 
     {
-        if (botole.Count == 0) return null; // Nessuna botola disponibile
+        if (botole.Count == 0) return null; 
         int index = Random.Range(0, botole.Count);
         return botole[index];
     }

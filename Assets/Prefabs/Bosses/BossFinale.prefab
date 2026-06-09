@@ -9,15 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7849731027024041923}
-  - component: {fileID: 2165622155084839137}
   - component: {fileID: 2844109809225376243}
   - component: {fileID: 7746629685944384017}
   - component: {fileID: 603147396849630493}
+  - component: {fileID: 77922824042432284}
   - component: {fileID: 5151883782128186509}
   - component: {fileID: 5413238639295673508}
   - component: {fileID: 8797646812830116539}
-  - component: {fileID: -1854229873080924358}
-  - component: {fileID: 158517071961120852}
+  - component: {fileID: 1340829199885440648}
   m_Layer: 0
   m_Name: BossFinale
   m_TagString: Untagged
@@ -35,34 +34,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.7, y: 1.34, z: 0}
-  m_LocalScale: {x: 6.5, y: 6.4999986, z: 6.4999986}
+  m_LocalScale: {x: 2.86, y: 3.1797993, z: 6.4999986}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5976375847656860554}
+  - {fileID: 7364919555465630360}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2165622155084839137
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2375325059639907942}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bf29d5a9cfdd15b4ab98cb01d399c6f0, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!61 &2844109809225376243
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -101,8 +79,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 0.34375, y: 0.4375}
+    oldSize: {x: 1.015625, y: 0.921875}
+    newSize: {x: 1.015625, y: 0.921875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -148,10 +126,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2901bdbc73c65e4cabdd13a06557124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 4
-  isBoss: 0
+  maxHealth: 400
+  resetsSceneOnDeath: 0
   levelLoader: {fileID: 0}
   defense: 0
+--- !u!114 &77922824042432284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375325059639907942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a436da15d3d840b4bbc10ce3bb7a4885, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityOwner
+  entityType: 1
 --- !u!114 &5151883782128186509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +174,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2375325059639907942}
   m_Enabled: 1
-  m_AgentTypeID: 0
+  m_AgentTypeID: -1372625422
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -220,9 +211,10 @@ MonoBehaviour:
   LastKnockbackDuration: 0
   MemoryTurnsLeft: 0
   NextAttackPattern: 0
-  knockbackForce: 10
+  AnimActionComplete: 0
+  knockbackForce: 1
   knockbackDuration: 0.2
---- !u!114 &-1854229873080924358
+--- !u!114 &1340829199885440648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -231,12 +223,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2375325059639907942}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10e9422cca56f844fad3cef3c3b52d96, type: 3}
+  m_Script: {fileID: 11500000, guid: bcf8b45cb90a8ff4f8c41953022828ae, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DamageEffectVisuals
-  poisonColor: {r: 0, g: 1, b: 0, a: 1}
-  poisonFlashDuration: 0.15
-  poisonFadeCurve:
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileShooterBoss
+  projectilePrefab: {fileID: 1771740914817530386, guid: 4a964ecd10e2ab940957e0df7c3212dc, type: 3}
+  firePoint: {fileID: 7364919555465630360}
+  damage: 1
+  projectileSpeed: 10
+  projectileRange: 15
+  projectileMaxHeight: 1
+  trajectoryAnimationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -244,40 +240,74 @@ MonoBehaviour:
       value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  damageBoostParticlePrefab: {fileID: 0}
-  particleOffset: {x: 0, y: 0, z: 0}
---- !u!114 &158517071961120852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2375325059639907942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f21adee016e2e346b1f35aa3203ab19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BossFightManager
-  scriptsToDisable:
-  - {fileID: 5151883782128186509}
-  - {fileID: 8797646812830116539}
-  room: {fileID: 0}
+  axisCorrectionAnimationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  projectileSpeedAnimationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  pozzaPrefab: {fileID: 4996778419277687879, guid: 52de2dfedd95f9c43851cbca2688dcf3, type: 3}
+  impactPrefab: {fileID: 5397995872131914903, guid: a6797a06307b44e43855287ea8cf9997, type: 3}
+  projectileLifeTime: 4
+  poolDuration: 5
 --- !u!1 &5568309253460772942
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,6 +318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5976375847656860554}
   - component: {fileID: 4955411991066672720}
+  - component: {fileID: 5523063064105007391}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -304,8 +335,8 @@ Transform:
   m_GameObject: {fileID: 5568309253460772942}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.005, y: 0.028, z: 0.00000007335958}
-  m_LocalScale: {x: 1.5906731, y: 1.1955525, z: 0.15384611}
+  m_LocalPosition: {x: -0.005, y: 0.028, z: 0}
+  m_LocalScale: {x: 1.0764383, y: 0.81372285, z: 0.15384611}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7849731027024041923}
@@ -357,10 +388,10 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 2003960035
   m_SortingLayer: 2
-  m_SortingOrder: 5
+  m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 3719010626058602801, guid: 254fa546bc86f274283c41b72a1223cb, type: 3}
-  m_Color: {r: 1, g: 0.25943398, b: 0.25943398, a: 1}
+  m_Sprite: {fileID: -741162626755756601, guid: 9355672c9a450954f8efc6b276a5369a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -369,3 +400,56 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!95 &5523063064105007391
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5568309253460772942}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ca8ff66c28275744689d0a1a4244aefc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &8366921307584307124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7364919555465630360}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7364919555465630360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8366921307584307124}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.15384616, y: 0.15384619, z: 0.15384619}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7849731027024041923}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
