@@ -19,7 +19,7 @@ MonoBehaviour:
   isToggle: 0
   duration: 50
   animationEffect: {fileID: 0}
-  mutagenLootData: {fileID: 0}
+  mutagenLootData: {fileID: 11400000, guid: 9a4e3629751eb2e47b767448c53ad8a2, type: 2}
   perks:
   - {fileID: 11400000, guid: 7e59aa1ace0a2d24d95765a467859a16, type: 2}
   - {fileID: 11400000, guid: 560c4cc8adaba0d40a4491da9750d051, type: 2}
