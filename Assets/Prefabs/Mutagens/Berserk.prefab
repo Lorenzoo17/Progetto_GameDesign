@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MutagenItem
   xRotationOffset: 0
-  mutagenData: {fileID: 0}
+  mutagenData: {fileID: 11400000, guid: 87e0c8736149bc44eae4f09bcaf314cf, type: 2}
   pickedUp: 0
   dropDuration: 0.25
   colliderReactivateDelay: 1
