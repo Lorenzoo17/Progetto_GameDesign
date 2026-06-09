@@ -28,9 +28,9 @@ MonoBehaviour:
   auraPrefab: {fileID: 5269492632940277768, guid: 070c8c8ab7760e24bb4ca012eb509bab, type: 3}
   auraGradient:
     serializedVersion: 2
-    key0: {r: 0.7264151, g: 0.030838363, b: 0.030838363, a: 0.36078432}
-    key1: {r: 0.8773585, g: 0.47708753, b: 0.1779548, a: 0.22745098}
-    key2: {r: 0, g: 0, b: 0, a: 0.30980393}
+    key0: {r: 0.7264151, g: 0.030838363, b: 0.030838363, a: 0.46666667}
+    key1: {r: 0.8773585, g: 0.47708753, b: 0.1779548, a: 0.3254902}
+    key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
@@ -45,8 +45,8 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 63993
-    atime2: 65535
+    atime1: 65535
+    atime2: 0
     atime3: 0
     atime4: 0
     atime5: 0
@@ -55,6 +55,6 @@ MonoBehaviour:
     m_Mode: 0
     m_ColorSpace: -1
     m_NumColorKeys: 2
-    m_NumAlphaKeys: 3
+    m_NumAlphaKeys: 2
   gradientSpeed: 1
   playerTintColor: {r: 1, g: 1, b: 1, a: 1}
