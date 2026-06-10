@@ -3,8 +3,17 @@ using System.Collections.Generic;
 
 public class BotolaManager : MonoBehaviour 
 {
-    
+    public static BotolaManager Instance { get; private set; }
     public List<Transform> botole = new List<Transform>();
+
+    private void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     private void Start() {
         if(botole.Count <= 0) {

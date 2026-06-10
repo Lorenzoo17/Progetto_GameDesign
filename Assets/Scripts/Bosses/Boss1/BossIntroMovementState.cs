@@ -52,10 +52,7 @@ public class BossIntroMovementState : State<BossCtrl>
         waitTimer = 0f;
         isJumping = false;
         hasJustLanded = false;
-        if (_runner.transform.parent != null)
-        {
-            botolaManager = _runner.transform.parent.GetComponentInChildren<BotolaManager>();
-        }
+        botolaManager = BotolaManager.Instance;
     }
 
     public override void Update()

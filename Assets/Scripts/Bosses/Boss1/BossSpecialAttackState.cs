@@ -27,7 +27,7 @@ public class BossSpecialAttackState : State<BossCtrl>
         timesAttacked = 0;
         triggerSent = false;
         _runner.AnimActionComplete = false;
-        pipeManager = _runner.transform.parent.GetComponentInChildren<PipeManager>();
+        pipeManager = PipeManager.Instance;
 
         if (pipeManager == null)
         {

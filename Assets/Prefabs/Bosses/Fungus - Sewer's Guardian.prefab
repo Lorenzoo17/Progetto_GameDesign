@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: -1850199715440305445}
   - component: {fileID: 4379115838475733567}
   m_Layer: 0
-  m_Name: Fungus
+  m_Name: Fungus - Sewer's Guardian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

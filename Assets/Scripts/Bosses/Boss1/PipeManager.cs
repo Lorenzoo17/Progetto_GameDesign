@@ -3,9 +3,18 @@ using System.Collections.Generic;
 
 public class PipeManager : MonoBehaviour
 {
-    
+    public static PipeManager Instance { get; private set; }
     public List<Transform> tubi = new List<Transform>();
     public int lastUsedIndex = -1;
+
+    private void Awake() {
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
     private void Start() 
     {
         if (tubi.Count <= 0) {

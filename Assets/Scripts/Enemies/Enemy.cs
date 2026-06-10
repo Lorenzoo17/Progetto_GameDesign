@@ -40,8 +40,11 @@ public class Enemy : MonoBehaviour
 
         sr = GetComponent<SpriteRenderer>();
         if (sr == null) { 
-            sr = GetComponentInChildren<SpriteRenderer>();
-            Debug.LogWarning("SpriteRenderer non trovato sul GameObject principale, cercato nei figli.");
+            sr = transform.Find("Visual").GetComponent<SpriteRenderer>();
+            if(sr == null) {
+                Debug.LogWarning("Componente Visual non trovato nel transform");
+            }
+            Debug.Log("SpriteRenderer non trovato sul GameObject principale, cercato nei figli.");
         }
         initialColor = sr.color;
 

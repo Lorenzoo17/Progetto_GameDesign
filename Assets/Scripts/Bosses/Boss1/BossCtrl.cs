@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using stateMachine;
+using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.AI;
-using stateMachine;
 
 public class BossCtrl : StateRunner<BossCtrl>
 {
@@ -51,7 +52,7 @@ public class BossCtrl : StateRunner<BossCtrl>
         Anim = GetComponentInChildren<Animator>();
         Health = GetComponent<HealthSystem>();
         Visuals = transform.Find("Visual");
-        LocalNavMesh = GetComponentInParent<NavMeshPlus.Components.NavMeshSurface>();
+        //LocalNavMesh = GetComponentInParent<NavMeshPlus.Components.NavMeshSurface>();
         Shooter = GetComponentInChildren<ProjectileShooter>();
         FirePoint = transform.Find("FirePoint");
 
@@ -62,6 +63,11 @@ public class BossCtrl : StateRunner<BossCtrl>
            
         }
         base.Awake();
+    }
+
+    private void Start() {
+        LocalNavMesh = FindFirstObjectByType<BossRoom>().GetComponentInChildren<NavMeshPlus.Components.NavMeshSurface>();
+        roomCenter = GameObject.FindGameObjectWithTag("RoomCenter").transform;
     }
 
     public void ApplyKnockback(Vector2 direction)

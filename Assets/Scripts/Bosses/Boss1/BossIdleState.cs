@@ -47,7 +47,7 @@ public class BossIdleState : State<BossCtrl>
         bool targetFound = false;
 
         // 🎯 1. Recuperiamo il PipeManager presente nella stanza
-        PipeManager pipeManager = _runner.transform.parent != null ? _runner.transform.parent.GetComponentInChildren<PipeManager>() : null;
+        PipeManager pipeManager = PipeManager.Instance;
 
         if (pipeManager != null)
         {

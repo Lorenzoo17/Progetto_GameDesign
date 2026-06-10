@@ -9,8 +9,6 @@ public class BossRoom : MonoBehaviour {
 
     [SerializeField] private GameObject nextBasementEntrance;
 
-    [SerializeField] private GameObject alreadySpawnedBoss;
-
     private void Awake() {
         rb = GetComponent<RoomBehaviour>();
 
@@ -34,11 +32,8 @@ public class BossRoom : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (!other.GetComponent<Player>()) return;
         if (spawned) return;
-        GameObject boss = alreadySpawnedBoss;
-        if(alreadySpawnedBoss == null) {
-            int index = Random.Range(0, bossesToSpawn.Length);
-            boss = Instantiate(bossesToSpawn[index], bossSpawnTransform.position, Quaternion.identity);
-        }
+        int index = Random.Range(0, bossesToSpawn.Length);
+        GameObject boss = Instantiate(bossesToSpawn[index], bossSpawnTransform.position, Quaternion.identity);
         spawned = true;
 
         if (boss.TryGetComponent<BossFightManager>(out BossFightManager bf)) {
@@ -51,7 +46,11 @@ public class BossRoom : MonoBehaviour {
                 }
                 else {
                     if(boss.GetComponentInChildren<SpriteRenderer>() != null) {
-                        BossSplashScreen.Instance.SetBossSplashScreen(boss.name.Replace("(Clone)", "").Trim(), boss.GetComponentInChildren<SpriteRenderer>().sprite, bf);
+                        Sprite sprite = boss.transform.Find("Visual").GetComponent<SpriteRenderer>().sprite;
+                        if(sprite == null) {
+                            Debug.LogWarning("Componente Visual non trovato nel transform");
+                        }
+                        BossSplashScreen.Instance.SetBossSplashScreen(boss.name.Replace("(Clone)", "").Trim(), sprite, bf);
                     }
                 }
             }
