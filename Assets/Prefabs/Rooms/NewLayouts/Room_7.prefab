@@ -5171,7 +5171,7 @@ MonoBehaviour:
   - {fileID: 4259403707961260992}
   - {fileID: 759941876220225034}
   decorationSpawnPoints: []
-  minEnemiesToSpawn: 0
+  minEnemiesToSpawn: 3
   roomBounds: {fileID: 6255865823547132451}
   roomCentre: {fileID: 0}
   navSurface: {fileID: 4719946886462315758}
