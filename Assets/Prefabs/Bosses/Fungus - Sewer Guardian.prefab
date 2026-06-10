@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: -1850199715440305445}
   - component: {fileID: 4379115838475733567}
   m_Layer: 0
-  m_Name: Fungus - Sewer's Guardian
+  m_Name: Fungus - Sewer Guardian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2901bdbc73c65e4cabdd13a06557124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
-  maxHealth: 100
+  maxHealth: 350
   isBoss: 1
   levelLoader: {fileID: 0}
   defense: 0
@@ -225,7 +225,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1771740914817530386, guid: 3b2b847428ee6e943966c83c467c605f, type: 3}
   firePoint: {fileID: 3481627356795781032}
   damage: 1
-  projectileSpeed: 8
+  projectileSpeed: 6.5
   projectileRange: 8
   projectileMaxHeight: 1
   trajectoryAnimationCurve:
@@ -259,13 +259,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFungus
   CurrentState: 0
-  speed: 3
+  speed: 2.5
   attackDamage: 0
   attackStartDistance: 3
   moveDistance: 20
   meleeAttackRange: 0
   projectileNumberToShootMin: 5
-  projectileNumberToShootMax: 15
+  projectileNumberToShootMax: 12
   startSmashDuration: 0.5
   smashFallSpeed: 8
   smashFallDistance: 0.1
@@ -277,7 +277,7 @@ MonoBehaviour:
   - 3
   - 5
   - 7
-  chaseBurstSpeed: 8
+  chaseBurstSpeed: 6
   chaseBurstDuration: 2
   chaseBurstMinDistance: 6
   chaseBurstStopDistanceFromPlayer: 2
