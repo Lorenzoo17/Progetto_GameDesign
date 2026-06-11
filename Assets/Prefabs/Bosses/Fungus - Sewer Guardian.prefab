@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossFungus
   CurrentState: 0
-  speed: 2.5
+  speed: 3.5
   attackDamage: 0
   attackStartDistance: 3
   moveDistance: 20
@@ -277,7 +277,7 @@ MonoBehaviour:
   - 3
   - 5
   - 7
-  chaseBurstSpeed: 6
+  chaseBurstSpeed: 8.5
   chaseBurstDuration: 2
   chaseBurstMinDistance: 6
   chaseBurstStopDistanceFromPlayer: 2
@@ -308,7 +308,7 @@ NavMeshAgent:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4378181008594232565}
   m_Enabled: 1
-  m_AgentTypeID: -1372625422
+  m_AgentTypeID: 1479372276
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -493,7 +493,7 @@ Transform:
   m_GameObject: {fileID: 6926435396454306555}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.54, z: 0}
+  m_LocalPosition: {x: 0, y: -0.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

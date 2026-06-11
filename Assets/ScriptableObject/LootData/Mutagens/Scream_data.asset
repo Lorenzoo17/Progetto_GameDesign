@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Scream_data
   m_EditorClassIdentifier: Assembly-CSharp::MutagenLootData
   id: 2
-  price: 100
+  price: 30
   prefab: {fileID: 2313166402203152390, guid: 4e051cbd8eba0394a9bec777eb83f935, type: 3}
   unlockedByDefault: 1

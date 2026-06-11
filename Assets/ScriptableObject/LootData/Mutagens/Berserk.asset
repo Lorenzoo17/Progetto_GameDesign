@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Berserk
   m_EditorClassIdentifier: Assembly-CSharp::MutagenLootData
   id: 6
-  price: 100
+  price: 40
   prefab: {fileID: 7003213319217224881, guid: 622d4b96e9028434a9408840e3750606, type: 3}
   unlockedByDefault: 1

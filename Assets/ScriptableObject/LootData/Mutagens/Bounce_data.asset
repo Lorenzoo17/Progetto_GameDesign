@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Bounce_data
   m_EditorClassIdentifier: Assembly-CSharp::MutagenLootData
   id: 0
+  price: 20
   prefab: {fileID: 5807356363381308390, guid: 1c2b74fc55e766b49845aa165e69d25b, type: 3}
   unlockedByDefault: 1

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BossRoom : MonoBehaviour {
 
@@ -33,7 +34,15 @@ public class BossRoom : MonoBehaviour {
         if (!other.GetComponent<Player>()) return;
         if (spawned) return;
         int index = Random.Range(0, bossesToSpawn.Length);
-        GameObject boss = Instantiate(bossesToSpawn[index], bossSpawnTransform.position, Quaternion.identity);
+
+        Vector3 spawnPosition = bossSpawnTransform.position;
+        spawnPosition.z = 0f;
+        // per capire se sta spawnando in un punto lecito per la navmesh
+        if (!NavMesh.SamplePosition(spawnPosition, out NavMeshHit hit, 3f, NavMesh.AllAreas)) {
+            Debug.LogWarning($"Boss spawn point non vicino alla NavMesh: {spawnPosition}");
+            return;
+        }
+        GameObject boss = Instantiate(bossesToSpawn[index], hit.position, Quaternion.identity);
         spawned = true;
 
         if (boss.TryGetComponent<BossFightManager>(out BossFightManager bf)) {

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: MouthwashPuddle_data
   m_EditorClassIdentifier: Assembly-CSharp::MutagenLootData
   id: 5
-  price: 100
+  price: 25
   prefab: {fileID: 2313166402203152390, guid: 7cc678369f213394a967f54ffd0d14f5, type: 3}
   unlockedByDefault: 1

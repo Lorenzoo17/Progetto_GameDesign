@@ -137,6 +137,7 @@ public class DungeonGenerator : MonoBehaviour {
 
                 newRoom.SetGridPosition(new Vector2Int(i, j));
                 newRoom.UpdateRoom(currentCell.status);
+                newRoom.BakeRoomNavMesh(); // faccio il bake qui
 
                 newRoom.name += $" {i}-{j}";
 

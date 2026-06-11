@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PipeCannon_data
   m_EditorClassIdentifier: Assembly-CSharp::WeaponLootData
   id: 1
-  price: 50
+  price: 10
   prefab: {fileID: 374832119837857539, guid: d7e2faef1c9286446a87085d705f2ebe, type: 3}
   unlockedByDefault: 1

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: DirtySword_data
   m_EditorClassIdentifier: Assembly-CSharp::WeaponLootData
   id: 3
+  price: 10
   prefab: {fileID: 1893026166742864668, guid: 4ba0243dd0e7ef5478495569565ed9de, type: 3}
   unlockedByDefault: 0
