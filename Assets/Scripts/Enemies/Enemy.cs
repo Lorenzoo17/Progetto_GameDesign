@@ -1,8 +1,7 @@
 using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
-{
+public class Enemy : MonoBehaviour {
     [SerializeField] private float stunDurationMultiplier = 1f;
     [SerializeField] private float knockBackForce;
     [SerializeField] private float knockbackDuration = 0.2f;
@@ -33,15 +32,14 @@ public class Enemy : MonoBehaviour
     public bool IsStunned => isStun;
     private float stunTimer;
 
-    private void Awake()
-    {
+    private void Awake() {
         enemyHealthSystem = GetComponent<HealthSystem>();
         enemyMovement = GetComponent<EnemyMovement>();
 
         sr = GetComponent<SpriteRenderer>();
-        if (sr == null) { 
+        if (sr == null) {
             sr = transform.Find("Visual").GetComponent<SpriteRenderer>();
-            if(sr == null) {
+            if (sr == null) {
                 Debug.LogWarning("Componente Visual non trovato nel transform");
             }
             Debug.Log("SpriteRenderer non trovato sul GameObject principale, cercato nei figli.");
@@ -53,20 +51,16 @@ public class Enemy : MonoBehaviour
         enemyHealthSystem.OnDamageTaken += EnemyHealthSystem_OnDamageTaken;
     }
 
-    private void Update()
-    {
-        if (stunTimer > 0f)
-        {
+    private void Update() {
+        if (stunTimer > 0f) {
             stunTimer -= Time.deltaTime;
 
-            if (stunTimer <= 0f)
-            {
+            if (stunTimer <= 0f) {
                 SetStun(false);
             }
         }
 
-        if (sr != null && sr.color != initialColor)
-        {
+        if (sr != null && sr.color != initialColor) {
             sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime * Time.deltaTime);
         }
 
@@ -75,25 +69,21 @@ public class Enemy : MonoBehaviour
         return;
     }
 
-    private void EnemyHealthSystem_OnDamageTaken(object sender, DamageEventArgs e)
-    {
+    private void EnemyHealthSystem_OnDamageTaken(object sender, DamageEventArgs e) {
         if (isDead) return;
 
-        if (TryGetComponent<BossCtrl>(out BossCtrl boss))
-        {
+        if (TryGetComponent<BossCtrl>(out BossCtrl boss)) {
             // Se sei il Boss, deleghiamo tutto al tuo script (che gestirà la combo dei 3 colpi!)
             boss.ApplyKnockback(e.AttackDirection);
         }
-        else if (enemyMovement != null)
-        {
+        else if (enemyMovement != null) {
             enemyMovement.ApplyKnockback(
                 e.AttackDirection,
                 knockBackForce + e.KnockBackStrenght,  // + knockbackstrenght dell'arma (per ora solo quelle melee lo hanno)
                 knockbackDuration
             );
         }
-        else if (TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav))
-        {
+        else if (TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav)) {
             nav.ApplyKnockback(
                 e.AttackDirection,
                 knockBackForce + e.KnockBackStrenght,
@@ -101,18 +91,15 @@ public class Enemy : MonoBehaviour
             );
         }
 
-        if (anim != null)
-        {
+        if (anim != null) {
             anim.SetTrigger("Hurt");
         }
 
-        if (sr != null)
-        {
+        if (sr != null) {
             sr.color = blinkAfterDamageTargetColor * 3f;
         }
 
-        if (hitEffect != null)
-        {
+        if (hitEffect != null) {
             Vector2 spawnPos = (Vector2)transform.position + e.AttackDirection.normalized * hitEffectSpawnPositionOffset;
             float angle = Mathf.Atan2(e.AttackDirection.y, e.AttackDirection.x) * Mathf.Rad2Deg;
 
@@ -120,16 +107,19 @@ public class Enemy : MonoBehaviour
             effect.transform.rotation = Quaternion.Euler(0f, 0f, angle + hitEffectRotationOffset);
         }
 
-        if (enemyHealthSystem.CurrentHealth <= 0)
-        {
-            DeadManagement(e.AttackDirection);
+        if (enemyHealthSystem.CurrentHealth <= 0) {
+            Vector2 direction = e.AttackDirection;
+            // se il danno non e' fisico, come direzione si mette quella opposta al player di default
+            if (e.AttackDamageType != DamageType.Physical) {
+                if (Player.Instance != null)
+                    direction = -(Player.Instance.transform.position - transform.position).normalized;
+            }
+            DeadManagement(direction);
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.TryGetComponent<Player>(out Player player))
-        {
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.TryGetComponent<Player>(out Player player)) {
             Vector2 attackDirection = (other.transform.position - transform.position).normalized;
             player.gameObject.GetComponent<IDamageable>().TakeDamage(
                 new DamageInfo(enemyTouchDamage, attackDirection, this.gameObject, EntityType.Enemy)
@@ -137,97 +127,79 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void FlipBasedOnPlayer()
-    {
+    private void FlipBasedOnPlayer() {
         if (Player.Instance == null) return;
 
         Vector3 scale = transform.localScale;
         int flipDirection = invertFlipDirection ? -1 : 1;
 
-        if (Player.Instance.transform.position.x > transform.position.x)
-        {
+        if (Player.Instance.transform.position.x > transform.position.x) {
             scale.x = -Mathf.Abs(scale.x) * flipDirection;
         }
-        else
-        {
+        else {
             scale.x = Mathf.Abs(scale.x) * flipDirection;
         }
 
         transform.localScale = scale;
     }
 
-    private void DeadManagement(Vector2 attackDirection)
-    {
+    private void DeadManagement(Vector2 attackDirection) {
         if (isDead) return;
         isDead = true;
 
-        if (deadBodyPlaceholder != null)
-        {
+        if (deadBodyPlaceholder != null) {
             GameObject deadBody = Instantiate(deadBodyPlaceholder, transform.position, Quaternion.identity);
 
-            if (deadBody.TryGetComponent<DeadBodyBehaviour>(out DeadBodyBehaviour db))
-            {
+            if (deadBody.TryGetComponent<DeadBodyBehaviour>(out DeadBodyBehaviour db)) {
                 db.SetUpDeadBody(attackDirection, sr.sprite, sr.sortingLayerName, sr.sortingOrder);
             }
-            else
-            {
+            else {
                 Destroy(deadBody);
             }
         }
 
-        if (enemySpawner != null)
-        {
+        if (enemySpawner != null) {
             enemySpawner.OnEnemyDeath(); // aggiorno contatore numero corrente di nemici per l'enemy spawner
         }
 
         // spawno un oggetto
-        if (SpawnItems.Instance != null)
-        {
+        if (SpawnItems.Instance != null) {
             SpawnItems.Instance.SpawnItem(transform.position);
         }
-        else
-        {
+        else {
             Debug.Log("Spawn non presente");
         }
 
         // suono morte
-        if (SoundManager.Instance != null)
-        {
+        if (SoundManager.Instance != null) {
             SoundManager.Instance.PlaySound3D(SoundID.EnemyDeath, transform.position);
         }
 
         Destroy(gameObject);
     }
 
-    public void SetEnemySpawner(EnemySpawner es)
-    {
+    public void SetEnemySpawner(EnemySpawner es) {
         enemySpawner = es;
     }
 
-    public void SetStun(bool value)
-    {
+    public void SetStun(bool value) {
         isStun = value;
 
-        if (isStun)
-        {
-            if (enemyMovement != null)
-            {
+        if (isStun) {
+            if (enemyMovement != null) {
                 enemyMovement.ForceStop();
             }
-            else if (TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav))
-            {
+            else if (TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav)) {
                 nav.ForceStop();
             }
         }
     }
 
-    public float GetDurationMultiplier()
-    {
+    public float GetDurationMultiplier() {
         return stunDurationMultiplier;
     }
 
-    public void ApplyStun(float baseDuration)
-    {
+    public void ApplyStun(float baseDuration) {
         float finalDuration = baseDuration * stunDurationMultiplier;
 
         if (finalDuration <= 0f)
