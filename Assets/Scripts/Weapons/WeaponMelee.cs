@@ -15,7 +15,7 @@ public class WeaponMelee : Weapon
     [SerializeField] private float weaponBaseDamage = 2f;
     [SerializeField] private float weaponKnockBackStrenght = 5f;
 
-    [SerializeField] private Boolean hasPoison = false;
+    [SerializeField] private bool hasPoison = false;
     [SerializeField] private float poisonDamage = 0f;
 
     private Vector2 attackCentrePosition;
