@@ -64,3 +64,7 @@ MonoBehaviour:
   - itemName: mutagenCoinBig
     prefab: {fileID: 3666638847045378784, guid: 9b74d1f7f95f4d246a2e586d6ddd5b3a, type: 3}
     weight: 0.05
+  dropItemsBosses:
+  - itemName: mutagenCoinElite
+    prefab: {fileID: 3666638847045378784, guid: 0711289998d34884c8af0e8cf1044de5, type: 3}
+    weight: 1
