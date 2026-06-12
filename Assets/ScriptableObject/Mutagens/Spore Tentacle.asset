@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LaserMutagenSO
   mutagenName: Spore burst
   description: A piercing laser of spore energy that damages all in its path
-  icon: {fileID: 0}
+  icon: {fileID: 2016421004096143834, guid: 3cc2e1cad36aac64d8f446a3af04dc09, type: 3}
   manaCost: 1
   isToggle: 0
   duration: 1

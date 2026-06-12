@@ -15,7 +15,7 @@ MonoBehaviour:
   mutagenName: Gas
   description: 'Feeling bad when enemies surround you? Strike them all at once. You
     are the real danger. '
-  icon: {fileID: 1208040086343421634, guid: 953c354ee998c7b41b4b8bbcbc0a16aa, type: 3}
+  icon: {fileID: 21300000, guid: 953c354ee998c7b41b4b8bbcbc0a16aa, type: 3}
   manaCost: 1
   isToggle: 0
   duration: 0

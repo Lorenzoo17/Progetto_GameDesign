@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class MenuButton : MonoBehaviour,
     ISelectHandler,
     IDeselectHandler,
-    IPointerEnterHandler,
-    IPointerExitHandler {
+    IPointerEnterHandler {
     private RectTransform rectTransform;
     private Button button;
 
@@ -16,12 +14,12 @@ public class MenuButton : MonoBehaviour,
     [Header("Selected Settings")]
     [SerializeField] private float selectedScale = 1.15f;
 
+    [SerializeField] private string hubSceneName;
+
     private Vector3 originalScale;
 
     private bool isSelected = false;
-    private bool isPointerOver = false;
-
-    [SerializeField] private string hubSceneName;
+    private bool wasHighlighted = false;
 
     private void Awake() {
         rectTransform = GetComponent<RectTransform>();
@@ -29,13 +27,18 @@ public class MenuButton : MonoBehaviour,
 
         originalScale = rectTransform.localScale;
 
-        if (selectionDivider != null)
-            selectionDivider.SetActive(false);
+        ForceResetVisual();
+    }
+
+    private void OnDisable() {
+        ForceResetVisual();
     }
 
     public void OnSelect(BaseEventData eventData) {
         if (!CanInteract()) {
-            EventSystem.current.SetSelectedGameObject(null);
+            if (EventSystem.current != null)
+                EventSystem.current.SetSelectedGameObject(null);
+
             return;
         }
 
@@ -51,49 +54,42 @@ public class MenuButton : MonoBehaviour,
     public void OnPointerEnter(PointerEventData eventData) {
         if (!CanInteract()) return;
 
-        isPointerOver = true;
-
         if (EventSystem.current != null) {
             EventSystem.current.SetSelectedGameObject(gameObject);
         }
-
-        RefreshVisual();
-    }
-
-    public void OnPointerExit(PointerEventData eventData) {
-        isPointerOver = false;
-
-        if (EventSystem.current != null &&
-            EventSystem.current.currentSelectedGameObject == gameObject) {
-            EventSystem.current.SetSelectedGameObject(null);
-        }
-
-        RefreshVisual();
     }
 
     private bool CanInteract() {
         return button != null && button.interactable;
     }
 
-    private bool wasHighlighted = false;
+    public void ForceResetVisual() {
+        isSelected = false;
+        wasHighlighted = false;
+
+        if (rectTransform != null)
+            rectTransform.localScale = originalScale;
+
+        if (selectionDivider != null)
+            selectionDivider.SetActive(false);
+    }
 
     private void RefreshVisual() {
-        bool active = CanInteract() && (isSelected || isPointerOver);
+        bool active = CanInteract() && isSelected;
 
-        if (active && !wasHighlighted)
-        {
-            if (SoundManager.Instance != null)
-            {
+        if (active && !wasHighlighted) {
+            if (SoundManager.Instance != null) {
                 SoundManager.Instance.PlaySound2D(SoundID.UIHover, .08f);
             }
-            
         }
 
         wasHighlighted = active;
 
-        rectTransform.localScale = active
-            ? originalScale * selectedScale
-            : originalScale;
+        if (rectTransform != null) {
+            rectTransform.localScale = active
+                ? originalScale * selectedScale
+                : originalScale;
+        }
 
         if (selectionDivider != null) {
             selectionDivider.SetActive(active);
@@ -101,7 +97,7 @@ public class MenuButton : MonoBehaviour,
     }
 
     public void LoadScene() {
-        if(LevelLoader.Instance != null) {
+        if (LevelLoader.Instance != null) {
             LevelLoader.Instance.LoadNextScene(hubSceneName);
         }
     }

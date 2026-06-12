@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class OptionsMenuUI : MonoBehaviour {
@@ -15,6 +14,7 @@ public class OptionsMenuUI : MonoBehaviour {
     [SerializeField] private Toggle lowQualityToggle;
     [SerializeField] private Toggle mediumQualityToggle;
     [SerializeField] private Toggle highQualityToggle;
+    [SerializeField] private ToggleGroup qualityToggleGroup;
 
     [Header("First Selected")]
     [SerializeField] private GameObject firstMainMenuButton;
@@ -42,6 +42,23 @@ public class OptionsMenuUI : MonoBehaviour {
     }
 
     private void SetupQuality() {
+        if (qualityToggleGroup == null && lowQualityToggle != null) {
+            qualityToggleGroup = lowQualityToggle.GetComponentInParent<ToggleGroup>();
+        }
+
+        if (qualityToggleGroup != null) {
+            qualityToggleGroup.allowSwitchOff = false;
+
+            if (lowQualityToggle != null)
+                lowQualityToggle.group = qualityToggleGroup;
+
+            if (mediumQualityToggle != null)
+                mediumQualityToggle.group = qualityToggleGroup;
+
+            if (highQualityToggle != null)
+                highQualityToggle.group = qualityToggleGroup;
+        }
+
         int savedQuality = PlayerPrefs.GetInt(QualityLevelKey, 1);
         savedQuality = Mathf.Clamp(savedQuality, 0, 2);
 
@@ -91,13 +108,13 @@ public class OptionsMenuUI : MonoBehaviour {
 
         switch (simpleQualityIndex) {
             case 0:
-                return 0; // Low
+                return 0;
 
             case 1:
-                return Mathf.RoundToInt(maxIndex * 0.5f); // Medium
+                return Mathf.RoundToInt(maxIndex * 0.5f);
 
             case 2:
-                return maxIndex; // High
+                return maxIndex;
 
             default:
                 return Mathf.RoundToInt(maxIndex * 0.5f);
@@ -112,10 +129,11 @@ public class OptionsMenuUI : MonoBehaviour {
     }
 
     public void OpenOptions() {
-        if (SoundManager.Instance != null)
-        {
+        if (SoundManager.Instance != null) {
             SoundManager.Instance.PlaySound2D(SoundID.UIConfirm, .08f);
         }
+
+        ResetAllMenuButtons();
 
         mainMenuPanel.SetActive(false);
         optionsPanel.SetActive(true);
@@ -124,10 +142,11 @@ public class OptionsMenuUI : MonoBehaviour {
     }
 
     public void ShowMainMenu() {
-        if (SoundManager.Instance != null)
-        {
+        if (SoundManager.Instance != null) {
             SoundManager.Instance.PlaySound2D(SoundID.UICancel, .08f);
         }
+
+        ResetAllMenuButtons();
 
         optionsPanel.SetActive(false);
         mainMenuPanel.SetActive(true);
@@ -140,5 +159,20 @@ public class OptionsMenuUI : MonoBehaviour {
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(button);
+    }
+
+    private void ResetAllMenuButtons() {
+        ResetMenuButtonsInPanel(mainMenuPanel);
+        ResetMenuButtonsInPanel(optionsPanel);
+    }
+
+    private void ResetMenuButtonsInPanel(GameObject panel) {
+        if (panel == null) return;
+
+        MenuButton[] buttons = panel.GetComponentsInChildren<MenuButton>(true);
+
+        foreach (MenuButton menuButton in buttons) {
+            menuButton.ForceResetVisual();
+        }
     }
 }
