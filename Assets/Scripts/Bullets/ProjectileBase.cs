@@ -12,20 +12,36 @@ public class ProjectileBase : MonoBehaviour
     protected bool initialized;
     public event EventHandler OnBulletDestruction;
 
+    [SerializeField] private float destructionRange = 5f; // distanza di base
+    private Vector3 spawnPosition;
     public virtual void InitializeProjectile(
         GameObject owner,
         Vector2 direction,
-        float damage
+        float damage,
+        float range = 5f
     )
     {
         this.owner = owner;
         this.direction = direction.normalized;
         this.damage = damage;
+        this.destructionRange = range;
+
+        spawnPosition = transform.position;
 
         EntityOwner combatOwner = owner.GetComponent<EntityOwner>();
         ownerType = combatOwner != null ? combatOwner.GetEntityType : EntityType.Neutral;
 
         initialized = true;
+    }
+
+    private void FixedUpdate() {
+        if (!initialized) return;
+
+        Vector3 distanceFromSpawn = transform.position - spawnPosition;
+
+        if(Vector3.Distance(spawnPosition, transform.position) >= destructionRange) {
+            ProjectileDestruction();
+        }
     }
 
     protected bool CanDamage(Collider2D other)

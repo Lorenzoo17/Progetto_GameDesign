@@ -5,11 +5,13 @@ public class DamageEventArgs : EventArgs
 {
     public float Damage { get; }
     public Vector2 AttackDirection { get; }
+    public float KnockBackStrenght { get; }
 
-    public DamageEventArgs(float damage, Vector2 attackDirection)
+    public DamageEventArgs(float damage, Vector2 attackDirection, float knockBackStrenght = 0f)
     {
         Damage = damage;
         AttackDirection = attackDirection;
+        KnockBackStrenght = knockBackStrenght;
     }
 }
 public class BossDeathEventArgs : EventArgs
@@ -63,7 +65,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
     {
         DamageInfo modifiedDamageInfo = TakeDamageLol(damageInfo);
         CurrentHealth -= modifiedDamageInfo.Damage[DamageType.Physical];
-        OnDamageTaken?.Invoke(this, new DamageEventArgs(modifiedDamageInfo.Damage[DamageType.Physical], modifiedDamageInfo.Direction));
+        OnDamageTaken?.Invoke(this, new DamageEventArgs(modifiedDamageInfo.Damage[DamageType.Physical], modifiedDamageInfo.Direction, modifiedDamageInfo.KnockBackStrenght));
         HandleDamageVisuals(modifiedDamageInfo);
 
         if (SoundManager.Instance != null)
@@ -150,7 +152,8 @@ public class HealthSystem : MonoBehaviour, IDamageable
             damageInfo.Damage[DamageType.Physical] * defensePerc,
             damageInfo.Direction,
             damageInfo.Source,
-            damageInfo.SourceFaction
+            damageInfo.SourceFaction,
+            damageInfo.KnockBackStrenght
         );
 
         // Copia gli effetti applicati

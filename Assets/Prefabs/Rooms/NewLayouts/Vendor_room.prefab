@@ -23625,7 +23625,7 @@ MonoBehaviour:
     type: 4
   - id: mutagen_coin
     prefab: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
-    price: 100
+    price: 30
     type: 3
   room: {fileID: 4456709943258281981}
 --- !u!1 &5747454651305383231

@@ -159,6 +159,7 @@ MonoBehaviour:
   colliderReactivateDelay: 1
   shadow: {fileID: 5029246468241187113}
   initialZRotation: 0
+  weaponAttackRateSlowdown: 0
   visual: {fileID: 2083888244942294052}
   floatAmplitude: 0.08
   floatSpeed: 2.5
@@ -166,8 +167,10 @@ MonoBehaviour:
   weaponRotationOffsetZ: 0
   attackDuration: 0.1
   meleeAttackEffect: {fileID: 8176667913236221772, guid: af45be17e1ea6d6499933814cdb67375, type: 3}
+  meleeAttackEffectSize: 1
   weaponBaseRange: 1
   weaponBaseDamage: 8
+  weaponKnockBackStrenght: 5
   hasPoison: 0
   poisonDamage: 0
 --- !u!1 &8190016529102176657

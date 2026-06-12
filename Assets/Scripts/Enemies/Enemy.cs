@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
         {
             enemyMovement.ApplyKnockback(
                 e.AttackDirection,
-                knockBackForce,
+                knockBackForce + e.KnockBackStrenght,  // + knockbackstrenght dell'arma (per ora solo quelle melee lo hanno)
                 knockbackDuration
             );
         }
@@ -96,7 +96,7 @@ public class Enemy : MonoBehaviour
         {
             nav.ApplyKnockback(
                 e.AttackDirection,
-                knockBackForce,
+                knockBackForce + e.KnockBackStrenght,
                 knockbackDuration
             );
         }

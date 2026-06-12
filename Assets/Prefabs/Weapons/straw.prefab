@@ -159,14 +159,16 @@ MonoBehaviour:
   colliderReactivateDelay: 1
   shadow: {fileID: 0}
   initialZRotation: 0
+  weaponAttackRateSlowdown: 0
   visual: {fileID: 0}
   floatAmplitude: 0.08
   floatSpeed: 2.5
   weaponLootData: {fileID: 11400000, guid: 2bca6f8841134104dbacacd85d789a5d, type: 2}
   weaponRotationOffsetZ: 90
   projectileShooter: {fileID: 0}
-  curvedProjectile: 0
+  shootingType: 0
   curvedProjectileRange: 0
+  projectileNumber: 0
 --- !u!114 &534988263351872472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +185,7 @@ MonoBehaviour:
   firePoint: {fileID: 2203372829361377867}
   damage: 5
   projectileSpeed: 8
-  projectileRange: 8
+  projectileRange: 4.5
   projectileMaxHeight: 1
   trajectoryAnimationCurve:
     serializedVersion: 2

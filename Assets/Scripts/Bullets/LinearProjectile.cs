@@ -26,14 +26,15 @@ public class LinearProjectile : ProjectileBase
         GameObject owner,
         Vector2 direction,
         float speed,
-        float damage
+        float damage,
+        float range = 5f
     )
     {
         if (owner == Player.Instance.gameObject)
         {
             damage += Player.Instance.playerStats.playerCurrentStats.getAttack() / 2;
         }
-        base.InitializeProjectile(owner, direction, damage); // metodo di ProjectileBase
+        base.InitializeProjectile(owner, direction, damage, range); // metodo di ProjectileBase
 
         this.speed = speed;
 

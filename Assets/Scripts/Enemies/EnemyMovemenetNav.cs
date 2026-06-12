@@ -17,6 +17,26 @@ public class EnemyMovementNav : MonoBehaviour {
     [Header("Knockback")]
     [SerializeField] private float knockbackResistance = 1f;
 
+    [Header("Wander")]
+    // per movimento casuale prima di vedere il player
+    [SerializeField] private float wanderRadius = 6f; // raggio entro il quale il nemico cerca punto casuale
+    [SerializeField] private float wanderRepathTime = 2f; // secondi prima di scegliere nuovo punto casuale
+    [SerializeField] private float wanderPointReachedDistance = 0.1f; // offset di arrivo
+    [SerializeField] private float navMeshSampleDistance = 2f;
+    [SerializeField] private int maxWanderPointAttempts = 10;
+    [SerializeField] private float maxDistanceFromSpawn = 10f;
+    [SerializeField] private float minDistanceFromNavMeshEdge = 0.5f;
+    private Vector3 spawnPosition; // per cercare punto attorno allo spawnpoint
+    private Vector3 currentWanderDestination;
+    private bool hasWanderDestination;
+    private float nextWanderPointTime;
+    private NavMeshPath wanderPath;
+
+    //[Header("Wander attack")]
+    // per attaccare casualmente sempre anche se non vede il player
+    // da attivare principalmente per nemici a distanza che attaccano in direzione casuale
+    //[SerializeField] private bool alwaysAttack;
+
     [Header("Line of sight")]
     [SerializeField] private LayerMask obstacleLayerMask;
     [SerializeField] private float lineOfSightCheckInterval = 0.1f;
@@ -45,12 +65,16 @@ public class EnemyMovementNav : MonoBehaviour {
     private HealthSystem hs;
     private bool hasBeenHit; // in modo che inizi a seguire il player a prescindere dalla distanza se
     // e' stato colpito da esso
+    private bool hasSeenPlayer;
 
     private void Awake() {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         enemyAttack = GetComponent<EnemyAttackBase>();
         enemy = GetComponent<Enemy>();
+
+        spawnPosition = transform.position;
+        wanderPath = new NavMeshPath();
 
         hs = GetComponent<HealthSystem>();
         hasBeenHit = false;
@@ -113,7 +137,14 @@ public class EnemyMovementNav : MonoBehaviour {
             playerPosition
         );
 
-        if(distance <= minTargetDistance || hasBeenHit) { // se e' stato colpito o la distanza e' inferiore a minTargetDistance
+        // Se il player entra nel range di "visione", il nemico lo ricorderà per sempre
+        if (distance <= minTargetDistance) {
+            hasSeenPlayer = true;
+        }
+
+        if (hasSeenPlayer || hasBeenHit) { // oppure anche se e' stato colpito
+            hasWanderDestination = false;
+
             if (isRangedEnemy) {
                 HandleRangedEnemy(distance, playerPosition);
             }
@@ -122,7 +153,7 @@ public class EnemyMovementNav : MonoBehaviour {
             }
         }
         else {
-            StopMovement();
+            HandleWander();
         }
     }
 
@@ -144,9 +175,7 @@ public class EnemyMovementNav : MonoBehaviour {
             hasLineOfSight = false;
         }
 
-        bool canAttack =
-            distance <= enemyAttack.AttackDistance &&
-            hasLineOfSight;
+        bool canAttack = distance <= enemyAttack.AttackDistance && hasLineOfSight;
 
         if (canAttack) {
             StopMovement();
@@ -232,6 +261,77 @@ public class EnemyMovementNav : MonoBehaviour {
         else {
             changeRandomOffsetCurrentTime -= Time.deltaTime;
         }
+    }
+
+    private void HandleWander() {
+        if (agent == null || !agent.enabled || !agent.isOnNavMesh)
+            return;
+
+        bool reachedDestination =
+            hasWanderDestination &&
+            !agent.pathPending &&
+            agent.hasPath &&
+            agent.remainingDistance <= wanderPointReachedDistance;
+
+        bool shouldPickNewPoint =
+            !hasWanderDestination ||
+            reachedDestination ||
+            Time.time >= nextWanderPointTime;
+
+        if (!shouldPickNewPoint)
+            return;
+
+        // provo a prendere punto casuale nel navmesh dove far muovere il nemico
+        if (TryGetRandomNavMeshPoint(out Vector3 randomPoint)) {
+            currentWanderDestination = randomPoint;
+            hasWanderDestination = true;
+            nextWanderPointTime = Time.time + wanderRepathTime;
+
+            agent.SetDestination(currentWanderDestination);
+        }
+        else {
+            StopMovement();
+            hasWanderDestination = false;
+        }
+    }
+
+    private bool TryGetRandomNavMeshPoint(out Vector3 result) {
+        for (int i = 0; i < maxWanderPointAttempts; i++) {
+            Vector2 random2D = Random.insideUnitCircle * wanderRadius;
+
+            Vector3 randomPosition = spawnPosition + new Vector3(
+                random2D.x,
+                random2D.y,
+                0f
+            );
+
+            if (NavMesh.SamplePosition(
+                randomPosition,
+                out NavMeshHit hit,
+                navMeshSampleDistance,
+                NavMesh.AllAreas
+            )) {
+                Vector3 point = hit.position;
+                point.z = transform.position.z;
+
+                if (Vector2.Distance(point, spawnPosition) > maxDistanceFromSpawn)
+                    continue;
+
+                if (NavMesh.FindClosestEdge(point, out NavMeshHit edgeHit, NavMesh.AllAreas)) {
+                    if (edgeHit.distance < minDistanceFromNavMeshEdge)
+                        continue;
+                }
+
+                if (agent.CalculatePath(point, wanderPath) &&
+                    wanderPath.status == NavMeshPathStatus.PathComplete) {
+                    result = point;
+                    return true;
+                }
+            }
+        }
+
+        result = transform.position;
+        return false;
     }
 
     private void StopMovement() {
@@ -325,5 +425,11 @@ public class EnemyMovementNav : MonoBehaviour {
 
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, stopDistance);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, wanderRadius);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(currentWanderDestination, 0.15f);
     }
 }

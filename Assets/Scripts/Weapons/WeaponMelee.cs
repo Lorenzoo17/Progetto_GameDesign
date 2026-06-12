@@ -13,6 +13,7 @@ public class WeaponMelee : Weapon
 
     [SerializeField] private float weaponBaseRange = 1f;
     [SerializeField] private float weaponBaseDamage = 2f;
+    [SerializeField] private float weaponKnockBackStrenght = 5f;
 
     [SerializeField] private Boolean hasPoison = false;
     [SerializeField] private float poisonDamage = 0f;
@@ -51,7 +52,7 @@ public class WeaponMelee : Weapon
                 {
 
                     // 🔥 APPLICA PERK AL DANNO NORMALE
-                    DamageInfo normalDamage = new DamageInfo(weaponDamage + Player.Instance.playerStats.playerCurrentStats.getAttack(), dir, Player.Instance.gameObject, EntityType.Player);
+                    DamageInfo normalDamage = new DamageInfo(weaponDamage + Player.Instance.playerStats.playerCurrentStats.getAttack(), dir, Player.Instance.gameObject, EntityType.Player, weaponKnockBackStrenght);
                     normalDamage = Player.Instance.perkController.OnDealDamage(ref normalDamage);
                     entityDamageable.TakeDamage(normalDamage);
                 }
