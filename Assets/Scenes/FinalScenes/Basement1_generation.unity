@@ -2496,7 +2496,7 @@ MonoBehaviour:
   roomSize: 18
   corridorThickness: 4
   showOnlyVisitedRooms: 1
-  showCorridorsToUnknownRooms: 0
+  showCorridorsToUnknownRooms: 1
   normalRoomColor: {r: 0.45, g: 0.45, b: 0.45, a: 1}
   currentRoomColor: {r: 1, g: 1, b: 1, a: 1}
   startRoomColor: {r: 0.3, g: 0.8, b: 1, a: 1}

@@ -15,7 +15,7 @@ public class ProjectileShooter : MonoBehaviour {
     
     [SerializeField] protected float damage = 1f;
     [SerializeField] protected float projectileSpeed = 8f;
-    [SerializeField] private float projectileRange = 8f;
+    [SerializeField] private float projectileRange = 16f;
 
     [SerializeField] private float projectileMaxHeight = 1f;
     [SerializeField] private AnimationCurve trajectoryAnimationCurve;
