@@ -23,4 +23,4 @@ MonoBehaviour:
   mutagenLootData: {fileID: 11400000, guid: 7e5e8d6a29d95e14cbd87265eb7fe5bd, type: 2}
   projectilePrefab: {fileID: 5536268146285483205, guid: a77c97f74352b7d4daf824fac3d05219, type: 3}
   projectileSpeed: 10
-  damageMultiplier: 3
+  damageMultiplier: 4

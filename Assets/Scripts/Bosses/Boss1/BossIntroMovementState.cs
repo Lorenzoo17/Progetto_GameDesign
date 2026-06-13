@@ -258,6 +258,11 @@ public class BossIntroMovementState : State<BossCtrl>
             _runner.Agent.updatePosition = false;
         }
 
+        // disabilito collider durante salto
+        if (_runner.BossCollider != null) {
+            _runner.BossCollider.enabled = false;
+        }
+
         Vector3 startPos = _runner.transform.position;
         float timePassed = 0f;
 
@@ -312,6 +317,11 @@ public class BossIntroMovementState : State<BossCtrl>
                 if (_runner.Agent.isOnNavMesh) _runner.Agent.isStopped = false;
             }
             hasJustLanded = true;
+        }
+
+        // riabilito collider alla fine del salto
+        if (_runner.BossCollider != null) {
+            _runner.BossCollider.enabled = true;
         }
 
         isJumping = false;

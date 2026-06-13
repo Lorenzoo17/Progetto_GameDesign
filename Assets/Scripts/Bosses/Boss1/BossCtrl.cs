@@ -11,6 +11,7 @@ public class BossCtrl : StateRunner<BossCtrl>
     public Animator Anim { get; private set; }
     public HealthSystem Health { get; private set; }
     public Transform Visuals { get; private set; }
+    public BoxCollider2D BossCollider { get; private set; }
 
     [SerializeField] public bool debug = false;
     public NavMeshPlus.Components.NavMeshSurface LocalNavMesh { get; private set; }
@@ -55,6 +56,8 @@ public class BossCtrl : StateRunner<BossCtrl>
         //LocalNavMesh = GetComponentInParent<NavMeshPlus.Components.NavMeshSurface>();
         Shooter = GetComponentInChildren<ProjectileShooter>();
         FirePoint = transform.Find("FirePoint");
+
+        BossCollider = GetComponent<BoxCollider2D>();
 
         if (Agent != null)
         {

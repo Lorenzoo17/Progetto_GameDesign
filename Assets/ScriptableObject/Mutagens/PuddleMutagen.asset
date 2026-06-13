@@ -22,6 +22,6 @@ MonoBehaviour:
   animationEffect: {fileID: 0}
   mutagenLootData: {fileID: 11400000, guid: 57377eedd96738f459bfebdcc9395731, type: 2}
   puddlePrefab: {fileID: 4093271731488130218, guid: 8fa104420ff0e0b478687b4b829ae29f, type: 3}
-  tickDamage: 5
+  tickDamage: 8
   tickInterval: 1
   radius: 2.5

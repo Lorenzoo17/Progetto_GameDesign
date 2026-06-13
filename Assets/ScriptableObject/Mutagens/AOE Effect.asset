@@ -25,5 +25,5 @@ MonoBehaviour:
   soundEffect: 1
   effectPrefab: {fileID: 5086786982675458212, guid: 55355a6e9cc9d9e4791531fee20aa4ec, type: 3}
   radius: 3
-  damageMultiplier: 2
+  damageMultiplier: 4
   cooldown: 5

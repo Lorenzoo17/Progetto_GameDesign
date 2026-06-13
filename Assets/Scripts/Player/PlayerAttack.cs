@@ -332,6 +332,9 @@ public class PlayerAttack : MonoBehaviour
             Player.Instance.playerStats.playerCurrentStats.GetAttack()
             * damageMultiplier;
 
+        if(EffectManager.Instance != null)
+            CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.MeleeAttack));
+
         if (projectile.TryGetComponent<GiantProjectile>(out var gp))
         {
             gp.Initialize(
