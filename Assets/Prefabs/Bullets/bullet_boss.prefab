@@ -202,7 +202,7 @@ MonoBehaviour:
   shadow: {fileID: 8991040507999655102}
   initialShadowOffset: {x: 0, y: -2}
   shadowInterpolationValue: 3
-  spawnPoolProbability: 1
+  spawnPoolProbability: 0.6
 --- !u!1 &4184047302667283458
 GameObject:
   m_ObjectHideFlags: 0

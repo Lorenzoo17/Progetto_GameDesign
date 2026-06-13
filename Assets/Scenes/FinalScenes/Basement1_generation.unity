@@ -713,6 +713,7 @@ MonoBehaviour:
   isDialogueActive: 0
   typingSpeed: 0.02
   animator: {fileID: 305941875}
+  restartDialogueDelay: 0.2
 --- !u!95 &305941875
 Animator:
   serializedVersion: 7
@@ -1935,7 +1936,7 @@ MonoBehaviour:
   - room: {fileID: 8781386131341019937, guid: c590ba3446132844b9857b2876716841, type: 3}
     minPosition: {x: -5, y: -5}
     maxPosition: {x: 5, y: 5}
-  - room: {fileID: 8781386131341019937, guid: 9b8e5761c3dc0d24c852c89232309003, type: 3}
+  - room: {fileID: 8781386131341019937, guid: 9c225013ffa00ce4fb8a318129bebd9e, type: 3}
     minPosition: {x: -5, y: -5}
     maxPosition: {x: 5, y: 5}
   - room: {fileID: 5570208806824628964, guid: 7b776415e8fcd0e43bb942a804b75982, type: 3}
