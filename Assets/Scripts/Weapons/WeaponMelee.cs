@@ -56,6 +56,11 @@ public class WeaponMelee : Weapon
                     normalDamage = Player.Instance.perkController.OnDealDamage(ref normalDamage);
                     entityDamageable.TakeDamage(normalDamage);
                 }
+
+                // armi melee possono distruggere proiettili (?)
+                // if(entity.gameObject.TryGetComponent<ProjectileBase>(out ProjectileBase projectileBase)){
+                //     projectileBase.DestroyProjectile();
+                // }
             }
         }
 

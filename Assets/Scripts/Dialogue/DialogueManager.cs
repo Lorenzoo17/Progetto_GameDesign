@@ -18,6 +18,10 @@ public class DialogueManager : MonoBehaviour {
     public float typingSpeed = 0.2f;
 
     public Animator animator;
+    private int dialogueStartedFrame = -1; // visto che interagisco e vado avanti con il dialogo con lo stesso tasto
+    private float canStartDialogueAgainTime = 0f;
+
+    [SerializeField] private float restartDialogueDelay = 0.2f;
 
     private void Awake() {
         if (Instance == null)
@@ -26,8 +30,43 @@ public class DialogueManager : MonoBehaviour {
         lines = new Queue<DialogueLine>();
     }
 
+    private void Start() {
+        StartCoroutine(SubscribeToInputManager());
+    }
+
+    private IEnumerator SubscribeToInputManager() {
+        while (InputManager.Instance == null) {
+            yield return null;
+        }
+
+        InputManager.Instance.OnInteractEvent -= Instance_OnInteractEvent;
+        InputManager.Instance.OnInteractEvent += Instance_OnInteractEvent;
+    }
+
+    private void OnDestroy() {
+        if (InputManager.Instance != null) {
+            InputManager.Instance.OnInteractEvent -= Instance_OnInteractEvent;
+        }
+    }
+
+    private void Instance_OnInteractEvent(object sender, System.EventArgs e) {
+        if (!isDialogueActive) return;
+
+        if (Time.frameCount == dialogueStartedFrame)
+            return;
+
+        DisplayNextDialogueLine();
+    }
+
     public void StartDialogue(Dialogue dialogue) {
+        if (isDialogueActive) return;
+
+        if (Time.time < canStartDialogueAgainTime) // per evitare di far ripartire subito il dialogo se premo di continuo F
+            return;
+
         isDialogueActive = true;
+        dialogueStartedFrame = Time.frameCount;
+
         if (Player.Instance != null) {
             Player.Instance.playerMovement.StopPlayer();
             Player.Instance.playerAttack.BlockAttack();
@@ -71,10 +110,14 @@ public class DialogueManager : MonoBehaviour {
 
     void EndDialogue() {
         isDialogueActive = false;
+
+        canStartDialogueAgainTime = Time.time + restartDialogueDelay;
+
         if (Player.Instance != null) {
             Player.Instance.playerMovement.ResumePlayer();
             Player.Instance.playerAttack.UnlockAttack();
         }
-        animator.Play("hide"); // nascondo il box di dialogo
+
+        animator.Play("hide"); // nascondo box di dialogo
     }
 }

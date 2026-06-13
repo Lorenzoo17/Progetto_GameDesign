@@ -88,4 +88,8 @@ public class ProjectileBase : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    public void DestroyProjectile() {
+        ProjectileDestruction();
+    }
 }
