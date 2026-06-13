@@ -277,13 +277,7 @@ public class BossIntroMovementState : State<BossCtrl>
 
         if (_runner.Visuals != null) _runner.Visuals.localPosition = Vector3.zero;
 
-        if (acidPoolPrefab != null && leaveAcidPool)
-        {
-            GameObject pool = Instantiate(acidPoolPrefab, targetPos, Quaternion.identity);
-            float durataScelta = useSpecialPool ? acidPoolDurationSpecial : acidPoolDuration;
-            if (useSpecialPool) pool.transform.localScale = new Vector3(3f, 3f, 1f);
-            if (pool.TryGetComponent<PoolDuration>(out PoolDuration poolScript)) poolScript.StartLifeCycle(durataScelta);
-        }
+        
 
         if (specialAttackEnabled)
         {
@@ -294,6 +288,13 @@ public class BossIntroMovementState : State<BossCtrl>
             if (_runner.Agent != null) _runner.Agent.enabled = false;
 
             isReadyForSpecialAttack = true;
+
+            if (acidPoolPrefab != null)
+            {
+                GameObject pool = Instantiate(acidPoolPrefab, targetPos, Quaternion.identity);  
+                pool.transform.localScale = new Vector3(15f, 8f, 1f);
+                if (pool.TryGetComponent<PoolDuration>(out PoolDuration poolScript)) poolScript.StartLifeCycle(acidPoolDurationSpecial);
+            }
         }
         else
         {
