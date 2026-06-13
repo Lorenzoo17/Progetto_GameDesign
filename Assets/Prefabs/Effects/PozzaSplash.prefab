@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 1176331453960779814}
   - component: {fileID: 5129415156049009785}
   - component: {fileID: -4973741541661656971}
-  - component: {fileID: 7592886797365866211}
+  - component: {fileID: 4506226554178254089}
   m_Layer: 0
   m_Name: PozzaSplash
   m_TagString: Untagged
@@ -244,8 +244,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AcidPoolDamage
   poolDamage: 0.5
   damageCooldown: 1
---- !u!58 &7592886797365866211
-CircleCollider2D:
+--- !u!61 &4506226554178254089
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -278,5 +278,15 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.4
+  m_Offset: {x: 0.024092764, y: 0.039150983}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.9463715, y: 0.8439768}
+  m_EdgeRadius: 0

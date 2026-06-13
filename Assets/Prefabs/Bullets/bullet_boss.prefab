@@ -195,13 +195,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAcidProjectile
   destructionEffect: {fileID: 8123448815219969253, guid: 83430e0db5bede24cb6847f8e00fda63, type: 3}
+  destructionRange: 5
   destroyOnContactLayers:
     serializedVersion: 2
     m_Bits: 64
   shadow: {fileID: 8991040507999655102}
   initialShadowOffset: {x: 0, y: -2}
   shadowInterpolationValue: 3
-  spawnPoolProbability: 0.4
+  spawnPoolProbability: 1
 --- !u!1 &4184047302667283458
 GameObject:
   m_ObjectHideFlags: 0

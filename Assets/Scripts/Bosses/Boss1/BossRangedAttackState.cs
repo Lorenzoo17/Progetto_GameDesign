@@ -8,17 +8,12 @@ public class BossRangedAttackState : State<BossCtrl>
     [Header("Impostazioni Generali")]
     [SerializeField] private float fireRate = 0.5f;
 
-    [Header("Impostazioni Proiettile")]
-    [SerializeField] private GameObject bossProjectilePrefab;
-    [SerializeField] private float projectileSpeed = 8f;
-    [SerializeField] private float maxAttackRange = 15f;
-
     [Header("Quantità Proiettili (Attacco Normale)")]
     [SerializeField] private int minProjectiles = 2;
     [SerializeField] private int maxProjectiles = 6;
 
     [Header("Miramento e Precisione")]
-    [Tooltip("Margine massimo di errore in gradi rispetto alla posizione del Player (es. 50 significa un arco totale di 100°)")]
+    [Tooltip("Margine massimo di errore in gradi (es. 50 = arco totale di 100°)")]
     [SerializeField] private float errorMargin = 50f;
 
     private bool attackCompleted = false;
@@ -78,25 +73,17 @@ public class BossRangedAttackState : State<BossCtrl>
             for (int i = 0; i < currentProj; i++)
             {
                 Vector2 firePosition = _runner.FirePoint != null ? (Vector2)_runner.FirePoint.position : (Vector2)_runner.transform.position;
-
-                // 🎯 1. Trova l'istanza del player corrente nella stanza
                 Player player = Object.FindFirstObjectByType<Player>();
                 Vector2 shootDir;
 
                 if (player != null)
                 {
-                    // 🎯 2. Calcola la direzione base (perfetta) verso il player
                     Vector2 dirToPlayer = ((Vector2)player.transform.position - firePosition).normalized;
-
-                    // 🎯 3. Calcola una deviazione casuale (es. tra -50° e +50°)
                     float randomOffset = Random.Range(-errorMargin, errorMargin);
-
-                    // 🎯 4. Ruota il vettore direzione originale usando l'offset casuale
                     shootDir = RotateVector(dirToPlayer, randomOffset);
                 }
                 else
                 {
-                    // Fallback di sicurezza se il player scompare durante l'esecuzione
                     shootDir = Random.insideUnitCircle.normalized;
                 }
 
@@ -124,7 +111,7 @@ public class BossRangedAttackState : State<BossCtrl>
     private void ShootProjectile(Vector2 direction)
     {
         if (_runner.Shooter is ProjectileShooterBoss bossShooter)
-            bossShooter.ShootBossProjectile(_runner.gameObject, direction, maxAttackRange);
+            bossShooter.ShootBossProjectile(_runner.gameObject, direction); // Solo gameObject e direction!
         else
             _runner.Shooter.ShootLinear(_runner.gameObject, direction);
     }
