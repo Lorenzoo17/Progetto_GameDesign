@@ -31,15 +31,8 @@ public class DialogueManager : MonoBehaviour {
     }
 
     private void Start() {
-        StartCoroutine(SubscribeToInputManager());
-    }
+        if (InputManager.Instance == null) return;
 
-    private IEnumerator SubscribeToInputManager() {
-        while (InputManager.Instance == null) {
-            yield return null;
-        }
-
-        InputManager.Instance.OnInteractEvent -= Instance_OnInteractEvent;
         InputManager.Instance.OnInteractEvent += Instance_OnInteractEvent;
     }
 
