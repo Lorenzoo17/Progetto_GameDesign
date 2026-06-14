@@ -60,7 +60,7 @@ MonoBehaviour:
     weight: 0.3
   - itemName: dungeonCoinBig
     prefab: {fileID: 7393189470435230051, guid: f1dea9f2bff78d245b086395ae07c25a, type: 3}
-    weight: 0.45
+    weight: 0.25
   - itemName: mutagenCoinBig
     prefab: {fileID: 3666638847045378784, guid: 9b74d1f7f95f4d246a2e586d6ddd5b3a, type: 3}
     weight: 0.05
