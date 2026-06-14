@@ -11,12 +11,13 @@ public class PipeWrap
 
 public class PipeGroups
 {
-    public List<PipeWrap> upPipe = new List<PipeWrap>();
-    public List<PipeWrap> leftPipe = new List<PipeWrap>();
-    public List<PipeWrap> rightPipe = new List<PipeWrap>();
+    public List<PipeWrap> upPipe = new List<PipeWrap>(); public int pipeLockedInUp = 0;
+    public List<PipeWrap> leftPipe = new List<PipeWrap>();public int pipeLockedInLeft = 0;
+    public List<PipeWrap> rightPipe = new List<PipeWrap>();public int pipeLockedInRight = 0;
 
     public int lastGroupUsed = 2;
     public List<int> lastIdUsedForgroup = new List<int> { -1, -1, -1 };
+
 }
 
 public class PipeManager : MonoBehaviour
@@ -29,6 +30,8 @@ public class PipeManager : MonoBehaviour
     public List<Transform> tubi_right = new List<Transform>();
 
     [SerializeField] private PipeGroups groups = new PipeGroups();
+
+    
 
     private void Awake()
     {
@@ -47,6 +50,7 @@ public class PipeManager : MonoBehaviour
     public void LockRandomPipeInGroup(int groupId)
     {
         List<PipeWrap> targetList = null;
+        
 
         switch (groupId)
         {
@@ -78,19 +82,30 @@ public class PipeManager : MonoBehaviour
         }
 
         
-        if (availablePipesInGroup.Count > 2)
+        if (availablePipesInGroup.Count > 0)
         {
+
             int randomIndex = Random.Range(0, availablePipesInGroup.Count);
             availablePipesInGroup[randomIndex].isPipeLocked = true;
             Debug.Log($"[SABOTAGGIO] TUBO CHIUSO! Gruppo: {groupId}, ID Tubo: {availablePipesInGroup[randomIndex].pipeId}");
+            Debug.Log($"[SABOTAGGIO] Mancano {availablePipesInGroup.Count -1} tubi e tutti saranno chiusi per questo gruppo ");
             
         }
         else
         {
-            Debug.Log($"[SABOTAGGIO] Tutti i tubi del gruppo erano già chiusi! 2 Devono essere liberi");
+            Debug.Log($"[SABOTAGGIO] Tutti i tubi del gruppo erano già chiusi!");
         }
-    }
 
+        
+    }
+    public bool isAllLocked()
+    {
+        foreach (PipeWrap wrap in groups.upPipe) if (!wrap.isPipeLocked) return false;
+        foreach (PipeWrap wrap in groups.leftPipe) if (!wrap.isPipeLocked) return false;
+        foreach (PipeWrap wrap in groups.rightPipe) if (!wrap.isPipeLocked) return false;
+        
+        return true;
+    }   
 
     public Transform GetRandomAvailablePipe()
     {
