@@ -17,6 +17,6 @@ MonoBehaviour:
   icon: {fileID: 3094845654736395587, guid: af236e4284a663245b5f7011d1ade6fb, type: 3}
   isHidden: 0
   perkLootData: {fileID: 0}
-  statType: 0
+  statType: 1
   modifierType: 1
   value: -0.25
