@@ -42771,12 +42771,12 @@ MonoBehaviour:
   dialogue:
     dialogueLines:
     - character:
-        name: Mouseolini
+        name: Mouseloni
         icon: {fileID: 1562974697901453862, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: Did you know that you can destroy enemie's bullet just dashing through
         them?
     - character:
-        name: Mouseolini
+        name: Mouseloni
         icon: {fileID: 1562974697901453862, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: It's very useful, especially against elite enemies!
   promptInterface: {fileID: 1120974611}
