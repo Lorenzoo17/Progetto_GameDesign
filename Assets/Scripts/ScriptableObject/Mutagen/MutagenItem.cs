@@ -70,27 +70,21 @@ public class MutagenItem : MonoBehaviour, ICollectible{
         }
     }
 
-    public void Collect(Player player) 
+    public void Collect(Player player)
     {
-        if (pickedUp || mutagenData == null) return;
+        if (pickedUp || mutagenData == null)
+            return;
 
-        // Find the controller on the player
-        MutagenController controller = player.GetComponent<MutagenController>();
+        MutagenController controller =
+            player.GetComponent<MutagenController>();
 
-        if (controller != null) 
+        if (controller != null)
         {
-            // Salva il controller per l'equipaggiamento successivo
             mutagenController = controller;
 
-            // Request slot selection instead of auto-equipping
             controller.RequestSlotSelection(mutagenData);
-            
-            // Visual/Logic cleanup
-            pickedUp = true;
-            if(shadow != null) shadow.gameObject.SetActive(false);
-            if(GetComponent<Collider2D>() != null) GetComponent<Collider2D>().enabled = false;
-            
-            Debug.Log($"Picked up mutagen (awaiting slot selection): {mutagenData.mutagenName}");
+
+            Debug.Log($"Selecting slot for {mutagenData.mutagenName}");
         }
     }
 
@@ -181,6 +175,19 @@ public class MutagenItem : MonoBehaviour, ICollectible{
         }
 
         pickedUp = false;
+    }
+
+    public void ConfirmPickup()
+    {
+        pickedUp = true;
+
+        if (shadow != null)
+            shadow.gameObject.SetActive(false);
+
+        Collider2D col = GetComponent<Collider2D>();
+
+        if (col != null)
+            col.enabled = false;
     }
 
 }

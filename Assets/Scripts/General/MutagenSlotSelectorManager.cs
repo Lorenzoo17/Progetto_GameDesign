@@ -237,9 +237,13 @@ public class MutagenSlotSelectorManager : MonoBehaviour
         {
             controller.EquipMutagen(pendingMutagen, slotIndex);
         }
-            
-        
 
+        if (pendingMutagenItem != null)
+        {
+            pendingMutagenItem.ConfirmPickup();
+            Destroy(pendingMutagenItem.gameObject);
+        }
+        
         CloseSlotSelector();
 
     }
@@ -260,10 +264,6 @@ public class MutagenSlotSelectorManager : MonoBehaviour
         if (currentUI != null)
         {
             currentUI.SetActive(false);
-        }
-
-        if (pendingMutagenItem != null) {
-            Destroy(pendingMutagenItem.gameObject);
         }
 
         // Riprendi il gioco
