@@ -1,5 +1,4 @@
 using UnityEngine;
-using System; // Aggiungi questo
 
 [RequireComponent(typeof(Collider2D))]
 public class PerkPickup : MonoBehaviour, IInteractable
@@ -12,16 +11,22 @@ public class PerkPickup : MonoBehaviour, IInteractable
     [SerializeField] private GameObject promptInterface;
 
     // ── state ──────────────────────────────────────────────
-    private PerkPair _perkPair;
+    private PerkPair[] _perkPairs = new PerkPair[3];
     private bool _used = false;
     private bool _locked = false;
     private PerkBase _grantedNegative = null;
     private RoomBehaviour _room;
-    private System.Random random = new System.Random(); // Aggiungi questo
+    private System.Random random = new System.Random();
 
-    public void SetUp(PerkPair pair, RoomBehaviour room)
+    public void SetUp(PerkPair[] perkPairs, RoomBehaviour room)
     {
-        _perkPair = pair;
+        if (perkPairs == null || perkPairs.Length != 3)
+        {
+            Debug.LogError("PerkPickup.SetUp: deve ricevere esattamente 3 PerkPair");
+            return;
+        }
+
+        _perkPairs = perkPairs;
         _room = room;
 
         activeVisual?.SetActive(true);
@@ -40,30 +45,43 @@ public class PerkPickup : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (_used || _locked || _perkPair == null) return;
+        Debug.Log($"🔑 PerkPickup.Interact() - _used: {_used}, _locked: {_locked}, _perkPairs: {(_perkPairs != null ? "OK" : "NULL")}");
+
+        if (_used || _locked || _perkPairs == null)
+        {
+            Debug.LogWarning($"⚠️ Interact bloccato: _used={_used}, _locked={_locked}, _perkPairs={(_perkPairs != null)}");
+            return;
+        }
+
+        Debug.Log("✅ Calling PerkChoiceUIManager.ShowPerkChoices");
+        PerkChoiceUIManager.Instance?.ShowPerkChoices(_perkPairs, this);
+    }
+
+    public void SelectPerk(PerkPair selectedPair)
+    {
+        if (selectedPair == null) return;
 
         _used = true;
 
-        // Usa System.Random per più casualità (0.0 - 1.0)
         bool positive = random.NextDouble() < 0.35;
-        PerkBase chosen = positive ? _perkPair.positive : _perkPair.negative;
+        PerkBase chosen = positive ? selectedPair.positive : selectedPair.negative;
 
         PerkController controller = FindFirstObjectByType<PerkController>();
         if (controller != null)
         {
             if (positive)
             {
-                controller.AddPerk(_perkPair.positive);
+                controller.AddPerk(selectedPair.positive);
             }
             else
             {
-                controller.AddNegativePerk(_perkPair.negative, _perkPair.positive);
+                controller.AddNegativePerk(selectedPair.negative, selectedPair.positive);
             }
 
             NotificationUI.Instance?.ShowMessage(
                 $"You obtained {chosen.name}"
             );
-            if (!positive) _grantedNegative = _perkPair.negative;
+            if (!positive) _grantedNegative = selectedPair.negative;
         }
 
         Lock();

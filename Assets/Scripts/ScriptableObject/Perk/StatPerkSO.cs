@@ -33,10 +33,23 @@ public class StatPerkSO : PerkBase
 
     public override string Description()
     {
-        string modValue = modifierType == ModifierType.Flat
+        string modValue;
+        if (statType == StatType.AttackRate || statType == StatType.DodgeCoolDown)
+        {
+            modValue = modifierType == ModifierType.Flat
+           ? value.ToString()
+           : (value * -100).ToString("F0") + "%";
+        }
+        else
+        {
+            modValue = modifierType == ModifierType.Flat
             ? value.ToString()
             : (value * 100).ToString("F0") + "%";
-
-        return $"{statType} {(modifierType == ModifierType.Flat ? "+" : "")}{modValue}";
+        }
+        if (value > 0 && modifierType == ModifierType.Flat)
+        {
+            modValue = "+" + modValue;
+        }
+        return $"{statType}{modValue}";
     }
 }

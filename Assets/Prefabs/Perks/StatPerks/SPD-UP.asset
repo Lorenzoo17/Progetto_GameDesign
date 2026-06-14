@@ -15,8 +15,8 @@ MonoBehaviour:
   perkName: SPD UP
   pair: {fileID: 0}
   icon: {fileID: -4186830660737919498, guid: 5e143aa9e43d6bf42ac923f180e71657, type: 3}
-  description: 
+  isHidden: 0
   perkLootData: {fileID: 0}
   statType: 2
   modifierType: 1
-  value: 0.5
+  value: -0.2

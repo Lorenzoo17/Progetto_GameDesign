@@ -16,9 +16,9 @@ public class PerkPickupSpawner : MonoBehaviour
 
     private void SpawnPickup()
     {
-        if (perkPairPool == null || perkPairPool.Length == 0)
+        if (perkPairPool == null || perkPairPool.Length < 3)
         {
-            Debug.LogWarning("PerkPickupSpawner: no PerkPairs assigned.");
+            Debug.LogWarning("PerkPickupSpawner: serve un pool di almeno 3 PerkPairs.");
             return;
         }
 
@@ -28,12 +28,11 @@ public class PerkPickupSpawner : MonoBehaviour
             return;
         }
 
-        // Pick a random pair from the pool usando System.Random
-        PerkPair chosen = perkPairPool[random.Next(0, perkPairPool.Length)];
+        // Seleziona 3 perkpair casuali senza duplicati
+        PerkPair[] chosenPairs = SelectRandomPairs(3);
 
         // Instantiate and wire up
         GameObject go = Instantiate(perkPickupPrefab, transform.position, Quaternion.identity);
-
 
         if (go.TryGetComponent(out PerkPickup pickup))
         {
@@ -41,7 +40,39 @@ public class PerkPickupSpawner : MonoBehaviour
             if (room == null)
                 Debug.LogWarning("PerkPickupSpawner: no RoomBehaviour found in parent.");
 
-            pickup.SetUp(chosen, room);
+            pickup.SetUp(chosenPairs, room);
         }
+    }
+
+    // Seleziona N perkpair casuali dal pool senza duplicati
+    private PerkPair[] SelectRandomPairs(int count)
+    {
+        PerkPair[] result = new PerkPair[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            bool foundUnique = false;
+            PerkPair candidate = null;
+
+            while (!foundUnique)
+            {
+                candidate = perkPairPool[random.Next(0, perkPairPool.Length)];
+
+                // Controlla che non sia già stata selezionata
+                foundUnique = true;
+                for (int j = 0; j < i; j++)
+                {
+                    if (result[j] == candidate)
+                    {
+                        foundUnique = false;
+                        break;
+                    }
+                }
+            }
+
+            result[i] = candidate;
+        }
+
+        return result;
     }
 }

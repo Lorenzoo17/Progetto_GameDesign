@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ManaRegenerationPerkSO
   perkName: 
   pair: {fileID: 0}
-  icon: {fileID: 0}
-  description: 
+  icon: {fileID: 1337733336285566472, guid: e940a0b5a481a194eba6e6a112261109, type: 3}
+  isHidden: 0
   perkLootData: {fileID: 0}
   roomsRequired: 3
   manaToRestore: 2
