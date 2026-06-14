@@ -32606,6 +32606,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4501689439358708321}
     m_Modifications:
+    - target: {fileID: 2054935269367069734, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.92
+      objectReference: {fileID: 0}
     - target: {fileID: 5082407026174576861, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
       propertyPath: m_Name
       value: TreasureBox

@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   maxHealth: 20
-  resetsSceneOnDeath: 0
+  isBoss: 0
   levelLoader: {fileID: 0}
   defense: 0
 --- !u!114 &8578095146413155191
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   stunDurationMultiplier: 1
-  knockBackForce: 10
+  knockBackForce: 2
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
   blinkAfterDamageTime: 5
@@ -294,6 +294,13 @@ MonoBehaviour:
   randomOffsetDistance: 1
   changeRandomOffsetTime: 3
   knockbackResistance: 10
+  wanderRadius: 5
+  wanderRepathTime: 2
+  wanderPointReachedDistance: 0.1
+  navMeshSampleDistance: 2
+  maxWanderPointAttempts: 10
+  maxDistanceFromSpawn: 8
+  minDistanceFromNavMeshEdge: 0.5
   obstacleLayerMask:
     serializedVersion: 2
     m_Bits: 64

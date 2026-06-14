@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Lader_data
   m_EditorClassIdentifier: Assembly-CSharp::WeaponLootData
   id: 4
-  price: 100
+  price: 25
   prefab: {fileID: 6440760680909680636, guid: db8b9590606571f46b1ced7fab3fab79, type: 3}
   unlockedByDefault: 0

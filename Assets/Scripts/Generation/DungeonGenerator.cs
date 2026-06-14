@@ -89,8 +89,9 @@ public class DungeonGenerator : MonoBehaviour {
         // first room
         validCells.Remove(startCell);
 
-        // Boss nella stanza più lontana
-        int bossCell = GetFarthestCell();
+        // int bossCell = GetFarthestCell(); // come era prima
+        // Boss nella stanza più lontana che e' un deadEnd (una sola porta di accesso)
+        int bossCell = GetFarthestDeadEndCell();
 
         validCells.Remove(bossCell);
 
@@ -137,6 +138,7 @@ public class DungeonGenerator : MonoBehaviour {
 
                 newRoom.SetGridPosition(new Vector2Int(i, j));
                 newRoom.UpdateRoom(currentCell.status);
+                newRoom.BakeRoomNavMesh(); // faccio il bake qui
 
                 newRoom.name += $" {i}-{j}";
 
@@ -326,5 +328,51 @@ public class DungeonGenerator : MonoBehaviour {
         if (index < 0 || index >= board.Count) return null;
 
         return board[index].status;
+    }
+
+    private int CountOpenDoors(Cell cell) {
+        int count = 0;
+
+        for (int i = 0; i < cell.status.Length; i++) {
+            if (cell.status[i]) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    int GetFarthestDeadEndCell() {
+        int bestIndex = -1;
+        float maxDist = 0f;
+
+        int centerX = size.x / 2;
+        int centerY = size.y / 2;
+
+        for (int i = 0; i < board.Count; i++) {
+            if (!board[i].visited) continue;
+            if (i == startCell) continue;
+
+            // Boss room solo in stanze con UNA sola porta
+            if (CountOpenDoors(board[i]) != 1) continue;
+
+            int x = i % size.x;
+            int y = i / size.x;
+
+            float dist = Mathf.Abs(x - centerX) + Mathf.Abs(y - centerY);
+
+            if (dist > maxDist) {
+                maxDist = dist;
+                bestIndex = i;
+            }
+        }
+
+        // Fallback: se per qualche motivo non trova dead-end, usa il vecchio metodo
+        if (bestIndex == -1) {
+            Debug.LogWarning("Nessuna stanza dead-end trovata per la boss room. Uso la stanza più lontana normale.");
+            return GetFarthestCell();
+        }
+
+        return bestIndex;
     }
 }

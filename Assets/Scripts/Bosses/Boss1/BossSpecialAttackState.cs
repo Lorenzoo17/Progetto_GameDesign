@@ -11,10 +11,8 @@ public class BossSpecialAttackState : State<BossCtrl>
     [SerializeField] private int projectilesPerPipe = 5;
     [SerializeField] private float fireRate = 0.3f;
     [SerializeField] private float delayBetweenPipes = 0.2f;
-    [SerializeField] private float pipeProjectileSpeed = 15f;
 
-    [Header("Impostazioni Proiettile")]
-    [SerializeField] private GameObject bossProjectilePrefab;
+    [Header("Impostazioni Animazione")]
     [SerializeField] private float anticipationDelay = 0.4f;
 
     private PipeManager pipeManager;
@@ -47,16 +45,16 @@ public class BossSpecialAttackState : State<BossCtrl>
         _runner.specialAttackActive = true;
         float healthRatio = _runner.Health.GetHealthPercentage() / 100f;
 
-        int maxPipes = 4;
+        int maxPipes = 8;
         if (healthRatio <= 0.30f) maxPipes = 12;
-        else if (healthRatio <= 0.60f) maxPipes = 8;
+        else if (healthRatio <= 0.60f) maxPipes = 10;
 
         timesAttacked = maxPipes;
         Transform lastPipe = null;
 
         for (int i = 0; i < maxPipes; i++)
         {
-            Transform selectedPipe = pipeManager.GetRandomPipe();
+            Transform selectedPipe = pipeManager.GetRandomAvailablePipe();
 
             if (selectedPipe != null)
             {
@@ -70,19 +68,15 @@ public class BossSpecialAttackState : State<BossCtrl>
                 _runner.transform.position = shootPos - bossOffset;
                 Physics2D.SyncTransforms();
 
-                // Lancia la Coroutine indipendente che spara
                 _runner.StartCoroutine(ShootFromPipeRoutine(shootPos, shootDirection));
             }
 
-            // Aspetta il tempo di viaggio tra un tubo e l'altro
             yield return new WaitForSeconds(delayBetweenPipes);
         }
 
-        // Aspetta che l'ULTIMO tubo abbia finito di sparare i suoi proiettili
         float waitRemaining = projectilesPerPipe * fireRate;
         yield return new WaitForSeconds(waitRemaining);
 
-        // Aggancio sicuro alla NavMesh (Lasciando il boss ancora invisibile dietro le quinte)
         if (_runner.Agent != null)
         {
             _runner.Agent.enabled = true;
@@ -90,8 +84,6 @@ public class BossSpecialAttackState : State<BossCtrl>
             if (UnityEngine.AI.NavMesh.SamplePosition(_runner.transform.position, out UnityEngine.AI.NavMeshHit hit, 5.0f, _runner.Agent.areaMask))
             {
                 _runner.transform.position = hit.position;
-
-                
                 _runner.Agent.nextPosition = hit.position;
             }
             _runner.Agent.updatePosition = true;
@@ -99,7 +91,7 @@ public class BossSpecialAttackState : State<BossCtrl>
         }
 
         attackCompleted = true;
-        yield return new WaitForSeconds(0.05f); // Piccolo break di sicurezza restando invisibile
+        yield return new WaitForSeconds(0.05f);
         _runner.AnimActionComplete = true;
         _runner.specialAttackActive = false;
     }
@@ -116,7 +108,7 @@ public class BossSpecialAttackState : State<BossCtrl>
     private void ShootProjectile(Vector2 direction, Vector3 spawnPos)
     {
         if (_runner.Shooter is ProjectileShooterBoss bossShooter)
-            bossShooter.ShootPipeProjectile(_runner.gameObject, direction, pipeProjectileSpeed, spawnPos);
+            bossShooter.ShootPipeProjectile(_runner.gameObject, direction, spawnPos); // Solo parametri di base passati!
         else
             _runner.Shooter.ShootLinear(_runner.gameObject, direction);
     }

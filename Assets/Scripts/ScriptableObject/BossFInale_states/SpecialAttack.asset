@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f89ee012e50df4bbf9b85a3e6fb38a, type: 3}
   m_Name: SpecialAttack
   m_EditorClassIdentifier: Assembly-CSharp::BossSpecialAttackState
-  projectilesPerPipe: 5
+  projectilesPerPipe: 10
   fireRate: 0.5
   delayBetweenPipes: 0.5
+  pipeProjectileSpeed: 5
   bossProjectilePrefab: {fileID: 5887688937532165023, guid: 8cb0ad047f19d8d4a83fba6b2d23bd46, type: 3}
-  projectileSpeed: 10
   anticipationDelay: 0.65

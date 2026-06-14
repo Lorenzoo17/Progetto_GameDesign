@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SpawnItems : MonoBehaviour {
     public static SpawnItems Instance { get; private set; }
@@ -17,6 +18,7 @@ public class SpawnItems : MonoBehaviour {
     // nemico, o altro, droppi un oggetto
 
     [SerializeField] private DropItem[] dropItems;
+    [SerializeField] private DropItem[] dropItemsBosses;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -37,7 +39,7 @@ public class SpawnItems : MonoBehaviour {
         if (Random.value > chance)
             return;
 
-        GameObject selectedPrefab = GetRandomItem(); // si seleziona oggetto da spawnare in base ai pesi
+        GameObject selectedPrefab = GetRandomItem(dropItems); // si seleziona oggetto da spawnare in base ai pesi
 
         if (selectedPrefab == null)
             return;
@@ -45,11 +47,26 @@ public class SpawnItems : MonoBehaviour {
         Instantiate(selectedPrefab, position, Quaternion.identity);
     }
 
-    private GameObject GetRandomItem() {
+    public void SpawnItemBoss(Vector2 position) {
+        float chance = 1f; // drop al 100%
+
+        // possibilità generale che esca QUALCOSA
+        if (Random.value > chance)
+            return;
+
+        GameObject selectedPrefab = GetRandomItem(dropItemsBosses); // si seleziona oggetto da spawnare in base ai pesi
+
+        if (selectedPrefab == null)
+            return;
+
+        Instantiate(selectedPrefab, position, Quaternion.identity);
+    }
+
+    private GameObject GetRandomItem(DropItem[] pool) {
         // si calcola totale dei pesi
         float totalWeight = 0f;
 
-        foreach (DropItem item in dropItems) {
+        foreach (DropItem item in pool) {
             if (item.prefab != null) {
                 totalWeight += item.weight;
             }
@@ -63,7 +80,7 @@ public class SpawnItems : MonoBehaviour {
         float currentWeight = 0f;
 
         // per ogni oggetto
-        foreach (DropItem item in dropItems) {
+        foreach (DropItem item in pool) {
             if (item.prefab == null)
                 continue;
 

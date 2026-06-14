@@ -17,9 +17,8 @@ public class TransformationMutagenSO : MutagenSO
     public Color playerTintColor = Color.white;
 
     public override bool Activate(
-        Player player,
-        MutagenInstance instance)
-    {
+    Player player,
+    MutagenInstance instance) {
         PerkController perkController =
             player.GetComponent<PerkController>();
 
@@ -28,35 +27,35 @@ public class TransformationMutagenSO : MutagenSO
 
         List<PerkBase> addedPerks = new();
 
-        foreach (PerkBase perk in perks)
-        {
+        foreach (PerkBase perk in perks) {
             if (perk == null)
                 continue;
 
             PerkBase runtimePerk = Instantiate(perk);
             runtimePerk.isHidden = true;
-            GameObject aura =
-                Instantiate(
-                    auraPrefab,
-                    player.transform);
-            AuraVisual visual =
-                aura.GetComponent<AuraVisual>();
 
-            visual.Initialize(
-                auraGradient,
-                gradientSpeed);
             perkController.AddPerk(runtimePerk);
             addedPerks.Add(runtimePerk);
         }
 
         instance.runtimeData["perks"] = addedPerks;
 
-        if (auraPrefab != null)
-        {
+        if (auraPrefab != null) {
             GameObject visual =
                 Instantiate(
                     auraPrefab,
                     player.transform);
+
+            visual.transform.localPosition = Vector3.zero;
+
+            AuraVisual auraVisual =
+                visual.GetComponent<AuraVisual>();
+
+            if (auraVisual != null) {
+                auraVisual.Initialize(
+                    auraGradient,
+                    gradientSpeed);
+            }
 
             instance.runtimeData["visual"] = visual;
         }
@@ -103,8 +102,10 @@ public class TransformationMutagenSO : MutagenSO
             GameObject visual =
                 visualObj as GameObject;
 
-            if (visual != null)
+            if (visual != null) {
+                Debug.Log("$DISTRUZIONE DI " + visual);
                 Destroy(visual);
+            }
         }
     }
 

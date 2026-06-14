@@ -161,14 +161,16 @@ MonoBehaviour:
   colliderReactivateDelay: 1
   shadow: {fileID: 5324186676920884601}
   initialZRotation: 0
+  weaponAttackRateSlowdown: 0
   visual: {fileID: 4307620193044706028}
   floatAmplitude: 0.08
   floatSpeed: 2.5
   weaponLootData: {fileID: 11400000, guid: 573a3dfc634a0bd45ba24af9a8c027d3, type: 2}
   weaponRotationOffsetZ: 90
   projectileShooter: {fileID: 0}
-  curvedProjectile: 0
+  shootingType: 0
   curvedProjectileRange: 0
+  projectileNumber: 0
 --- !u!114 &6181488898024949763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,9 +185,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileShooter
   projectilePrefab: {fileID: 1771740914817530386, guid: 3b2b847428ee6e943966c83c467c605f, type: 3}
   firePoint: {fileID: 5240355662894640881}
-  damage: 8
+  damage: 6
   projectileSpeed: 8
-  projectileRange: 8
+  projectileRange: 3
   projectileMaxHeight: 1
   trajectoryAnimationCurve:
     serializedVersion: 2

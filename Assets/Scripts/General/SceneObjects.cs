@@ -3,7 +3,7 @@ using UnityEngine;
 public class SceneObjects : MonoBehaviour, IDamageable
 {
     private Animator anim;
-    [SerializeField] private float itemDropChance = 0.2f;
+    [SerializeField] private float itemDropChance = 0.3f;
     [SerializeField] private bool spawnOnStart;
     [SerializeField] private Transform spawnTransform;
     private void Awake()

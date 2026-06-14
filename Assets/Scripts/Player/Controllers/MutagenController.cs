@@ -344,4 +344,12 @@ public class MutagenController : MonoBehaviour
     {
         OnMutagenStateChanged?.Invoke();
     }
+
+    private void OnDisable() {
+        UnregisterInput();
+    }
+
+    private void OnDestroy() {
+        UnregisterInput();
+    }
 }

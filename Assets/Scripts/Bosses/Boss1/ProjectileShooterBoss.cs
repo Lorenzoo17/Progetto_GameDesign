@@ -5,17 +5,19 @@ public class ProjectileShooterBoss : ProjectileShooter
     [Header("Impostazioni Specifiche Boss")]
     [SerializeField] private GameObject pozzaPrefab;
     [SerializeField] private GameObject impactPrefab;
-
-    [Header("Distanza Attacco Normale (Ranged State)")]
-    [SerializeField] private float minNormalProjectileRange = 4f;
-   
-
-    [SerializeField] private float minProjectileLifeTime = 0.4f;
-    [SerializeField] private float projectileLifeTime = 0.8f;
     [SerializeField] private float poolDuration = 3f;
 
+    [Header("Attacco Normale (Ranged State)")]
+    [SerializeField] private float normalProjectileSpeed = 8f;
+    [SerializeField] private float minNormalProjectileRange = 10f;
+    [SerializeField] private float maxNormalProjectileRange = 15f;
+
+    [Header("Attacco Tubi (Special State)")]
+    [SerializeField] private float pipeProjectileSpeed = 15f;
+    [SerializeField] private float pipeProjectileRange = 25f;
+
     // ATTACCO A DISTANZA NORMALE
-    public void ShootBossProjectile(GameObject owner, Vector2 direction, float maxRange)
+    public void ShootBossProjectile(GameObject owner, Vector2 direction)
     {
         if (projectilePrefab == null)
         {
@@ -33,25 +35,22 @@ public class ProjectileShooterBoss : ProjectileShooter
         {
             BossCtrl boss = owner.GetComponent<BossCtrl>();
 
-            // Calcola una distanza casuale e la converte in tempo di volo (Lifetime = Spazio / Velocità)
-            float randomDistance = Random.Range(minNormalProjectileRange, maxRange);
-            randomDistance = Mathf.Ceil(randomDistance);
-            //Debug.Log($"[SHOOTER BOSS] Distanza casuale per il proiettile: {randomDistance}");
-            float customLifeTime = randomDistance / projectileSpeed;
-
+            // Sceglie una distanza esatta che il proiettile dovrà percorrere
+            float targetDistance = Mathf.Ceil(Random.Range(minNormalProjectileRange, maxNormalProjectileRange));
+            Debug.Log($"[SHOOTER BOSS] Proiettile normale lanciato con distanza target: {targetDistance}");
             projScript.InitializeBossProjectile(
-                owner, direction, projectileSpeed, damage,
-                pozzaPrefab, impactPrefab, poolDuration, customLifeTime, boss
+                owner, direction, normalProjectileSpeed, damage,
+                pozzaPrefab, impactPrefab, poolDuration, targetDistance, boss
             );
         }
         else
         {
             Debug.LogError("Il prefab del proiettile non ha lo script BossAcidProjectile!");
         }
-    }       
+    }
 
     // ATTACCO TUBI
-    public void ShootPipeProjectile(GameObject owner, Vector2 direction, float customSpeed, Vector3 spawnPos)
+    public void ShootPipeProjectile(GameObject owner, Vector2 direction, Vector3 spawnPos)
     {
         if (projectilePrefab == null) return;
 
@@ -63,11 +62,10 @@ public class ProjectileShooterBoss : ProjectileShooter
         if (proj.TryGetComponent<BossAcidProjectile>(out BossAcidProjectile projScript))
         {
             BossCtrl boss = owner.GetComponent<BossCtrl>();
-            float randomLifeTime = Random.Range(minProjectileLifeTime, projectileLifeTime);
-
+            
             projScript.InitializeBossProjectile(
-                owner, direction, customSpeed, damage,
-                pozzaPrefab, impactPrefab, poolDuration, randomLifeTime, boss
+                owner, direction, pipeProjectileSpeed, damage,
+                pozzaPrefab, impactPrefab, poolDuration, pipeProjectileRange, boss
             );
 
             projScript.EnablePipeMode();

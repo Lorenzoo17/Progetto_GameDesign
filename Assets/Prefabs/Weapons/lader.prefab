@@ -261,6 +261,7 @@ MonoBehaviour:
   meleeAttackEffectSize: 2
   weaponBaseRange: 2
   weaponBaseDamage: 15
+  weaponKnockBackStrenght: 8
   hasPoison: 0
   poisonDamage: 0
 --- !u!1 &7350762406063032451

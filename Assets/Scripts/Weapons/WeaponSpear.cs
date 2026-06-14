@@ -9,6 +9,7 @@ public class WeaponSpear : Weapon
     [SerializeField] private float weaponBaseDamage = 2.5f;
     [SerializeField] private GameObject spearAttackEffect;
     [SerializeField] private float weaponRotationOffsetZ = 0f;
+    [SerializeField] private float knockBackStrenght = 5f;
 
     [Header("Thrust Animation")]
     [SerializeField] private float thrustDistance = 0.5f; // Quanto avanza
@@ -46,7 +47,7 @@ public class WeaponSpear : Weapon
                 {
                     hitEnemiesThisAttack.Add(hit.collider.gameObject);
 
-                    DamageInfo damageInfo = new DamageInfo(weaponBaseDamage + Player.Instance.playerStats.playerCurrentStats.getAttack(), dir, Player.Instance.gameObject, EntityType.Player);
+                    DamageInfo damageInfo = new DamageInfo(weaponBaseDamage + Player.Instance.playerStats.playerCurrentStats.getAttack(), dir, Player.Instance.gameObject, EntityType.Player, knockBackStrenght);
                     damageInfo = Player.Instance.perkController.OnDealDamage(ref damageInfo);
                     entityDamageable.TakeDamage(damageInfo);
                 }

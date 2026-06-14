@@ -15,7 +15,7 @@ public class ProjectileShooter : MonoBehaviour {
     
     [SerializeField] protected float damage = 1f;
     [SerializeField] protected float projectileSpeed = 8f;
-    [SerializeField] private float projectileRange = 8f;
+    [SerializeField] private float projectileRange = 16f;
 
     [SerializeField] private float projectileMaxHeight = 1f;
     [SerializeField] private AnimationCurve trajectoryAnimationCurve;
@@ -38,7 +38,7 @@ public class ProjectileShooter : MonoBehaviour {
 
         if (projectileObj.TryGetComponent<LinearProjectile>(out LinearProjectile projectile))
         {
-            projectile.InitializeLinearProjectile(owner, direction, projectileSpeed, damage);
+            projectile.InitializeLinearProjectile(owner, direction, projectileSpeed, damage, projectileRange);
         }
     }
 
@@ -48,7 +48,7 @@ public class ProjectileShooter : MonoBehaviour {
         GameObject projectileObj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
 
         if (projectileObj.TryGetComponent<FollowProjectile>(out FollowProjectile projectile)) {
-            projectile.InitializeFollowProjectile(owner, direction, projectileSpeed, damage);
+            projectile.InitializeFollowProjectile(owner, direction, projectileSpeed, damage, projectileRange);
         }
     }
 
@@ -111,7 +111,7 @@ public class ProjectileShooter : MonoBehaviour {
 
             if (projectileObj.TryGetComponent<LinearProjectile>(out LinearProjectile projectile))
             {
-                projectile.InitializeLinearProjectile(owner, direction, projectileSpeed, damage);
+                projectile.InitializeLinearProjectile(owner, direction, projectileSpeed, damage, projectileRange);
             }
         }
     }
@@ -170,7 +170,8 @@ public class ProjectileShooter : MonoBehaviour {
                     owner,
                     direction,
                     projectileSpeed,
-                    damage
+                    damage,
+                    projectileRange
                 );
             }
         }

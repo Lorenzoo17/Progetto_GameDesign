@@ -317,7 +317,7 @@ MonoBehaviour:
   baseStats:
     attack: 5
     attackRate: 0.7
-    baseMoveSpeed: 5
+    baseMoveSpeed: 5.5
     currentMoveSpeed: 0
     dodgeCooldown: 1
     poisonDamage: 0

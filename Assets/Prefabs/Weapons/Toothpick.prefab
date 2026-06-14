@@ -113,6 +113,7 @@ MonoBehaviour:
   colliderReactivateDelay: 1
   shadow: {fileID: 0}
   initialZRotation: 0
+  weaponAttackRateSlowdown: 0
   visual: {fileID: 7694883290317107628}
   floatAmplitude: 0.08
   floatSpeed: 2.5
@@ -122,6 +123,7 @@ MonoBehaviour:
   weaponBaseDamage: 7
   spearAttackEffect: {fileID: 3889822275876523747, guid: 8b04b2f9efc696640befcb554594cfdb, type: 3}
   weaponRotationOffsetZ: 0
+  knockBackStrenght: 7
   thrustDistance: 0.5
   thrustForwardDuration: 0.15
   thrustBackDuration: 0.1

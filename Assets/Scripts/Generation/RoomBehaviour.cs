@@ -67,7 +67,7 @@ public class RoomBehaviour : MonoBehaviour {
             roomCentre = transform;
         }
 
-        BakeRoomNavMesh();
+        // BakeRoomNavMesh(); // fatto in dungeon generator
     }
 
     public void MarkAsVisited() {
@@ -186,14 +186,13 @@ public class RoomBehaviour : MonoBehaviour {
     public void BakeRoomNavMesh() {
         if (navSurface == null) {
             navSurface = GetComponentInChildren<NavMeshSurface>();
-
-            if (navSurface != null) {
-                navSurface.BuildNavMesh();
-
-            }
-            else {
-                Debug.LogWarning($"NavMeshSurface non trovata nella stanza {name}");
-            }
         }
+
+        if (navSurface == null) {
+            Debug.LogWarning($"NavMeshSurface non trovata nella stanza {name}");
+            return;
+        }
+
+        navSurface.BuildNavMesh();
     }
 }

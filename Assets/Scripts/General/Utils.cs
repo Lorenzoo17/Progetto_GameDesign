@@ -27,13 +27,14 @@ public class DamageInfo
 {
     public Dictionary<DamageType, float> Damage { get; set; }
     public Vector2 Direction { get; set; }
+    public float KnockBackStrenght { get; set; }
     public GameObject Source { get; set; }
     public EntityType SourceFaction { get; set; }
 
     // Traccia gli effetti applicati dai perk
     public List<string> AppliedEffects { get; set; } = new();
 
-    public DamageInfo(float damage, Vector2 direction, GameObject source, EntityType sourceFaction)
+    public DamageInfo(float damage, Vector2 direction, GameObject source, EntityType sourceFaction, float knockBackStrenght = 0f)
     {
         Damage = new Dictionary<DamageType, float>
         {
@@ -41,6 +42,7 @@ public class DamageInfo
             { DamageType.Poison, 0f }
         };
         Direction = direction;
+        KnockBackStrenght = knockBackStrenght;
         Source = source;
         SourceFaction = sourceFaction;
     }

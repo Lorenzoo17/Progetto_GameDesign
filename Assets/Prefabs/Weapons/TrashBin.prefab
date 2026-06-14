@@ -187,7 +187,7 @@ MonoBehaviour:
   firePoint: {fileID: 5240355662894640881}
   damage: 3
   projectileSpeed: 8
-  projectileRange: 8
+  projectileRange: 3.5
   projectileMaxHeight: 1
   trajectoryAnimationCurve:
     serializedVersion: 2

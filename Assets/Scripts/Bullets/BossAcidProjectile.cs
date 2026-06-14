@@ -24,6 +24,11 @@ public class BossAcidProjectile : ProjectileBase
 
     private bool ignoreWallsTemporarily = false;
 
+    // --- NUOVE VARIABILI LOGICA DISTANZA ---
+    private Vector3 startPosition;
+    private float targetDistance;
+    private bool groundHitTriggered = false; // Sicurezza per evitare 2 pozze generate nello stesso frame
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -31,14 +36,18 @@ public class BossAcidProjectile : ProjectileBase
 
     public void InitializeBossProjectile(
         GameObject owner, Vector2 direction, float speed, float damage,
-        GameObject pozza, GameObject impact, float poolDur, float lifeTime, BossCtrl boss)
+        GameObject pozza, GameObject impact, float poolDur, float distance, BossCtrl boss)
     {
-        base.InitializeProjectile(owner, direction, damage);
+        // 9999f tiene alla larga il ProjectileBase.cs
+        base.InitializeProjectile(owner, direction, damage, 9999f);
 
         pozzaPrefab = pozza;
         impactPrefab = impact;
         poolDuration = poolDur;
         bossInRoom = boss;
+        targetDistance = distance;
+
+        startPosition = transform.position; // Registra da dove parte
         isInitializedForBoss = true;
 
         if (rb != null)
@@ -50,8 +59,6 @@ public class BossAcidProjectile : ProjectileBase
         {
             shadow.localPosition = (Vector3)initialShadowOffset;
         }
-
-        Invoke(nameof(HitGround), lifeTime);
     }
 
     public void EnablePipeMode()
@@ -68,6 +75,8 @@ public class BossAcidProjectile : ProjectileBase
 
     private void Update()
     {
+        if (!isInitializedForBoss || groundHitTriggered) return;
+
         if (shadow != null)
         {
             shadow.localPosition = Vector3.Lerp(shadow.localPosition, Vector3.zero, shadowInterpolationValue * Time.deltaTime);
@@ -77,11 +86,18 @@ public class BossAcidProjectile : ProjectileBase
         {
             transform.right = rb.linearVelocity;
         }
+
+        // --- IL NUOVO CONTROLLO DELLO SPAZIO ---
+        // Se ha percorso tutti i metri che doveva percorrere, atterra!
+        if (Vector3.Distance(startPosition, transform.position) >= targetDistance)
+        {
+            HitGround();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!isInitializedForBoss) return;
+        if (!isInitializedForBoss || groundHitTriggered) return;
         if (other.GetComponent<ICollectible>() != null) return;
         if (other.gameObject == owner || other.GetComponentInParent<BossCtrl>() != null || other.GetComponent<Enemy>() != null) return;
 
@@ -89,8 +105,6 @@ public class BossAcidProjectile : ProjectileBase
         {
             if (ignoreWallsTemporarily) return;
 
-            //Debug.Log($"[BOSS ACID PROJECTILE] Hit {other.gameObject.name} and will be destroyed due to layer mask!");
-            CancelInvoke();
             HitGround();
             return;
         }
@@ -103,15 +117,16 @@ public class BossAcidProjectile : ProjectileBase
             {
                 bossInRoom.ReportPlayerHit();
             }
-            //Debug.Log($"[BOSS ACID PROJECTILE] Hit {other.gameObject.name} and dealt damage!");
-            CancelInvoke();
             HitGround();
         }
     }
 
     private void HitGround()
     {
-        //Debug.Log("[BOSS ACID PROJECTILE] HitGround called!");
+        // Rete di sicurezza per non spawnare la pozza due volte per errore
+        if (groundHitTriggered) return;
+        groundHitTriggered = true;
+
         Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y, 0f);
         Quaternion pozzaRotation = Quaternion.Euler(0, 0, -90f);
 
@@ -129,6 +144,7 @@ public class BossAcidProjectile : ProjectileBase
                 poolScript.StartLifeCycle(poolDuration);
             }
         }
+
         Destroy(gameObject);
     }
 }
