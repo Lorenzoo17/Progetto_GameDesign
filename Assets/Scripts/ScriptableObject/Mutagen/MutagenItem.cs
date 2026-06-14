@@ -23,35 +23,12 @@ public class MutagenItem : MonoBehaviour, ICollectible{
     private Vector3 idleStartPosition;
     private Player nearbyPlayer;
     private MutagenController mutagenController;
+
     private void Start() {
         initialZRotation = transform.eulerAngles.z;
         idleStartPosition = transform.position;
         if(visual == null) {
             visual = transform;
-        }
-    }
-
-    private void OnEnable()
-    {
-        if (InputManager.Instance != null)
-        {
-            InputManager.Instance.OnInteractEvent += HandleInteract;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (InputManager.Instance != null)
-        {
-            InputManager.Instance.OnInteractEvent -= HandleInteract;
-        }
-    }
-
-    private void HandleInteract(object sender, System.EventArgs e)
-    {
-        if (nearbyPlayer != null && !pickedUp && mutagenData != null)
-        {
-            Collect(nearbyPlayer);
         }
     }
 
@@ -187,7 +164,7 @@ public class MutagenItem : MonoBehaviour, ICollectible{
         Collider2D col = GetComponent<Collider2D>();
 
         if (col != null)
-            col.enabled = false;
+            col.enabled = false;      
     }
 
 }
