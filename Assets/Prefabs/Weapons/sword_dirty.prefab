@@ -159,7 +159,7 @@ MonoBehaviour:
   colliderReactivateDelay: 1
   shadow: {fileID: 5029246468241187113}
   initialZRotation: 0
-  weaponAttackRateSlowdown: 0
+  weaponAttackRateSlowdown: -0.1
   visual: {fileID: 2083888244942294052}
   floatAmplitude: 0.08
   floatSpeed: 2.5
