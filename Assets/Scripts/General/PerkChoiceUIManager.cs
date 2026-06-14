@@ -1,20 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PerkChoiceUIManager : MonoBehaviour
-{
+public class PerkChoiceUIManager : MonoBehaviour {
     public static PerkChoiceUIManager Instance { get; private set; }
 
     [SerializeField] private GameObject perkChoiceUIPrefab;
     private GameObject currentUI;
     private PerkChoiceUIController currentController;
 
-    private void Awake()
-    {
+    public bool IsShowing => currentController != null && currentController.IsOpen;
+
+    private void Awake() {
         Debug.Log("🔧 PerkChoiceUIManager.Awake()");
 
-        if (Instance != null)
-        {
+        if (Instance != null) {
             Debug.Log("⚠️ PerkChoiceUIManager già esiste, distruggo questo");
             Destroy(gameObject);
             return;
@@ -25,25 +24,21 @@ public class PerkChoiceUIManager : MonoBehaviour
         Debug.Log("✅ PerkChoiceUIManager inizializzato");
     }
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         Debug.Log("📌 PerkChoiceUIManager.OnEnable()");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnDisable()
-    {
+    private void OnDisable() {
         Debug.Log("📌 PerkChoiceUIManager.OnDisable()");
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         Debug.Log($"🔄 Scena caricata: {scene.name}");
 
         // Distruggi l'UI vecchia quando cambi scena
-        if (currentUI != null)
-        {
+        if (currentUI != null) {
             Debug.Log("🗑️ Distruggo UI precedente");
             Destroy(currentUI);
             currentUI = null;
@@ -51,10 +46,14 @@ public class PerkChoiceUIManager : MonoBehaviour
         }
     }
 
-    public void ShowPerkChoices(PerkPair[] perkPairs, PerkPickup pickup)
-    {
-        if (perkChoiceUIPrefab == null)
-        {
+    public void ShowPerkChoices(PerkPair[] perkPairs, PerkPickup pickup) {
+        // Evita aperture multiple della stessa UI
+        if (IsShowing) {
+            Debug.LogWarning("⚠️ Perk UI già aperta, ignoro nuova apertura");
+            return;
+        }
+
+        if (perkChoiceUIPrefab == null) {
             Debug.LogError("❌ PerkChoiceUIManager: prefab non assegnato!");
             return;
         }
@@ -62,16 +61,14 @@ public class PerkChoiceUIManager : MonoBehaviour
         Debug.Log("🎯 ShowPerkChoices chiamato");
 
         // Istanzia il UI se non esiste
-        if (currentUI == null)
-        {
+        if (currentUI == null) {
             currentUI = Instantiate(perkChoiceUIPrefab);
             currentUI.transform.localScale = Vector3.one;
             currentUI.SetActive(true);
             currentUI.transform.SetAsLastSibling();
             currentController = currentUI.GetComponentInChildren<PerkChoiceUIController>(includeInactive: true);
 
-            if (currentController == null)
-            {
+            if (currentController == null) {
                 Debug.LogError("❌ PerkChoiceUIController non trovato!");
                 return;
             }
@@ -79,35 +76,29 @@ public class PerkChoiceUIManager : MonoBehaviour
 
             // ✅ IMPORTANTE: Attiva il Panel/uiRoot subito (non è automatico)
             Transform perkChoicePanel = currentUI.transform.Find("PerkChoicePanel");
-            if (perkChoicePanel != null)
-            {
+            if (perkChoicePanel != null) {
                 perkChoicePanel.gameObject.SetActive(true);
             }
         }
-        else
-        {
+        else {
             Debug.Log("♻️ currentUI esiste già, riuso");
         }
 
         // Mostra le scelte
         Debug.Log("📋 Chiamo ShowChoices...");
-        if (currentController != null)
-        {
+        if (currentController != null) {
             currentController.ShowChoices(perkPairs, pickup);
         }
     }
 
-    public void HideChoices()
-    {
+    public void HideChoices() {
         Debug.Log("👻 HideChoices chiamato");
 
-        if (currentController != null)
-        {
+        if (currentController != null) {
             currentController.HideChoices();
             Debug.Log("✅ HideChoices completato");
         }
-        else
-        {
+        else {
             Debug.LogWarning("⚠️ currentController è null");
         }
     }

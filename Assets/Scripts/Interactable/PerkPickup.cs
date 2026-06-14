@@ -1,8 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class PerkPickup : MonoBehaviour, IInteractable
-{
+public class PerkPickup : MonoBehaviour, IInteractable {
     [Header("Visuals")]
     [SerializeField] private GameObject activeVisual;
     [SerializeField] private GameObject lockedVisual;
@@ -18,10 +17,8 @@ public class PerkPickup : MonoBehaviour, IInteractable
     private RoomBehaviour _room;
     private System.Random random = new System.Random();
 
-    public void SetUp(PerkPair[] perkPairs, RoomBehaviour room)
-    {
-        if (perkPairs == null || perkPairs.Length != 3)
-        {
+    public void SetUp(PerkPair[] perkPairs, RoomBehaviour room) {
+        if (perkPairs == null || perkPairs.Length != 3) {
             Debug.LogError("PerkPickup.SetUp: deve ricevere esattamente 3 PerkPair");
             return;
         }
@@ -36,19 +33,22 @@ public class PerkPickup : MonoBehaviour, IInteractable
         _room.OnRoomCleared += HandleRoomCleared;
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() {
         if (_room == null) return;
         _room.OnRoomExit -= HandleRoomExit;
         _room.OnRoomCleared -= HandleRoomCleared;
     }
 
-    public void Interact()
-    {
+    public void Interact() {
+        // Evita di riaprire il pannello mentre è già aperto
+        if (PerkChoiceUIManager.Instance != null && PerkChoiceUIManager.Instance.IsShowing) {
+            Debug.LogWarning("⚠️ PerkChoiceUI già aperta, ignoro Interact");
+            return;
+        }
+
         Debug.Log($"🔑 PerkPickup.Interact() - _used: {_used}, _locked: {_locked}, _perkPairs: {(_perkPairs != null ? "OK" : "NULL")}");
 
-        if (_used || _locked || _perkPairs == null)
-        {
+        if (_used || _locked || _perkPairs == null) {
             Debug.LogWarning($"⚠️ Interact bloccato: _used={_used}, _locked={_locked}, _perkPairs={(_perkPairs != null)}");
             return;
         }
@@ -57,8 +57,7 @@ public class PerkPickup : MonoBehaviour, IInteractable
         PerkChoiceUIManager.Instance?.ShowPerkChoices(_perkPairs, this);
     }
 
-    public void SelectPerk(PerkPair selectedPair)
-    {
+    public void SelectPerk(PerkPair selectedPair) {
         if (selectedPair == null) return;
 
         _used = true;
@@ -67,49 +66,45 @@ public class PerkPickup : MonoBehaviour, IInteractable
         PerkBase chosen = positive ? selectedPair.positive : selectedPair.negative;
 
         PerkController controller = FindFirstObjectByType<PerkController>();
-        if (controller != null)
-        {
-            if (positive)
-            {
+        if (controller != null) {
+            if (positive) {
                 controller.AddPerk(selectedPair.positive);
             }
-            else
-            {
+            else {
                 controller.AddNegativePerk(selectedPair.negative, selectedPair.positive);
             }
 
             NotificationUI.Instance?.ShowMessage(
                 $"You obtained {chosen.name}"
             );
+
             if (!positive) _grantedNegative = selectedPair.negative;
         }
 
         Lock();
     }
 
-    public void ShowPrompt()
-    {
+    public void ShowPrompt() {
         if (_used || _locked || promptInterface == null) return;
         promptInterface.SetActive(true);
     }
 
-    public void HidePrompt()
-    {
+    public void HidePrompt() {
         if (promptInterface == null) return;
         promptInterface.SetActive(false);
     }
 
-    private void HandleRoomExit(object sender, System.EventArgs e)
-    {
+    private void HandleRoomExit(object sender, System.EventArgs e) {
         if (_used || _locked) return;
+
         NotificationUI.Instance?.ShowMessage(
             "You lost your chance"
         );
+
         Lock();
     }
 
-    private void HandleRoomCleared(object sender, System.EventArgs e)
-    {
+    private void HandleRoomCleared(object sender, System.EventArgs e) {
         if (_grantedNegative == null) return;
 
         PerkController controller = FindFirstObjectByType<PerkController>();
@@ -117,8 +112,7 @@ public class PerkPickup : MonoBehaviour, IInteractable
         _grantedNegative = null;
     }
 
-    private void Lock()
-    {
+    private void Lock() {
         _locked = true;
         HidePrompt();
 
