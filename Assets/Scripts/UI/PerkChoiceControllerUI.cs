@@ -10,12 +10,11 @@ public class PerkChoiceUIController : MonoBehaviour
 
     private PerkPickup _currentPickup;
     private PerkPair[] _perkPairs;
+    private float previousTimeScale = 1f;
 
     private void Start()
     {
-        // Assicurati che il root sia inattivo all'inizio
-        if (uiRoot != null)
-            uiRoot.SetActive(false);
+
     }
 
     public void ShowChoices(PerkPair[] perkPairs, PerkPickup pickup)
@@ -48,9 +47,15 @@ public class PerkChoiceUIController : MonoBehaviour
         // Mostra l'UI
         uiRoot.SetActive(true);
 
-        // ✅ Disattiva e riattiva per forzare il rendering
-        uiRoot.SetActive(false);
-        uiRoot.SetActive(true);
+        // Mettiamo in pausa il gioco
+        previousTimeScale = Time.timeScale;
+        Time.timeScale = 0f;
+
+        // Disabilitiamo gli input del player
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.inputEnabled = false;
+        }
     }
 
     private void OnPerkSelected(int slotIndex)
@@ -68,7 +73,17 @@ public class PerkChoiceUIController : MonoBehaviour
     public void HideChoices()
     {
         Debug.Log("❌ Nascondendo UI...");
+        // Riprendi il gioco
+        Time.timeScale = previousTimeScale;
+
+        // Riabilita gli input del player
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.inputEnabled = true;
+        }
+
         if (uiRoot != null)
             uiRoot.SetActive(false);
+
     }
 }

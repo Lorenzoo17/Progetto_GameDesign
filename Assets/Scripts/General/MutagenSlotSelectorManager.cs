@@ -17,9 +17,6 @@ public class MutagenSlotSelectorManager : MonoBehaviour
     private float previousTimeScale = 1f;
     private bool isSelectingSlot = false;
 
-    //[Header("Button Hover Settings")]
-    //SerializeField] private float selectedButtonScale = 1.15f;
-
     private MutagenController currentMutagenController;
 
     private void Awake() {
