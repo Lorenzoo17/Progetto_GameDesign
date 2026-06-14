@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MutagenController : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class MutagenController : MonoBehaviour
     {
         player = GetComponent<Player>();
         playerMana = GetComponent<PlayerMana>();
+        
     }
 
     public void RegisterInput()

@@ -24001,7 +24001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f327dd7b615753d4f80aa11d48b8cc34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NextBasementManager
-  nextBasementSceneName: Basement2_generation
+  nextBasementSceneName: Transition
   promptInterface: {fileID: 1577194962270691906}
   promptAnimationDuration: 0.15
   promptStartScale: 0.6

@@ -32201,7 +32201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460d4b6f77620fc49bf8a296badfc869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChangeScene
-  nextSceneName: Basement1_generation
+  nextSceneName: Transition
 --- !u!61 &844086466
 BoxCollider2D:
   m_ObjectHideFlags: 0

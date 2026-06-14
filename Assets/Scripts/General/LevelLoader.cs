@@ -29,8 +29,11 @@ public class LevelLoader : MonoBehaviour
         StartCoroutine(LoadLevel(currentSceneName));
     }
 
+    public static string previousSceneName { get; private set; }
     private System.Collections.IEnumerator LoadLevel(string sceneName)
     {
+        previousSceneName = SceneManager.GetActiveScene().name;
+        
         if (Player.Instance != null) {
             Player.Instance.playerMovement.StopPlayer();
         }

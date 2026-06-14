@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpawnPoint : MonoBehaviour
 {
@@ -7,5 +8,6 @@ public class SpawnPoint : MonoBehaviour
     private void Awake()
     {
         currentSpawn = transform;
+        
     }
 }
