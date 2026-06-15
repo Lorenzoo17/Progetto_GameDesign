@@ -45,6 +45,11 @@ public class BossSpecialAttackState : State<BossCtrl>
         _runner.specialAttackActive = true;
         float healthRatio = _runner.Health.GetHealthPercentage() / 100f;
 
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.EnemyShoot, .5f);
+        }
+
         int maxPipes = 8;
         if (healthRatio <= 0.30f) maxPipes = 12;
         else if (healthRatio <= 0.60f) maxPipes = 10;

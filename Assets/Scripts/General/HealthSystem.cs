@@ -70,6 +70,12 @@ public class HealthSystem : MonoBehaviour, IDamageable {
     private void HandleDeathIfNeeded() {
         if (CurrentHealth <= 0) {
             Debug.Log($"[HealthSystem] Enemy died!");
+
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlaySound3D(SoundID.EnemyDeath, transform.position);
+            }
+
             Destroy(gameObject);
             if (isBoss) {
                 FindFirstObjectByType<PerkController>()?.ClearAllNegativePerks();

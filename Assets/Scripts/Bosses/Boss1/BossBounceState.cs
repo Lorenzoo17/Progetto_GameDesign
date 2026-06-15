@@ -70,6 +70,12 @@ public class BossBounceState : State<BossCtrl>
 
     private void TriggerLandingShockwave()
     {
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.EnemySmash, .3f);
+        }
+
         Player player = Object.FindFirstObjectByType<Player>();
 
         if (player != null)

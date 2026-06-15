@@ -36,7 +36,7 @@ public class BossRoom : MonoBehaviour {
 
         if (MusicManager.Instance != null)
         {
-            MusicManager.Instance.PlayMusic(MusicID.BossPipes, 5f, 1f);
+            MusicManager.Instance.PlayMusic(MusicID.BossPipes, 4f, .3f);
         }
 
         int index = Random.Range(0, bossesToSpawn.Length);
