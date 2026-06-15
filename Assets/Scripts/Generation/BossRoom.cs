@@ -33,6 +33,12 @@ public class BossRoom : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (!other.GetComponent<Player>()) return;
         if (spawned) return;
+
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.PlayMusic(MusicID.BossPipes, 5f, 1f);
+        }
+
         int index = Random.Range(0, bossesToSpawn.Length);
 
         Vector3 spawnPosition = bossSpawnTransform.position;
