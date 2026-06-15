@@ -34794,6 +34794,9 @@ MonoBehaviour:
   - musicID: 3
     clips:
     - {fileID: 8300000, guid: a22a99941a55f14418610025f8cbd9fa, type: 3}
+  - musicID: 4
+    clips:
+    - {fileID: 8300000, guid: 85ee6103cfa00e143b6193281df477c2, type: 3}
   - musicID: 1
     clips:
     - {fileID: 8300000, guid: 46ab8b97b8547024a8726179da94b31c, type: 3}
@@ -34892,6 +34895,9 @@ MonoBehaviour:
   - soundID: 17
     clips:
     - {fileID: 8300000, guid: b43b253726f5b694ca3a57768d88b85e, type: 3}
+  - soundID: 18
+    clips:
+    - {fileID: 8300000, guid: 9e7a54575af3b97428309d5ac557364a, type: 3}
 --- !u!4 &1303515483
 Transform:
   m_ObjectHideFlags: 0

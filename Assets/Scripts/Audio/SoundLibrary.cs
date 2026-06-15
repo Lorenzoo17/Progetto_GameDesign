@@ -19,6 +19,7 @@ public enum SoundID {
     UICancel,
     UIHover,
     Interact,
+    PipeValveInteract,
 }
 
 [System.Serializable]
