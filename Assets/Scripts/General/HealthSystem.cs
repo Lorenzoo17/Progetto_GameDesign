@@ -1,3 +1,4 @@
+using FirstGearGames.SmoothCameraShaker;
 using System;
 using UnityEngine;
 
@@ -46,6 +47,10 @@ public class HealthSystem : MonoBehaviour, IDamageable {
     }
 
     public void TakeDamage(DamageInfo damageInfo) {
+        // screen shake quanto entita' prende danno (tolto da playerAttack)
+        if(EffectManager.Instance != null) {
+            CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.MeleeAttack));
+        }
         // Applica danno fisico
         ApplyPhysicalDamage(damageInfo);
 

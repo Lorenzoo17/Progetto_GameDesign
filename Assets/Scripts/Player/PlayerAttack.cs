@@ -100,17 +100,18 @@ public class PlayerAttack : MonoBehaviour
         currentWeapon.GetComponent<IWeapon>().Attack(attackDirection);
 
         // camera shake e knockback dopo attacco anche per arma ranged
-        if (EffectManager.Instance != null)
-        {
-            if (currentWeapon.GetComponent<Weapon>() is WeaponMelee)
-            {
-                CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.MeleeAttack));
-            }
-            else
-            {
-                CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.RangedAttack));
-            }
-        }
+        // per ora tolto screenShake, messo solo a seguito di HealthSystem hit
+        // if (EffectManager.Instance != null)
+        // {
+        //     if (currentWeapon.GetComponent<Weapon>() is WeaponMelee)
+        //     {
+        //         CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.MeleeAttack));
+        //     }
+        //     else
+        //     {
+        //         CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.RangedAttack));
+        //     }
+        // }
 
         // knockback solamente se l'arma e' melee
         if (knockBackWhileAttacking && currentWeapon.GetComponent<Weapon>() is WeaponMelee)

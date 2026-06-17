@@ -1,3 +1,4 @@
+using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
 
 public class SceneObjects : MonoBehaviour, IDamageable
@@ -23,6 +24,11 @@ public class SceneObjects : MonoBehaviour, IDamageable
     }
     public void TakeDamage(DamageInfo damageInfo) {
         if (spawnOnStart) return;
+
+        // screen shake quanto entita' prende danno (tolto da playerAttack)
+        if (EffectManager.Instance != null) {
+            CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.MeleeAttack));
+        }
 
         if (SoundManager.Instance != null) {
             SoundManager.Instance.PlaySound2D(SoundID.WoodCrack, .10f);
