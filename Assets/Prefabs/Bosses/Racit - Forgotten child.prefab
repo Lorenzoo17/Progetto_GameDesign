@@ -110,7 +110,6 @@ GameObject:
   - component: {fileID: 1340829199885440648}
   - component: {fileID: 8508289129420120813}
   - component: {fileID: 7050842544685862514}
-  - component: {fileID: 8073297398896541229}
   m_Layer: 0
   m_Name: Racit - Forgotten child
   m_TagString: Racit
@@ -413,10 +412,10 @@ MonoBehaviour:
   impactPrefab: {fileID: 5397995872131914903, guid: a6797a06307b44e43855287ea8cf9997, type: 3}
   poolDuration: 5
   normalProjectileSpeed: 8
-  minNormalProjectileRange: 10
-  maxNormalProjectileRange: 15
+  minNormalProjectileRange: 6
+  maxNormalProjectileRange: 10
   pipeProjectileSpeed: 10
-  pipeProjectileRange: 15
+  pipeProjectileRange: 8
 --- !u!114 &8508289129420120813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,18 +471,6 @@ MonoBehaviour:
   scriptsToDisable:
   - {fileID: 5151883782128186509}
   - {fileID: 8797646812830116539}
---- !u!114 &8073297398896541229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2375325059639907942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec4a7bc9878b67643a2995011f493d06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1 &5568309253460772942
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,7 +22,36 @@ public class TrophieManager : MonoBehaviour
     {
         var scene = SceneManager.GetActiveScene().name;
         if (isFungusTrophieUnlocked || isRacitTrophieUnlocked) {
-            
+
+            // --- PRIMO TROFEO (Trophy1) ---
+            GameObject tropy = GameObject.Find("Trophy1");
+
+            // Controlliamo che l'oggetto esista e che la condizione sia vera
+            if (isRacitTrophieUnlocked && tropy != null)
+            {
+                // transform.Find cerca nei figli dell'oggetto. 
+                // Il ?. evita il crash se per caso non trova il figlio "Visual" o lo SpriteRenderer
+                var renderer = tropy.transform.Find("Visual")?.GetComponent<SpriteRenderer>();
+
+                if (renderer != null)
+                {
+                    renderer.enabled = true;
+                }
+            }
+
+            // --- SECONDO TROFEO (Trophy) ---
+            tropy = GameObject.Find("Trophy2");
+
+            if (isFungusTrophieUnlocked && tropy != null)
+            {
+                var renderer = tropy.transform.Find("Visual")?.GetComponent<SpriteRenderer>();
+
+                if (renderer != null)
+                {
+                    renderer.enabled = true;
+                }
+            }
+
             if (scene == "HUB" && !isEnterOnHUB)
             {
                 isEnterOnHUB = true;

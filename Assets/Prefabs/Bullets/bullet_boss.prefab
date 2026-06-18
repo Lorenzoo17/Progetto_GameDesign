@@ -198,7 +198,7 @@ MonoBehaviour:
   destructionRange: 5
   destroyOnContactLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   shadow: {fileID: 8991040507999655102}
   initialShadowOffset: {x: 0, y: -2}
   shadowInterpolationValue: 3

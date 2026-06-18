@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class TransitionLevelController : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class TransitionLevelController : MonoBehaviour
     public SpriteRenderer[] barrelRenderers;
 
     [Header("Sprite specifici per ogni Barile")]
-    public Sprite firstVisitSprite;  // Lo sprite per il primo barile (dopo Livello 1)
-    public Sprite secondVisitSprite; // Lo sprite per il secondo barile (dopo Livello 2)
+    public Sprite firstVisitSprite;  
+    public Sprite secondVisitSprite; 
 
     private void Start()
     {
@@ -45,12 +46,44 @@ public class TransitionLevelController : MonoBehaviour
                 if (i == 0 && firstVisitSprite != null)
                 {
                     barrelRenderers[i].sprite = firstVisitSprite;
+                    AttivaLuceDalBarile(barrelRenderers[i]);
+
                 }
                 else if (i == 1 && secondVisitSprite != null)
                 {
                     barrelRenderers[i].sprite = secondVisitSprite;
+                    AttivaLuceDalBarile(barrelRenderers[i]);
                 }
             }
+        }
+    }
+
+    public void AttivaLuceDalBarile(SpriteRenderer mioSpriteRenderer)
+    {
+        // Controllo di sicurezza: se non hai passato nulla, esci per evitare crash
+        if (mioSpriteRenderer == null) return;
+
+        // 1. Prendiamo l'oggetto a cui è assegnato lo SpriteRenderer
+        GameObject oggettoPadre = mioSpriteRenderer.gameObject;
+
+        // 2. Cerchiamo lo script "Light2D" nei figli (anche se l'oggetto è spento)
+        Light2D scriptLuce = oggettoPadre.GetComponentInChildren<Light2D>(true);
+
+        if (scriptLuce != null)
+        {
+            // 3. ABBIAMO DUE OPZIONI PER ATTIVARLO (Scegli quella che fa al caso tuo):
+
+            // OPZIONE A: Se vuoi attivare solo lo SCRIPT (lasciando l'oggetto figlio acceso)
+            scriptLuce.enabled = true;
+
+            // OPZIONE B: Se l'intero OGGETTO FIGLIO è disattivato nella Hierarchy e vuoi accenderlo
+            // scriptLuce.gameObject.SetActive(true);
+
+            Debug.Log($"[LUCE] Script Light2D trovato e attivato con successo su un figlio di: {oggettoPadre.name}");
+        }
+        else
+        {
+            Debug.LogWarning($"[LUCE] Attenzione: non ho trovato nessun figlio con lo script Light2D sotto l'oggetto: {oggettoPadre.name}");
         }
     }
 }
