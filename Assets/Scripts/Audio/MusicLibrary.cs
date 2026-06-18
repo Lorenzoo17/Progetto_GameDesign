@@ -4,6 +4,7 @@ public enum MusicID {
     MainMenu,
     SewerDungeon,
     BossFungus,
+    BossPipes,
     GameOver,
     Victory
 }

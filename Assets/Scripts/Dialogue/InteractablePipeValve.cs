@@ -37,6 +37,12 @@ public class InteractablePipeValve : MonoBehaviour, IInteractable
         if (isAlreadyUsed) return;
 
         isAlreadyUsed = true;
+
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(SoundID.PipeValveInteract, .8f);
+        }
+
         HidePrompt();
 
         
