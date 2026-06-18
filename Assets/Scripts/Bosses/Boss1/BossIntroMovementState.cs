@@ -22,6 +22,8 @@ public class BossIntroMovementState : State<BossCtrl>
     [SerializeField] private float baseProbability = 0.12f;
     [SerializeField] private float probabilityIncrease = 0.10f;
 
+    private PipeManager managerPipe;
+
     private float waitTimer = 0f;
     private bool isJumping = false;
     private int jumpCounter = 0;
@@ -53,6 +55,7 @@ public class BossIntroMovementState : State<BossCtrl>
         isJumping = false;
         hasJustLanded = false;
         botolaManager = BotolaManager.Instance;
+        managerPipe = PipeManager.Instance;
     }
 
     public override void Update()
@@ -111,7 +114,7 @@ public class BossIntroMovementState : State<BossCtrl>
         if (_runner.Anim != null) _runner.Anim.SetTrigger("idle_to_jump");
 
         jumpCounter++;
-        Vector3 targetPos;
+        Vector3 targetPos; 
 
         _runner.NextAttackPattern = BossCtrl.AttackPattern.RandomOrTarget;
         leaveAcidPool = false;
@@ -122,38 +125,49 @@ public class BossIntroMovementState : State<BossCtrl>
         if (jumpCounter >= 4)
         {
             _runner.NextAttackPattern = BossCtrl.AttackPattern.Cross;
-            targetPos = _runner.roomCenter.transform.position;
+            targetPos = _runner.roomCenter.transform.position; 
             jumpCounter = 0;
-            leaveAcidPool = false;
         }
-        else
+        else 
         {
-            if (specialAttackCooldown > 0) specialAttackCooldown--;
-            else
-            {
-                if (Random.value <= currentProbability)
-                {
-                    specialAttackEnabled = true;
-                    specialAttackCooldown = 3;
-                    currentProbability = baseProbability;
-                }
-                else currentProbability += probabilityIncrease;
-            }
+            
+            targetPos = FindValidJumpPoint(_runner.transform.position, maxJumpDistance);
 
             
-            if (specialAttackEnabled)
+            if (!managerPipe.isAllLocked())
             {
-                useSpecialPool = true;
-                if (botolaManager != null && botolaManager.botole.Count > 0) targetPos = botolaManager.GetRandomBotola().position;
-                else targetPos = _runner.roomCenter.transform.position;
+                
+                if (specialAttackCooldown > 0)
+                {
+                    specialAttackCooldown--;
+                }
+                else
+                {
+                    if (Random.value <= currentProbability)
+                    {
+                        specialAttackEnabled = true;
+                        specialAttackCooldown = 3;
+                        currentProbability = baseProbability;
+                    }
+                    else
+                    {
+                        currentProbability += probabilityIncrease;
+                    }
+                }
+
+                
+                if (specialAttackEnabled)
+                {
+                    useSpecialPool = true;
+                    if (botolaManager != null && botolaManager.botole.Count > 0)
+                    {
+                        targetPos = botolaManager.GetRandomBotola().position;
+                    }
+                }
             }
-            
-     
-            
-            
-            else targetPos = FindValidJumpPoint(_runner.transform.position, maxJumpDistance);
         }
 
+        
         _runner.StartCoroutine(JumpRoutine(targetPos));
     }
 

@@ -4,14 +4,16 @@ using UnityEngine;
 
 // informazioni sul personaggio da mostrare
 [System.Serializable]
-public class DialogueCharacter {
+public class DialogueCharacter
+{
     public string name;
     public Sprite icon;
 }
 
 // linea di dialogo del personaggio
 [System.Serializable]
-public class DialogueLine {
+public class DialogueLine
+{
     public DialogueCharacter character;
     [TextArea(3, 10)]
     public string line;
@@ -19,12 +21,16 @@ public class DialogueLine {
 
 // lista delle linee di dialogo
 [System.Serializable]
-public class Dialogue {
+public class Dialogue
+{
     public List<DialogueLine> dialogueLines = new List<DialogueLine>();
 }
 
-public class DialogueTrigger : MonoBehaviour, IInteractable {
+public class DialogueTrigger : MonoBehaviour, IInteractable
+{
     public Dialogue dialogue;
+    public Dialogue optionalDialogue;          
+    public bool isOptionalConditionMet = false; 
 
     [Header("Prompt")]
     [SerializeField] private GameObject promptInterface;
@@ -41,8 +47,10 @@ public class DialogueTrigger : MonoBehaviour, IInteractable {
     private SpriteRenderer promptSpriteRenderer;
     private Vector3 promptOriginalScale;
 
-    private void Awake() {
-        if (promptInterface != null) {
+    private void Awake()
+    {
+        if (promptInterface != null)
+        {
             promptOriginalScale = promptInterface.transform.localScale;
             promptSpriteRenderer = promptInterface.GetComponent<SpriteRenderer>();
             promptInterface.SetActive(false);
@@ -50,42 +58,54 @@ public class DialogueTrigger : MonoBehaviour, IInteractable {
     }
 
 
-    private void Update() {
+    private void Update()
+    {
         FlipBasedOnPlayer();
     }
 
-    public void TriggerDialogue() {
-        DialogueManager.Instance.StartDialogue(dialogue);
+    public void TriggerDialogue()
+    {
+        
+        Dialogue dialogueToPlay = (isOptionalConditionMet && optionalDialogue != null && optionalDialogue.dialogueLines.Count > 0) ? optionalDialogue : dialogue;
+
+        DialogueManager.Instance.StartDialogue(dialogueToPlay);
     }
 
-    public void Interact() { // richiamato in playerInteract
-        if (DialogueManager.Instance == null) {
+    public void Interact()
+    { 
+        if (DialogueManager.Instance == null)
+        {
             Debug.LogWarning("Dialogue managaer non presente nella scena!");
             return;
         }
-        if (DialogueManager.Instance.isDialogueActive) return; // se c'e' gia' un dialogo in corso non permetto l'interazione
+        if (DialogueManager.Instance.isDialogueActive) return; 
         TriggerDialogue();
-        HidePrompt(); // nascondo prompt
+        HidePrompt(); 
     }
 
-    public void ShowPrompt() {
+    public void ShowPrompt()
+    {
         if (promptInterface == null) return;
-        if (promptCoroutine != null) {
+        if (promptCoroutine != null)
+        {
             StopCoroutine(promptCoroutine);
         }
 
         promptCoroutine = StartCoroutine(AnimateShowPrompt());
     }
-    public void HidePrompt() {
+    public void HidePrompt()
+    {
         if (promptInterface == null) return;
-        if (promptCoroutine != null) {
+        if (promptCoroutine != null)
+        {
             StopCoroutine(promptCoroutine);
         }
 
         promptCoroutine = StartCoroutine(AnimateHidePrompt());
     }
 
-    private IEnumerator AnimateShowPrompt() {
+    private IEnumerator AnimateShowPrompt()
+    {
         promptInterface.SetActive(true);
 
         float elapsed = 0f;
@@ -96,7 +116,8 @@ public class DialogueTrigger : MonoBehaviour, IInteractable {
         promptInterface.transform.localScale = startScale;
         SetPromptAlpha(0f);
 
-        while (elapsed < promptAnimationDuration) {
+        while (elapsed < promptAnimationDuration)
+        {
             elapsed += Time.deltaTime;
 
             float t = elapsed / promptAnimationDuration;
@@ -112,13 +133,15 @@ public class DialogueTrigger : MonoBehaviour, IInteractable {
         SetPromptAlpha(1f);
     }
 
-    private IEnumerator AnimateHidePrompt() {
+    private IEnumerator AnimateHidePrompt()
+    {
         float elapsed = 0f;
 
         Vector3 startScale = promptInterface.transform.localScale;
         Vector3 endScale = promptOriginalScale * promptStartScale;
 
-        while (elapsed < promptAnimationDuration) {
+        while (elapsed < promptAnimationDuration)
+        {
             elapsed += Time.deltaTime;
 
             float t = elapsed / promptAnimationDuration;
@@ -135,7 +158,8 @@ public class DialogueTrigger : MonoBehaviour, IInteractable {
         promptInterface.SetActive(false);
     }
 
-    private void SetPromptAlpha(float alpha) {
+    private void SetPromptAlpha(float alpha)
+    {
         if (promptSpriteRenderer == null) return;
 
         Color color = promptSpriteRenderer.color;
@@ -143,17 +167,19 @@ public class DialogueTrigger : MonoBehaviour, IInteractable {
         promptSpriteRenderer.color = color;
     }
 
-    private void FlipBasedOnPlayer() {
+    private void FlipBasedOnPlayer()
+    {
         if (Player.Instance == null) return;
 
         bool flipDirection = invertFlipDirection ? true : false;
 
-        if (Player.Instance.transform.position.x > transform.position.x) {
+        if (Player.Instance.transform.position.x > transform.position.x)
+        {
             this.GetComponent<SpriteRenderer>().flipX = flipDirection;
         }
-        else {
+        else
+        {
             this.GetComponent<SpriteRenderer>().flipX = !flipDirection;
         }
     }
-
 }

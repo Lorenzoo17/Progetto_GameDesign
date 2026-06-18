@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 7050842544685862514}
   m_Layer: 0
   m_Name: Racit - Forgotten child
-  m_TagString: Untagged
+  m_TagString: Racit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -412,10 +412,10 @@ MonoBehaviour:
   impactPrefab: {fileID: 5397995872131914903, guid: a6797a06307b44e43855287ea8cf9997, type: 3}
   poolDuration: 5
   normalProjectileSpeed: 8
-  minNormalProjectileRange: 10
-  maxNormalProjectileRange: 15
+  minNormalProjectileRange: 6
+  maxNormalProjectileRange: 10
   pipeProjectileSpeed: 10
-  pipeProjectileRange: 15
+  pipeProjectileRange: 8
 --- !u!114 &8508289129420120813
 MonoBehaviour:
   m_ObjectHideFlags: 0

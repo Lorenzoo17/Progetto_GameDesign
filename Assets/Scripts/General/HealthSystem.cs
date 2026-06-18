@@ -76,15 +76,29 @@ public class HealthSystem : MonoBehaviour, IDamageable {
         if (CurrentHealth <= 0) {
             Debug.Log($"[HealthSystem] Enemy died!");
 
-            if (SoundManager.Instance != null)
+            if (isBoss)
             {
-                SoundManager.Instance.PlaySound3D(SoundID.EnemyDeath, transform.position);
+                GameObject boss = GameObject.FindGameObjectWithTag("Racit");
+                Debug.Log($"Questo è il boss :{boss}");
+
+                if (boss != null) { 
+                    Debug.Log($"Pronto per il check al trofeo");
+                    PipeManager manager = FindAnyObjectByType<PipeManager>();
+
+
+                    Debug.Log($"Tubi chiusi ? {manager.isAllLocked()}");
+                    if (manager.isAllLocked()) {
+                        TrophieManager.isRacitTrophieUnlocked = true;
+                        Debug.Log($"Trofeo Ottenuto");
+                    }
+                }
+                FindFirstObjectByType<PerkController>()?.ClearAllNegativePerks();
+            }
+            else if (isBoss) {
+                FindFirstObjectByType<PerkController>()?.ClearAllNegativePerks();
             }
 
             Destroy(gameObject);
-            if (isBoss) {
-                FindFirstObjectByType<PerkController>()?.ClearAllNegativePerks();
-            }
         }
     }
 

@@ -23727,6 +23727,7 @@ GameObject:
   - component: {fileID: 8653183288853179482}
   - component: {fileID: 957443537610945889}
   - component: {fileID: -7209902208313248390}
+  - component: {fileID: 5206520250425561513}
   m_Layer: 0
   m_Name: Boss_room
   m_TagString: Untagged
@@ -23849,6 +23850,18 @@ MonoBehaviour:
   - {fileID: 4378181008594232565, guid: 10e38570536879e45ba3e079286643a1, type: 3}
   bossSpawnTransform: {fileID: 1836175526428853248}
   nextBasementEntrance: {fileID: 7252035806740550470}
+--- !u!114 &5206520250425561513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7181218629803831723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2beea9b55ce3a0843a28c32a414c33a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &7252035806740550470
 GameObject:
   m_ObjectHideFlags: 0

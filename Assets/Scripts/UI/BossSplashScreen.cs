@@ -88,6 +88,9 @@ public class BossSplashScreen : MonoBehaviour {
 
         splashScreenLayout.SetActive(false);
         splashCoroutine = null;
+
+        FindFirstObjectByType<TrophyHandler>()?.StartChallenge();
+        Debug.Log("[CHALLENGE] Splash art finita, boss riattivato e sfida dei 40 secondi avviata!");
     }
 
     private System.Collections.IEnumerator MoveSplashArtsRoutine() {
@@ -131,5 +134,6 @@ public class BossSplashScreen : MonoBehaviour {
         if(EffectManager.Instance != null) {
             CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(ShakeDataType.UI));
         }
+        
     }
 }
