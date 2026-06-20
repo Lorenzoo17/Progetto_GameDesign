@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b83bd2b4de199df44ba0a31bb92b41da
+guid: 809307d2bdc027946ac7afcead5c368f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5005990984189769374
-    second: poison_0
+      213: 7562608646385499115
+    second: poison_neg_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: poison_0
+      name: poison_neg_0
       rect:
         serializedVersion: 2
         x: 2
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2698f8609b5278ab0800000000000000
-      internalID: -5005990984189769374
+      spriteID: bebfa17de78c3f860800000000000000
+      internalID: 7562608646385499115
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      poison_0: -5005990984189769374
+      poison_neg_0: 7562608646385499115
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
