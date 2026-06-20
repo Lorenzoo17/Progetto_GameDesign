@@ -1280,13 +1280,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicLibrary
   tracks:
   - musicID: 3
-    clips: []
+    clips:
+    - {fileID: 0}
   - musicID: 1
-    clips: []
+    clips:
+    - {fileID: 0}
   - musicID: 0
-    clips: []
+    clips:
+    - {fileID: 0}
   - musicID: 2
-    clips: []
+    clips:
+    - {fileID: 0}
+  - musicID: 4
+    clips:
+    - {fileID: 8300000, guid: 5df25a5ea0336f24bb92ef32d7a8c0da, type: 3}
 --- !u!114 &622844140
 MonoBehaviour:
   m_ObjectHideFlags: 0
