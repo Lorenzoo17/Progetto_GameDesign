@@ -323,14 +323,14 @@ MonoBehaviour:
   dialogue:
     dialogueLines:
     - character:
-        name: Mousdomoro
+        name: Mousdoro
         icon: {fileID: -2827179253996214189, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: Halt! You cannot proceed. You are not yet worthy to enter this chamber.
         Follow your path. Delve deep into the dungeon and discover your true nature.
   optionalDialogue:
     dialogueLines:
     - character:
-        name: Mousdomoro
+        name: Mousdoro
         icon: {fileID: -2827179253996214189, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: Step forward. You have proven your worth through blood and conquest.
         The chamber is open to you. Enter, and behold the trophies of the beasts
@@ -3929,11 +3929,11 @@ MonoBehaviour:
   dialogue:
     dialogueLines:
     - character:
-        name: Merlusconi
+        name: Merletto
         icon: {fileID: 1562974697901453862, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: Since that sickness appeared in the sewers, no one has been the same.
     - character:
-        name: Merlusconi
+        name: Merletto
         icon: {fileID: 1562974697901453862, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: 'It is all because of the people above.
 
@@ -6575,7 +6575,7 @@ MonoBehaviour:
   dialogue:
     dialogueLines:
     - character:
-        name: Franco
+        name: Franko
         icon: {fileID: -4348277106678931353, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: "Don\u2019t tell me a tiny little thing like you is planning to crawl
         into the depths\u2026"
@@ -48084,13 +48084,13 @@ MonoBehaviour:
   dialogue:
     dialogueLines:
     - character:
-        name: Biondetta
+        name: Arto
         icon: {fileID: -2827179253996214189, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: "That strange tub you find in the first room of the dungeon is scary.
         I heard there\u2019s a chance you can get either a positive perk or a negative
         one."
     - character:
-        name: Biondetta
+        name: Arto
         icon: {fileID: -2827179253996214189, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: If you get unlucky, the only way to fix it is to defeat the boss of the
         floor!
@@ -53415,12 +53415,12 @@ MonoBehaviour:
   dialogue:
     dialogueLines:
     - character:
-        name: Mouseloni
+        name: Lizio
         icon: {fileID: 1562974697901453862, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: Did you know that you can destroy enemie's bullet just dashing through
         them?
     - character:
-        name: Mouseloni
+        name: Lizio
         icon: {fileID: 1562974697901453862, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: It's very useful, especially against elite enemies!
   optionalDialogue:
