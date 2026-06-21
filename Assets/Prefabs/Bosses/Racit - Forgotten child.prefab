@@ -415,7 +415,7 @@ MonoBehaviour:
   minNormalProjectileRange: 6
   maxNormalProjectileRange: 10
   pipeProjectileSpeed: 10
-  pipeProjectileRange: 8
+  pipeProjectileRange: 15
 --- !u!114 &8508289129420120813
 MonoBehaviour:
   m_ObjectHideFlags: 0

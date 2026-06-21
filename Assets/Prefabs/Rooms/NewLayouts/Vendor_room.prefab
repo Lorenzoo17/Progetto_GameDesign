@@ -1516,14 +1516,17 @@ MonoBehaviour:
   dialogue:
     dialogueLines:
     - character:
-        name: Ennio
+        name: Endio
         icon: {fileID: 6763541741953116743, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: I know what you are, and I know what you seek.
     - character:
-        name: Ennio
+        name: Endio
         icon: {fileID: 6763541741953116743, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: Don't be afraid though, I don't care about the foolish people in the
         surface, just buy something.
+  optionalDialogue:
+    dialogueLines: []
+  isOptionalConditionMet: 0
   promptInterface: {fileID: 3947952041599997220}
   promptAnimationDuration: 0.15
   promptStartScale: 0.6
