@@ -330,7 +330,7 @@ MonoBehaviour:
   optionalDialogue:
     dialogueLines:
     - character:
-        name: Mousdoro
+        name: Mousdoromo
         icon: {fileID: -2827179253996214189, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: Step forward. You have proven your worth through blood and conquest.
         The chamber is open to you. Enter, and behold the trophies of the beasts
@@ -57439,6 +57439,16 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: -18, y: -8, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 13
+      m_TileSpriteIndex: 11
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: -38, y: -7, z: 0}
     second:
       serializedVersion: 2
@@ -57752,8 +57762,8 @@ Tilemap:
   - first: {x: -18, y: -3, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 21
-      m_TileSpriteIndex: 12
+      m_TileIndex: 6
+      m_TileSpriteIndex: 21
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -58653,7 +58663,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: 3a9986b22dd8b0947be34d1796a99ff5, type: 2}
-  - m_RefCount: 2
+  - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: c0660bff523df444bacb2982c8890058, type: 2}
   - m_RefCount: 10
     m_Data: {fileID: 11400000, guid: 2f9d346088f992145a55d5236b350bdd, type: 2}
@@ -58667,7 +58677,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 48dc5d35b48905a45b7268712caf915e, type: 2}
   - m_RefCount: 18
     m_Data: {fileID: 11400000, guid: 90a7d3b41e2baae4e83d04ffdd9be4a9, type: 2}
-  - m_RefCount: 2
+  - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: bf116d456b4dc364998141c6a5a9ff3e, type: 2}
   - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: 935cf7637eeb72448b03376759389eb9, type: 2}
@@ -58683,8 +58693,8 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: f78770a456f2dc048a61fd0a27681b1d, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: c8a6ff591e3af4e48a9495134889205c, type: 2}
-  - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 2a4fd1256eb6e92458c1906eb115cba2, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: b9d35c2463dc19e48bb4188343574120, type: 2}
   - m_RefCount: 1
@@ -58724,10 +58734,10 @@ Tilemap:
     m_Data: {fileID: 33575905, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
   - m_RefCount: 11
     m_Data: {fileID: -1628254769, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
-  - m_RefCount: 2
+  - m_RefCount: 3
     m_Data: {fileID: -1839540674, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 2895e85d2d2762c418c15fa0140e9d46, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 18
     m_Data: {fileID: 1988007782, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
   - m_RefCount: 4
@@ -58744,7 +58754,7 @@ Tilemap:
     m_Data: {fileID: 1424059570, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 1964248304, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
-  - m_RefCount: 2
+  - m_RefCount: 3
     m_Data: {fileID: 355348077, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
   - m_RefCount: 8
     m_Data: {fileID: 4872226300912662604, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
@@ -58763,7 +58773,7 @@ Tilemap:
   - m_RefCount: 2
     m_Data: {fileID: 1967000522, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 122
+  - m_RefCount: 123
     m_Data:
       e00: 1
       e01: 0
@@ -58782,7 +58792,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 122
+  - m_RefCount: 123
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   - m_RefCount: 0
     m_Data: {r: 9.3077e-41, g: 9.3077e-41, b: 9.3077e-41, a: 9.3077e-41}
@@ -58940,9 +58950,9 @@ CompositeCollider2D:
       - X: -180000000
         Y: -20000000
       - X: -180000000
-        Y: -70000000
+        Y: -80000000
       - X: -170000000
-        Y: -70000000
+        Y: -80000000
     - - X: 180000000
         Y: -30000000
       - X: 190000000
@@ -59017,7 +59027,7 @@ CompositeCollider2D:
       - {x: -7.9999704, y: 3}
       - {x: -7, y: 2.9999707}
       - {x: -6.9999704, y: 2}
-    - - {x: -17.000029, y: -7}
+    - - {x: -17.000029, y: -8}
       - {x: -16.999971, y: -5}
       - {x: -16, y: -4.999971}
       - {x: -16.000029, y: 0}
@@ -59026,7 +59036,7 @@ CompositeCollider2D:
       - {x: -17, y: -1.0000294}
       - {x: -17.000029, y: -2}
       - {x: -18, y: -2.0000293}
-      - {x: -17.999971, y: -7}
+      - {x: -17.999971, y: -8}
     - - {x: 17.999971, y: -5}
       - {x: 18.000029, y: -3}
       - {x: 19, y: -2.999971}
