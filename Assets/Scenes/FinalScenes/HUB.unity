@@ -55327,7 +55327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8385be43feef0e044aa06a7d8e60d368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MetaProgressionManager
-  MutagenCoin: 0
+  MutagenCoin: 50
   DungeonCoin: 0
   lootDatabase: {fileID: 11400000, guid: d697afad0c60e864b9888998b0abc8fb, type: 2}
   debugUnlockedWeapons: []
@@ -57433,7 +57433,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 11
-      m_TileSpriteIndex: 8
+      m_TileSpriteIndex: 12
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -58728,16 +58728,16 @@ Tilemap:
     m_Data: {fileID: 850302266, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
-    m_Data: {fileID: 1049337624, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 2
     m_Data: {fileID: 33575905, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
   - m_RefCount: 11
     m_Data: {fileID: -1628254769, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: -1839540674, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 1049337624, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
   - m_RefCount: 18
     m_Data: {fileID: 1988007782, guid: 92fe0da4c49ed1744ab67cffdf8e100a, type: 3}
   - m_RefCount: 4
