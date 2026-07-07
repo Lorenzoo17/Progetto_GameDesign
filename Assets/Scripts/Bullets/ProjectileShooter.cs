@@ -13,7 +13,7 @@ public class ProjectileShooter : MonoBehaviour {
     [SerializeField] protected GameObject projectilePrefab;
     public Transform firePoint;
     
-    [SerializeField] protected float damage = 1f;
+    [SerializeField] protected float damage;
     [SerializeField] protected float projectileSpeed = 8f;
     [SerializeField] private float projectileRange = 16f;
 
@@ -24,10 +24,13 @@ public class ProjectileShooter : MonoBehaviour {
 
     private void Awake()
     {
-        if (firePoint == null)
+        if (firePoint == null)    
         {
             firePoint = transform;
         }
+
+        WeaponRanged weapon = Player.Instance.playerAttack.GetCurrentWeapon() as WeaponRanged;
+        damage = weapon.getCurrentDamage();
     }
 
     public void ShootLinear(GameObject owner, Vector2 direction)
@@ -175,10 +178,5 @@ public class ProjectileShooter : MonoBehaviour {
                 );
             }
         }
-    }
-
-    public float GetDamage()
-    {
-        return damage;
     }
 }

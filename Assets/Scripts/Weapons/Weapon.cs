@@ -12,7 +12,14 @@ public interface IDescribable
 }
 
 public class Weapon : MonoBehaviour, IWeapon, ICollectible, IDescribable
-{
+{   
+
+    [Header("Weapon General Stats")]
+    [SerializeField] protected float weaponBaseDamage;
+    [SerializeField] protected float weaponAttackRate;
+    [SerializeField] protected float weaponBaseRange;
+    [SerializeField] protected float BDScalingFactor; // scaling del danno rispetto alla forza del player
+    [SerializeField] protected float ARScalingFactor; // scaling della velocità di attacco rispetto alla velocità del player
 
     // aggiungere scriptableobject di riferimento!! (si fa il set di sprite, nome ecc)
     [Header("Xrotation offset on equip")]
@@ -27,7 +34,7 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible, IDescribable
 
     public float weaponAttackRateSlowdown; // usato in modo da diminuire l'attack rate in base alla velocita' dell'arma (con 0 corrisponde all'attack rate del player)
     // con 0.3 si fa ad esempio attackrate + 0.3 -> quindi player attacca piu' lentamente
-    // richiamato in playerAttack
+    // richiamabile in playerAttack, ma al momento non attivo in virtù del current attack rate ch e tiene conto delle stats del player
 
     [Header("Idle animation details")]
     [SerializeField] private Transform visual;
@@ -39,13 +46,20 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible, IDescribable
 
     public event System.Action<Weapon> OnCollected; // richiamato in StartWeaponSpawner, per far si che le porte della startRoom
     // si aprano solamente quando l'arma iniziale viene raccolta
-    private void Start()
+    protected virtual void Start()
     {
         initialZRotation = transform.eulerAngles.z;
         idleStartPosition = transform.position;
         if (visual == null)
         {
             visual = transform;
+        }
+
+        //Aggiornamento stats in base allo scaling quando cambiano le stats del player
+        if (Player.Instance != null)
+        {
+            Player.Instance.playerStats.OnStatsUpdated += UpdateWeaponStats;
+            UpdateWeaponStats(); // calcola i valori iniziali
         }
     }
 
@@ -66,6 +80,19 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible, IDescribable
         }
     }
 
+    protected float currentDamage;
+    protected float currentAttackRate;
+
+    protected virtual void UpdateWeaponStats()
+    {
+        CharacterStats stats = Player.Instance.playerStats.playerCurrentStats;
+
+        currentDamage =
+            weaponBaseDamage + stats.getAttack() * BDScalingFactor;
+
+        currentAttackRate =
+            weaponAttackRate + stats.GetAttackRate() * ARScalingFactor;
+    }
 
     public virtual void Attack(Vector2 attackDirection)
     {
@@ -186,5 +213,10 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible, IDescribable
     public virtual string Description()
     {
         return "A weapon";
+    }
+
+    public float GetCurrentAttackRate()
+    {
+        return currentAttackRate;
     }
 }

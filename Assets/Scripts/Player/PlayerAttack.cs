@@ -133,7 +133,7 @@ public class PlayerAttack : MonoBehaviour
         float baseAttackRate = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();
         if (currentWeapon == null) return baseAttackRate;
 
-        return baseAttackRate + currentWeapon.GetComponent<Weapon>().weaponAttackRateSlowdown;
+        return currentWeapon.GetComponent<Weapon>().GetCurrentAttackRate();
     }
     
     //AOE methods
@@ -197,6 +197,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
     //End AOE methods
+
     private void HandleSorting(float angle)
     {
         if (angle > -90f && angle < 90f)

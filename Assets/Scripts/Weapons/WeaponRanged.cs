@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class WeaponRanged : Weapon
 {
+    [Header("Weapon Ranged Stats")]
     [SerializeField] private float weaponRotationOffsetZ;
     [SerializeField] private ProjectileShooter projectileShooter;
-
     [SerializeField] private ShooterType shootingType;
 
     [Header("Settings in base a tipo di shooter")]
@@ -56,24 +56,31 @@ public class WeaponRanged : Weapon
         Quaternion weaponHolderRotation = Quaternion.Euler(0, 0, angle + weaponRotationOffsetZ);
         weaponHolder.rotation = weaponHolderRotation;
     }
+
     public override string Description() {
         if (projectileShooter == null)
             return "Ranged weapon without assigned ProjectileShooter.";
 
         string description = shootingType switch {
             ShooterType.Curved =>
-                $"Curved ranged weapon with base damage {projectileShooter.GetDamage()} and curved range {curvedProjectileRange}.",
+                $"Curved ranged weapon with base damage {currentDamage} and curved range {curvedProjectileRange}.",
 
             ShooterType.Linear =>
-                $"Linear ranged weapon with base damage {projectileShooter.GetDamage()}.",
+                $"Linear ranged weapon with base damage {currentDamage}.",
 
             ShooterType.Spread =>
-                $"Spread ranged weapon with base damage {projectileShooter.GetDamage()} and {projectileNumber} projectiles.",
+                $"Spread ranged weapon with base damage {weaponBaseDamage} and {projectileNumber} projectiles.",
 
             _ =>
-                $"Ranged weapon with base damage {projectileShooter.GetDamage()}."
+                $"Ranged weapon with base damage {weaponBaseDamage}."
         };
 
         return description;
+    }
+
+    //Getters
+    public float getCurrentDamage() {
+
+        return currentDamage;
     }
 }

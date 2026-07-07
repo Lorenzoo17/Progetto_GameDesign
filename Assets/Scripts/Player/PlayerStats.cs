@@ -11,6 +11,8 @@ public class PlayerStats : MonoBehaviour
 
     private List<StatPerkSO> activePerks = new List<StatPerkSO>(); // perks attualmente attivi
 
+    public event Action OnStatsUpdated;
+
     private void Awake()
     {
         // Inizializzo le statistiche
@@ -64,6 +66,7 @@ public class PlayerStats : MonoBehaviour
 
             }
         }
+        OnStatsUpdated?.Invoke();
     }
 
     private void ApplyModifier(

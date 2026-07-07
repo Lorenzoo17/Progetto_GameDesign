@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public class WeaponSpear : Weapon
 {
-    [SerializeField] private float spearLength = 4f;
+    [Header("Weapon Spear Stats")]
     [SerializeField] private float spearWidth = 0.4f;
-    [SerializeField] private float weaponBaseDamage = 2.5f;
     [SerializeField] private GameObject spearAttackEffect;
     [SerializeField] private float weaponRotationOffsetZ = 0f;
     [SerializeField] private float knockBackStrenght = 5f;
@@ -33,7 +32,7 @@ public class WeaponSpear : Weapon
         RaycastHit2D[] hits = Physics2D.RaycastAll(
             rayOrigin,
             dir.normalized,
-            spearLength
+            weaponBaseRange
         );
 
         foreach (RaycastHit2D hit in hits)
@@ -47,7 +46,12 @@ public class WeaponSpear : Weapon
                 {
                     hitEnemiesThisAttack.Add(hit.collider.gameObject);
 
-                    DamageInfo damageInfo = new DamageInfo(weaponBaseDamage + Player.Instance.playerStats.playerCurrentStats.getAttack(), dir, Player.Instance.gameObject, EntityType.Player, knockBackStrenght);
+                    DamageInfo damageInfo = new DamageInfo(currentDamage,
+                    dir,
+                    Player.Instance.gameObject, 
+                    EntityType.Player, 
+                    knockBackStrenght);
+
                     damageInfo = Player.Instance.perkController.OnDealDamage(ref damageInfo);
                     entityDamageable.TakeDamage(damageInfo);
                 }
@@ -57,7 +61,7 @@ public class WeaponSpear : Weapon
         // Effetto visivo lancia
         if (spearAttackEffect != null)
         {
-            attackCentrePosition = rayOrigin + (dir.normalized * (spearLength / 2f));
+            attackCentrePosition = rayOrigin + (dir.normalized * (weaponBaseRange / 2f));
             Quaternion effectRotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
             GameObject effect = Instantiate(spearAttackEffect, (Vector3)attackCentrePosition, effectRotation);
             Destroy(effect, 0.6f);
@@ -110,11 +114,12 @@ public class WeaponSpear : Weapon
 
         Gizmos.color = Color.cyan;
         Vector2 rayOrigin = Player.Instance != null ? Player.Instance.playerAttack.GetWeaponHolder().position : transform.position;
-        Gizmos.DrawLine(rayOrigin, rayOrigin + (Vector2.right * spearLength));
+        Gizmos.DrawLine(rayOrigin, rayOrigin + (Vector2.right * weaponBaseRange));
     }
+
     public override string Description()
     {
-        string description = $"Spear weapon with base damage {weaponBaseDamage} and range {spearLength}.";
+        string description = $"Spear weapon with base damage {weaponBaseDamage} and range {weaponBaseRange}.";
         return description;
     }
 }

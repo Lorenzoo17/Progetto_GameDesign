@@ -5,14 +5,11 @@ using System.Collections.Generic;
 
 public class WeaponMelee : Weapon
 {
-
+    [Header("Weapon Melee Stats")]
     [SerializeField] private float weaponRotationOffsetZ = 0f;
     [SerializeField] private float attackDuration = 0.1f;
     [SerializeField] private GameObject meleeAttackEffect;
     [SerializeField] private float meleeAttackEffectSize = 1f; // dimensione dell'effetto (piu' grande per armi piu' grandi ad esempio)
-
-    [SerializeField] private float weaponBaseRange = 1f;
-    [SerializeField] private float weaponBaseDamage = 2f;
     [SerializeField] private float weaponKnockBackStrenght = 5f;
 
     [SerializeField] private bool hasPoison = false;
@@ -40,7 +37,7 @@ public class WeaponMelee : Weapon
         float poisonDamegeValue = Player.Instance.playerStats.playerCurrentStats.getPoisonDamage();
 
         attackCentrePosition = Player.Instance.playerAttack.GetWeaponHolder().position + (Vector3)(dir.normalized * Player.Instance.playerAttack.attackCentreOffset);
-        float weaponDamage = weaponBaseDamage;
+        float weaponDamage = currentDamage;
         float weaponRange = weaponBaseRange;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCentrePosition, weaponRange);
 
@@ -52,7 +49,12 @@ public class WeaponMelee : Weapon
                 {
 
                     // 🔥 APPLICA PERK AL DANNO NORMALE
-                    DamageInfo normalDamage = new DamageInfo(weaponDamage + Player.Instance.playerStats.playerCurrentStats.getAttack(), dir, Player.Instance.gameObject, EntityType.Player, weaponKnockBackStrenght);
+                    DamageInfo normalDamage = new DamageInfo(currentDamage, 
+                    dir, 
+                    Player.Instance.gameObject, 
+                    EntityType.Player, 
+                    weaponKnockBackStrenght);
+
                     normalDamage = Player.Instance.perkController.OnDealDamage(ref normalDamage);
                     entityDamageable.TakeDamage(normalDamage);
                 }
@@ -69,7 +71,10 @@ public class WeaponMelee : Weapon
 
         Quaternion meleeEffectRotation = Quaternion.Euler(0, 0, baseAngle);
         float attackSlashEffectOffset = 1.1f;
-        GameObject slashEffect = Instantiate(meleeAttackEffect, Player.Instance.playerAttack.GetWeaponHolder().position + (Vector3)(dir.normalized * attackSlashEffectOffset), meleeEffectRotation);
+        GameObject slashEffect = Instantiate(meleeAttackEffect, 
+        Player.Instance.playerAttack.GetWeaponHolder().position + (Vector3)(dir.normalized * attackSlashEffectOffset), 
+        meleeEffectRotation);
+
         slashEffect.transform.localScale = slashEffect.transform.localScale * meleeAttackEffectSize;
         if (slashEffect.TryGetComponent<MeleeEffect>(out MeleeEffect meleeEffect)) {
             meleeEffect.SetDirection(dir);
@@ -123,6 +128,7 @@ public class WeaponMelee : Weapon
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackCentrePosition, weaponBaseRange);
     }
+    
     public override string Description()
     {
         string description = $"Melee weapon with base damage {weaponBaseDamage} and range {weaponBaseRange}.";
