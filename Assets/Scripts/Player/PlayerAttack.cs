@@ -135,68 +135,6 @@ public class PlayerAttack : MonoBehaviour
 
         return currentWeapon.GetComponent<Weapon>().GetCurrentAttackRate();
     }
-    
-    //AOE methods
-    public bool TriggerAOE(AOEMutagenSO data)
-    {
-        if (!CanActivateAOE(data)) return false;
-
-        ActivateAOE(data, attackDirection);
-        aoeLastUsedTime = Time.time;
-        return true;
-    }
-
-    private bool CanActivateAOE(AOEMutagenSO data)
-    {
-        if (data == null) return false;
-        if (data.cooldown <= 0f) return true;
-        return Time.time >= aoeLastUsedTime + data.cooldown;
-    }
-
-    private void ActivateAOE(AOEMutagenSO data, Vector2 direction)
-    {
-        if (data == null) return;
-
-        Vector2 aoeCenter = transform.position;
-
-        // Trovare tutti i nemici nel raggio AOE
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(aoeCenter, data.radius);
-
-        foreach (Collider2D entity in colliders)
-        {
-            if (Utils.CombatUtility.CanDamage(Player.Instance.gameObject, entity.gameObject))
-            {
-                if (entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable))
-                {
-                    // Calcolo danno: danno base del player * moltiplicatore AOE
-                    float aoeDamage = Player.Instance.playerStats.playerCurrentStats.GetAttack() * data.damageMultiplier;
-                    // Direzione verso il bersaglio per il knockback
-                    Vector2 directionToTarget = (entity.transform.position - transform.position).normalized;
-                    DamageInfo damageInfo = new DamageInfo(aoeDamage, directionToTarget, Player.Instance.gameObject, EntityType.Player);
-                    entityDamageable.TakeDamage(damageInfo);
-                }
-            }
-        }
-
-        // Istanzia effetto visivo AOE
-        if (data.effectPrefab != null)
-        {
-            Instantiate(data.effectPrefab, aoeCenter, Quaternion.identity);
-        }
-
-        // Camera shake
-        if (EffectManager.Instance != null)
-        {
-            CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(data.shakeType));
-        }
-
-        // Suono effetto AOE
-        if (SoundManager.Instance != null)
-        {
-            SoundManager.Instance.PlaySound2D(data.soundEffect, 0.25f);
-        }
-    }
-    //End AOE methods
 
     private void HandleSorting(float angle)
     {
@@ -262,10 +200,72 @@ public class PlayerAttack : MonoBehaviour
 
         return currentWeapon.GetComponent<Weapon>();
     }
-    /// <summary>
-    /// Trigger a laser mutagen attack
-    /// Called by LaserMutagenSO.Activate()
-    /// </summary>
+
+    //----------- GESTIONE MUTAGENI ------------
+
+        //AOE methods
+    public bool TriggerAOE(AOEMutagenSO data)
+    {
+        if (!CanActivateAOE(data)) return false;
+
+        ActivateAOE(data, attackDirection);
+        aoeLastUsedTime = Time.time;
+        return true;
+    }
+
+    private bool CanActivateAOE(AOEMutagenSO data)
+    {
+        if (data == null) return false;
+        if (data.cooldown <= 0f) return true;
+        return Time.time >= aoeLastUsedTime + data.cooldown;
+    }
+
+    private void ActivateAOE(AOEMutagenSO data, Vector2 direction)
+    {
+        if (data == null) return;
+
+        Vector2 aoeCenter = transform.position;
+
+        // Trovare tutti i nemici nel raggio AOE
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(aoeCenter, data.radius);
+
+        foreach (Collider2D entity in colliders)
+        {
+            if (Utils.CombatUtility.CanDamage(Player.Instance.gameObject, entity.gameObject))
+            {
+                if (entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable))
+                {
+                    // Calcolo danno: danno base del player * moltiplicatore AOE
+                    float aoeDamage = Player.Instance.playerStats.playerCurrentStats.GetAttack() * data.damageMultiplier;
+                    // Direzione verso il bersaglio per il knockback
+                    Vector2 directionToTarget = (entity.transform.position - transform.position).normalized;
+                    DamageInfo damageInfo = new DamageInfo(aoeDamage, directionToTarget, Player.Instance.gameObject, EntityType.Player);
+                    entityDamageable.TakeDamage(damageInfo);
+                }
+            }
+        }
+
+        // Istanzia effetto visivo AOE
+        if (data.effectPrefab != null)
+        {
+            Instantiate(data.effectPrefab, aoeCenter, Quaternion.identity);
+        }
+
+        // Camera shake
+        if (EffectManager.Instance != null)
+        {
+            CameraShakerHandler.Shake(EffectManager.Instance.GetShakeDataByType(data.shakeType));
+        }
+
+        // Suono effetto AOE
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySound2D(data.soundEffect, 0.25f);
+        }
+    }
+
+
+    // Trigger a laser mutagen attack
     public bool TriggerLaser(LaserMutagenSO laserData, MutagenInstance instance)
     {
         if (laserData == null)
@@ -304,7 +304,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
 
-    //Acidic Burp mutagen
+    //Projectile mutagen
     public void SpawnGiantProjectile(
     GameObject projectilePrefab,
     float speed,
@@ -348,7 +348,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    // Puddle mutagen
+    //Puddle mutagen
     public void SpawnPuddle(
         GameObject puddlePrefab,
         float duration,
