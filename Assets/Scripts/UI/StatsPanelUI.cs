@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class StatsPanelUI : MonoBehaviour
 {
@@ -139,7 +140,10 @@ public class StatsPanelUI : MonoBehaviour
             return;
         }
 
-        var perks = player.perkController.activePerks;
+        var perks = player.perkController.activePerks
+                    .Concat(player.perkController.perksToRemove)
+                    .Where(perk => !perk.isHidden)
+                    .ToList();
 
         Debug.Log("Perks count: " + perks.Count);
 
