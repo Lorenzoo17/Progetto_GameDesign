@@ -16852,7 +16852,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.15, y: 0.17}
+  m_Size: {x: 0.9375, y: 1.0625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -16896,7 +16896,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.9375, y: 1.0625}
-    newSize: {x: 0.15, y: 0.17}
+    newSize: {x: 0.9375, y: 1.0625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -16942,7 +16942,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.9375, y: 1.0625}
-    newSize: {x: 0.15, y: 0.17}
+    newSize: {x: 0.9375, y: 1.0625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -28893,7 +28893,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.15, y: 0.17}
+  m_Size: {x: 0.9375, y: 1.0625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -28937,7 +28937,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.9375, y: 1.0625}
-    newSize: {x: 0.15, y: 0.17}
+    newSize: {x: 0.9375, y: 1.0625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -28983,7 +28983,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.9375, y: 1.0625}
-    newSize: {x: 0.15, y: 0.17}
+    newSize: {x: 0.9375, y: 1.0625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -38350,7 +38350,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.15, y: 0.17}
+  m_Size: {x: 0.9375, y: 1.0625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -38394,7 +38394,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.9375, y: 1.0625}
-    newSize: {x: 0.15, y: 0.17}
+    newSize: {x: 0.9375, y: 1.0625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -38440,7 +38440,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.9375, y: 1.0625}
-    newSize: {x: 0.15, y: 0.17}
+    newSize: {x: 0.9375, y: 1.0625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
