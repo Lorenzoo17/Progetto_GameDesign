@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 6624161415336746985}
   - component: {fileID: -1850199715440305445}
   - component: {fileID: 4379115838475733567}
+  - component: {fileID: -7055228543733141581}
+  - component: {fileID: -4128727958723760454}
   m_Layer: 0
   m_Name: Fungus - Sewer Guardian
   m_TagString: Untagged
@@ -199,17 +201,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  stunDurationMultiplier: 1
   knockBackForce: 2
   knockbackDuration: 0.2
-  blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 0}
-  blinkAfterDamageTime: 4
-  hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
-  hitEffectSpawnPositionOffset: 0.5
-  hitEffectRotationOffset: -90
-  invertFlipDirection: 0
   enemyTouchDamage: 1
-  deadBodyPlaceholder: {fileID: 0}
+  deadBodyPlaceholder: {fileID: 6905458675921271353, guid: f8217868afcc3da449f02903a096dcc1, type: 3}
+  dropItems:
+  - itemName: mutagenCoinElite
+    prefab: {fileID: 3666638847045378784, guid: 0711289998d34884c8af0e8cf1044de5, type: 3}
+    weight: 1
+  itemDropChance: 1
+  enemyStatus: {fileID: 0}
 --- !u!114 &3022723650069099157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,6 +378,41 @@ MonoBehaviour:
   scriptsToDisable:
   - {fileID: 839396337409860717}
   - {fileID: 4870650689927582519}
+--- !u!114 &-7055228543733141581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378181008594232565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b80752c34f45d2478588ea22a04a438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
+  statusMultipliers:
+  - effectType: 6
+    multiplier: 0.3
+--- !u!114 &-4128727958723760454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378181008594232565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe93c78fb736790498c1a71aaea20229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyVisual
+  blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
+  blinkIntensity: 3
+  blinkAfterDamageTime: 5
+  hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
+  hitEffectSpawnPositionOffset: 1
+  hitEffectRotationOffset: -90
+  autoFlipTowardsPlayer: 1
+  invertFlipDirection: 0
 --- !u!1 &4837429136762248818
 GameObject:
   m_ObjectHideFlags: 0

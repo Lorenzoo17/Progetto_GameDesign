@@ -47,7 +47,7 @@ public class EnemyMovementNav : MonoBehaviour {
     private RaycastHit2D lastLineOfSightHit;
 
     private NavMeshAgent agent;
-    private Animator anim;
+    private EnemyVisual visual;
     private EnemyAttackBase enemyAttack;
     private Enemy enemy;
 
@@ -71,7 +71,7 @@ public class EnemyMovementNav : MonoBehaviour {
 
     private void Awake() {
         agent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
+        visual = GetComponent<EnemyVisual>();
         enemyAttack = GetComponent<EnemyAttackBase>();
         enemy = GetComponent<Enemy>();
 
@@ -409,8 +409,8 @@ public class EnemyMovementNav : MonoBehaviour {
     }
 
     private void SetMoving(bool value) {
-        if (anim != null) {
-            anim.SetBool("Moving", value);
+        if (visual != null) {
+            visual.SetMoving(value);
         }
     }
 

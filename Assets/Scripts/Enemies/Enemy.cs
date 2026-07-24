@@ -5,56 +5,27 @@ public class Enemy : MonoBehaviour {
     [SerializeField] private float knockBackForce;
     [SerializeField] private float knockbackDuration = 0.2f;    
 
-    [SerializeField] private Color blinkAfterDamageTargetColor;
-    [SerializeField] private float blinkAfterDamageTime;
-    [SerializeField] private GameObject hitEffect;
-    [SerializeField] private float hitEffectSpawnPositionOffset = 0.5f;
-    [SerializeField] private float hitEffectRotationOffset = -90f;
-    [SerializeField] private bool invertFlipDirection;
-
     [SerializeField] private float enemyTouchDamage = 1f;
     [SerializeField] private GameObject deadBodyPlaceholder;
+
+    [SerializeField] private DropItem[] dropItems;
+    [SerializeField] private float itemDropChance = 0.4f;
 
     private HealthSystem enemyHealthSystem;
     public EnemyStatus enemyStatus;
     
-
-    private SpriteRenderer sr;
-    private Color initialColor;
-    private Animator anim;
     private EnemySpawner enemySpawner;
     
-    private bool isDead = false; 
+    private bool isDead = false;
+
+    private EnemyVisual visual;
 
     private void Awake() {
+        visual = GetComponent<EnemyVisual>();
         enemyHealthSystem = GetComponent<HealthSystem>();
         enemyStatus = GetComponent<EnemyStatus>();
         
-
-        sr = GetComponent<SpriteRenderer>();
-        if (sr == null) {
-            sr = transform.Find("Visual")?.GetComponent<SpriteRenderer>();
-            if (sr == null) {
-                Debug.LogWarning("Componente Visual non trovato nel transform");
-            }
-            Debug.Log("SpriteRenderer non trovato sul GameObject principale, cercato nei figli.");
-        }
-        
-        if (sr != null) {
-            initialColor = sr.color;
-        }
-
-        anim = GetComponent<Animator>();
         enemyHealthSystem.OnDamageTaken += EnemyHealthSystem_OnDamageTaken;
-    }
-
-    private void Update() {
-        // Ripristino del colore base dopo il danno
-        if (sr != null && sr.color != initialColor) {
-            sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime * Time.deltaTime);
-        }
-
-        FlipBasedOnPlayer();
     }
 
     private void EnemyHealthSystem_OnDamageTaken(object sender, DamageEventArgs e) {
@@ -71,21 +42,7 @@ public class Enemy : MonoBehaviour {
             );
         }
 
-        if (anim != null) {
-            anim.SetTrigger("Hurt");
-        }
-
-        if (sr != null) {
-            sr.color = blinkAfterDamageTargetColor * 3f;
-        }
-
-        if (hitEffect != null) {
-            Vector2 spawnPos = (Vector2)transform.position + e.AttackDirection.normalized * hitEffectSpawnPositionOffset;
-            float angle = Mathf.Atan2(e.AttackDirection.y, e.AttackDirection.x) * Mathf.Rad2Deg;
-
-            GameObject effect = Instantiate(hitEffect, spawnPos, Quaternion.identity);
-            effect.transform.rotation = Quaternion.Euler(0f, 0f, angle + hitEffectRotationOffset);
-        }
+        visual?.PlayHitFeedback(e.AttackDirection);
 
         if (enemyHealthSystem.CurrentHealth <= 0) {
             Vector2 direction = e.AttackDirection;
@@ -104,23 +61,6 @@ public class Enemy : MonoBehaviour {
             );
         }
     }
-
-    private void FlipBasedOnPlayer() {
-        if (Player.Instance == null) return;
-
-        Vector3 scale = transform.localScale;
-        int flipDirection = invertFlipDirection ? -1 : 1;
-
-        if (Player.Instance.transform.position.x > transform.position.x) {
-            scale.x = -Mathf.Abs(scale.x) * flipDirection;
-        }
-        else {
-            scale.x = Mathf.Abs(scale.x) * flipDirection;
-        }
-
-        transform.localScale = scale;
-    }
-
     private void DeadManagement(Vector2 attackDirection) {
         if (isDead) return;
         isDead = true;
@@ -128,8 +68,8 @@ public class Enemy : MonoBehaviour {
         if (deadBodyPlaceholder != null) {
             GameObject deadBody = Instantiate(deadBodyPlaceholder, transform.position, Quaternion.identity);
 
-            if (deadBody.TryGetComponent<DeadBodyBehaviour>(out DeadBodyBehaviour db) && sr != null) {
-                db.SetUpDeadBody(attackDirection, sr.sprite, sr.sortingLayerName, sr.sortingOrder);
+            if (deadBody.TryGetComponent<DeadBodyBehaviour>(out DeadBodyBehaviour db)) {
+                db.SetUpDeadBody(attackDirection, visual.CurrentSprite, visual.SortingLayerName, visual.SortingOrder);
             }
             else {
                 Destroy(deadBody);
@@ -141,10 +81,7 @@ public class Enemy : MonoBehaviour {
         }
 
         if (SpawnItems.Instance != null) {
-            if (enemyHealthSystem.isBoss)
-                SpawnItems.Instance.SpawnItemBoss(transform.position); 
-            else
-                SpawnItems.Instance.SpawnItem(transform.position);
+                SpawnItems.Instance.SpawnItem(transform.position, this.dropItems, itemDropChance);
         }
         else {
             Debug.Log("Spawn non presente");

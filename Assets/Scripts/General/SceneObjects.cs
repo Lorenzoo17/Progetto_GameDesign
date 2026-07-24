@@ -7,6 +7,9 @@ public class SceneObjects : MonoBehaviour, IDamageable
     [SerializeField] private float itemDropChance = 0.3f;
     [SerializeField] private bool spawnOnStart;
     [SerializeField] private Transform spawnTransform;
+
+    [SerializeField] private DropItem[] dropItems;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -18,7 +21,7 @@ public class SceneObjects : MonoBehaviour, IDamageable
     private void Start() {
         if (spawnOnStart) {
             if (SpawnItems.Instance != null) {
-                SpawnItems.Instance.SpawnItem(spawnTransform.position, itemDropChance);
+                SpawnItems.Instance.SpawnItem(spawnTransform.position, dropItems, itemDropChance);
             }
         }
     }
@@ -35,7 +38,7 @@ public class SceneObjects : MonoBehaviour, IDamageable
         }
 
         if (SpawnItems.Instance != null) {
-            SpawnItems.Instance.SpawnItem(transform.position, itemDropChance);
+            SpawnItems.Instance.SpawnItem(transform.position, dropItems, itemDropChance);
         }
 
         if (anim != null) {
