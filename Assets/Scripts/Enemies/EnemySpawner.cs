@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour{
-
+    // TODO : da spostare nella room manager ? 
     public static EnemySpawner Instance {  get; private set; }
 
     [SerializeField] private GameObject[] enemiesToSpawnPrefabs; // prefab dei nemici da spawnare

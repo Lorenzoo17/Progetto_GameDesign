@@ -67,6 +67,8 @@ public class EnemyMovementNav : MonoBehaviour {
     // e' stato colpito da esso
     private bool hasSeenPlayer;
 
+    private bool isMovementBlocked = false;
+
     private void Awake() {
         agent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
@@ -102,11 +104,9 @@ public class EnemyMovementNav : MonoBehaviour {
 
         if (!agent.isOnNavMesh)
             return;
-
-        if (enemy != null && enemy.IsStunned)
+        
+        if (isMovementBlocked)
         {
-            StopMovement();
-            SetMoving(false);
             return;
         }
 
@@ -344,8 +344,18 @@ public class EnemyMovementNav : MonoBehaviour {
 
     public void ForceStop()
     {
+        isMovementBlocked = true;
         StopMovement();
         SetMoving(false);
+    }
+    public void ResumeMovement()
+    {
+        isMovementBlocked = false; 
+
+        if (agent != null && agent.enabled && agent.isOnNavMesh)
+        {
+            agent.isStopped = false; 
+        }
     }
 
     public void ApplyKnockback(Vector2 direction, float force, float duration) {

@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 3518813518886905007}
   - component: {fileID: -8699363798022627634}
   - component: {fileID: 7656297383882434101}
+  - component: {fileID: -8625172233936732698}
   m_Layer: 0
   m_Name: mushroom_melee_nav
   m_TagString: Untagged
@@ -242,7 +243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  stunDurationMultiplier: 3
   knockBackForce: 2
   knockbackDuration: 0.1
   blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
@@ -253,6 +253,7 @@ MonoBehaviour:
   invertFlipDirection: 0
   enemyTouchDamage: 1
   deadBodyPlaceholder: {fileID: 6905458675921271353, guid: f8217868afcc3da449f02903a096dcc1, type: 3}
+  enemyStatus: {fileID: 0}
 --- !u!114 &1200962363375708060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,3 +431,18 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &-8625172233936732698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642179399350267750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b80752c34f45d2478588ea22a04a438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
+  statusMultipliers:
+  - effectType: 6
+    multiplier: 0.75

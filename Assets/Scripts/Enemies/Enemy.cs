@@ -2,9 +2,8 @@ using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
-    [SerializeField] private float stunDurationMultiplier = 1f;
     [SerializeField] private float knockBackForce;
-    [SerializeField] private float knockbackDuration = 0.2f;
+    [SerializeField] private float knockbackDuration = 0.2f;    
 
     [SerializeField] private Color blinkAfterDamageTargetColor;
     [SerializeField] private float blinkAfterDamageTime;
@@ -17,71 +16,52 @@ public class Enemy : MonoBehaviour {
     [SerializeField] private GameObject deadBodyPlaceholder;
 
     private HealthSystem enemyHealthSystem;
-    private EnemyMovement enemyMovement;
+    public EnemyStatus enemyStatus;
+    
 
     private SpriteRenderer sr;
     private Color initialColor;
-
     private Animator anim;
-
     private EnemySpawner enemySpawner;
-    private bool isDead = false; // per evitare che DeadManagement venga richiamato piu' volte
-
-    // 🔥 STUN STATE
-    private bool isStun = false;
-    public bool IsStunned => isStun;
-    private float stunTimer;
+    
+    private bool isDead = false; 
 
     private void Awake() {
         enemyHealthSystem = GetComponent<HealthSystem>();
-        enemyMovement = GetComponent<EnemyMovement>();
+        enemyStatus = GetComponent<EnemyStatus>();
+        
 
         sr = GetComponent<SpriteRenderer>();
         if (sr == null) {
-            sr = transform.Find("Visual").GetComponent<SpriteRenderer>();
+            sr = transform.Find("Visual")?.GetComponent<SpriteRenderer>();
             if (sr == null) {
                 Debug.LogWarning("Componente Visual non trovato nel transform");
             }
             Debug.Log("SpriteRenderer non trovato sul GameObject principale, cercato nei figli.");
         }
-        initialColor = sr.color;
+        
+        if (sr != null) {
+            initialColor = sr.color;
+        }
 
         anim = GetComponent<Animator>();
-
         enemyHealthSystem.OnDamageTaken += EnemyHealthSystem_OnDamageTaken;
     }
 
     private void Update() {
-        if (stunTimer > 0f) {
-            stunTimer -= Time.deltaTime;
-
-            if (stunTimer <= 0f) {
-                SetStun(false);
-            }
-        }
-
+        // Ripristino del colore base dopo il danno
         if (sr != null && sr.color != initialColor) {
             sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime * Time.deltaTime);
         }
 
         FlipBasedOnPlayer();
-
-        return;
     }
 
     private void EnemyHealthSystem_OnDamageTaken(object sender, DamageEventArgs e) {
         if (isDead) return;
 
         if (TryGetComponent<BossCtrl>(out BossCtrl boss)) {
-            // Se sei il Boss, deleghiamo tutto al tuo script (che gestirà la combo dei 3 colpi!)
             boss.ApplyKnockback(e.AttackDirection);
-        }
-        else if (enemyMovement != null) {
-            enemyMovement.ApplyKnockback(
-                e.AttackDirection,
-                knockBackForce + e.KnockBackStrenght,  // + knockbackstrenght dell'arma (per ora solo quelle melee lo hanno)
-                knockbackDuration
-            );
         }
         else if (TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav)) {
             nav.ApplyKnockback(
@@ -109,10 +89,8 @@ public class Enemy : MonoBehaviour {
 
         if (enemyHealthSystem.CurrentHealth <= 0) {
             Vector2 direction = e.AttackDirection;
-            // se il danno non e' fisico, come direzione si mette quella opposta al player di default
-            if (e.AttackDamageType != DamageType.Physical) {
-                if (Player.Instance != null)
-                    direction = -(Player.Instance.transform.position - transform.position).normalized;
+            if (e.AttackDamageType != DamageType.Physical && Player.Instance != null) {
+                direction = -(Player.Instance.transform.position - transform.position).normalized;
             }
             DeadManagement(direction);
         }
@@ -150,7 +128,7 @@ public class Enemy : MonoBehaviour {
         if (deadBodyPlaceholder != null) {
             GameObject deadBody = Instantiate(deadBodyPlaceholder, transform.position, Quaternion.identity);
 
-            if (deadBody.TryGetComponent<DeadBodyBehaviour>(out DeadBodyBehaviour db)) {
+            if (deadBody.TryGetComponent<DeadBodyBehaviour>(out DeadBodyBehaviour db) && sr != null) {
                 db.SetUpDeadBody(attackDirection, sr.sprite, sr.sortingLayerName, sr.sortingOrder);
             }
             else {
@@ -159,13 +137,12 @@ public class Enemy : MonoBehaviour {
         }
 
         if (enemySpawner != null) {
-            enemySpawner.OnEnemyDeath(); // aggiorno contatore numero corrente di nemici per l'enemy spawner
+            enemySpawner.OnEnemyDeath();
         }
 
-        // spawno un oggetto
         if (SpawnItems.Instance != null) {
-            if (enemyHealthSystem.isBoss) // se e' boss
-                SpawnItems.Instance.SpawnItemBoss(transform.position); // spawna oggetti dei boss (100% di chance)
+            if (enemyHealthSystem.isBoss)
+                SpawnItems.Instance.SpawnItemBoss(transform.position); 
             else
                 SpawnItems.Instance.SpawnItem(transform.position);
         }
@@ -173,7 +150,6 @@ public class Enemy : MonoBehaviour {
             Debug.Log("Spawn non presente");
         }
 
-        // suono morte
         if (SoundManager.Instance != null) {
             SoundManager.Instance.PlaySound3D(SoundID.EnemyDeath, transform.position);
         }
@@ -183,33 +159,5 @@ public class Enemy : MonoBehaviour {
 
     public void SetEnemySpawner(EnemySpawner es) {
         enemySpawner = es;
-    }
-
-    public void SetStun(bool value) {
-        isStun = value;
-
-        if (isStun) {
-            if (enemyMovement != null) {
-                enemyMovement.ForceStop();
-            }
-            else if (TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav)) {
-                nav.ForceStop();
-            }
-        }
-    }
-
-    public float GetDurationMultiplier() {
-        return stunDurationMultiplier;
-    }
-
-    public void ApplyStun(float baseDuration) {
-        float finalDuration = baseDuration * stunDurationMultiplier;
-
-        if (finalDuration <= 0f)
-            return;
-
-        stunTimer = Mathf.Max(stunTimer, finalDuration);
-
-        SetStun(true);
     }
 }
