@@ -30,7 +30,9 @@ public class DungeonMinimapUI : MonoBehaviour {
 
     private DungeonGenerator dungeonGenerator;
 
-    private readonly Dictionary<RoomBehaviour, Image> roomIcons = new Dictionary<RoomBehaviour, Image>();
+    // una stanza puo' occupare piu' celle -> piu' di un'immagine
+    // (un'icona per ogni rettangolo massimale + eventuali raccordi tra i rettangoli)
+    private readonly Dictionary<RoomBehaviour, List<Image>> roomIcons = new Dictionary<RoomBehaviour, List<Image>>();
     private readonly Dictionary<Vector2Int, RoomBehaviour> roomByGridPosition = new Dictionary<Vector2Int, RoomBehaviour>();
     private readonly List<CorridorData> corridors = new List<CorridorData>();
 
@@ -78,40 +80,44 @@ public class DungeonMinimapUI : MonoBehaviour {
 
         RoomBehaviour[] rooms = dungeonGenerator.GetComponentsInChildren<RoomBehaviour>(true);
 
-        // Prima creo le icone delle stanze
+        // Icone delle stanze.
+        // Una stanza multi-cella non viene disegnata cella per cella (verrebbe una fila di
+        // quadrati staccati): la si scompone in rettangoli massimali e si disegna
+        // un'icona sola per rettangolo. Cosi' una 2x1 diventa un unico rettangolo allungato.
         foreach (RoomBehaviour room in rooms) {
-            Vector2Int gridPos = room.GridPosition;
 
-            roomByGridPosition[gridPos] = room;
+            foreach (Vector2Int gridPos in room.OccupiedGridPositions) {
+                roomByGridPosition[gridPos] = room;
+            }
 
-            Image icon = Instantiate(roomIconPrefab, container);
-            icon.rectTransform.anchoredPosition = GridToUIPosition(gridPos);
-            icon.rectTransform.sizeDelta = new Vector2(roomSize, roomSize);
-
-            roomIcons[room] = icon;
+            roomIcons[room] = CreateRoomIcons(room);
 
             if (room.IsVisited && currentRoom == null) {
                 currentRoom = room;
             }
         }
 
-        // Poi creo i corridoi tra le stanze
+        // Poi creo i corridoi tra celle di stanze DIVERSE
         foreach (RoomBehaviour room in rooms) {
-            bool[] status = dungeonGenerator.GetCellStatus(room.GridPosition);
 
-            if (status == null) continue;
+            foreach (Vector2Int gridPos in room.OccupiedGridPositions) {
 
-            // 0 = Up, 1 = Down, 2 = Right, 3 = Left
-            // Creo solo Right e Down per evitare duplicati.
+                bool[] status = dungeonGenerator.GetCellStatus(gridPos);
 
-            if (status[2]) {
-                // Right = x + 1
-                CreateCorridor(room.GridPosition, new Vector2Int(1, 0));
-            }
+                if (status == null) continue;
 
-            if (status[1]) {
-                // Down nella tua griglia = y + 1, NON Vector2Int.down
-                CreateCorridor(room.GridPosition, new Vector2Int(0, 1));
+                // 0 = Up, 1 = Down, 2 = Right, 3 = Left
+                // Creo solo Right e Down per evitare duplicati.
+
+                if (status[2]) {
+                    // Right = x + 1
+                    CreateCorridor(gridPos, new Vector2Int(1, 0));
+                }
+
+                if (status[1]) {
+                    // Down nella tua griglia = y + 1, NON Vector2Int.down
+                    CreateCorridor(gridPos, new Vector2Int(0, 1));
+                }
             }
         }
 
@@ -128,12 +134,141 @@ public class DungeonMinimapUI : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Crea le immagini che compongono una stanza: un'icona per ogni rettangolo massimale,
+    /// piu' un raccordo pieno dove due rettangoli della stessa stanza si toccano.
+    /// </summary>
+    private List<Image> CreateRoomIcons(RoomBehaviour room) {
+
+        List<Image> images = new List<Image>();
+
+        List<RectInt> rectangles = DecomposeIntoRectangles(room.OccupiedGridPositions);
+
+        // a quale rettangolo appartiene ogni cella
+        Dictionary<Vector2Int, int> rectangleByCell = new Dictionary<Vector2Int, int>();
+
+        for (int r = 0; r < rectangles.Count; r++) {
+            for (int y = 0; y < rectangles[r].height; y++) {
+                for (int x = 0; x < rectangles[r].width; x++) {
+                    rectangleByCell[new Vector2Int(rectangles[r].x + x, rectangles[r].y + y)] = r;
+                }
+            }
+        }
+
+        // raccordi fra rettangoli diversi: creati per primi cosi' restano sotto le icone
+        HashSet<Vector2Int> occupied = new HashSet<Vector2Int>(room.OccupiedGridPositions);
+
+        foreach (Vector2Int cell in room.OccupiedGridPositions) {
+
+            // solo Right e Down, per non creare doppioni
+            for (int k = 0; k < 2; k++) {
+
+                Vector2Int direction = k == 0 ? new Vector2Int(1, 0) : new Vector2Int(0, 1);
+                Vector2Int neighbour = cell + direction;
+
+                if (!occupied.Contains(neighbour)) continue;
+                if (rectangleByCell[cell] == rectangleByCell[neighbour]) continue; // stesso rettangolo: gia' pieno
+
+                Image joint = Instantiate(corridorIconPrefab, container);
+
+                joint.rectTransform.anchoredPosition =
+                    (GridToUIPosition(cell) + GridToUIPosition(neighbour)) * 0.5f;
+
+                // +1 per evitare la riga di pixel scoperta sul bordo
+                joint.rectTransform.sizeDelta = direction.x != 0
+                    ? new Vector2(spacing - roomSize + 1f, roomSize)
+                    : new Vector2(roomSize, spacing - roomSize + 1f);
+
+                images.Add(joint);
+            }
+        }
+
+        // un'icona per rettangolo
+        foreach (RectInt rectangle in rectangles) {
+
+            Vector2Int min = new Vector2Int(rectangle.x, rectangle.y);
+            Vector2Int max = new Vector2Int(rectangle.x + rectangle.width - 1, rectangle.y + rectangle.height - 1);
+
+            Image icon = Instantiate(roomIconPrefab, container);
+
+            icon.rectTransform.anchoredPosition = (GridToUIPosition(min) + GridToUIPosition(max)) * 0.5f;
+
+            icon.rectTransform.sizeDelta = new Vector2(
+                (rectangle.width - 1) * spacing + roomSize,
+                (rectangle.height - 1) * spacing + roomSize
+            );
+
+            images.Add(icon);
+        }
+
+        return images;
+    }
+
+    /// <summary>
+    /// Scompone un insieme di celle nel minor numero ragionevole di rettangoli pieni
+    /// (greedy: allarga a destra il piu' possibile, poi verso il basso finche' la
+    /// larghezza si mantiene).
+    /// </summary>
+    private static List<RectInt> DecomposeIntoRectangles(IReadOnlyList<Vector2Int> cells) {
+
+        List<RectInt> rectangles = new List<RectInt>();
+
+        if (cells == null || cells.Count == 0) return rectangles;
+
+        HashSet<Vector2Int> remaining = new HashSet<Vector2Int>(cells);
+
+        List<Vector2Int> ordered = new List<Vector2Int>(cells);
+        ordered.Sort((a, b) => a.y != b.y ? a.y.CompareTo(b.y) : a.x.CompareTo(b.x));
+
+        foreach (Vector2Int cell in ordered) {
+
+            if (!remaining.Contains(cell)) continue;
+
+            int width = 1;
+            while (remaining.Contains(new Vector2Int(cell.x + width, cell.y))) width++;
+
+            int height = 1;
+            while (true) {
+
+                bool rowComplete = true;
+
+                for (int x = 0; x < width; x++) {
+                    if (!remaining.Contains(new Vector2Int(cell.x + x, cell.y + height))) {
+                        rowComplete = false;
+                        break;
+                    }
+                }
+
+                if (!rowComplete) break;
+
+                height++;
+            }
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    remaining.Remove(new Vector2Int(cell.x + x, cell.y + y));
+                }
+            }
+
+            rectangles.Add(new RectInt(cell.x, cell.y, width, height));
+        }
+
+        return rectangles;
+    }
+
     private void CreateCorridor(Vector2Int from, Vector2Int direction) {
         Vector2Int to = from + direction;
 
         if (!AreCellsConnected(from, to)) return;
 
         if (!roomByGridPosition.ContainsKey(to)) return;
+
+        // celle della stessa stanza: gia' coperte dall'icona della stanza
+        if (roomByGridPosition.TryGetValue(from, out RoomBehaviour fromRoom) &&
+            roomByGridPosition.TryGetValue(to, out RoomBehaviour toRoom) &&
+            fromRoom == toRoom) {
+            return;
+        }
 
         Image corridor = Instantiate(corridorIconPrefab, container);
 
@@ -206,15 +341,20 @@ public class DungeonMinimapUI : MonoBehaviour {
     private void RefreshMinimap() {
         foreach (var pair in roomIcons) {
             RoomBehaviour room = pair.Key;
-            Image icon = pair.Value;
+            List<Image> icons = pair.Value;
 
             bool visible = !showOnlyVisitedRooms || room.IsVisited || room == currentRoom;
+            Color color = GetRoomColor(room);
 
-            icon.gameObject.SetActive(visible);
+            for (int i = 0; i < icons.Count; i++) {
+                if (icons[i] == null) continue;
 
-            if (!visible) continue;
+                icons[i].gameObject.SetActive(visible);
 
-            icon.color = GetRoomColor(room);
+                if (!visible) continue;
+
+                icons[i].color = color;
+            }
         }
 
         foreach (CorridorData corridor in corridors) {
