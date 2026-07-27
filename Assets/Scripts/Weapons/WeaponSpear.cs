@@ -19,13 +19,25 @@ public class WeaponSpear : Weapon
 
     private Vector2 attackCentrePosition;
     private HashSet<GameObject> hitEnemiesThisAttack = new();
+    private Coroutine spearThrustCoroutine;
+    private Vector3 spearOriginalLocalPosition;
 
     public override void Attack(Vector2 dir)
     {
         hitEnemiesThisAttack.Clear();
 
+        Transform weaponHolder = Player.Instance.playerAttack.GetWeaponHolder();
+        spearOriginalLocalPosition = weaponHolder.localPosition;
+
+        if (spearThrustCoroutine != null)
+        {
+            StopCoroutine(spearThrustCoroutine);
+            weaponHolder.localPosition = spearOriginalLocalPosition;
+            spearThrustCoroutine = null;
+        }
+
         // 🔥 AVVIA L'ANIMAZIONE DI THRUST
-        StartCoroutine(SpearThrustAnimation(dir));
+        spearThrustCoroutine = StartCoroutine(SpearThrustAnimation(dir, weaponHolder, spearOriginalLocalPosition));
 
         // Usa RaycastAll per colpire in linea retta (perforante)
         Vector2 rayOrigin = Player.Instance.playerAttack.GetWeaponHolder().position;
@@ -69,37 +81,36 @@ public class WeaponSpear : Weapon
     }
 
     // 🔥 ANIMAZIONE THRUST
-    private IEnumerator SpearThrustAnimation(Vector2 dir)
+    private IEnumerator SpearThrustAnimation(Vector2 dir, Transform weaponHolder, Vector3 originalLocalPosition)
     {
-        Transform weaponHolder = Player.Instance.playerAttack.GetWeaponHolder();
-        Vector3 originalPosition = weaponHolder.localPosition;
-        Vector3 thrustPosition = originalPosition + (Vector3)dir.normalized * thrustDistance;
+        Vector3 thrustLocalPosition = originalLocalPosition + (Vector3)dir.normalized * thrustDistance;
 
         float elapsedTime = 0f;
 
-        // Fase 1: Spinta in avanti
+        // Fase 1: Spinta in avanti in spazio locale
         while (elapsedTime < thrustForwardDuration)
         {
             elapsedTime += Time.deltaTime;
             float progress = elapsedTime / thrustForwardDuration;
             float curveValue = thrustForwardCurve.Evaluate(progress);
-            weaponHolder.localPosition = Vector3.Lerp(originalPosition, thrustPosition, curveValue);
+            weaponHolder.localPosition = Vector3.Lerp(originalLocalPosition, thrustLocalPosition, curveValue);
             yield return null;
         }
 
         elapsedTime = 0f;
 
-        // Fase 2: Ritorno veloce
+        // Fase 2: Ritorno verso la posizione originale dell'holder
         while (elapsedTime < thrustBackDuration)
         {
             elapsedTime += Time.deltaTime;
             float progress = elapsedTime / thrustBackDuration;
             float curveValue = thrustBackCurve.Evaluate(progress);
-            weaponHolder.localPosition = Vector3.Lerp(thrustPosition, originalPosition, curveValue);
+            weaponHolder.localPosition = Vector3.Lerp(thrustLocalPosition, originalLocalPosition, curveValue);
             yield return null;
         }
 
-        weaponHolder.localPosition = originalPosition;
+        weaponHolder.localPosition = originalLocalPosition;
+        spearThrustCoroutine = null;
     }
 
     public override void HandleRotation(Transform weaponHolder, Vector2 dir)
