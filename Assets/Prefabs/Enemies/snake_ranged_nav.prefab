@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 6157278811238765489}
   - component: {fileID: 6666826066591312943}
   - component: {fileID: 4017632462322840672}
+  - component: {fileID: 3249642255583537170}
+  - component: {fileID: 2198636113563605508}
   m_Layer: 0
   m_Name: snake_ranged_nav
   m_TagString: Untagged
@@ -199,17 +201,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  stunDurationMultiplier: 2
   knockBackForce: 2
   knockbackDuration: 0.1
-  blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkAfterDamageTime: 4
-  hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
-  hitEffectSpawnPositionOffset: 1
-  hitEffectRotationOffset: -90
-  invertFlipDirection: 0
   enemyTouchDamage: 1
   deadBodyPlaceholder: {fileID: 6905458675921271353, guid: f8217868afcc3da449f02903a096dcc1, type: 3}
+  dropItems:
+  - itemName: dungeonCoin
+    prefab: {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
+    weight: 0.6
+  - itemName: heart
+    prefab: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
+    weight: 0.2
+  - itemName: mutagenCoin
+    prefab: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
+    weight: 0.1
+  - itemName: halfHeart
+    prefab: {fileID: 5333475906305167229, guid: 4f727578f97df474396abc678364aa6b, type: 3}
+    weight: 0.3
+  - itemName: dungeonCoinBig
+    prefab: {fileID: 7393189470435230051, guid: f1dea9f2bff78d245b086395ae07c25a, type: 3}
+    weight: 0.35
+  - itemName: mutagenCoinBig
+    prefab: {fileID: 3666638847045378784, guid: 9b74d1f7f95f4d246a2e586d6ddd5b3a, type: 3}
+    weight: 0.05
+  enemyStatus: {fileID: 0}
 --- !u!114 &4207351636314101023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +385,41 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageBoostParticlePrefab: {fileID: 0}
   particleOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &3249642255583537170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2324147677086342410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b80752c34f45d2478588ea22a04a438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
+  statusMultipliers:
+  - effectType: 6
+    multiplier: 1
+--- !u!114 &2198636113563605508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2324147677086342410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe93c78fb736790498c1a71aaea20229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyVisual
+  blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
+  blinkIntensity: 3
+  blinkAfterDamageTime: 5
+  hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
+  hitEffectSpawnPositionOffset: 1
+  hitEffectRotationOffset: -90
+  autoFlipTowardsPlayer: 1
+  invertFlipDirection: 0
 --- !u!1 &5789124366512460377
 GameObject:
   m_ObjectHideFlags: 0

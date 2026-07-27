@@ -2,86 +2,37 @@ using FirstGearGames.SmoothCameraShaker;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
-    [SerializeField] private float stunDurationMultiplier = 1f;
     [SerializeField] private float knockBackForce;
-    [SerializeField] private float knockbackDuration = 0.2f;
-
-    [SerializeField] private Color blinkAfterDamageTargetColor;
-    [SerializeField] private float blinkAfterDamageTime;
-    [SerializeField] private GameObject hitEffect;
-    [SerializeField] private float hitEffectSpawnPositionOffset = 0.5f;
-    [SerializeField] private float hitEffectRotationOffset = -90f;
-    [SerializeField] private bool invertFlipDirection;
+    [SerializeField] private float knockbackDuration = 0.2f;    
 
     [SerializeField] private float enemyTouchDamage = 1f;
     [SerializeField] private GameObject deadBodyPlaceholder;
 
+    [SerializeField] private DropItem[] dropItems;
+    [SerializeField] private float itemDropChance = 0.4f;
+
     private HealthSystem enemyHealthSystem;
-    private EnemyMovement enemyMovement;
-
-    private SpriteRenderer sr;
-    private Color initialColor;
-
-    private Animator anim;
-
+    public EnemyStatus enemyStatus;
+    
     private EnemySpawner enemySpawner;
-    private bool isDead = false; // per evitare che DeadManagement venga richiamato piu' volte
+    
+    private bool isDead = false;
 
-    // 🔥 STUN STATE
-    private bool isStun = false;
-    public bool IsStunned => isStun;
-    private float stunTimer;
+    private EnemyVisual visual;
 
     private void Awake() {
+        visual = GetComponent<EnemyVisual>();
         enemyHealthSystem = GetComponent<HealthSystem>();
-        enemyMovement = GetComponent<EnemyMovement>();
-
-        sr = GetComponent<SpriteRenderer>();
-        if (sr == null) {
-            sr = transform.Find("Visual").GetComponent<SpriteRenderer>();
-            if (sr == null) {
-                Debug.LogWarning("Componente Visual non trovato nel transform");
-            }
-            Debug.Log("SpriteRenderer non trovato sul GameObject principale, cercato nei figli.");
-        }
-        initialColor = sr.color;
-
-        anim = GetComponent<Animator>();
-
+        enemyStatus = GetComponent<EnemyStatus>();
+        
         enemyHealthSystem.OnDamageTaken += EnemyHealthSystem_OnDamageTaken;
-    }
-
-    private void Update() {
-        if (stunTimer > 0f) {
-            stunTimer -= Time.deltaTime;
-
-            if (stunTimer <= 0f) {
-                SetStun(false);
-            }
-        }
-
-        if (sr != null && sr.color != initialColor) {
-            sr.color = Color.Lerp(sr.color, initialColor, blinkAfterDamageTime * Time.deltaTime);
-        }
-
-        FlipBasedOnPlayer();
-
-        return;
     }
 
     private void EnemyHealthSystem_OnDamageTaken(object sender, DamageEventArgs e) {
         if (isDead) return;
 
         if (TryGetComponent<BossCtrl>(out BossCtrl boss)) {
-            // Se sei il Boss, deleghiamo tutto al tuo script (che gestirà la combo dei 3 colpi!)
             boss.ApplyKnockback(e.AttackDirection);
-        }
-        else if (enemyMovement != null) {
-            enemyMovement.ApplyKnockback(
-                e.AttackDirection,
-                knockBackForce + e.KnockBackStrenght,  // + knockbackstrenght dell'arma (per ora solo quelle melee lo hanno)
-                knockbackDuration
-            );
         }
         else if (TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav)) {
             nav.ApplyKnockback(
@@ -91,28 +42,12 @@ public class Enemy : MonoBehaviour {
             );
         }
 
-        if (anim != null) {
-            anim.SetTrigger("Hurt");
-        }
-
-        if (sr != null) {
-            sr.color = blinkAfterDamageTargetColor * 3f;
-        }
-
-        if (hitEffect != null) {
-            Vector2 spawnPos = (Vector2)transform.position + e.AttackDirection.normalized * hitEffectSpawnPositionOffset;
-            float angle = Mathf.Atan2(e.AttackDirection.y, e.AttackDirection.x) * Mathf.Rad2Deg;
-
-            GameObject effect = Instantiate(hitEffect, spawnPos, Quaternion.identity);
-            effect.transform.rotation = Quaternion.Euler(0f, 0f, angle + hitEffectRotationOffset);
-        }
+        visual?.PlayHitFeedback(e.AttackDirection);
 
         if (enemyHealthSystem.CurrentHealth <= 0) {
             Vector2 direction = e.AttackDirection;
-            // se il danno non e' fisico, come direzione si mette quella opposta al player di default
-            if (e.AttackDamageType != DamageType.Physical) {
-                if (Player.Instance != null)
-                    direction = -(Player.Instance.transform.position - transform.position).normalized;
+            if (e.AttackDamageType != DamageType.Physical && Player.Instance != null) {
+                direction = -(Player.Instance.transform.position - transform.position).normalized;
             }
             DeadManagement(direction);
         }
@@ -126,23 +61,6 @@ public class Enemy : MonoBehaviour {
             );
         }
     }
-
-    private void FlipBasedOnPlayer() {
-        if (Player.Instance == null) return;
-
-        Vector3 scale = transform.localScale;
-        int flipDirection = invertFlipDirection ? -1 : 1;
-
-        if (Player.Instance.transform.position.x > transform.position.x) {
-            scale.x = -Mathf.Abs(scale.x) * flipDirection;
-        }
-        else {
-            scale.x = Mathf.Abs(scale.x) * flipDirection;
-        }
-
-        transform.localScale = scale;
-    }
-
     private void DeadManagement(Vector2 attackDirection) {
         if (isDead) return;
         isDead = true;
@@ -151,7 +69,7 @@ public class Enemy : MonoBehaviour {
             GameObject deadBody = Instantiate(deadBodyPlaceholder, transform.position, Quaternion.identity);
 
             if (deadBody.TryGetComponent<DeadBodyBehaviour>(out DeadBodyBehaviour db)) {
-                db.SetUpDeadBody(attackDirection, sr.sprite, sr.sortingLayerName, sr.sortingOrder);
+                db.SetUpDeadBody(attackDirection, visual.CurrentSprite, visual.SortingLayerName, visual.SortingOrder);
             }
             else {
                 Destroy(deadBody);
@@ -159,21 +77,16 @@ public class Enemy : MonoBehaviour {
         }
 
         if (enemySpawner != null) {
-            enemySpawner.OnEnemyDeath(); // aggiorno contatore numero corrente di nemici per l'enemy spawner
+            enemySpawner.OnEnemyDeath();
         }
 
-        // spawno un oggetto
         if (SpawnItems.Instance != null) {
-            if (enemyHealthSystem.isBoss) // se e' boss
-                SpawnItems.Instance.SpawnItemBoss(transform.position); // spawna oggetti dei boss (100% di chance)
-            else
-                SpawnItems.Instance.SpawnItem(transform.position);
+                SpawnItems.Instance.SpawnItem(transform.position, this.dropItems, itemDropChance);
         }
         else {
             Debug.Log("Spawn non presente");
         }
 
-        // suono morte
         if (SoundManager.Instance != null) {
             SoundManager.Instance.PlaySound3D(SoundID.EnemyDeath, transform.position);
         }
@@ -183,33 +96,5 @@ public class Enemy : MonoBehaviour {
 
     public void SetEnemySpawner(EnemySpawner es) {
         enemySpawner = es;
-    }
-
-    public void SetStun(bool value) {
-        isStun = value;
-
-        if (isStun) {
-            if (enemyMovement != null) {
-                enemyMovement.ForceStop();
-            }
-            else if (TryGetComponent<EnemyMovementNav>(out EnemyMovementNav nav)) {
-                nav.ForceStop();
-            }
-        }
-    }
-
-    public float GetDurationMultiplier() {
-        return stunDurationMultiplier;
-    }
-
-    public void ApplyStun(float baseDuration) {
-        float finalDuration = baseDuration * stunDurationMultiplier;
-
-        if (finalDuration <= 0f)
-            return;
-
-        stunTimer = Mathf.Max(stunTimer, finalDuration);
-
-        SetStun(true);
     }
 }

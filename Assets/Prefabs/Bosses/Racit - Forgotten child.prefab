@@ -110,6 +110,8 @@ GameObject:
   - component: {fileID: 1340829199885440648}
   - component: {fileID: 8508289129420120813}
   - component: {fileID: 7050842544685862514}
+  - component: {fileID: 2964353683907310480}
+  - component: {fileID: 6810983132347942678}
   m_Layer: 0
   m_Name: Racit - Forgotten child
   m_TagString: Racit
@@ -250,17 +252,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07410e6080894124abd69a9ca8339418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  stunDurationMultiplier: 1
   knockBackForce: 10
   knockbackDuration: 0.2
-  blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkAfterDamageTime: 2
-  hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
-  hitEffectSpawnPositionOffset: 1
-  hitEffectRotationOffset: -90
-  invertFlipDirection: 0
   enemyTouchDamage: 1
-  deadBodyPlaceholder: {fileID: 0}
+  deadBodyPlaceholder: {fileID: 6905458675921271353, guid: f8217868afcc3da449f02903a096dcc1, type: 3}
+  dropItems:
+  - itemName: mutagenCoinElite
+    prefab: {fileID: 3666638847045378784, guid: 0711289998d34884c8af0e8cf1044de5, type: 3}
+    weight: 1
+  itemDropChance: 1
+  enemyStatus: {fileID: 0}
 --- !u!195 &5413238639295673508
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -471,6 +472,41 @@ MonoBehaviour:
   scriptsToDisable:
   - {fileID: 5151883782128186509}
   - {fileID: 8797646812830116539}
+--- !u!114 &2964353683907310480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375325059639907942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b80752c34f45d2478588ea22a04a438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
+  statusMultipliers:
+  - effectType: 6
+    multiplier: 0.3
+--- !u!114 &6810983132347942678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375325059639907942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe93c78fb736790498c1a71aaea20229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyVisual
+  blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
+  blinkIntensity: 3
+  blinkAfterDamageTime: 5
+  hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
+  hitEffectSpawnPositionOffset: 1
+  hitEffectRotationOffset: -90
+  autoFlipTowardsPlayer: 1
+  invertFlipDirection: 1
 --- !u!1 &5568309253460772942
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public abstract class EnemyAttackBase : MonoBehaviour {
     protected float attackCooldownTimer;
     protected float attackTimer;
 
-    protected Animator anim;
+    protected EnemyVisual visual;
     protected Rigidbody2D rb;
 
     private bool hasExecutedAttack;
@@ -21,7 +21,7 @@ public abstract class EnemyAttackBase : MonoBehaviour {
     public bool IsAttacking { get; protected set; }
 
     protected virtual void Awake() {
-        anim = GetComponent<Animator>();
+        visual = GetComponent<EnemyVisual>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -56,8 +56,8 @@ public abstract class EnemyAttackBase : MonoBehaviour {
             rb.linearVelocity = Vector2.zero;
         }
 
-        if (anim != null) {
-            anim.SetTrigger("Attack");
+        if (visual != null) {
+            visual.PlayAttack();
         }
     }
 

@@ -3,14 +3,17 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Mutagens/Scream")]
 public class ScreamSO : MutagenSO
 {
+    [SerializeField] private StatusEffectData stunEffectAsset;
     public override bool Activate(Player player, MutagenInstance instance)
     {
         Enemy[] enemies = GameObject.FindObjectsOfType<Enemy>();
 
         foreach (Enemy enemy in enemies)
         {
-            float effectDuration = GetEnemyEffectDuration(enemy);
-            enemy.ApplyStun(effectDuration);
+            if (enemy.TryGetComponent<EnemyStatus>(out EnemyStatus status))
+            {
+                status.ApplyEffect(stunEffectAsset);
+            }
         }
 
     

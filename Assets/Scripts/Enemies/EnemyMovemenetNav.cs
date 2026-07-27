@@ -47,7 +47,7 @@ public class EnemyMovementNav : MonoBehaviour {
     private RaycastHit2D lastLineOfSightHit;
 
     private NavMeshAgent agent;
-    private Animator anim;
+    private EnemyVisual visual;
     private EnemyAttackBase enemyAttack;
     private Enemy enemy;
 
@@ -67,9 +67,11 @@ public class EnemyMovementNav : MonoBehaviour {
     // e' stato colpito da esso
     private bool hasSeenPlayer;
 
+    private bool isMovementBlocked = false;
+
     private void Awake() {
         agent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
+        visual = GetComponent<EnemyVisual>();
         enemyAttack = GetComponent<EnemyAttackBase>();
         enemy = GetComponent<Enemy>();
 
@@ -102,11 +104,9 @@ public class EnemyMovementNav : MonoBehaviour {
 
         if (!agent.isOnNavMesh)
             return;
-
-        if (enemy != null && enemy.IsStunned)
+        
+        if (isMovementBlocked)
         {
-            StopMovement();
-            SetMoving(false);
             return;
         }
 
@@ -344,8 +344,18 @@ public class EnemyMovementNav : MonoBehaviour {
 
     public void ForceStop()
     {
+        isMovementBlocked = true;
         StopMovement();
         SetMoving(false);
+    }
+    public void ResumeMovement()
+    {
+        isMovementBlocked = false; 
+
+        if (agent != null && agent.enabled && agent.isOnNavMesh)
+        {
+            agent.isStopped = false; 
+        }
     }
 
     public void ApplyKnockback(Vector2 direction, float force, float duration) {
@@ -399,8 +409,8 @@ public class EnemyMovementNav : MonoBehaviour {
     }
 
     private void SetMoving(bool value) {
-        if (anim != null) {
-            anim.SetBool("Moving", value);
+        if (visual != null) {
+            visual.SetMoving(value);
         }
     }
 

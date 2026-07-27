@@ -21,3 +21,4 @@ MonoBehaviour:
   duration: 10
   animationEffect: {fileID: 5813807502494744269, guid: a2585a6fca627b642bc9b0f6494d81b3, type: 3}
   mutagenLootData: {fileID: 11400000, guid: 5f2545a743ecc7e44a1400fad4cd2c63, type: 2}
+  stunEffectAsset: {fileID: 11400000, guid: 77f9543c09b798443863762dca0c8b40, type: 2}

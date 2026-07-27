@@ -16494,6 +16494,7 @@ MonoBehaviour:
   itemDropChance: 0
   spawnOnStart: 0
   spawnTransform: {fileID: 0}
+  dropItems: []
 --- !u!1 &4789760089069255380
 GameObject:
   m_ObjectHideFlags: 0
@@ -31750,6 +31751,7 @@ MonoBehaviour:
   - {fileID: 5618097761370746751}
   - {fileID: 8036310623011364624}
   - {fileID: 3095270613396180898}
+  cells: []
   enemiesSpawnPoints:
   - {fileID: 4433080882934042094}
   - {fileID: 1453185265649507811}
@@ -32508,6 +32510,82 @@ PrefabInstance:
     - target: {fileID: 2054935269367069734, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[0].weight
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[1].weight
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[2].weight
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[3].prefab
+      value: 
+      objectReference: {fileID: 5333475906305167229, guid: 4f727578f97df474396abc678364aa6b, type: 3}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[3].weight
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[4].prefab
+      value: 
+      objectReference: {fileID: 7393189470435230051, guid: f1dea9f2bff78d245b086395ae07c25a, type: 3}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[4].weight
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[5].prefab
+      value: 
+      objectReference: {fileID: 3666638847045378784, guid: 9b74d1f7f95f4d246a2e586d6ddd5b3a, type: 3}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[5].weight
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[0].itemName
+      value: dungeonCoin
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[1].itemName
+      value: heart
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[2].itemName
+      value: mutagenCoin
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[3].itemName
+      value: halfHeart
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[4].itemName
+      value: dungeonCoinBig
+      objectReference: {fileID: 0}
+    - target: {fileID: 3327294636122590016, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
+      propertyPath: dropItems.Array.data[5].itemName
+      value: mutagenCoinBig
       objectReference: {fileID: 0}
     - target: {fileID: 5082407026174576861, guid: 4265177653e8b1548b30b19613cfbc8e, type: 3}
       propertyPath: m_Name
