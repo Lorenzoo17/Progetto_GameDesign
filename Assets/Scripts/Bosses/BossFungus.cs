@@ -464,12 +464,13 @@ public class BossFungus : MonoBehaviour {
         int projectileNumber = Random.Range(projectileNumberToShootMin, projectileNumberToShootMax);
 
         if (distanceFromPlayer >= chaseBurstMinDistance) {
-            // Se il player è lontano, uso più spesso rosa stretta
+            // Se il player ï¿½ lontano, uso piï¿½ spesso rosa stretta
             shooter.ShootFocusedSpread(
                 gameObject,
                 Mathf.Min(projectileNumber, 7),
                 Player.Instance.transform,
-                45f
+                45f,
+                attackDamage
             );
 
             return;
@@ -483,7 +484,8 @@ public class BossFungus : MonoBehaviour {
                     gameObject,
                     projectileNumber,
                     Player.Instance.transform,
-                    true
+                    true,
+                    attackDamage
                 );
                 return;
 
@@ -492,7 +494,8 @@ public class BossFungus : MonoBehaviour {
                     gameObject,
                     projectileNumber,
                     Player.Instance.transform,
-                    false
+                    false,
+                    attackDamage
                 );
                 return;
         }
