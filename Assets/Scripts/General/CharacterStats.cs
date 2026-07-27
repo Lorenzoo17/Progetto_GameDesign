@@ -25,17 +25,16 @@ public class CharacterStats
     [SerializeField] private float baseMoveSpeed;
     [SerializeField] private float currentMoveSpeed;
     [SerializeField] private float dodgeCooldown;
-    [SerializeField] private float poisonDamage;
+    [SerializeField] private float mutagenPower;
 
-
-    public CharacterStats(float attack, float attackRate, float moveSpeed, float dodgeCooldown, float poisonDamage)
+    public CharacterStats(float attack, float attackRate, float moveSpeed, float dodgeCooldown, float mutagenPower)
     {
         this.attack = attack;
         this.attackRate = attackRate;
         this.baseMoveSpeed = moveSpeed;
         this.currentMoveSpeed = moveSpeed;
         this.dodgeCooldown = dodgeCooldown;
-        this.poisonDamage = poisonDamage;
+        this.mutagenPower = mutagenPower;
     }
 
     public CharacterStats(CharacterStats stats)
@@ -45,32 +44,18 @@ public class CharacterStats
         this.baseMoveSpeed = stats.baseMoveSpeed;
         this.currentMoveSpeed = stats.baseMoveSpeed;
         this.dodgeCooldown = stats.dodgeCooldown;
-        this.poisonDamage = stats.poisonDamage;
+        this.mutagenPower = stats.mutagenPower;
     }
-
-
-    public float getAttack()
-    {
-        return this.attack;
-    }
-
-    public float getPoisonDamage()
-    {
-        return this.poisonDamage;
-    }
-
     public float GetAttack() => attack;
     public float GetAttackRate() => attackRate;
     public float GetMoveSpeed() => currentMoveSpeed;
     public float GetBaseMoveSpeed() => baseMoveSpeed;
     public float GetDodgeCooldown() => dodgeCooldown;
+    public float GetMutagenPower() => mutagenPower;
 
     // Modifiche addittive alle statistiche
     public void AddAttack(float value) => attack += value;
     public void AddAttackRate(float value) => attackRate += value;
-
-    public void addPoisonDamage(float value) => poisonDamage += value;
-
     public void AddBaseMoveSpeed(float value)
     {
         baseMoveSpeed += value;
@@ -81,6 +66,7 @@ public class CharacterStats
         currentMoveSpeed += value;
     }
     public void AddDodgeCooldown(float value) => dodgeCooldown += value;
+    public void AddMutagenPower(float value) => mutagenPower += value;
 
     // Modifiche moltiplicative alle statistiche
 
@@ -91,12 +77,11 @@ public class CharacterStats
         baseMoveSpeed *= multiplier;
         RecalculateMoveSpeed();
     }
-    public void MultiplyMoveSpeed(float multiplier)
-    {
-        currentMoveSpeed *= multiplier;
-    }
+    public void MultiplyMoveSpeed(float multiplier) => currentMoveSpeed *= multiplier;
+    
     public void MultiplyDodgeCooldown(float multiplier) => dodgeCooldown *= multiplier;
-
+    public void MultiplyMutagenPower(float multiplier) => mutagenPower *= multiplier;
+    // HELPER per ricalcolare la velocità di movimento
     public void RecalculateMoveSpeed()
     {
         currentMoveSpeed = baseMoveSpeed;

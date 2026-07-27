@@ -88,7 +88,7 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible, IDescribable
         CharacterStats stats = Player.Instance.playerStats.playerCurrentStats;
 
         currentDamage =
-            weaponBaseDamage + stats.getAttack() * BDScalingFactor;
+            weaponBaseDamage + stats.GetAttack() * BDScalingFactor;
 
         currentAttackRate =
             weaponAttackRate + stats.GetAttackRate() * ARScalingFactor;

@@ -217,7 +217,7 @@ public class CurvedProjectile : ProjectileBase
         trajectoryEndPoint = trajectoryStartPoint + (Vector3)direction * projectileRange;
         if (owner == Player.Instance.gameObject)
         {
-            damage += Player.Instance.playerStats.playerCurrentStats.getAttack() / 2;
+            damage += Player.Instance.playerStats.playerCurrentStats.GetAttack() / 2;
         }
 
         trajectoryRange = trajectoryEndPoint - trajectoryStartPoint;

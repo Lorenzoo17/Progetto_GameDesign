@@ -34,8 +34,6 @@ public class WeaponMelee : Weapon
             hasPoison = true;
         }
 
-        float poisonDamegeValue = Player.Instance.playerStats.playerCurrentStats.getPoisonDamage();
-
         attackCentrePosition = Player.Instance.playerAttack.GetWeaponHolder().position + (Vector3)(dir.normalized * Player.Instance.playerAttack.attackCentreOffset);
         float weaponDamage = currentDamage;
         float weaponRange = weaponBaseRange;

@@ -58,11 +58,6 @@ public class PlayerStats : MonoBehaviour
                         s => s.AddAttackRate(perk.value),
                         s => s.MultiplyAttackRate(1 + perk.value));
                     break;
-                case StatType.Poison:
-                    ApplyModifier(ref playerCurrentStats, perk,
-                      s => s.addPoisonDamage(perk.value),
-                      s => s.MultiplyAttackRate(1 + perk.value));
-                    break;
 
             }
         }

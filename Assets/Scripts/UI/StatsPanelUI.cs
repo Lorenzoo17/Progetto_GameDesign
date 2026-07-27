@@ -179,7 +179,7 @@ public class StatsPanelUI : MonoBehaviour
             speedText.text = $"Speed: {stats.GetMoveSpeed()}";
 
         if (attackRateText != null)
-            attackRateText.text = $"Attack Rate: {stats.GetAttackRate()}";
+            attackRateText.text = $"Attack Rate: {1/stats.GetAttackRate()}";
 
         if (dodgeCooldownText != null)
             dodgeCooldownText.text = $"Dodge Cooldown: {stats.GetDodgeCooldown()}";

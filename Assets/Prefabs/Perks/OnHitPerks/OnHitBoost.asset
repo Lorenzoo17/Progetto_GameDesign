@@ -19,4 +19,4 @@ MonoBehaviour:
   perkLootData: {fileID: 0}
   effectType: 0
   damageBoostType: 1
-  value: 3
+  value: 2

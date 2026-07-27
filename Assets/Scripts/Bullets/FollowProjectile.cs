@@ -27,7 +27,7 @@ public class FollowProjectile : ProjectileBase {
         float range = 5f
     ) {
         if (owner == Player.Instance.gameObject) {
-            damage += Player.Instance.playerStats.playerCurrentStats.getAttack() / 2;
+            damage += Player.Instance.playerStats.playerCurrentStats.GetAttack() / 2;
         }
         base.InitializeProjectile(owner, direction, damage, range); // metodo di ProjectileBase
 
@@ -44,11 +44,11 @@ public class FollowProjectile : ProjectileBase {
 
         Transform target = null;
 
-        // Se il proiettile è del player, segue il nemico più vicino
+        // Se il proiettile ï¿½ del player, segue il nemico piï¿½ vicino
         if (owner == Player.Instance.gameObject) {
             target = GetClosestEnemy();
         }
-        // Se il proiettile è di un nemico, segue il player
+        // Se il proiettile ï¿½ di un nemico, segue il player
         else {
             if (Player.Instance != null)
                 target = Player.Instance.transform;
@@ -58,7 +58,7 @@ public class FollowProjectile : ProjectileBase {
             Vector2 followDirection = ((Vector2)target.position - (Vector2)transform.position).normalized;
 
             // aggiorno anche la direction del ProjectileBase,
-            // così il danno/knockback usa la direzione corretta
+            // cosï¿½ il danno/knockback usa la direzione corretta
             direction = followDirection;
 
             rb.linearVelocity = followDirection * speed;

@@ -32,7 +32,7 @@ public class LinearProjectile : ProjectileBase
     {
         if (owner == Player.Instance.gameObject)
         {
-            damage += Player.Instance.playerStats.playerCurrentStats.getAttack() / 2;
+            damage += Player.Instance.playerStats.playerCurrentStats.GetAttack() / 2;
         }
         base.InitializeProjectile(owner, direction, damage, range); // metodo di ProjectileBase
 
