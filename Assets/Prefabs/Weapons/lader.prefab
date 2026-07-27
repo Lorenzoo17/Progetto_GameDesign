@@ -244,6 +244,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd1ab354dc4efa429cb609cec5eec3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponMelee
+  weaponBaseDamage: 15
+  weaponAttackRate: 0.5
+  weaponBaseRange: 2
+  BDScalingFactor: 1.2
+  ARScalingFactor: 0.1
   xRotationOffset: 180
   pickedUp: 0
   dropDuration: 0.25
@@ -259,8 +264,6 @@ MonoBehaviour:
   attackDuration: 0.25
   meleeAttackEffect: {fileID: 8176667913236221772, guid: af45be17e1ea6d6499933814cdb67375, type: 3}
   meleeAttackEffectSize: 2
-  weaponBaseRange: 2
-  weaponBaseDamage: 15
   weaponKnockBackStrenght: 8
   hasPoison: 0
   poisonDamage: 0

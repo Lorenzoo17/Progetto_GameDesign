@@ -13,7 +13,7 @@ public class ProjectileShooter : MonoBehaviour {
     [SerializeField] protected GameObject projectilePrefab;
     public Transform firePoint;
     
-    [SerializeField] protected float damage;
+    protected float damage;
     [SerializeField] protected float projectileSpeed = 8f;
     [SerializeField] private float projectileRange = 16f;
 

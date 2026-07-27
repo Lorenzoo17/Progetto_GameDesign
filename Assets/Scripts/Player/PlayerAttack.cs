@@ -132,8 +132,10 @@ public class PlayerAttack : MonoBehaviour
     private float CalculateAttackRateBasedOnWeapon() {
         float baseAttackRate = Player.Instance.playerStats.playerCurrentStats.GetAttackRate();
         if (currentWeapon == null) return baseAttackRate;
-
-        return currentWeapon.GetComponent<Weapon>().GetCurrentAttackRate();
+        
+        float currentAttackRate = currentWeapon.GetComponent<Weapon>().GetCurrentAttackRate();
+        if (currentAttackRate <= 0f) return 0; // evita divisione per zero
+        return 1 / Mathf.Pow(currentAttackRate, 0.7f); // ritorna il tempo tra un attacco e l'altro in secondi
     }
 
     private void HandleSorting(float angle)

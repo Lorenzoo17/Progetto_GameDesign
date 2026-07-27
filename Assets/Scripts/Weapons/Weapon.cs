@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public interface IWeapon
@@ -82,6 +83,7 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible, IDescribable
 
     protected float currentDamage;
     protected float currentAttackRate;
+    protected float rateLimiter = 50; //costante che frena l'ascesa rapida dell'attack rate
 
     protected virtual void UpdateWeaponStats()
     {
@@ -91,7 +93,7 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible, IDescribable
             weaponBaseDamage + stats.getAttack() * BDScalingFactor;
 
         currentAttackRate =
-            weaponAttackRate + stats.GetAttackRate() * ARScalingFactor;
+            weaponAttackRate * (1 + ARScalingFactor * (stats.GetAttackRate() /(stats.GetAttackRate() + rateLimiter))); // calcolo attack rate in base alle stats del player
     }
 
     public virtual void Attack(Vector2 attackDirection)
@@ -146,7 +148,7 @@ public class Weapon : MonoBehaviour, IWeapon, ICollectible, IDescribable
 
     private void ChooseDropDirection(Vector2 origin, float dropDistance = .2f)
     {
-        Vector2 randomDirection = Random.insideUnitCircle.normalized; // direzion casuale
+        Vector2 randomDirection = UnityEngine.Random.insideUnitCircle.normalized; // direzion casuale
         Vector2 dropPosition = origin + randomDirection * dropDistance;
 
         // animazione di drop

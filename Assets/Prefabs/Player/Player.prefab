@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   baseStats:
     attack: 5
-    attackRate: 0.7
+    attackRate: 1
     baseMoveSpeed: 5.5
     currentMoveSpeed: 0
     dodgeCooldown: 1
