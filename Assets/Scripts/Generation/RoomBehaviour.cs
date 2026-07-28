@@ -404,20 +404,10 @@ public class RoomBehaviour : MonoBehaviour {
     }
 
     private void Awake() {
-        roomBounds = roomBounds == null ? GetComponent<BoxCollider2D>() : roomBounds;
-
-        hasPerCellCameraBounds = false;
-
-        RoomCellSetup[] activeCells = GetCells();
-
-        if (activeCells != null) {
-            for (int i = 0; i < activeCells.Length; i++) {
-                if (activeCells[i] != null && activeCells[i].cameraBounds != null) {
-                    hasPerCellCameraBounds = true;
-                    break;
-                }
-            }
-        }
+        // NB: niente fallback su GetComponent<BoxCollider2D>() qui.
+        // Su una stanza multi-cella prenderebbe il trigger della PRIMA cella e la camera
+        // resterebbe incollata a un solo riquadro. I bounds veri li risolve
+        // TryGetRoomWorldBounds, che tiene conto di tutte le celle.
 
         if (occupiedGridPositions.Count == 0) {
             SetPlacement(GridPosition, GetShapeOffsets());
@@ -575,47 +565,123 @@ public class RoomBehaviour : MonoBehaviour {
     // CAMERA
     // ===============================
 
-    private BoxCollider2D activeCameraBounds;
-    private bool hasPerCellCameraBounds;
+    private List<Bounds> cameraRegion;
 
-    private void Update() {
-        // solo mentre il player e' dentro questa stanza e solo se ci sono bounds per cella
-        if (playerTriggerCount <= 0) return;
-        if (!hasPerCellCameraBounds) return;
+    private Bounds roomWorldBounds;
+    private bool roomWorldBoundsResolved;
 
-        UpdateCameraBounds();
+    private static void GetShapeBounds(Vector2Int[] shape, out Vector2Int min, out Vector2Int size) {
+
+        int minX = int.MaxValue, maxX = int.MinValue, minY = int.MaxValue, maxY = int.MinValue;
+
+        for (int i = 0; i < shape.Length; i++) {
+            minX = Mathf.Min(minX, shape[i].x);
+            maxX = Mathf.Max(maxX, shape[i].x);
+            minY = Mathf.Min(minY, shape[i].y);
+            maxY = Mathf.Max(maxY, shape[i].y);
+        }
+
+        min = new Vector2Int(minX, minY);
+        size = new Vector2Int(maxX - minX + 1, maxY - minY + 1);
     }
 
     /// <summary>
-    /// Sceglie i bounds camera: quelli della cella in cui si trova il player (se definiti),
-    /// altrimenti quelli dell'intera stanza.
+    /// Area totale della stanza nel mondo. Non si fida del solo campo serializzato:
+    /// prova in ordine il campo, un figlio chiamato "RoomBounds" e infine l'unione di
+    /// tutti i collider del root (che per una stanza multi-cella sono i trigger di ogni cella).
+    /// </summary>
+    private bool TryGetRoomWorldBounds(out Bounds result) {
+
+        if (roomWorldBoundsResolved) {
+            result = roomWorldBounds;
+            return true;
+        }
+
+        // 1. campo assegnato nell'inspector
+        if (roomBounds != null) {
+            roomWorldBounds = roomBounds.bounds;
+            roomWorldBoundsResolved = true;
+            result = roomWorldBounds;
+            return true;
+        }
+
+        // 2. figlio chiamato "RoomBounds"
+        Transform boundsChild = FindTransform(transform, "RoomBounds");
+
+        if (boundsChild != null && boundsChild.TryGetComponent(out BoxCollider2D boundsCollider)) {
+            roomBounds = boundsCollider;
+            roomWorldBounds = boundsCollider.bounds;
+            roomWorldBoundsResolved = true;
+            result = roomWorldBounds;
+            return true;
+        }
+
+        // 3. unione dei collider sul root (un trigger per cella + i "ponti")
+        Collider2D[] ownColliders = GetComponents<Collider2D>();
+
+        if (ownColliders.Length > 0) {
+
+            Bounds union = ownColliders[0].bounds;
+
+            for (int i = 1; i < ownColliders.Length; i++) {
+                union.Encapsulate(ownColliders[i].bounds);
+            }
+
+            roomWorldBounds = union;
+            roomWorldBoundsResolved = true;
+            result = union;
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <summary>
+    /// Area di una singola cella, ricavata suddividendo l'area totale della stanza
+    /// secondo il bounding box della forma. Non richiede collider per cella.
+    /// </summary>
+    private Bounds GetCellWorldBounds(Vector2Int cellOffset, Bounds total, Vector2Int shapeMin, Vector2Int shapeSize) {
+
+        float cellWidth = total.size.x / shapeSize.x;
+        float cellHeight = total.size.y / shapeSize.y;
+
+        // x cresce verso destra, y cresce verso il basso: parto dall'alto
+        float centerX = total.min.x + (cellOffset.x - shapeMin.x + 0.5f) * cellWidth;
+        float centerY = total.max.y - (cellOffset.y - shapeMin.y + 0.5f) * cellHeight;
+
+        return new Bounds(
+            new Vector3(centerX, centerY, total.center.z),
+            new Vector3(cellWidth, cellHeight, total.size.z)
+        );
+    }
+
+    /// <summary>
+    /// Passa alla camera l'area della stanza, descritta CELLA PER CELLA.
+    /// E' la camera a ricavarne i limiti asse per asse in funzione della posizione del
+    /// player, interpolando fra una fila e l'altra: cosi' anche su una forma concava
+    /// (a L, a T) il movimento resta continuo, senza gli scatti di un clamp per cella.
     /// </summary>
     private void UpdateCameraBounds() {
 
-        BoxCollider2D target = roomBounds;
+        if (!TryGetRoomWorldBounds(out Bounds total)) return;
 
-        if (hasPerCellCameraBounds && Player.Instance != null) {
+        if (cameraRegion == null) cameraRegion = new List<Bounds>();
 
-            Vector2 playerPosition = Player.Instance.transform.position;
-            RoomCellSetup[] activeCells = GetCells();
+        cameraRegion.Clear();
 
-            for (int i = 0; i < activeCells.Length; i++) {
-                if (activeCells[i] == null || activeCells[i].cameraBounds == null) continue;
+        Vector2Int[] shape = GetShapeOffsets();
 
-                if (activeCells[i].cameraBounds.OverlapPoint(playerPosition)) {
-                    target = activeCells[i].cameraBounds;
-                    break;
-                }
-            }
+        GetShapeBounds(shape, out Vector2Int shapeMin, out Vector2Int shapeSize);
+
+        for (int i = 0; i < shape.Length; i++) {
+            cameraRegion.Add(GetCellWorldBounds(shape[i], total, shapeMin, shapeSize));
         }
 
-        if (target == null) return;
-        if (target == activeCameraBounds) return;
-
-        activeCameraBounds = target;
+        if (cameraRegion.Count == 0) cameraRegion.Add(total);
 
         if (Camera.main != null && Camera.main.TryGetComponent<CameraDungeonBehaviour>(out CameraDungeonBehaviour cdb)) {
-            cdb.SetRoomBounds(target);
+            cdb.SetRoomCells(cameraRegion);
         }
     }
 
@@ -639,7 +705,6 @@ public class RoomBehaviour : MonoBehaviour {
             return;
         }
 
-        activeCameraBounds = null;
         UpdateCameraBounds();
 
         if (!isVisited) {
