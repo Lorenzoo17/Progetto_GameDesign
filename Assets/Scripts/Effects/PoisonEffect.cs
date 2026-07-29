@@ -80,7 +80,7 @@ public class PoisonEffect : MonoBehaviour
                 EntityType.Player
             );
             poisonDamage.Damage[DamageType.Poison] = damageThisTick;
-            poisonDamage.AddEffect("PoisonTick");
+            poisonDamage.addEffect("PoisonTick");
 
             damageable.TakePoisonDamage(poisonDamage);
 

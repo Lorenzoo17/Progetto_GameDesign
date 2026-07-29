@@ -10,13 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d9c146441ca9204fae0ff735223b720, type: 3}
-  m_Name: OnHitMalus
+  m_Name: new on hit perk
   m_EditorClassIdentifier: Assembly-CSharp::OnHitPerkSO
   perkName: 
   pair: {fileID: 0}
-  icon: {fileID: 21300000, guid: 092b0e69e3b3a8f419270ceee85c2875, type: 3}
+  icon: {fileID: 0}
   isHidden: 0
   perkLootData: {fileID: 0}
-  effectType: 0
-  damageBoostType: 1
-  value: -1

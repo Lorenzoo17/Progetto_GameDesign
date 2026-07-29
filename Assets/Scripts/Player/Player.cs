@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
     public MutagenController mutagenController;
 
     public PerkController perkController;
-    public StatusController statusController;
     public ShakeData cameraShakeData;
 
     public bool isDead = false;
@@ -41,7 +40,6 @@ public class Player : MonoBehaviour
         playerMana = GetComponent<PlayerMana>();
         mutagenController = GetComponent<MutagenController>();
         perkController = GetComponent<PerkController>();
-        statusController = GetComponent<StatusController>();
 
         Debug.Log(perkController);
     }

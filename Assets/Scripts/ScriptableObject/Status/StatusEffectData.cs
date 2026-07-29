@@ -1,5 +1,16 @@
 using UnityEngine;
 
+public enum StatusEffectType
+{
+    Dot,
+    Buff,
+    Debuff,
+    CrowdControl,
+    HealOverTime,
+    Poison,
+    Burn,
+    Freeze
+}
 
 public abstract class StatusEffectData : ScriptableObject
 {

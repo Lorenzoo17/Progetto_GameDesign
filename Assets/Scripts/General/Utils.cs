@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -31,10 +32,10 @@ public class DamageInfo
     public GameObject Source { get; set; }
     public EntityType SourceFaction { get; set; }
 
-    // Traccia gli effetti applicati dai perk
-    public List<string> AppliedEffects { get; set; } = new();
+    public StatusEffectData AppliedStatus { get; set; }
+    public List<string> AppliedEffects { get; internal set; }
 
-    public DamageInfo(float damage, Vector2 direction, GameObject source, EntityType sourceFaction, float knockBackStrenght = 0f)
+    public DamageInfo(float damage, Vector2 direction, GameObject source, EntityType sourceFaction, float knockBackStrenght = 0f, StatusEffectData status = null)
     {
         Damage = new Dictionary<DamageType, float>
         {
@@ -44,14 +45,32 @@ public class DamageInfo
         Direction = direction;
         KnockBackStrenght = knockBackStrenght;
         Source = source;
+        AppliedStatus = status;
         SourceFaction = sourceFaction;
     }
 
-    public void AddEffect(string effectName)
+
+    public void addEffect(string effectName)
     {
-        if (!AppliedEffects.Contains(effectName))
-            AppliedEffects.Add(effectName);
+        if (AppliedEffects == null)
+        {
+            AppliedEffects = new List<string>();
+        }
+
+        if (AppliedEffects is List<string> effectsList)
+        {
+            effectsList.Add(effectName);
+        }
     }
+}
+
+public enum DamageType
+{
+    Physical,
+    Fire,
+    Ice,
+    Lightning,
+    Poison
 }
 
 public static class Utils

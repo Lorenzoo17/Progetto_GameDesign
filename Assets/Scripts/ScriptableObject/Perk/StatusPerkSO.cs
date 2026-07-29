@@ -4,7 +4,7 @@ using UnityEngine;
 public class StatusPerkSO : PerkBase
 {
     // perk per gestire effetti vari che danno status (in generale sicuramente tutti i debuff)
-    public StatusSO statusToApply;
+    public StatusEffectData statusToApply;
 
 
     public override void OnApply(Player player)
@@ -25,6 +25,6 @@ public class StatusPerkSO : PerkBase
 
     public override string Description()
     {
-        return $"Applies status: {statusToApply.statusName}";
+        return $"Applies status: {statusToApply.name}";
     }
 }

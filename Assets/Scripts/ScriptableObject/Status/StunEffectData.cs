@@ -31,3 +31,4 @@ public class StunEffectData : StatusEffectData
         activeEffect.currentStacks++;
     }
 }
+

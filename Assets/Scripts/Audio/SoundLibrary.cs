@@ -20,6 +20,7 @@ public enum SoundID {
     UIHover,
     Interact,
     PipeValveInteract,
+    PoisonApplied,
 }
 
 [System.Serializable]

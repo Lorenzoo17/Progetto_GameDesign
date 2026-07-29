@@ -1,54 +1,73 @@
 using UnityEngine;
 
-public enum OnHitEffectType
-{
-    DamageBoost,
-    PoisonApplication
-}
-
+/// <summary>
+/// Perk che applica effetti on-hit tramite il sistema IOnHitEffect.
+/// 
+/// Implementa sia IOnDealDamage (per modificare il danno) che IOnHitEffect 
+/// (per comunicare quale status applicare al bersaglio).
+/// 
+/// PerkController si occupa automaticamente di registrare questo perk
+/// e mantenerlo nella lista di effetti on-deal-damage.
+/// </summary>
 [CreateAssetMenu(fileName = "new on hit perk", menuName = "ScriptableObject/OnHitPerk")]
-public class OnHitPerkSO : PerkBase, IOnDealDamage
+public class OnHitPerkSO : PerkBase, IOnDealDamage, IOnHitEffect
 {
-    [SerializeField] public OnHitEffectType effectType;
-    [SerializeField] public DamageType damageBoostType = DamageType.Physical;
-    [SerializeField] public float value = 1f;
-
+    [SerializeField] private OnHitEffectSO effect;
+    
     public override void OnApply(Player player)
     {
-        Debug.Log($"OnHit perk applied: {effectType}");
+        Debug.Log($"OnHit perk applied: {(effect != null ? effect.GetType().Name : "No effect configured")}");
     }
 
     public override void OnRemove(Player player)
     {
-        Debug.Log($"OnHit perk removed: {effectType}");
+        Debug.Log($"OnHit perk removed: {(effect != null ? effect.GetType().Name : "No effect configured")}");
     }
 
+    // ========== IOnDealDamage ==========
     public DamageInfo OnDealDamage(ref DamageInfo damage)
     {
-        if (effectType == OnHitEffectType.DamageBoost)
+        if (effect != null)
         {
-            damage.Damage[damageBoostType] += value;
-            damage.AddEffect("DamageBoost");
+            effect.ApplyEffect(ref damage, damage.Source);
         }
-        else if (effectType == OnHitEffectType.PoisonApplication)
+        else
         {
-            damage.Damage[DamageType.Poison] += value;
-            damage.AddEffect("PoisonApplied");
+            Debug.LogWarning("[OnHitPerkSO] Effect non configurato!");
         }
 
         return damage;
     }
 
+    // ========== IOnHitEffect ==========
+    public void ApplyEffect(ref DamageInfo damage, GameObject instigator)
+    {
+        if (effect != null)
+        {
+            effect.ApplyEffect(ref damage, instigator);
+        }
+    }
+
+    public StatusEffectData GetAppliedStatus()
+    {
+        // Questo è il metodo che HealthSystem chiama per sapere quale status applicare
+        if (effect != null)
+        {
+            return effect.GetAppliedStatus();
+        }
+        return null;
+    }
+
+    // ========== UI ==========
+
+    // perk related description for UI
     public override string Description()
     {
-        switch (effectType)
-        {
-            case OnHitEffectType.DamageBoost:
-                return $"On hit: +{value} {damageBoostType} damage";
-            case OnHitEffectType.PoisonApplication:
-                return $"On hit: Apply {value} Poison damage";
-            default:
-                return "Unknown on hit effect";
-        }
+        return effect != null ? effect.GetDescription() : "Unknown on hit effect";
+    }
+    // status related description for UI
+    public string GetDescription()
+    {
+        return effect != null ? effect.GetDescription() : "Unknown on hit effect";
     }
 }
