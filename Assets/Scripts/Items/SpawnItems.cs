@@ -1,24 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class SpawnItems : MonoBehaviour {
     public static SpawnItems Instance { get; private set; }
-
-    [System.Serializable]
-    private class DropItem {
-        public string itemName;
-        public GameObject prefab;
-
-        [Min(0f)]
-        public float weight; // peso che rappresenta probabilita' che l'oggetto spawni
-    }
-
-    [Header("Drop Settings")]
-    [SerializeField, Range(0f, 1f)] private float globalDropChance = 0.4f; // probabilita' generale che un 
-    // nemico, o altro, droppi un oggetto
-
-    [SerializeField] private DropItem[] dropItems;
-    [SerializeField] private DropItem[] dropItemsBosses;
 
     private void Awake() {
         if (Instance != null && Instance != this) {
@@ -29,45 +13,71 @@ public class SpawnItems : MonoBehaviour {
         Instance = this;
     }
 
-    public void SpawnItem(Vector2 position, float localDropChance = -1f) {
-        if (dropItems == null || dropItems.Length == 0)
+    public void SpawnItem(Vector2 position, GameObject source = null) {
+        DropTable dropTable = GetDropTableFromSource(source);
+        if (dropTable == null)
             return;
 
-        float chance = localDropChance < 0 ? globalDropChance : localDropChance;
+        SpawnFromDropTable(position, dropTable);
+    }
 
-        // possibilità generale che esca QUALCOSA
-        if (Random.value > chance)
+    public void SpawnItemBoss(Vector2 position, GameObject source = null) {
+        DropTable dropTable = GetDropTableFromSource(source);
+        if (dropTable == null)
             return;
 
-        GameObject selectedPrefab = GetRandomItem(dropItems); // si seleziona oggetto da spawnare in base ai pesi
+        SpawnFromDropTable(position, dropTable);
+    }
 
+    private DropTable GetDropTableFromSource(GameObject source) {
+        if (source == null)
+            return null;
+
+        DropTable dropTable = source.GetComponent<DropTable>();
+        if (dropTable != null)
+            return dropTable;
+
+        dropTable = source.GetComponentInChildren<DropTable>(true);
+        if (dropTable != null)
+            return dropTable;
+
+        return source.GetComponentInParent<DropTable>();
+    }
+
+    private void SpawnFromDropTable(Vector2 position, DropTable dropTable) {
+        if (dropTable == null)
+            return;
+
+        float chance = Mathf.Clamp01(dropTable.DropChance);
+        if (!ShouldSpawnDrop(chance))
+            return;
+
+        List<DropEntry> entries = dropTable.DropEntries;
+        if (entries == null || entries.Count == 0)
+            return;
+
+        GameObject selectedPrefab = GetRandomItem(entries);
         if (selectedPrefab == null)
             return;
 
         Instantiate(selectedPrefab, position, Quaternion.identity);
     }
 
-    public void SpawnItemBoss(Vector2 position) {
-        float chance = 1f; // drop al 100%
+    private bool ShouldSpawnDrop(float chance) {
+        if (chance <= 0f)
+            return false;
 
-        // possibilità generale che esca QUALCOSA
-        if (Random.value > chance)
-            return;
+        if (chance >= 1f)
+            return true;
 
-        GameObject selectedPrefab = GetRandomItem(dropItemsBosses); // si seleziona oggetto da spawnare in base ai pesi
-
-        if (selectedPrefab == null)
-            return;
-
-        Instantiate(selectedPrefab, position, Quaternion.identity);
+        return Random.value <= chance;
     }
 
-    private GameObject GetRandomItem(DropItem[] pool) {
-        // si calcola totale dei pesi
+    private GameObject GetRandomItem(List<DropEntry> pool) {
         float totalWeight = 0f;
 
-        foreach (DropItem item in pool) {
-            if (item.prefab != null) {
+        foreach (DropEntry item in pool) {
+            if (item != null && item.prefab != null) {
                 totalWeight += item.weight;
             }
         }
@@ -75,20 +85,15 @@ public class SpawnItems : MonoBehaviour {
         if (totalWeight <= 0f)
             return null;
 
-        float randomValue = Random.Range(0f, totalWeight); // si calcola valore random da 0 a total weight
-
+        float randomValue = Random.Range(0f, totalWeight);
         float currentWeight = 0f;
 
-        // per ogni oggetto
-        foreach (DropItem item in pool) {
-            if (item.prefab == null)
+        foreach (DropEntry item in pool) {
+            if (item == null || item.prefab == null)
                 continue;
 
-            currentWeight += item.weight; // si somma il suo peso
+            currentWeight += item.weight;
 
-            // se il valore random e' minore del peso dell'oggetto, allora
-            // si sceglie quell'oggetto da spawnare
-            // (quindi oggetti con peso minore, hanno probabilita' minore di spawnare)
             if (randomValue <= currentWeight) {
                 return item.prefab;
             }

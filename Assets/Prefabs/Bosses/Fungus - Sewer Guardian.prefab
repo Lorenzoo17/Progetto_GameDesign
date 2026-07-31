@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 6624161415336746985}
   - component: {fileID: -1850199715440305445}
   - component: {fileID: 4379115838475733567}
+  - component: {fileID: 7532803213183309799}
   m_Layer: 0
   m_Name: Fungus - Sewer Guardian
   m_TagString: Untagged
@@ -224,7 +225,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileShooter
   projectilePrefab: {fileID: 1771740914817530386, guid: 6ff7c4b3989e1ab4fb157be9f109e362, type: 3}
   firePoint: {fileID: 3481627356795781032}
-  damage: 1
   projectileSpeed: 6.5
   projectileRange: 8
   projectileMaxHeight: 1
@@ -377,6 +377,23 @@ MonoBehaviour:
   scriptsToDisable:
   - {fileID: 839396337409860717}
   - {fileID: 4870650689927582519}
+--- !u!114 &7532803213183309799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378181008594232565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  dropChance: 1
+  dropEntries:
+  - itemName: Elite Mutagen Coin
+    prefab: {fileID: 3666638847045378784, guid: 0711289998d34884c8af0e8cf1044de5, type: 3}
+    weight: 1
 --- !u!1 &4837429136762248818
 GameObject:
   m_ObjectHideFlags: 0

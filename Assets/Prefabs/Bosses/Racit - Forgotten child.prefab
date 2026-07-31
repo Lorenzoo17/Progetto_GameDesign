@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 1340829199885440648}
   - component: {fileID: 8508289129420120813}
   - component: {fileID: 7050842544685862514}
+  - component: {fileID: -213115889492431658}
   m_Layer: 0
   m_Name: Racit - Forgotten child
   m_TagString: Racit
@@ -332,7 +333,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileShooterBoss
   projectilePrefab: {fileID: 1771740914817530386, guid: 4a964ecd10e2ab940957e0df7c3212dc, type: 3}
   firePoint: {fileID: 7364919555465630360}
-  damage: 1
   projectileSpeed: 5
   projectileRange: 13
   projectileMaxHeight: 1
@@ -411,6 +411,7 @@ MonoBehaviour:
   pozzaPrefab: {fileID: 4996778419277687879, guid: 52de2dfedd95f9c43851cbca2688dcf3, type: 3}
   impactPrefab: {fileID: 5397995872131914903, guid: a6797a06307b44e43855287ea8cf9997, type: 3}
   poolDuration: 5
+  damage: 1
   normalProjectileSpeed: 8
   minNormalProjectileRange: 6
   maxNormalProjectileRange: 10
@@ -471,6 +472,23 @@ MonoBehaviour:
   scriptsToDisable:
   - {fileID: 5151883782128186509}
   - {fileID: 8797646812830116539}
+--- !u!114 &-213115889492431658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2375325059639907942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  dropChance: 1
+  dropEntries:
+  - itemName: Elite Mutagen Coin
+    prefab: {fileID: 3666638847045378784, guid: 0711289998d34884c8af0e8cf1044de5, type: 3}
+    weight: 1
 --- !u!1 &5568309253460772942
 GameObject:
   m_ObjectHideFlags: 0

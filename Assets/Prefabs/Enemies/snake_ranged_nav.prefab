@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 6157278811238765489}
   - component: {fileID: 6666826066591312943}
   - component: {fileID: 4017632462322840672}
+  - component: {fileID: 1503098594970999943}
   m_Layer: 0
   m_Name: snake_ranged_nav
   m_TagString: Untagged
@@ -370,6 +371,23 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageBoostParticlePrefab: {fileID: 0}
   particleOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &1503098594970999943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2324147677086342410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  dropChance: 0.3
+  dropEntries:
+  - itemName: Dungeon Coin
+    prefab: {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
+    weight: 1
 --- !u!1 &5789124366512460377
 GameObject:
   m_ObjectHideFlags: 0

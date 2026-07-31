@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponRanged
   weaponBaseDamage: 3
-  weaponAttackRate: 7
+  weaponAttackRate: 5
   weaponBaseRange: 0
   BDScalingFactor: 0.7
   ARScalingFactor: 0.5
@@ -188,7 +188,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileShooter
   projectilePrefab: {fileID: 1771740914817530386, guid: 3b2b847428ee6e943966c83c467c605f, type: 3}
   firePoint: {fileID: 2203372829361377867}
-  damage: 0
   projectileSpeed: 8
   projectileRange: 5
   projectileMaxHeight: 1

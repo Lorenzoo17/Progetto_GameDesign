@@ -165,9 +165,9 @@ public class Enemy : MonoBehaviour {
         // spawno un oggetto
         if (SpawnItems.Instance != null) {
             if (enemyHealthSystem.isBoss) // se e' boss
-                SpawnItems.Instance.SpawnItemBoss(transform.position); // spawna oggetti dei boss (100% di chance)
+                SpawnItems.Instance.SpawnItemBoss(transform.position, gameObject); // spawna oggetti dei boss (100% di chance)
             else
-                SpawnItems.Instance.SpawnItem(transform.position);
+                SpawnItems.Instance.SpawnItem(transform.position, gameObject);
         }
         else {
             Debug.Log("Spawn non presente");

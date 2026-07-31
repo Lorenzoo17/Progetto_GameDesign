@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 3518813518886905007}
   - component: {fileID: -8699363798022627634}
   - component: {fileID: 7656297383882434101}
+  - component: {fileID: 8395467766736921094}
   m_Layer: 0
   m_Name: mushroom_melee_nav_2
   m_TagString: Untagged
@@ -430,3 +431,23 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &8395467766736921094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642179399350267750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  dropChance: 0.5
+  dropEntries:
+  - itemName: Heart
+    prefab: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
+    weight: 1
+  - itemName: Half Heart
+    prefab: {fileID: 5333475906305167229, guid: 4f727578f97df474396abc678364aa6b, type: 3}
+    weight: 1

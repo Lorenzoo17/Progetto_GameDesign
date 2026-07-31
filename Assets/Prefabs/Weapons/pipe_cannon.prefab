@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponRanged
   weaponBaseDamage: 8
-  weaponAttackRate: 4
+  weaponAttackRate: 2
   weaponBaseRange: 0
   BDScalingFactor: 0.5
   ARScalingFactor: 0.3

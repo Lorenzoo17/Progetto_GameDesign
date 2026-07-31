@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 2785166244446955518}
   - component: {fileID: 162914130739361402}
   - component: {fileID: -251329088534027444}
+  - component: {fileID: -497708820209423400}
   m_Layer: 0
   m_Name: ghost_ranged
   m_TagString: Untagged
@@ -370,6 +371,26 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageBoostParticlePrefab: {fileID: 0}
   particleOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &-497708820209423400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4579408860060080819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  dropChance: 0.4
+  dropEntries:
+  - itemName: Dungeon Coin
+    prefab: {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
+    weight: 4
+  - itemName: Big Dungeon Coin
+    prefab: {fileID: 7393189470435230051, guid: f1dea9f2bff78d245b086395ae07c25a, type: 3}
+    weight: 1
 --- !u!1 &4887421665406087874
 GameObject:
   m_ObjectHideFlags: 0

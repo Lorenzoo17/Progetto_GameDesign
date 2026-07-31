@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 2622074710920071546}
   - component: {fileID: 3603770711520021077}
   - component: {fileID: 5420803320957088141}
+  - component: {fileID: 103724310765256806}
   m_Layer: 0
   m_Name: bat
   m_TagString: Untagged
@@ -369,6 +370,26 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageBoostParticlePrefab: {fileID: 0}
   particleOffset: {x: 0, y: 0, z: 0}
+--- !u!114 &103724310765256806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5350465888886524393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  dropChance: 0.3
+  dropEntries:
+  - itemName: Half Heart
+    prefab: {fileID: 5333475906305167229, guid: 4f727578f97df474396abc678364aa6b, type: 3}
+    weight: 2
+  - itemName: Mutagen Coin
+    prefab: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
+    weight: 1
 --- !u!1 &7430712143432339987
 GameObject:
   m_ObjectHideFlags: 0
