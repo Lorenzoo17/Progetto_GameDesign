@@ -21,14 +21,6 @@ public class SpawnItems : MonoBehaviour {
         SpawnFromDropTable(position, dropTable);
     }
 
-    public void SpawnItemBoss(Vector2 position, GameObject source = null) {
-        DropTable dropTable = GetDropTableFromSource(source);
-        if (dropTable == null)
-            return;
-
-        SpawnFromDropTable(position, dropTable);
-    }
-
     private DropTable GetDropTableFromSource(GameObject source) {
         if (source == null)
             return null;
@@ -74,31 +66,31 @@ public class SpawnItems : MonoBehaviour {
     }
 
     private GameObject GetRandomItem(List<DropEntry> pool) {
+        List<DropEntry> validEntries = new List<DropEntry>();
         float totalWeight = 0f;
 
         foreach (DropEntry item in pool) {
-            if (item != null && item.prefab != null) {
+            if (item != null && item.prefab != null && item.weight > 0f) {
+                validEntries.Add(item);
                 totalWeight += item.weight;
             }
         }
 
-        if (totalWeight <= 0f)
+        if (validEntries.Count == 0 || totalWeight <= 0f)
             return null;
 
-        float randomValue = Random.Range(0f, totalWeight);
+        float randomValue = Random.value * totalWeight;
         float currentWeight = 0f;
 
-        foreach (DropEntry item in pool) {
-            if (item == null || item.prefab == null)
-                continue;
-
+        for (int i = 0; i < validEntries.Count; i++) {
+            DropEntry item = validEntries[i];
             currentWeight += item.weight;
 
-            if (randomValue <= currentWeight) {
+            if (randomValue < currentWeight) {
                 return item.prefab;
             }
         }
 
-        return null;
+        return validEntries[validEntries.Count - 1].prefab;
     }
 }

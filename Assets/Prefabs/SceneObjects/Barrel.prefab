@@ -281,7 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropTable
-  dropChance: 1
+  dropChance: 0.4
   dropEntries:
   - itemName: Half Heart
     prefab: {fileID: 5333475906305167229, guid: 4f727578f97df474396abc678364aa6b, type: 3}
