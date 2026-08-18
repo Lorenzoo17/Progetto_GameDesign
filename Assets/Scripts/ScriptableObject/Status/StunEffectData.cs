@@ -24,7 +24,7 @@ public class StunEffectData : StatusEffectData
         }
     }
 
-    public override void OnStack(GameObject target, ActiveStatusEffect activeEffect, float multiplier)
+    public override void OnStack(GameObject target, ActiveStatusEffect activeEffect, float multiplier, int statusValue = 0)
     {
         float modifiedDuration = GetModifiedDuration(multiplier);
         activeEffect.remainingDuration = Mathf.Max(activeEffect.remainingDuration, modifiedDuration);

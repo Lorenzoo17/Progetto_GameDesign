@@ -24,4 +24,9 @@ public class DamageBoostOnHitEffect : OnHitEffectSO
         // Questo effetto non applica alcuno status, quindi restituisce null
         return null;
     }
+
+    public override float GetEffectValue()
+    {
+        return damageIncrease;
+    }
 }

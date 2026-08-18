@@ -6,7 +6,8 @@ using UnityEngine;
 /// Ogni implementazione di questo deve:
 /// 1. Modificare il DamageInfo aggiungendo danno e flag effetti
 /// 2. Comunicare quale StatusSO applicare al bersaglio
-/// 3. Fornire una descrizione per l'UI
+/// 3. Fornire il valore dello status (es: poison value, burn intensity, etc.)
+/// 4. Fornire una descrizione per l'UI
 /// </summary>
 public interface IOnHitEffect
 {
@@ -34,12 +35,25 @@ public interface IOnHitEffect
     StatusEffectData GetAppliedStatus();
     
     /// <summary>
+    /// Restituisce il valore dello status da applicare (es: poison value, burn intensity).
+    /// 
+    /// Questo valore verrà accumulato quando ci sono più perk dello stesso tipo
+    /// e passato al metodo OnStack() dello status.
+    /// 
+    /// Esempi:
+    /// - PoisonOnHitEffect con poison value 2 → ritorna 2f
+    /// - NegativePoisonEffect (debuff) con valor -2 → ritorna -2f
+    /// - DamageBoostEffect (nessuno status) → ritorna 0f
+    /// </summary>
+    float GetEffectValue();
+    
+    /// <summary>
     /// Descrizione dell'effetto per l'UI.
     /// Usata nei tooltip dei perks.
     /// 
     /// Esempi:
     /// - "On hit: +5 Physical damage"
-    /// - "On hit: Apply Poison (2.0 damage)"
+    /// - "On hit: Apply Poison (+2.0 damage)"
     /// - "On hit: 70% chance to burn"
     /// </summary>
     string GetDescription();
@@ -49,5 +63,6 @@ public abstract class OnHitEffectSO : ScriptableObject, IOnHitEffect
 {
     public abstract void ApplyEffect(ref DamageInfo damage, GameObject instigator);
     public abstract StatusEffectData GetAppliedStatus();
+    public abstract float GetEffectValue();
     public abstract string GetDescription();
 }

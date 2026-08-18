@@ -37,31 +37,33 @@ public class EnemyStatus : MonoBehaviour
         return 1f;
     }
 
-    public void ApplyEffect(StatusEffectData newEffectData)
+        public void ApplyEffect(StatusEffectData newEffectData, int statusValue = 0)
     {
         // Calcoliamo il moltiplicatore PRIMA di applicare l'effetto
         float multiplier = GetMultiplierForType(newEffectData.effectType);
-
+ 
         // Se il moltiplicatore è 0 o meno, il nemico è immune. Interrompiamo tutto.
         if (multiplier <= 0f) return;
-
+ 
         ActiveStatusEffect existingEffect = activeEffects.Find(e => e.data == newEffectData);
-
+ 
         if (existingEffect != null)
         {
-            // Passiamo il moltiplicatore anche allo Stack
-            existingEffect.data.OnStack(gameObject, existingEffect, multiplier);
+            // Stack: passiamo il moltiplicatore e il nuovo valore
+            existingEffect.data.OnStack(gameObject, existingEffect, multiplier, statusValue);
             return;
         }
-
+ 
         // Calcoliamo la durata modificata
         float finalDuration = newEffectData.GetModifiedDuration(multiplier);
-
+ 
+        // Creiamo un nuovo effetto con il valore iniziale
         ActiveStatusEffect newEffect = new ActiveStatusEffect(newEffectData, finalDuration);
         activeEffects.Add(newEffect);
-
+ 
         newEffect.data.OnApply(gameObject);
     }
+
 
     private void Update()
     {

@@ -28,7 +28,7 @@ public class PerkController : MonoBehaviour
         // Register interfaces
         if (perk is IModifyIncomingDamage dmgMod)
             incomingDamageModifiers.Add(dmgMod);
-
+        Debug.Log($"[PerkController] Added perk: {perk.name}, IOnDealDamage: {perk is IOnDealDamage}");
         if (perk is IOnDealDamage dealDmg)
             onDealDamageEffects.Add(dealDmg);
     }
@@ -93,6 +93,10 @@ public class PerkController : MonoBehaviour
         // Rimuovi tutti i perk attivi
         foreach (PerkBase perk in perksToRemove)
         {
+            if (perk is IModifyIncomingDamage dmgMod)
+                incomingDamageModifiers.Remove(dmgMod);
+            if (perk is IOnDealDamage dealDmg)
+                onDealDamageEffects.Remove(dealDmg);
             if (perk != null)
             {
                 perk.OnRemove(player);
@@ -120,6 +124,11 @@ public class PerkController : MonoBehaviour
         perksToRemove.Add(negativePerk);
         negativePerk.OnApply(player);
         perksToAdd.Add(positivePerk);
+        if (negativePerk is IModifyIncomingDamage dmgMod)
+            incomingDamageModifiers.Add(dmgMod);
+        Debug.Log($"[PerkController] Added perk: {negativePerk.name}, IOnDealDamage: {negativePerk is IOnDealDamage}");
+        if (negativePerk is IOnDealDamage dealDmg)
+            onDealDamageEffects.Add(dealDmg);
     }
 }
 /// INTERFACES FOR PERKS

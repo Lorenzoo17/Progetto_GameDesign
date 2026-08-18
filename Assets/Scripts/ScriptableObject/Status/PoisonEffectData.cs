@@ -1,8 +1,21 @@
 using UnityEngine;
 
 /// <summary>
-/// Implementazione dello StatusEffectData per il veleno.
-/// Gestisce i danni cumulativi, l'accumulo di stack, e i tick di danno.
+/// Implementazione dello StatusEffectData per il veleno con sistema di accumulo valori.
+/// 
+/// Il poison funziona come segue:
+/// - Ogni perk poison ha un valore (es: +2, -2, etc.)
+/// - Quando attacchi, i valori di tutti i perk poison si sommano
+/// - Questo valore cumulativo viene applicato al nemico come "poison value"
+/// - Ad ogni tick, il nemico prende danno = poison value (moltiplicato per resistenza/debolezza)
+/// - Dopo il danno, il poison value decresce di 1
+/// - Quando riattacchi prima che finisca, il nuovo valore si somma al poison value esistente
+/// 
+/// Esempi:
+/// - Attacco con perk +2: poison value = 2 → danno 2, poi 1, poi 0 (fine)
+/// - Attacco con perk +2 e +2: poison value = 4 → danno 4, 3, 2, 1, 0
+/// - Attacco quando poison value è 3, con perk +2: poison value = 5 → danno 5, 4, 3, 2, 1, 0
+/// - Attacco con +2 e -2: poison value = 0 (non applica il poison)
 /// </summary>
 [CreateAssetMenu(fileName = "Poison Status", menuName = "ScriptableObject/Status/PoisonStatusEffect")]
 public class PoisonStatusEffect : StatusEffectData
@@ -10,9 +23,6 @@ public class PoisonStatusEffect : StatusEffectData
     [Header("Poison Specific")]
     [SerializeField] private DamageType damageType = DamageType.Poison;
     [SerializeField] private float tickInterval = 1f;
-    [SerializeField] private bool scaleDamageWithStacks = true;
-
-    [SerializeField] public float baseValue = 1f; // Danno base per tick
 
     private float tickTimer = 0f;
 
@@ -45,14 +55,15 @@ public class PoisonStatusEffect : StatusEffectData
 
     public override void OnTick(GameObject target, ActiveStatusEffect activeEffect, float multiplier)
     {
-        if (target == null) return;
+        if (target == null || activeEffect.currentStacks <= 0f)
+            return;
 
         tickTimer += Time.deltaTime;
         
         if (tickTimer >= tickInterval)
         {
-            // Calcola il danno con multiplier (resistenza/debolezza del bersaglio)
-            float damagePerTick = GetDamagePerTick(activeEffect, multiplier);
+            // Il danno è il valore corrente del poison, moltiplicato per il moltiplicatore
+            float damagePerTick = activeEffect.currentStacks * multiplier;
             tickTimer = 0f;
 
             // Applica il danno direttamente alla salute
@@ -61,52 +72,52 @@ public class PoisonStatusEffect : StatusEffectData
                 DamageInfo poisonDamage = new DamageInfo(
                     damagePerTick,
                     Vector2.zero, // Il veleno non ha direzione
-                    target, // Il source è il target stesso (non è "arrivato da fuori")
+                    target,       // Il source è il target stesso
                     EntityType.Enemy
                 );
                 poisonDamage.Damage[damageType] = damagePerTick;
                 poisonDamage.addEffect("PoisonTick");
 
-                damageable.TakeDamage(poisonDamage);
+                damageable.TakePoisonDamage(poisonDamage);
             }
 
-            Debug.Log($"[PoisonStatusEffect] Tick damage applied: {damagePerTick} to {target.name}, Stacks: {activeEffect.currentStacks}");
+            // IMPORTANTE: Decrementa il valore del poison dopo il danno
+            activeEffect.currentStacks -= 1;
+
+            Debug.Log($"[PoisonStatusEffect] Tick damage applied: {damagePerTick} to {target.name}, Poison Value: {activeEffect.currentStacks}");
         }
     }
 
-    public override void OnStack(GameObject target, ActiveStatusEffect activeEffect, float multiplier)
+    public override void OnStack(GameObject target, ActiveStatusEffect activeEffect, float multiplier, int statusValue = 0)
     {
-        if (activeEffect.currentStacks < 5) // Max 5 stack di veleno
-        {
-            activeEffect.currentStacks++;
-            activeEffect.remainingDuration = baseDuration * multiplier;
-            
-            Debug.Log($"[PoisonStatusEffect] Stacked! New stacks: {activeEffect.currentStacks} on {target.name}");
-            
-            // Effetto visuale quando stacka
-            if (target.TryGetComponent<DamageEffectVisuals>(out DamageEffectVisuals visuals))
-            {
-                visuals.PlayPoisonEffect();
-            }
-        }
-    }
-
-    private float GetDamagePerTick(ActiveStatusEffect activeEffect, float multiplier)
-    {
-        float baseDamage = baseValue;
+        // Aggiungi il nuovo valore al poison value esistente
+        activeEffect.currentStacks += statusValue;
         
-        // Se scaleDamageWithStacks è true, il danno aumenta con gli stack
-        if (scaleDamageWithStacks)
-        {
-            baseDamage *= activeEffect.currentStacks;
-        }
+        // Estendi la durata quando stackiamo (così il poison ha tempo di consumarsi)
+        activeEffect.remainingDuration = baseDuration * multiplier;
         
-        // Applica il moltiplicatore (resistenza/debolezza)
-        return baseDamage * multiplier;
+        Debug.Log($"[PoisonStatusEffect] Stacked! New poison value: {activeEffect.currentStacks} on {target.name}");
+        
+        // Effetto visuale quando stacka
+        if (target.TryGetComponent<DamageEffectVisuals>(out DamageEffectVisuals visuals))
+        {
+            visuals.PlayPoisonEffect();
+        }
     }
 
     public override float GetModifiedDuration(float multiplier)
     {
         return baseDuration * multiplier;
+    }
+
+    /// <summary>
+    /// Override di ShouldRemove per il poison.
+    /// Il poison viene rimosso quando:
+    /// - Il suo valore scende a 0 o sotto, OPPURE
+    /// - La durata massima viene superata (timeout di sicurezza)
+    /// </summary>
+    public override bool ShouldRemove(ActiveStatusEffect activeEffect)
+    {
+        return base.ShouldRemove(activeEffect) || activeEffect.currentStacks <= 0f;
     }
 }

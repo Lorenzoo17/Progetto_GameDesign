@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2681837dff0d72803992e94b0306577c, type: 3}
   m_Name: Poison On Hit
   m_EditorClassIdentifier: Assembly-CSharp::PoisonOnHitEffect
-  poisonStatus: {fileID: 0}
-  chance: 1
+  poisonStatus: {fileID: 11400000, guid: a162319673090bcfdaa8bc8c06f2a7b3, type: 2}
+  poisonValue: 2
+  valueDescription: "Il valore di danno poison applicato al nemico. Pu\xF2 essere
+    negativo (debuff)."

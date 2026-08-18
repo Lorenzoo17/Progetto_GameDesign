@@ -1,5 +1,6 @@
 using FirstGearGames.SmoothCameraShaker;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageEventArgs : EventArgs {
@@ -45,7 +46,10 @@ public class HealthSystem : MonoBehaviour, IDamageable
         defense = 0;
         damageEffectVisuals = GetComponent<DamageEffectVisuals>();
         enemyStatus = GetComponent<EnemyStatus>();
-    }
+        if (enemyStatus == null)
+    {
+        Debug.LogError($"EnemyStatus missing on {gameObject.name}!");
+    }}
  
     public float GetHealthPercentage()
     {
@@ -62,7 +66,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
  
         // Applica danno fisico
         ApplyPhysicalDamage(damageInfo);
- 
         // Applica gli status dai perk on-hit dell'attaccante
         ApplyStatusEffectsFromSource(damageInfo);
     }
@@ -88,9 +91,16 @@ public class HealthSystem : MonoBehaviour, IDamageable
     /// <summary>
     /// Applica gli status dai perk on-hit dell'attaccante.
     /// 
-    /// Chiede al PerkController del giocatore:
-    /// "Dammi tutti i perk IOnDealDamage attivi, e per ogni uno chiedimi
-    /// quale StatusSO dovrei applicare al nemico colpito."
+    /// Nel nuovo sistema:
+    /// 1. Itera su tutti i perk IOnDealDamage attivi
+    /// 2. Per quelli che implementano IOnHitEffect, raccoglie il loro statusValue
+    /// 3. Somma i valori per ogni tipo di status
+    /// 4. Applica gli status accumulati al nemico con il valore totale
+    /// 
+    /// Questo permette di avere:
+    /// - Perk poison +2 e +2 = applica poison con valore 4
+    /// - Perk poison +2 e -2 = somma a 0, non applica poison
+    /// - Perk poison +3, -1, +2 = applica poison con valore 4
     /// </summary>
     private void ApplyStatusEffectsFromSource(DamageInfo damageInfo)
     {
@@ -109,7 +119,9 @@ public class HealthSystem : MonoBehaviour, IDamageable
             // Non è un giocatore/entità con perks
             return;
         }
- 
+    
+        // Dizionario per accumulare i valori degli status per tipo
+        Dictionary<StatusEffectData, float> statusValues = new Dictionary<StatusEffectData, float>();
         // Scorri tutti i perk on-deal-damage attivi
         foreach (IOnDealDamage dealDamage in perkController.onDealDamageEffects)
         {
@@ -117,15 +129,37 @@ public class HealthSystem : MonoBehaviour, IDamageable
             if (dealDamage is IOnHitEffect onHitEffect)
             {
                 StatusEffectData status = onHitEffect.GetAppliedStatus();
-                
                 if (status != null)
                 {
-                    Debug.Log($"[HealthSystem] Applying {status.effectName} to {gameObject.name}");
-                    enemyStatus.ApplyEffect(status);
+                    // Se questo status non è ancora nel dizionario, inizializzalo a 0
+                    if (!statusValues.ContainsKey(status))
+                    {
+                        statusValues[status] = 0f;
+                    }
                     
-                    // Trigga effetto visuale
-                    HandleStatusVisuals(status);
+                    // Aggiungi il valore di questo perk al totale
+                    statusValues[status] += onHitEffect.GetEffectValue();
                 }
+            }
+        }
+ 
+        // Applica tutti gli status accumulati
+        foreach (var kvp in statusValues)
+        {
+            StatusEffectData status = kvp.Key;
+            float totalValue = kvp.Value;
+ 
+            // Solo applica se il valore netto non è zero (es: +2 -2 = 0)
+            if (totalValue != 0f)
+            {
+                enemyStatus.ApplyEffect(status, (int)totalValue);
+                
+                // Trigga effetto visuale
+                HandleStatusVisuals(status);
+            }
+            else
+            {
+                Debug.Log($"[HealthSystem] Skipping {status.effectName} - total value is 0 (positive and negative effects cancel out)");
             }
         }
     }
@@ -188,7 +222,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
     {
         if (damageEffectVisuals == null)
             return;
- 
+        return;
         // Particella rossa se il danno è stato boosted
         if (damageInfo.AppliedEffects.Contains("DamageBoost"))
         {
@@ -232,6 +266,7 @@ public class HealthSystem : MonoBehaviour, IDamageable
 
         return modifiedDamageInfo;
     }
+    
     public void TakePoisonDamage(DamageInfo damageInfo)
     {
         if (enemyStatus == null)
@@ -241,9 +276,6 @@ public class HealthSystem : MonoBehaviour, IDamageable
         StatusEffectData poisonStatus = damageInfo.AppliedStatus;
         if (poisonStatus != null && poisonStatus.effectType == StatusEffectType.Poison)
         {
-            Debug.Log($"[HealthSystem] Applying/ {poisonStatus.effectName} to {gameObject.name}");
-            enemyStatus.ApplyEffect(poisonStatus);
-
             // Trigga effetto visuale
             HandleStatusVisuals(poisonStatus);
         }
@@ -259,4 +291,3 @@ public class HealthSystem : MonoBehaviour, IDamageable
         HandleDeathIfNeeded();
     }
 }
- 

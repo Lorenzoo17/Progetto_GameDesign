@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d9c146441ca9204fae0ff735223b720, type: 3}
-  m_Name: new on hit perk
+  m_Name: PoisonBoost
   m_EditorClassIdentifier: Assembly-CSharp::OnHitPerkSO
-  perkName: 
+  perkName: Poison UP
   pair: {fileID: 0}
   icon: {fileID: 0}
   isHidden: 0
   perkLootData: {fileID: 0}
+  effect: {fileID: 11400000, guid: c194370bf179ee5479899fa496246d7a, type: 2}
