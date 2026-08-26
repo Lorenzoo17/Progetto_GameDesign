@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 7129662720160238197}
   - component: {fileID: 1049315053807725850}
   - component: {fileID: 7194600001373318145}
+  - component: {fileID: 4808982287775007689}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -266,25 +267,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 996f8c0bc14c49344bd4ac7703ff528e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneObjects
-  itemDropChance: 0.15
   spawnOnStart: 0
   spawnTransform: {fileID: 0}
-  dropItems:
-  - itemName: dungeonCoin
-    prefab: {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
-    weight: 0.6
-  - itemName: heart
-    prefab: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
-    weight: 0.2
-  - itemName: mutagenCoin
-    prefab: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
-    weight: 0.1
-  - itemName: halfHeart
+--- !u!114 &4808982287775007689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807048774384440403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  dropChance: 0.4
+  dropEntries:
+  - itemName: Half Heart
     prefab: {fileID: 5333475906305167229, guid: 4f727578f97df474396abc678364aa6b, type: 3}
-    weight: 0.3
-  - itemName: dungeonCoinBig
+    weight: 4
+  - itemName: Heart
+    prefab: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
+    weight: 1
+  - itemName: Dungeon Coin
+    prefab: {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
+    weight: 4
+  - itemName: Dungeon Big Coin
     prefab: {fileID: 7393189470435230051, guid: f1dea9f2bff78d245b086395ae07c25a, type: 3}
-    weight: 0.35
-  - itemName: mutagenCoinBig
+    weight: 1
+  - itemName: Mutagen Coin
+    prefab: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
+    weight: 2.5
+  - itemName: Mutagen Big Coin
     prefab: {fileID: 3666638847045378784, guid: 9b74d1f7f95f4d246a2e586d6ddd5b3a, type: 3}
-    weight: 0.05
+    weight: 1

@@ -107,6 +107,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87de76ba184c6d045b9f4f78929f3a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSpear
+  weaponBaseDamage: 3
+  weaponAttackRate: 7
+  weaponBaseRange: 3
+  BDScalingFactor: 0.7
+  ARScalingFactor: 0.5
   xRotationOffset: 45
   pickedUp: 0
   dropDuration: 0.25
@@ -118,9 +123,7 @@ MonoBehaviour:
   floatAmplitude: 0.08
   floatSpeed: 2.5
   weaponLootData: {fileID: 11400000, guid: f054dda7c979f10479d14eb270e033a4, type: 2}
-  spearLength: 3.5
   spearWidth: 0.4
-  weaponBaseDamage: 7
   spearAttackEffect: {fileID: 3889822275876523747, guid: 8b04b2f9efc696640befcb554594cfdb, type: 3}
   weaponRotationOffsetZ: 0
   knockBackStrenght: 7

@@ -8,6 +8,7 @@ public class ProjectileShooterBoss : ProjectileShooter
     [SerializeField] private float poolDuration = 3f;
 
     [Header("Attacco Normale (Ranged State)")]
+    [SerializeField] private float damage = 8f;
     [SerializeField] private float normalProjectileSpeed = 8f;
     [SerializeField] private float minNormalProjectileRange = 10f;
     [SerializeField] private float maxNormalProjectileRange = 15f;

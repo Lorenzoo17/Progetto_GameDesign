@@ -20,8 +20,7 @@ GameObject:
   - component: {fileID: 6157278811238765489}
   - component: {fileID: 6666826066591312943}
   - component: {fileID: 4017632462322840672}
-  - component: {fileID: 3249642255583537170}
-  - component: {fileID: 2198636113563605508}
+  - component: {fileID: 1503098594970999943}
   m_Layer: 0
   m_Name: snake_ranged_nav
   m_TagString: Untagged
@@ -254,6 +253,7 @@ MonoBehaviour:
   attackCooldown: 1
   attackDuration: 0.8
   attackHitDelay: 0.5
+  damage: 1
   projectileShooter: {fileID: 0}
   shooterType: 0
 --- !u!114 &4713988132325656548
@@ -270,7 +270,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileShooter
   projectilePrefab: {fileID: 1771740914817530386, guid: 6ff7c4b3989e1ab4fb157be9f109e362, type: 3}
   firePoint: {fileID: 5611914970080369481}
-  damage: 1
   projectileSpeed: 8
   projectileRange: 8
   projectileMaxHeight: 1
@@ -385,7 +384,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageBoostParticlePrefab: {fileID: 0}
   particleOffset: {x: 0, y: 0, z: 0}
---- !u!114 &3249642255583537170
+--- !u!114 &1503098594970999943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -394,32 +393,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2324147677086342410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b80752c34f45d2478588ea22a04a438, type: 3}
+  m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
-  statusMultipliers:
-  - effectType: 6
-    multiplier: 1
---- !u!114 &2198636113563605508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2324147677086342410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe93c78fb736790498c1a71aaea20229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyVisual
-  blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkIntensity: 3
-  blinkAfterDamageTime: 5
-  hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
-  hitEffectSpawnPositionOffset: 1
-  hitEffectRotationOffset: -90
-  autoFlipTowardsPlayer: 1
-  invertFlipDirection: 0
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  dropChance: 0.3
+  dropEntries:
+  - itemName: Dungeon Coin
+    prefab: {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
+    weight: 1
 --- !u!1 &5789124366512460377
 GameObject:
   m_ObjectHideFlags: 0

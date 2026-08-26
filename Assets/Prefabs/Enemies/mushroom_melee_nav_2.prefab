@@ -110,8 +110,7 @@ GameObject:
   - component: {fileID: 3518813518886905007}
   - component: {fileID: -8699363798022627634}
   - component: {fileID: 7656297383882434101}
-  - component: {fileID: 2571154821332546950}
-  - component: {fileID: 4288908504379009101}
+  - component: {fileID: 8395467766736921094}
   m_Layer: 0
   m_Name: mushroom_melee_nav_2
   m_TagString: Untagged
@@ -445,7 +444,7 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &2571154821332546950
+--- !u!114 &8395467766736921094
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -454,29 +453,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5642179399350267750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b80752c34f45d2478588ea22a04a438, type: 3}
+  m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
-  statusMultipliers:
-  - effectType: 6
-    multiplier: 0.5
---- !u!114 &4288908504379009101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5642179399350267750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe93c78fb736790498c1a71aaea20229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyVisual
-  blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkIntensity: 3
-  blinkAfterDamageTime: 5
-  hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
-  hitEffectSpawnPositionOffset: 1
-  hitEffectRotationOffset: -90
-  autoFlipTowardsPlayer: 1
-  invertFlipDirection: 0
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  dropChance: 0.5
+  dropEntries:
+  - itemName: Heart
+    prefab: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
+    weight: 1
+  - itemName: Half Heart
+    prefab: {fileID: 5333475906305167229, guid: 4f727578f97df474396abc678364aa6b, type: 3}
+    weight: 1

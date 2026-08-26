@@ -1,6 +1,7 @@
 using UnityEngine;
 
 public class EnemyRangedAttack : EnemyAttackBase {
+    [SerializeField] private float damage;
     [SerializeField] private ProjectileShooter projectileShooter;
     [SerializeField] private ShooterType shooterType;
 
@@ -24,24 +25,24 @@ public class EnemyRangedAttack : EnemyAttackBase {
         int projectileNumber = 0;
         switch (shooterType) {
             case ShooterType.Linear:
-                projectileShooter.ShootLinear(gameObject, direction);
+                projectileShooter.ShootLinear(gameObject, direction, damage);
                 break;
             case ShooterType.Curved:
-                projectileShooter.ShootCurved(gameObject, direction, range);
+                projectileShooter.ShootCurved(gameObject, direction, range, damage);
                 break;
             case ShooterType.Circle:
                 projectileNumber = Random.Range(3, 5);
-                projectileShooter.ShootMultipleProjectile(gameObject, projectileNumber);
+                projectileShooter.ShootMultipleProjectile(gameObject, projectileNumber, null, true, damage);
                 break;
             case ShooterType.Spread:
                 projectileNumber = Random.Range(2, 4);
-                projectileShooter.ShootFocusedSpread(gameObject, projectileNumber, Player.Instance.transform);
+                projectileShooter.ShootFocusedSpread(gameObject, projectileNumber, Player.Instance.transform, 45f, damage);
                 break;
             case ShooterType.Follow:
-                projectileShooter.ShootFollow(gameObject, direction);
+                projectileShooter.ShootFollow(gameObject, direction, damage);
                 break;
             default:
-                projectileShooter.ShootLinear(gameObject, direction);
+                projectileShooter.ShootLinear(gameObject, direction, damage);
                 break;
         }
         // suono di attacco ranged 

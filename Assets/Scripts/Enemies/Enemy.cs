@@ -81,7 +81,7 @@ public class Enemy : MonoBehaviour {
         }
 
         if (SpawnItems.Instance != null) {
-                SpawnItems.Instance.SpawnItem(transform.position, this.dropItems, itemDropChance);
+            SpawnItems.Instance.SpawnItem(transform.position, gameObject);
         }
         else {
             Debug.Log("Spawn non presente");

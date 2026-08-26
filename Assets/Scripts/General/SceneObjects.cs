@@ -4,7 +4,6 @@ using UnityEngine;
 public class SceneObjects : MonoBehaviour, IDamageable
 {
     private Animator anim;
-    [SerializeField] private float itemDropChance = 0.3f;
     [SerializeField] private bool spawnOnStart;
     [SerializeField] private Transform spawnTransform;
 
@@ -21,7 +20,7 @@ public class SceneObjects : MonoBehaviour, IDamageable
     private void Start() {
         if (spawnOnStart) {
             if (SpawnItems.Instance != null) {
-                SpawnItems.Instance.SpawnItem(spawnTransform.position, dropItems, itemDropChance);
+                SpawnItems.Instance.SpawnItem(spawnTransform.position, gameObject);
             }
         }
     }
@@ -38,7 +37,7 @@ public class SceneObjects : MonoBehaviour, IDamageable
         }
 
         if (SpawnItems.Instance != null) {
-            SpawnItems.Instance.SpawnItem(transform.position, dropItems, itemDropChance);
+            SpawnItems.Instance.SpawnItem(transform.position, gameObject);
         }
 
         if (anim != null) {

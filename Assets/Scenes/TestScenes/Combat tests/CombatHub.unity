@@ -211,6 +211,12 @@ MonoBehaviour:
   priceText: {fileID: 881796959}
   promptInterface: {fileID: 1901324132}
   itemPositioningTransform: {fileID: 115166559}
+  sellingItem:
+    id: 
+    itemPrefab: {fileID: 0}
+    price: 0
+    type: 0
+    purchaseMode: 0
 --- !u!61 &61063499
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7407,13 +7413,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e183a4f14345f91408dfb6b6cccbadbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SellingStation
-  itemsToSell:
-  - {fileID: 6440760680909680636, guid: 7268a4a71d5e06845995a4c6bcbcd3e2, type: 3}
-  - {fileID: 1893026166742864668, guid: 4ba0243dd0e7ef5478495569565ed9de, type: 3}
+  shopContext: 0
+  lootDatabase: {fileID: 0}
   slots:
   - {fileID: 380489851}
   - {fileID: 569697773}
   - {fileID: 61063498}
+  maxItemsToSell: 3
+  dungeonExtraItems: []
+  room: {fileID: 0}
 --- !u!1 &149179538
 GameObject:
   m_ObjectHideFlags: 0
@@ -8324,6 +8332,12 @@ MonoBehaviour:
   priceText: {fileID: 1152485762}
   promptInterface: {fileID: 2137504755}
   itemPositioningTransform: {fileID: 2112527868}
+  sellingItem:
+    id: 
+    itemPrefab: {fileID: 0}
+    price: 0
+    type: 0
+    purchaseMode: 0
 --- !u!61 &380489852
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -8742,6 +8756,9 @@ MonoBehaviour:
         icon: {fileID: -4348277106678931353, guid: f324f54cb0abe2e4fba5a0eca21ed5be, type: 3}
       line: Se proprio vuoi morire quanto meno fallo bene. Compra qualcosa da me,
         voglio solo un po' di mutagene in cambio piccoletto.
+  optionalDialogue:
+    dialogueLines: []
+  isOptionalConditionMet: 0
   promptInterface: {fileID: 1063161076}
   promptAnimationDuration: 0.15
   promptStartScale: 0.6
@@ -9066,6 +9083,12 @@ MonoBehaviour:
   priceText: {fileID: 426806296}
   promptInterface: {fileID: 301031714}
   itemPositioningTransform: {fileID: 337601815}
+  sellingItem:
+    id: 
+    itemPrefab: {fileID: 0}
+    price: 0
+    type: 0
+    purchaseMode: 0
 --- !u!61 &569697774
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -25170,6 +25193,7 @@ MonoBehaviour:
   isDialogueActive: 0
   typingSpeed: 0.02
   animator: {fileID: 825177083}
+  restartDialogueDelay: 0.2
 --- !u!1 &844086463
 GameObject:
   m_ObjectHideFlags: 0
@@ -26846,6 +26870,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicManager
   musicLibrary: {fileID: 1303515480}
   musicSource: {fileID: 1324172714}
+  mainMenuSceneName: MainMenu
+  hubSceneName: HUB
+  dungeonSceneName: Basement1_generation
+  mainMenuVolume: 0.25
+  hubVolume: 1.5
+  dungeonVolume: 0.15
 --- !u!114 &1303515480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26860,11 +26890,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MusicLibrary
   tracks:
   - musicID: 2
-    clip: {fileID: 8300000, guid: a22a99941a55f14418610025f8cbd9fa, type: 3}
+    clips: []
   - musicID: 1
-    clip: {fileID: 8300000, guid: 8267e1ab28f71694fb89132928e0efa5, type: 3}
+    clips: []
   - musicID: 0
-    clip: {fileID: 8300000, guid: 8267e1ab28f71694fb89132928e0efa5, type: 3}
+    clips: []
 --- !u!114 &1303515481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34286,6 +34316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6a8751ed0767b4bbe9649086588146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  inputEnabled: 1
 --- !u!4 &1865569013
 Transform:
   m_ObjectHideFlags: 0

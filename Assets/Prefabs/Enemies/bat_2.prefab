@@ -20,8 +20,7 @@ GameObject:
   - component: {fileID: 2622074710920071546}
   - component: {fileID: 3603770711520021077}
   - component: {fileID: 5420803320957088141}
-  - component: {fileID: 5981665983187597456}
-  - component: {fileID: 7994432609249810457}
+  - component: {fileID: -6739671389676823736}
   m_Layer: 0
   m_Name: bat_2
   m_TagString: Untagged
@@ -240,6 +239,7 @@ MonoBehaviour:
   attackCooldown: 0.7
   attackDuration: 0.6
   attackHitDelay: 0.5
+  damage: 2
   projectileShooter: {fileID: 0}
   shooterType: 0
 --- !u!114 &710106965671180818
@@ -256,7 +256,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileShooter
   projectilePrefab: {fileID: 1771740914817530386, guid: 6ff7c4b3989e1ab4fb157be9f109e362, type: 3}
   firePoint: {fileID: 8755644472918429770}
-  damage: 1
   projectileSpeed: 10
   projectileRange: 8
   projectileMaxHeight: 1
@@ -384,7 +383,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   damageBoostParticlePrefab: {fileID: 0}
   particleOffset: {x: 0, y: 0, z: 0}
---- !u!114 &5981665983187597456
+--- !u!114 &-6739671389676823736
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -393,32 +392,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 5350465888886524393}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b80752c34f45d2478588ea22a04a438, type: 3}
+  m_Script: {fileID: 11500000, guid: 004b26bd9833d9047ba0e348e0c24f44, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
-  statusMultipliers:
-  - effectType: 6
-    multiplier: 0.65
---- !u!114 &7994432609249810457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5350465888886524393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe93c78fb736790498c1a71aaea20229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyVisual
-  blinkAfterDamageTargetColor: {r: 1, g: 1, b: 1, a: 1}
-  blinkIntensity: 3
-  blinkAfterDamageTime: 5
-  hitEffect: {fileID: 1281136916982749402, guid: 8dcf907009fe1ce4c8c57b2d4dacd705, type: 3}
-  hitEffectSpawnPositionOffset: 1
-  hitEffectRotationOffset: -90
-  autoFlipTowardsPlayer: 1
-  invertFlipDirection: 0
+  m_EditorClassIdentifier: Assembly-CSharp::DropTable
+  dropChance: 0.5
+  dropEntries:
+  - itemName: Heart
+    prefab: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
+    weight: 2
+  - itemName: Mutagen Coin
+    prefab: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
+    weight: 1
+  - itemName: Dungeon Coin
+    prefab: {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
+    weight: 1
 --- !u!1 &7430712143432339987
 GameObject:
   m_ObjectHideFlags: 0
