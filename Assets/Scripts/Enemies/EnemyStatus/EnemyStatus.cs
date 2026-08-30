@@ -16,7 +16,7 @@ public class EnemyStatus : MonoBehaviour
     // Aggiungi resistenze e debolezze da Inspector per ogni prefabbricato nemico
     [SerializeField] private List<StatusMultiplier> statusMultipliers = new List<StatusMultiplier>();
 
-    private List<ActiveStatusEffect> activeEffects = new List<ActiveStatusEffect>();
+    [SerializeField] private List<ActiveStatusEffect> activeEffects = new List<ActiveStatusEffect>();
 
     public bool HasEffect(StatusEffectType type)
     {
@@ -56,13 +56,18 @@ public class EnemyStatus : MonoBehaviour
  
         // Calcoliamo la durata modificata
         float finalDuration = newEffectData.GetModifiedDuration(multiplier);
+
+        Debug.Log($"[EnemyStatus] Applying new effect: {newEffectData.effectType} with duration: {finalDuration} and initial value: {statusValue} to {gameObject.name}");
  
         // Creiamo un nuovo effetto con il valore iniziale
         ActiveStatusEffect newEffect = new ActiveStatusEffect(newEffectData, finalDuration);
+        newEffect.currentStacks = statusValue;
         activeEffects.Add(newEffect);
  
         newEffect.data.OnApply(gameObject);
     }
+ 
+
 
 
     private void Update()
@@ -79,11 +84,14 @@ public class EnemyStatus : MonoBehaviour
 
             effect.remainingDuration -= Time.deltaTime;
 
-            if (effect.remainingDuration <= 0f)
+            // Poison: si rimuove quando currentStacks <= 0 OR remainingDuration <= 0
+            // Altri: si rimuovono quando remainingDuration <= 0
+            if (effect.data.ShouldRemove(effect))
             {
                 effect.data.OnRemove(gameObject);
                 activeEffects.RemoveAt(i);
             }
+
         }
     }
 }
@@ -94,13 +102,15 @@ public class ActiveStatusEffect
     public StatusEffectData data;
     public float remainingDuration;
     public int currentStacks;
+    public float tickTimer = 0f;
 
     // Costruttore aggiornato per ricevere la durata finale calcolata
     public ActiveStatusEffect(StatusEffectData effectData, float calculatedDuration)
     {
         this.data = effectData;
         this.remainingDuration = calculatedDuration;
-        this.currentStacks = 1;
+        this.currentStacks = 0; 
+        this.tickTimer = 0f;
     }
-}
 
+}

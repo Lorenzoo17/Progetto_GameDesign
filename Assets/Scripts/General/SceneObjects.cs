@@ -7,8 +7,6 @@ public class SceneObjects : MonoBehaviour, IDamageable
     [SerializeField] private bool spawnOnStart;
     [SerializeField] private Transform spawnTransform;
 
-    [SerializeField] private DropItem[] dropItems;
-
     private void Awake()
     {
         anim = GetComponent<Animator>();

@@ -7,8 +7,6 @@ public class Enemy : MonoBehaviour {
 
     [SerializeField] private float enemyTouchDamage = 1f;
     [SerializeField] private GameObject deadBodyPlaceholder;
-
-    [SerializeField] private DropItem[] dropItems;
     [SerializeField] private float itemDropChance = 0.4f;
 
     private HealthSystem enemyHealthSystem;

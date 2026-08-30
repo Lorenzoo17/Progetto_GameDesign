@@ -37,7 +37,7 @@ public class EnemySpawner : MonoBehaviour{
 
         int enemiesToSpawnNumber = Random.Range(minEnemiesToSpawn, spawnPoints.Length);
         currentEnemies = enemiesToSpawnNumber;
-
+        Debug.Log($"Spawning {enemiesToSpawnNumber} enemies in room {currentRoom.name}.");
         for (int i = 0; i < enemiesToSpawnNumber; i++) {
             int enemyToSpawnIndex = Random.Range(0, enemiesToSpawnPrefabs.Length);
             // Animazione di spawn
@@ -55,6 +55,7 @@ public class EnemySpawner : MonoBehaviour{
 
     public void OnEnemyDeath() { // richiamato in Enemy.cs
         currentEnemies--;
+        Debug.Log($"Enemy died. Remaining enemies: {currentEnemies}");
         if(currentEnemies <= 0) {
             if(currentRoom != null) {
                 currentRoom.RoomCleared();

@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Poison Status
   m_EditorClassIdentifier: Assembly-CSharp::PoisonStatusEffect
   effectName: 
-  baseDuration: 0
+  baseDuration: 9
   effectType: 0
   damageType: 4
-  tickInterval: 1
-  scaleDamageWithStacks: 1
-  baseValue: 1
+  tickInterval: 0.5

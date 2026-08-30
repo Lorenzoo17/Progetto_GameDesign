@@ -22,9 +22,7 @@ public class PoisonStatusEffect : StatusEffectData
 {
     [Header("Poison Specific")]
     [SerializeField] private DamageType damageType = DamageType.Poison;
-    [SerializeField] private float tickInterval = 1f;
-
-    private float tickTimer = 0f;
+    [SerializeField] private float tickInterval = 0.3f;
 
     public override void OnApply(GameObject target)
     {
@@ -58,13 +56,14 @@ public class PoisonStatusEffect : StatusEffectData
         if (target == null || activeEffect.currentStacks <= 0f)
             return;
 
-        tickTimer += Time.deltaTime;
+        // Ogni effetto su ogni nemico ha il suo timer indipendente!
+        activeEffect.tickTimer += Time.deltaTime;
         
-        if (tickTimer >= tickInterval)
+        if (activeEffect.tickTimer >= tickInterval)
         {
             // Il danno è il valore corrente del poison, moltiplicato per il moltiplicatore
             float damagePerTick = activeEffect.currentStacks * multiplier;
-            tickTimer = 0f;
+            activeEffect.tickTimer = 0f;  // Reset il timer di QUESTO effetto
 
             // Applica il danno direttamente alla salute
             if (target.TryGetComponent<IDamageable>(out IDamageable damageable))
@@ -77,8 +76,12 @@ public class PoisonStatusEffect : StatusEffectData
                 );
                 poisonDamage.Damage[damageType] = damagePerTick;
                 poisonDamage.addEffect("PoisonTick");
-
-                damageable.TakePoisonDamage(poisonDamage);
+                // Effetto visuale del poison (se esiste il componente)
+                if (target.TryGetComponent<DamageEffectVisuals>(out DamageEffectVisuals visuals))
+                {
+                    visuals.PlayPoisonEffect();
+                }
+                damageable.TakePoisonDamage(poisonDamage);    
             }
 
             // IMPORTANTE: Decrementa il valore del poison dopo il danno

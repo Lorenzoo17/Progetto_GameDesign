@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: -8699363798022627634}
   - component: {fileID: 7656297383882434101}
   - component: {fileID: 7432141665135775709}
+  - component: {fileID: -7921243862466176654}
   m_Layer: 0
   m_Name: mushroom_melee_nav
   m_TagString: Untagged
@@ -247,25 +248,7 @@ MonoBehaviour:
   knockbackDuration: 0.1
   enemyTouchDamage: 1
   deadBodyPlaceholder: {fileID: 6905458675921271353, guid: f8217868afcc3da449f02903a096dcc1, type: 3}
-  dropItems:
-  - itemName: dungeonCoin
-    prefab: {fileID: 7393189470435230051, guid: 0ac3c17787901584697a8d49f5b42a65, type: 3}
-    weight: 0.6
-  - itemName: heart
-    prefab: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
-    weight: 0.2
-  - itemName: mutagenCoin
-    prefab: {fileID: 3666638847045378784, guid: 296461755fe471745849c4695b09ed7e, type: 3}
-    weight: 0.1
-  - itemName: halfHeart
-    prefab: {fileID: 5333475906305167229, guid: 4f727578f97df474396abc678364aa6b, type: 3}
-    weight: 0.3
-  - itemName: dungeonCoinBig
-    prefab: {fileID: 7393189470435230051, guid: f1dea9f2bff78d245b086395ae07c25a, type: 3}
-    weight: 0.35
-  - itemName: mutagenCoinBig
-    prefab: {fileID: 3666638847045378784, guid: 9b74d1f7f95f4d246a2e586d6ddd5b3a, type: 3}
-    weight: 0.05
+  itemDropChance: 0.4
   enemyStatus: {fileID: 0}
 --- !u!114 &1200962363375708060
 MonoBehaviour:
@@ -464,3 +447,16 @@ MonoBehaviour:
   - itemName: Heart
     prefab: {fileID: 5333475906305167229, guid: fa99b69b29675a847b25d360ed854356, type: 3}
     weight: 1
+--- !u!114 &-7921243862466176654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5642179399350267750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b80752c34f45d2478588ea22a04a438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatus
+  statusMultipliers: []
