@@ -8,6 +8,7 @@ public class PoisonPuddleMutagenSO : MutagenSO
     public float tickDamage = 5f;
     public float tickInterval = 1f;
     public float radius = 2.5f;
+    public float damageMultiplier = 1f;
 
     public override bool Activate(Player player, MutagenInstance instance)
     {
@@ -17,7 +18,7 @@ public class PoisonPuddleMutagenSO : MutagenSO
         player.playerAttack.SpawnPuddle(
             puddlePrefab,
             duration,
-            tickDamage,
+            tickDamage + player.playerStats.playerCurrentStats.GetMutagenPower() * damageMultiplier,
             tickInterval,
             radius
         );

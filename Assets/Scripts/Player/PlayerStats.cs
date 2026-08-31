@@ -58,6 +58,11 @@ public class PlayerStats : MonoBehaviour
                         s => s.AddAttackRate(perk.value),
                         s => s.MultiplyAttackRate(1 + perk.value));
                     break;
+                case StatType.MutagenPower:
+                    ApplyModifier(ref playerCurrentStats, perk,
+                        s => s.AddMutagenPower(perk.value),
+                        s => s.MultiplyMutagenPower(1 + perk.value));
+                    break;
 
             }
         }

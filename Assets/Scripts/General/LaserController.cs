@@ -30,14 +30,14 @@ public class LaserController : MonoBehaviour
         // Se per caso esisteva già un'istanza vecchia non distrutta, facciamo pulizia prima di crearne una nuova
         if (laserVisualInstance != null)
         {
-            Destroy(laserVisualInstance);
+            Object.Destroy(laserVisualInstance);
         }
 
         currentDirection = direction.normalized;
         laserStartPos = startPosition;
         Debug.Log($"[LaserController] Initializing laser at {startPosition} with direction {direction}");
         // Spawna il prefab DIRETTAMENTE sulla posizione di partenza passata (quella del player)
-        laserVisualInstance = Instantiate(laserEffectPrefab, startPosition, Quaternion.identity);
+        laserVisualInstance = Object.Instantiate(laserEffectPrefab, startPosition, Quaternion.identity);
 
         laserRenderer = laserVisualInstance.GetComponent<LineRenderer>();
         laserCollider = laserVisualInstance.GetComponent<CircleCollider2D>();
@@ -119,14 +119,14 @@ public class LaserController : MonoBehaviour
 
             if (targetObject == player.gameObject || hitThisSecond.Contains(targetObject))
                 continue;
-
             if (!Utils.CombatUtility.CanDamage(player.gameObject, targetObject))
                 continue;
-
+            Debug.Log($"[LaserController] Laser hit: {targetObject.name} at position {hit.point}");
             if (targetObject.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
-                float damage = player.playerStats.playerCurrentStats.GetAttack() * laserData.damagePerSecond * laserData.tickRate;
+                float damage = player.playerStats.playerCurrentStats.GetMutagenPower() * laserData.damageMultiplier* laserData.damagePerSecond * laserData.tickRate;
                 DamageInfo damageInfo = new DamageInfo(damage, laserDir, player.gameObject, EntityType.Player);
+                Debug.Log($"[LaserController] Laser hit: {targetObject.name} at position {hit.point}");
                 damageable.TakeDamage(damageInfo);
 
                 hitThisSecond.Add(targetObject);
@@ -155,7 +155,7 @@ public class LaserController : MonoBehaviour
     {
         if (laserVisualInstance != null)
         {
-            Destroy(laserVisualInstance);
+            Object.Destroy(laserVisualInstance);
         }
 
         hitThisSecond.Clear();

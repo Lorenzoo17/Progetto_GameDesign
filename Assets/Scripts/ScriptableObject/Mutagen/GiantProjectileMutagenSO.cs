@@ -6,6 +6,7 @@ public class GiantProjectileMutagenSO : MutagenSO
     [Header("Projectile")]
     public GameObject projectilePrefab;
     public float projectileSpeed = 10f;
+    public float baseDamage = 10f;
     public float damageMultiplier = 3f;
 
     public override bool Activate(Player player, MutagenInstance instance)
@@ -28,7 +29,7 @@ public class GiantProjectileMutagenSO : MutagenSO
         );
 
         // Danno basato sulle statistiche del player
-        float damage = player.playerStats.playerCurrentStats.GetAttack()
+        float damage = baseDamage + player.playerStats.playerCurrentStats.GetMutagenPower()
                        * damageMultiplier;
 
         GiantProjectile giantProjectile =

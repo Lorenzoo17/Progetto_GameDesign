@@ -7,7 +7,7 @@ public enum StatType
     AttackRate,
     Speed,
     DodgeCoolDown,
-    Poison
+    MutagenPower
 }
 
 public enum ModifierType

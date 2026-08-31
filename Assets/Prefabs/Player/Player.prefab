@@ -320,14 +320,14 @@ MonoBehaviour:
     baseMoveSpeed: 5.5
     currentMoveSpeed: 0
     dodgeCooldown: 1
-    poisonDamage: 0
+    mutagenPower: 1
   playerCurrentStats:
     attack: 0
     attackRate: 0
     baseMoveSpeed: 0
     currentMoveSpeed: 0
     dodgeCooldown: 0
-    poisonDamage: 0
+    mutagenPower: 0
 --- !u!114 &5728342325613100494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,7 +367,6 @@ MonoBehaviour:
   playerMana: {fileID: 0}
   mutagenController: {fileID: 0}
   perkController: {fileID: 0}
-  statusController: {fileID: 0}
   cameraShakeData: {fileID: 11400000, guid: 34541a36a9a8bf94795f9064a146e14a, type: 2}
   isDead: 0
 --- !u!114 &7525827829384608064
@@ -461,10 +460,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1303978041023684131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92deb413ef858554da85eb807e7146aa, type: 3}
+  m_Script: {fileID: 11500000, guid: d2bd1479cad9e7c488214bd76f21114e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PerkController
-  activeStatuses: []
+  activePerks: []
+  perksToRemove: []
+  perksToAdd: []
+  player: {fileID: 0}
 --- !u!114 &2970967343369291785
 MonoBehaviour:
   m_ObjectHideFlags: 0

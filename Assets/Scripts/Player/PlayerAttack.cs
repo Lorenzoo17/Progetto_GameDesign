@@ -238,7 +238,7 @@ public class PlayerAttack : MonoBehaviour
                 if (entity.gameObject.TryGetComponent<IDamageable>(out IDamageable entityDamageable))
                 {
                     // Calcolo danno: danno base del player * moltiplicatore AOE
-                    float aoeDamage = Player.Instance.playerStats.playerCurrentStats.GetAttack() * data.damageMultiplier;
+                    float aoeDamage = data.baseDamage + Player.Instance.playerStats.playerCurrentStats.GetMutagenPower() * data.damageMultiplier;
                     // Direzione verso il bersaglio per il knockback
                     Vector2 directionToTarget = (entity.transform.position - transform.position).normalized;
                     DamageInfo damageInfo = new DamageInfo(aoeDamage, directionToTarget, Player.Instance.gameObject, EntityType.Player);

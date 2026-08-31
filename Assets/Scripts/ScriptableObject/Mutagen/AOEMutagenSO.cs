@@ -11,7 +11,8 @@ public class AOEMutagenSO : MutagenSO
 
     [Header("Stats")]
     public float radius = 3f;            // Raggio dell'esplosione
-    public float damageMultiplier = 2f;  // Moltiplicatore del danno base del player
+    public float baseDamage = 5f;  // Danno base dell'esplosione
+    public float damageMultiplier = 1.5f; // Moltiplicatore del danno in base alla potenza del mutagene
     public float cooldown = 5f;          // Tempo di attesa tra un attacco e l'altro
 
 

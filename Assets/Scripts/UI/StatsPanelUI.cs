@@ -24,6 +24,7 @@ public class StatsPanelUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI speedText;
     [SerializeField] private TextMeshProUGUI attackRateText;
     [SerializeField] private TextMeshProUGUI dodgeCooldownText;
+    [SerializeField] private TextMeshProUGUI mutagenPowerText;
 
     private void OnEnable()
     {
@@ -183,6 +184,8 @@ public class StatsPanelUI : MonoBehaviour
 
         if (dodgeCooldownText != null)
             dodgeCooldownText.text = $"Dodge Cooldown: {stats.GetDodgeCooldown()}";
+        if (mutagenPowerText != null)
+            mutagenPowerText.text = $"Mutagen Power: {stats.GetMutagenPower()}";
     }
 
     // =========================

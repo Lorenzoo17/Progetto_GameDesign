@@ -12873,6 +12873,7 @@ MonoBehaviour:
   - {fileID: 6286841245568075741}
   - {fileID: 4985589426809246127}
   - {fileID: 7792553865617106107}
+  cells: []
   enemiesSpawnPoints: []
   decorationSpawnPoints: []
   minEnemiesToSpawn: 0
@@ -19170,6 +19171,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6ff39a995ebf61c4e93f8064180a87d2, type: 2}
   - {fileID: 11400000, guid: b6d819cbc5d26434b96fdc945fa635a0, type: 2}
   - {fileID: 11400000, guid: b3402fa2d463ee14b856fd4be3a68531, type: 2}
+  - {fileID: 11400000, guid: 42b26f5cada92b45fa6c21f118029b03, type: 2}
   perkPickupPrefab: {fileID: 8179226885080331185, guid: 823dba0c63d047943a7f1755a646b742, type: 3}
 --- !u!1 &5746133551498008910
 GameObject:

@@ -5,10 +5,11 @@ using System.Reflection;
 public class LaserMutagenSO : MutagenSO
 {
     [Header("Laser Properties")]
-    public float laserLength = 20f;              // Length in units (20 blocks)
+    public float laserLength = 40f;              // Length in units (20 blocks)
     public float laserWidth = 1f;                // Width of the laser beam
     public float damagePerSecond = 10f;          // Damage applied per second
-    public float tickRate = 0.1f;                // How often to apply damage (in seconds)
+    public float tickRate = 0.2f;                // How often to apply damage (in seconds)
+    public float damageMultiplier = 4f;          // Multiplier for damage based on player's mutagen power
 
     [Header("Visual & Sound")]
     public GameObject laserEffectPrefab;         // The visual effect for the laser
