@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: 2016421004096143834, guid: 3cc2e1cad36aac64d8f446a3af04dc09, type: 3}
   manaCost: 1
   isToggle: 0
-  duration: 5
+  duration: 3
   animationEffect: {fileID: 0}
   mutagenLootData: {fileID: 11400000, guid: 4cd18acd58b364d4d9f89a800508adc4, type: 2}
   laserLength: 8
@@ -26,7 +26,7 @@ MonoBehaviour:
   tickRate: 0.1
   damageMultiplier: 4
   laserEffectPrefab: {fileID: 1876972881680791527, guid: 5b53c2b76ab23a240b3e4001fd938e8c, type: 3}
-  shakeType: 2
+  shakeType: 3
   soundEffect: 1
   laserLoopSound: {fileID: 0}
   isDuration: 1
